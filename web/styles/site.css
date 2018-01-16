@@ -12,3 +12,7 @@
 .content-end {
     text-align: right;
 }
+.seller-logo{
+    position: relative;
+    margin-right: 10px;
+}
