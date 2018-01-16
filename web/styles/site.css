@@ -1,0 +1,14 @@
+.tr_success{
+    background-color: #d5e6d5;
+}
+
+.tr_danger{
+    background-color: #dec8c4;
+}
+
+.tr_primary{
+    background-color: #d8d8d8;
+}
+.content-end {
+    text-align: right;
+}
