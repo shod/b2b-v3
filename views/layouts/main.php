@@ -23,7 +23,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="ks-navbar-fixed ks-sidebar-default ks-sidebar-position-fixed ks-page-header-fixed ks-theme-primary ks-page-loading"> <!-- remove ks-page-header-fixed to unfix header -->
+<body class="ks-navbar-fixed ks-sidebar-default ks-sidebar-position-fixed ks-page-header-fixed ks-theme-primary"> <!-- remove ks-page-header-fixed to unfix header -->
 <!-- remove ks-page-header-fixed to unfix header -->
 
 <?php $this->beginBody() ?>
@@ -191,12 +191,18 @@ AppAsset::register($this);
             <ul class="nav nav-pills nav-stacked">
                 <li class="nav-item ks-user dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                        <div class="ks-info" style="margin-right: 10px;">
+                            <div class="ks-name">
+                                <span class="ks-icon la la-<?= $seller->active ? "dot" : "times"; ?>-circle-o" style="color: <?= $seller->active ? "#15ba15" : "#db4242"; ?>;font-size: 30px;"></span>
+                            </div>
+                        </div>
                         <img src="http://static.migom.by/img/seller/logo$<?= $seller_id ?>.jpg" class="seller-logo">
                         <div class="ks-info">
                             <div class="ks-name"><?= $seller->name; ?></div>
                             <div class="ks-text"><?= $seller->id; ?></div>
                         </div>
                     </a>
+
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile-social-profile.html">Профиль магазина</a>
                         <a class="dropdown-item" href="/seller/settings">Настройки аккаунта</a>
@@ -288,6 +294,7 @@ AppAsset::register($this);
                         <span class="ks-text">(3 600 MB of 10 000)</span>
                     </div>
                 </div-->
+                <div class="ks-extras-block-item"><?= isset($this->params['customParam']) ? $this->params['customParam'] : ""; ?></div>
                 <div class="ks-sidebar-copyright">© 2018 migom.by</div>
             </div>
         </div>
@@ -300,7 +307,7 @@ AppAsset::register($this);
             <section class="ks-title-and-subtitle">
                 <div class="ks-title-block">
                     <h3 class="ks-main-title"><?= Html::encode($this->title) ?></h3>
-                    <div class="ks-sub-title"><?= $this->params['customParam']; ?></div>
+                    <div class="ks-sub-title"></div>
                 </div>
             </section>
         </div>
@@ -318,105 +325,6 @@ AppAsset::register($this);
 </div>
 <div id="modal-div"></div>
 
-<script type="application/javascript">
-    (function ($) {
-        $(document).ready(function () {
-            c3.generate({
-                bindto: '#ks-next-payout-chart',
-                data: {
-                    columns: [
-                        ['data1', 6, 5, 6, 5, 7, 8, 7]
-                    ],
-                    types: {
-                        data1: 'area'
-                    },
-                    colors: {
-                        data1: '#81c159'
-                    }
-                },
-                legend: {
-                    show: false
-                },
-                tooltip: {
-                    show: false
-                },
-                point: {
-                    show: false
-                },
-                axis: {
-                    x: {show:false},
-                    y: {show:false}
-                }
-            });
-
-            c3.generate({
-                bindto: '#ks-total-earning-chart',
-                data: {
-                    columns: [
-                        ['data1', 6, 5, 6, 5, 7, 8, 7]
-                    ],
-                    types: {
-                        data1: 'area'
-                    },
-                    colors: {
-                        data1: '#4e54a8'
-                    }
-                },
-                legend: {
-                    show: false
-                },
-                tooltip: {
-                    show: false
-                },
-                point: {
-                    show: false
-                },
-                axis: {
-                    x: {show:false},
-                    y: {show:false}
-                }
-            });
-
-            c3.generate({
-                bindto: '.ks-chart-orders-block',
-                data: {
-                    columns: [
-                        ['Revenue', 150, 200, 220, 280, 400, 160, 260, 400, 300, 400, 500, 420, 500, 300, 200, 100, 400, 600, 300, 360, 600],
-                        ['Profit', 350, 300,  200, 140, 200, 30, 200, 100, 400, 600, 300, 200, 100, 50, 200, 600, 300, 500, 30, 200, 320]
-                    ],
-                    colors: {
-                        'Revenue': '#f88528',
-                        'Profit': '#81c159'
-                    }
-                },
-                point: {
-                    r: 5
-                },
-                grid: {
-                    y: {
-                        show: true
-                    }
-                }
-            });
-
-            setTimeout(function () {
-                new Noty({
-                    text: '<strong>Welcome to Kosmo Admin Template</strong>! <br> You successfully read this important alert message.',
-                    type   : 'information',
-                    theme  : 'mint',
-                    layout : 'topRight',
-                    timeout: 3000
-                }).show();
-            }, 1500);
-
-            var maplace = new Maplace({
-                map_div: '#ks-payment-widget-table-and-map-map',
-                controls_on_map: false
-            });
-            maplace.Load();
-        });
-    })(jQuery);
-</script>
 
 <div class="ks-mobile-overlay"></div>
 

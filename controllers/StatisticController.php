@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\SiteService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
@@ -82,6 +83,12 @@ class StatisticController extends Controller
         }
         $html .= "</table>";
         $json["body"] = $html;
+        echo Json::encode($json);
+    }
+
+    public function actionGetAccess(){
+        $json["header"] = 'Получить доступ к анализу цен';
+        $json["body"] = $this->renderPartial('tmpl/analysis_access');
         echo Json::encode($json);
     }
 
@@ -202,34 +209,9 @@ class StatisticController extends Controller
         $page_all = ceil($count / $this->offset);
         $first = 1;
         $last = $page_all;
-        $pages = '';
-
         $url = "/statistic/cost-analysis/?";
-        if (($page > 1) && ($last >= 8)){
-            $pages .= "<li class='page-item'><a class=\"page-link\" href=\"{$url}\" >1</a></li>";
-            if($page > 2){
-                $pages .= "<li class='page-item'><a class=\"page-link\" >...</a></li>";
-            }
-        }
 
-        for ($p = $first; $p < $last + 1; $p++)
-        {
-            if ($last < 8) {
-                $a_selected = ($p == ($page + 1)) ? "active" : "";
-                $pages .= "<li class='page-item {$a_selected}'><a class=\"page-link\" href=\"{$url}&page={$p}\" >{$p}</a></li>";
-            } else {
-
-                if (($p == $page+1) || ($p==$page) || ($p == $page + 2))
-                {
-                    $a_selected = ($p == ($page + 1)) ? "active" : "";
-                    $pages .= "<li class='page-item {$a_selected}'><a class=\"page-link\" href=\"{$url}&page={$p}\" >{$p}</a></li>";
-                }
-            }
-        }
-        if (((($page < $last + 1) || ($page < $last)) && ($last >= 8))){
-            $pages .= "<li class='page-item'><a class=\"page-link\" >...</a></li>";
-            $pages .= "<li class='page-item'><a class=\"page-link\" href=\"{$url}&page={$last}\" >{$last}</a></li>";
-        }
+        $pages = SiteService::get_pages($page, $first, $last, $url);
         return $pages;
     }
 

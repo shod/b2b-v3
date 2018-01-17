@@ -7578,7 +7578,7 @@ body.ks-navbar-fixed .ks-navbar-horizontal {
     .ks-sidebar > .ks-wrapper .nav .nav-link, .ks-sidebar > .ks-wrapper .nav .dropdown-item, .ks-sidebar .ks-sidebar-wrapper .nav .nav-link, .ks-sidebar .ks-sidebar-wrapper .nav .dropdown-item {
       padding-left: 27px;
       padding-right: 24px;
-      height: 60px;
+      min-height: 60px;
       font-weight: 400;
       margin: 0;
       text-decoration: none;

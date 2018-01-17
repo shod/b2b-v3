@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <img style="border: 1px solid black;" src="http://b2b.migom.by/img/design/example_analysis_2.jpg">
             </div>
 
-            <button class="btn btn-primary">Получить доступ</button>
+            <button data-remote="/statistic/get-access/" data-toggle="ajaxModal" data-target=".bd-example-modal-lg" class="btn btn-primary">Получить доступ</button>
         </div>
     </div>
 </div>

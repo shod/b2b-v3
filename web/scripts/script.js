@@ -1,6 +1,6 @@
 $( document ).ready(function() {
     var $ajaxModalLinks = $('[data-toggle="ajaxModal"]');
-    console.log($ajaxModalLinks);
+
     $ajaxModalLinks.on('click', function (e) {
         var $this = $(this),
             $remoteUrl = $this.data('remote') || $this.attr('href'),
