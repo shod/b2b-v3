@@ -92,6 +92,65 @@ class StatisticController extends Controller
         echo Json::encode($json);
     }
 
+    public function  actionGetChart(){
+        $date = Yii::$app->request->get('date');
+        $arr_date = explode("-", $date);
+        $year = $arr_date[0];
+        $month = $arr_date[1];
+
+        $sql = "SELECT
+                                *
+                            FROM
+                                seller_clicks_stat
+                            WHERE
+                                seller_id = {$this->seller_id}
+                            AND YEAR(date_stat) = {$year} AND MONTH(date_stat) = {$month}
+                            ORDER BY
+                                date_stat DESC";
+        $data = \Yii::$app->db->createCommand($sql)->queryAll();
+        $array_data = array();
+        foreach((array)$data as $r)
+        {
+            $a['date_view'] = str_replace("-", ", ",$r['date_stat']);
+            $a['view'] = $r['cnt_click'];
+            $a['view_proxy'] = $r['cnt_proxy'];
+            $a['view_context'] = $r['cnt_click_context'];
+            $array_data[]= $a;
+        }
+        $json = Json::encode($array_data);
+        echo $json;
+        exit;
+    }
+
+    public function  actionGetChartHours(){
+        $date = Yii::$app->request->get('date');
+        $sql = "SELECT
+					DATE_FORMAT(from_unixtime(created_at),'%H') as hours, COUNT(1) as cnt
+					FROM
+						migombyha.stat_popup
+					WHERE
+						seller_id = {$this->seller_id}
+					AND DATE_FORMAT(
+						FROM_UNIXTIME(created_at),
+						'%Y-%m-%d'
+					) = '{$date}'
+					AND f_uniq = 1
+					GROUP BY DATE_FORMAT(from_unixtime(created_at),'%H')
+					ORDER BY
+						created_at ASC";
+        $data = \Yii::$app->db->createCommand($sql)->queryAll();
+        $array_data = array();
+        foreach((array)$data as $r)
+        {
+            $a['date_view'] = $r['hours'];
+            $a['view'] = $r['cnt'];
+            $array_data[]= $a;
+        }
+        $json = json_encode($array_data);
+        echo $json;
+        exit;
+    }
+
     public function actionCostAnalysisCsv(){
         $sids = Yii::$app->request->get('sids');
         $sql_sids = $sids ? " and idx.seller_id not in ({$sids})" : "";
@@ -102,12 +161,321 @@ class StatisticController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $vars = [];
+        $sql = "select po_active from seller_info where  seller_id = {$this->seller_id}";
+        $res = \Yii::$app->db->createCommand($sql)->queryOne();
+        if (count($res) == 1){
+            if ($res['po_active'] == 0){
+                $vars["po_active"]  = "<br><a href='/?admin=po_order' style='color:red'>Услуга отключена</a>";
+                $vars["po_sms_alert"]  = "<p>Чтобы не терять клиентов подключите услугу <a href='/?admin=po_order' style='color:red'>SMS-заказы</a></p>";
+            }
+        }
+        $stat_interval_month = 6;
+        $sql = "SELECT
+											date_format(
+												from_unixtime(`q_show`.`date`),
+												'%Y-%m'
+											) AS `date`,
+											`q_show`.`seller_id` AS `seller_id`,
+											sproxy.cnt,
+											sproxy.avg_day,
+											IFNULL(sum(`q_show`.`view`),0) AS `view_stat`,
+											round(
+												(sum(`q_show`.`view`) / 30),
+												0
+											) AS `view_stat_day`,
+											IFNULL(s_order.view_order,0) as view_order,
+											IFNULL(stat_contact.cnt,0) AS count_contact,
+											IFNULL(stat_go.cnt,0) AS count_sms,
+                                            IFNULL(context, 0) as context
+										FROM
+											migombyha.`product_seller_stat` AS `q_show`
+										LEFT JOIN migombyha.v_stats_seller_proxy AS sproxy ON (
+											sproxy.seller_id = `q_show`.seller_id AND sproxy.date = date_format(
+											from_unixtime(`q_show`.`date`),
+											'%Y-%m'
+										)
+										)
+										LEFT JOIN (
+											SELECT
+												seller_id,
+												DATE_FORMAT(
+													FROM_UNIXTIME(date),
+													'%Y-%m'
+												) AS mdat,
+												count(*) AS view_order
+											FROM
+												stat_order_buffer
+											WHERE
+												date > UNIX_TIMESTAMP('2015-11-01') and 
+												date > UNIX_TIMESTAMP(
+													(
+														DATE_ADD(now(), INTERVAL - {$stat_interval_month} MONTH)
+													)
+												)
+											GROUP BY
+												seller_id,
+												DATE_FORMAT(
+													FROM_UNIXTIME(date),
+													'%Y-%m'
+												)
+										) AS s_order ON (
+											s_order.seller_id = `q_show`.seller_id
+											AND s_order.mdat = date_format(
+												from_unixtime(`q_show`.`date`),
+												'%Y-%m'
+											)
+										)
+
+										LEFT JOIN (SELECT
+											seller_id,
+											FROM_UNIXTIME(created_at, '%Y-%m') AS cdate,
+											count(*) AS cnt,
+                                            SUM(context) as context
+										FROM
+											migombyha.stat_popup
+										WHERE
+											seller_id = {$this->seller_id}
+											AND f_uniq = 1
+											AND created_at > UNIX_TIMESTAMP('2015-11-01') and created_at > UNIX_TIMESTAMP(
+											(
+												DATE_ADD(now(), INTERVAL - {$stat_interval_month} MONTH)
+											)
+										)
+										GROUP BY
+											seller_id,
+											FROM_UNIXTIME(created_at, '%Y-%m')) as stat_contact on (stat_contact.cdate = date_format(
+												from_unixtime(`q_show`.`date`),
+												'%Y-%m'
+											))
+
+										LEFT JOIN (select DATE_FORMAT(created_at,'%Y-%m') as dat, count(1) as cnt
+															from po_order as po
+															where seller_id = {$this->seller_id} and 
+															po.created_at > '2015-11-01'
+															group by dat) as stat_go on (stat_go.dat = date_format(
+												from_unixtime(`q_show`.`date`),
+												'%Y-%m'
+											))
+
+										WHERE
+											`q_show`.seller_id = {$this->seller_id}
+										AND `q_show`.`date` > UNIX_TIMESTAMP('2015-11-01') and `q_show`.`date` > UNIX_TIMESTAMP(
+											(
+												DATE_ADD(now(), INTERVAL - {$stat_interval_month} MONTH)
+											)
+										)
+										
+										GROUP BY
+											`q_show`.`seller_id`,
+											date_format(
+												from_unixtime(`q_show`.`date`),
+												'%Y-%m'
+											)";
+
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+        $vars['data'] = '';
+        foreach((array)$res as $r)
+        {
+            $vars['data'] .= $this->renderPartial('tmpl/all-month-item', $r);
+        }
+
+        $sql = "SELECT
+								f.id,
+								f.seller_id,
+								f.phone,
+								FROM_UNIXTIME(f.created_at) AS date,
+								f.product_id,
+								f.status,
+								si.po_balance,
+								si.po_phone,
+								si.po_email,
+								s.work_time,
+
+							IF (
+								po_active = 1
+								AND po_balance > 0
+								AND (
+									(po_phone IS NOT NULL)
+									OR (po_email IS NOT NULL)
+								),
+								1,
+								0
+							) AS po_active,
+							 s.name
+							FROM
+								migombyha.stat_seller_phone_fail f
+							JOIN migomby.seller_info si ON (f.seller_id = si.seller_id)
+							JOIN migomby.seller AS s ON (s.id = si.seller_id)
+							WHERE
+								f. STATUS = 0
+                            AND FROM_UNIXTIME(f.created_at) > (DATE_SUB(NOW(), INTERVAL 1 MONTH))
+							AND f.seller_id = {$this->seller_id} order by f.created_at desc";
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+
+        $vars['data_complaint'] = '';
+        foreach((array)$res as $r)
+        {
+            $vars['data_complaint'] .= $this->renderPartial('tmpl/complaint-item', $r);
+        }
+
+        return $this->render('index', $vars);
     }
 
     public function actionMonth()
     {
-        return $this->render('month');
+        $vars = [];
+        $date = Yii::$app->request->get("date");
+        $vars['date'] = $date;
+        $sql = "CALL pc_seller_click_stat({$this->seller_id})";
+        $res = \Yii::$app->db->createCommand($sql)->execute();
+
+        if ($date){
+            $arr_date = explode("-", $date);
+            $year = $arr_date[0];
+            $month = $arr_date[1];
+
+            $sql = "SELECT
+                                *
+                            FROM
+                                seller_clicks_stat
+                            WHERE
+                                seller_id = {$this->seller_id}
+                            AND YEAR(date_stat) = {$year} AND MONTH(date_stat) = {$month}
+                            ORDER BY
+                                date_stat DESC";
+            $sql2 = "SELECT 
+							 vcat.`name`,
+							 COUNT(*) as cnt
+							FROM
+							 migombyha.stat_popup as sp, products as p, v_catalog_sections as vcat
+							WHERE
+							 seller_id = {$this->seller_id}
+							AND DATE_FORMAT(
+							 FROM_UNIXTIME(created_at),
+							 '%Y-%m'
+							) = '{$date}'
+							AND f_uniq = 1
+							and p.id = sp.product_id and vcat.section_id = p.section_id
+							GROUP BY vcat.catalog_id  ORDER BY cnt desc";
+        } else {
+            $sql = "select * from seller_clicks_stat where seller_id = {$this->seller_id} and date_stat > DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 2 MONTH),'%Y-%m-01')  ORDER BY date_stat desc;";
+            $sql2 = "SELECT 
+							 vcat.`name`,
+							 COUNT(*) as cnt
+							FROM
+							 migombyha.stat_popup as sp, products as p, v_catalog_sections as vcat
+							WHERE
+							 seller_id = {$this->seller_id}
+							and created_at > DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 2 MONTH),'%Y-%m-01')
+							AND f_uniq = 1
+							and p.id = sp.product_id and vcat.section_id = p.section_id
+							GROUP BY vcat.catalog_id";
+        }
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+        $res2 = \Yii::$app->db->createCommand($sql2)->queryAll();
+        $vars['data'] = "";
+        $vars['data_sections'] = "";
+        foreach((array)$res as $r)
+        {
+            $vars['data'] .= $this->renderPartial('tmpl/month-data-item', $r);
+        }
+
+        foreach((array)$res2 as $r)
+        {
+            $vars['data_sections'] .= $this->renderPartial('tmpl/month-data-section-item', $r);
+        }
+        return $this->render('month', $vars);
+    }
+
+    public function actionGetChartCtr(){
+        $date = Yii::$app->request->get("date");
+        $arr_date = explode("-", $date);
+        $year = $arr_date[0];
+        $month = $arr_date[1];
+
+
+        $sql = "SELECT ROUND(AVG(ss.ctr_popup)*100,2) as ctr, ss.date, ROUND(AVG(scs.ctr_popup)*100,2) as ctr_all FROM migombyha.`seller_ctr_stat` as ss
+					left join migombyha.seller_ctr_stat as scs on (scs.date = ss.date)
+					where ss.seller_id = {$this->seller_id} and
+					DATE_FORMAT(
+						ss.date,
+						'%Y-%m'
+					) = '{$year}-{$month}'  and scs.ctr_popup < 1 and  ss.ctr_popup < 1
+					 GROUP BY ss.date order by ss.date desc";
+        $data = \Yii::$app->db->createCommand($sql)->queryAll();
+        $array_data = array();
+        foreach((array)$data as $r)
+        {
+            $a['date_view'] = str_replace("-", ", ",$r['date']);
+            $a['view'] = $r['ctr'];
+            $a['view_all'] = $r['ctr_all'];
+            $array_data[]= $a;
+        }
+        $json = json_encode($array_data);
+        echo $json;
+        exit;
+    }
+
+    public function actionGetDayStat(){
+        $date = Yii::$app->request->get("date");
+        $sql = "SELECT *, DATE_FORMAT(FROM_UNIXTIME(created_at), '%H:%i') as datetime from migombyha.stat_popup WHERE seller_id = {$this->seller_id} and DATE_FORMAT(FROM_UNIXTIME(created_at),'%Y-%m-%d') = '{$date}' and f_uniq = 1 ORDER BY created_at asc";
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+        $data = "<h4>Дата: {$date}</h4><table class='table table-bordered table-condensed table-striped' style='word-wrap: break-word; table-layout:fixed;'>";
+        $data .= "<tr><th colspan=4>Статистика кликов</th></tr>";
+        foreach((array)$res as $r)
+        {
+            $r['context'] = isset($r['context']) ? "Контекст" : "";
+            if($r['product_id'] != 0){
+                $sql = "SELECT basic_name from index_product WHERE product_id = {$r['product_id']}";
+                $name_product = \Yii::$app->db->createCommand($sql)->queryAll();
+                if (count($name_product) > 0){
+                    $name = $name_product[0]['basic_name'];
+                } else {
+                    $name = $r['product_id'];
+                }
+                $r['ref_url'] = "Товар: <a href='http://www.migom.by/{$r['product_id']}/' target='_blank'>{$name}</a>";
+            }
+            $data .= $this->renderPartial('tmpl/month-data-item-report', $r);
+        }
+        $data .= "<tr><th colspan=4>Статистика переходов</th></tr>";
+        $sql = "SELECT *, DATE_FORMAT(FROM_UNIXTIME(created_at), '%H:%i') as datetime from migombyha.stat_proxy WHERE seller_id = {$this->seller_id} and DATE_FORMAT(FROM_UNIXTIME(created_at),'%Y-%m-%d') = '{$date}' ORDER BY created_at asc";
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+        foreach((array)$res as $r)
+        {
+            $r['context'] = isset($r['context']) ? "Контекст" : "";
+            $data .= $this->renderPartial('tmpl/month-data-item-report', $r);
+        }
+        $data .= "</table>";
+        echo $data;
+        exit;
+    }
+
+    public function actionGetStatGroup(){
+        $date = Yii::$app->request->get("date");
+        $sql = "SELECT 
+					 vcat.`name`,
+					 COUNT(*) as cnt
+					FROM
+					 migombyha.stat_popup as sp, products as p, v_catalog_sections as vcat
+					WHERE
+					 seller_id = {$this->seller_id}
+					AND DATE_FORMAT(
+					 FROM_UNIXTIME(created_at),
+					 '%Y-%m-%d'
+					) = '{$date}'
+					AND f_uniq = 1
+					and p.id = sp.product_id and vcat.section_id = p.section_id
+					GROUP BY vcat.catalog_id  ORDER BY cnt desc";
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+        $data = "<h4>Дата: {$date}</h4><table class='table table-bordered table-condensed table-striped' style='word-wrap: break-word; table-layout:fixed;'>";
+        $data .= "<tr><th colspan=4>Статистика кликов</th></tr>";
+        foreach((array)$res as $r)
+        {
+            $data .= $this->renderPartial('tmpl/month-data-item-group', $r);
+        }
+        $data .= "</table>";
+        echo $data;
     }
 
     public function actionCostAnalysis()

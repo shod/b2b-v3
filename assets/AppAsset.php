@@ -57,6 +57,7 @@ class AppAsset extends AssetBundle
         'web/libs/noty/noty.min.js',
         'web/libs/maplace/maplace.min.js',
         'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
+        'https://code.highcharts.com/highcharts.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
