@@ -21,11 +21,6 @@ $this->registerJs(
         <div class="card card-outline-secondary mb-3">
             <div class="card-block">
                 <div class="row">
-                    <div class="col-lg-12 content-end">
-                        <button class="btn btn-primary" id="btn_download_csv">Выгрузить все данные в CSV</button>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-lg-12">
                         <form id="analysis_form" method='get' class="form-inline">
 
@@ -64,15 +59,18 @@ $this->registerJs(
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="pagination pagination-sm justify-content-end">
-                            <?= isset($pages) ? $pages : "" ?>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 0px;">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <ul class="pagination pagination-sm" style="margin: 10px;">
+            <?= isset($pages) ? $pages : "" ?>
+        </ul>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 content-end">
+        <button class="btn btn-primary" id="btn_download_csv">Выгрузить все данные в CSV</button>
     </div>
 </div>
 
@@ -110,15 +108,12 @@ $this->registerJs(
             </div>
         </div>
 
-        <div class="card card-outline-secondary mb-3">
-            <div class="card-block">
-                <div>
-                    <ul class="pagination pagination-sm justify-content-end">
-                        <?= isset($pages) ? $pages : "" ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="pagination pagination-sm">
+            <?= isset($pages) ? $pages : "" ?>
+        </ul>
     </div>
 </div>

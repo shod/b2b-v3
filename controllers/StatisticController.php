@@ -345,10 +345,12 @@ class StatisticController extends Controller
                             ORDER BY
                                 date_stat DESC";
             $sql2 = "SELECT 
-							 vcat.`name`,
+							IF(vcat.`name` is not null,vcat.`name`,'Другие клики') as name,
 							 COUNT(*) as cnt
 							FROM
-							 migombyha.stat_popup as sp, products as p, v_catalog_sections as vcat
+								migombyha.stat_popup as sp
+								LEFT JOIN products as p on (p.id = sp.product_id)
+								LEFT JOIN v_catalog_sections as vcat on (vcat.section_id = p.section_id)
 							WHERE
 							 seller_id = {$this->seller_id}
 							AND DATE_FORMAT(
@@ -356,8 +358,7 @@ class StatisticController extends Controller
 							 '%Y-%m'
 							) = '{$date}'
 							AND f_uniq = 1
-							and p.id = sp.product_id and vcat.section_id = p.section_id
-							GROUP BY vcat.catalog_id  ORDER BY cnt desc";
+							GROUP BY vcat.catalog_id ORDER BY cnt desc";
         } else {
             $sql = "select * from seller_clicks_stat where seller_id = {$this->seller_id} and date_stat > DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 2 MONTH),'%Y-%m-01')  ORDER BY date_stat desc;";
             $sql2 = "SELECT 

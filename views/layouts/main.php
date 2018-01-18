@@ -171,20 +171,20 @@ AppAsset::register($this);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview" style="height: 235px;">
                         <ul class="nav nav-tabs ks-nav-tabs ks-info" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#" data-toggle="tab" data-target="#ks-navbar-tech" role="tab">Служба технической поддержки</a>
+                                <a class="nav-link active" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-tech" role="tab">Служба технической поддержки</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="tab" data-target="#ks-navbar-users" role="tab">Отдел по работе с клиентами</a>
+                                <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-users" role="tab">Отдел по работе с клиентами</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="tab" data-target="#ks-navbar-reviews" role="tab">Модератор отзывов</a>
+                                <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-reviews" role="tab">Модератор отзывов</a>
                             </li>
                         </ul>
                         <div class="tab-content">
 
                             <div class="tab-pane ks-messages-tab active" id="ks-navbar-tech" role="tabpanel" style="height: 150px;">
                                 <div class="ks-wrapper">
-                                    <div class="ks-message" style="height: 70%;">
+                                    <div class="ks-message" style="height: 61%;">
                                         <div class="">
                                             <img src="http://b2b.migom.by/img/design/alena.jpg" style="margin-right: 10px;" height="130">
                                         </div>
@@ -204,7 +204,7 @@ AppAsset::register($this);
 
                             <div class="tab-pane ks-messages-tab" id="ks-navbar-users" role="tabpanel" style="height: 150px;">
                                 <div class="ks-wrapper">
-                                    <div class="ks-message" style="height: 70%;">
+                                    <div class="ks-message" style="height: 61%;">
                                         <div class="">
                                             <img src="http://b2b.migom.by/img/design/janna.jpg" style="margin-right: 10px;" height="130">
                                         </div>
@@ -224,7 +224,7 @@ AppAsset::register($this);
 
                             <div class="tab-pane ks-messages-tab" id="ks-navbar-reviews" role="tabpanel" style="height: 150px;">
                                 <div class="ks-wrapper">
-                                    <div class="ks-message" style="height: 70%;">
+                                    <div class="ks-message" style="height: 61%;">
                                         <div class="ks-info">
                                             <div class="ks-user-name"></div>
                                             <div class="ks-text">

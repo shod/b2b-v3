@@ -1,0 +1,1 @@
+<p><span class="icon-bad la la-frown-o la-2x"></span> <span style="position: relative;top: -4px;">Не буду обращаться</span></p>

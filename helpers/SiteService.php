@@ -104,7 +104,7 @@ class SiteService {
         }
         else {
             $month = array(1 => 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
-            $res = date('j ' . $month[date('n', $date)] . ' Y',$date); // в H:i
+            $res = date('j ' . $month[date('n', $date)] . ' Y',$date) . " в " . date('H:i', $date);; // в H:i
         }
         return $res;
     }
@@ -121,6 +121,22 @@ class SiteService {
         $res = date('j ' . $month[date('n', $date)] . ' Y',$date);
 
         return $res;
+    }
+
+    public static function starIterate($cnt_star){
+        $round_cnt_star = floor($cnt_star);
+        $isHalfExist = ($cnt_star > $round_cnt_star );
+        $star = '';
+        for($i=0; $i<5; $i++){
+            if($i < $round_cnt_star){
+                $star .= '<span  class="rl-li la la-star"></span >';
+            }elseif($isHalfExist && $i  == $round_cnt_star){
+                $star .= '<span  class="rl-li la la-star-half-o"></span >';
+            }else{
+                $star .= '<span  class="rl-li la la-star-o"></span >';
+            }
+        }
+        return $star;
     }
 
     public static function getPublicObjectVars($obj) {

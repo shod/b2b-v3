@@ -21,16 +21,16 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <p>12 - <a href="/product/on-sale">Товары в продаже</a></p>
             <p>13 - <a href="/product/catalog">Редактирование товаров в разделе</a></p>
             <p>14 - <a href="/product/price">Товары работа с прайсами</a></p>
-            <p>25 - <a href="/statistic/cost-analysis">Анализ цен конкурентов</a></p>
+            <p style="background-color:#b8f8b8">25 - <a href="/statistic/cost-analysis">Анализ цен конкурентов</a></p>
             <p>15 - <a href="/product/tariff">Калькулятор тарифов</a></p>
-            <p>16 - <a href="/reviews">Отзывы</a></p>
+            <p style="background-color:#b8f8b8">16 - <a href="/reviews">Отзывы</a></p>
             <p>17. <a href="/seller">Продавец сводная информация</a></p>
             <p>18 - <a href="/seller/settings">Продавец настройки</a></p>
             <p>19 - <a href="/seller/delivery">Продавец информация о доставке</a></p>
             <p>20 - <a href="/spec">Спецпредложения</a></p>
             <p>21 - <a href="/spec/add">Спецпредложения добавление</a></p>
-            <p>22 - <a href="/statistic">Статистика</a></p>
-            <p>23 - <a href="/statistic/month">Статистика по месяцам</a></p>
+            <p style="background-color:#b8f8b8">22 - <a href="/statistic">Статистика</a></p>
+            <p style="background-color:#b8f8b8">23 - <a href="/statistic/month">Статистика по месяцам</a></p>
             <p>24. <a href="/banner-spec">Баннерные спецпредложения</a></p>
             <p>25. <a href="/banner-spec/add">Баннерные спецпредложения добавление</a></p>
         </div>
