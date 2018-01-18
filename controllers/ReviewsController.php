@@ -18,7 +18,7 @@ class ReviewsController extends Controller
      * @inheritdoc
      */
     public $seller_id;
-    public $offset = 10;
+    public $offset = 40;
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();

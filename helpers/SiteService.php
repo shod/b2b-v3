@@ -68,14 +68,14 @@ class SiteService {
         $costNewU = $costNewU/SysService::get('currency_nbrb');
         $costNewU = round($costNewU);
         return $costNewU;
-    }
+    }*/
 
-    public static function currencyToCost($cost){
+    public static function sellerCurrencyToCost($cost){
         $costNewU = str_replace(' ', '', $cost);
         $costNewU = $costNewU*SysService::get('currency_nbrb');
         $costNewU = round($costNewU);
         return $costNewU;
-    }*/
+    }
 
     public static function strToCostOld($str){
         $str = (float)str_replace(' ','',$str);
