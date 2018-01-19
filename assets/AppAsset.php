@@ -33,6 +33,7 @@ class AppAsset extends AssetBundle
         'web/fonts/weather/css/weather-icons.min.css',
         'web/libs/c3js/c3.min.css',
         'web/libs/noty/noty.css',
+        'web/libs/jquery-confirm/jquery-confirm.min.css',
         'web/styles/widgets/payment.min.css',
         'web/styles/widgets/panels.min.css',
         'web/styles/dashboard/tabbed-sidebar.min.css',
@@ -56,6 +57,7 @@ class AppAsset extends AssetBundle
         'web/libs/c3js/c3.min.js',
         'web/libs/noty/noty.min.js',
         'web/libs/maplace/maplace.min.js',
+        'web/libs/jquery-confirm/jquery-confirm.min.js',
         'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
         'https://code.highcharts.com/highcharts.js',
     ];

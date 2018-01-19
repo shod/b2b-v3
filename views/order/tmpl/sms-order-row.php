@@ -1,4 +1,4 @@
-<tr>
+<tr id="tr_<?= $order_id ?>">
     <td class="ks-text-light" width="1"><span class="badge badge-mantis">#<?= $order_id ?></span></td>
     <td class="ks-text-bold">+<?= $phone ?></td>
     <td class="ks-text-left"><?= $user_name ?></td>
@@ -8,7 +8,11 @@
     </td>
     <td class="ks-text-bold"><mark><?= $cost_byn ?> руб.</mark>  <span class="ks-text-light font-11">(<?= $cost_us ?> руб.)</span></td>
     <td>
-        <button class="btn btn-primary-outline ks-solid ks-no-text"><span class="la la-check ks-icon"></span></button>
-        <button class="btn btn-primary-outline ks-solid ks-no-text"><span class="la la-trash-o ks-icon"></span></button>
+        <button class="btn btn-primary-outline btn-sm ks-solid ks-no-text button-sms" id="complete_<?= $order_id ?>">
+            <span style="font-size: 20px;" class="la la-check"></span>
+        </button>
+        <button class="btn btn-primary-outline btn-sm ks-solid ks-no-text button-sms" id="rejected_<?= $order_id ?>">
+            <span style="font-size: 20px;" class="la la-trash-o"></span>
+        </button>
     </td>
 </tr>

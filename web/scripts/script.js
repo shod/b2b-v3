@@ -21,6 +21,82 @@ $( document ).ready(function() {
             }
         });
     });
+
+    $('.button-sms').click(function() {
+        var $this = $(this);
+        var $p = $(this).attr('id').split('_');
+        $.confirm({
+            title: 'Внимание!',
+            content: 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.",
+            type: 'primary',
+            buttons: {
+                confirm: {
+                    text: 'ОК', // With spaces and symbols
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        $this.attr('disabled','disabled');
+                        $.ajax({
+                            url: "/order/process/?order_id="+$p[1]+"&action="+$p[0],
+                            type: 'get',
+                            dataType: 'html',
+                            success: function (html) {
+                                document.getElementById("tr_"+$p[1]).style.display = 'none';
+                                $(html).hide().prependTo("#history-body").fadeIn();
+                            },
+                            error: function () {
+                                console.log('ajax error');
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Отменить'
+                }
+            }
+        });
+    });
+
+    $('#active-sms').click(function() {
+        var $this = $(this);
+        action = $(this).prop('checked') ? 'active' : 'deactive';
+        $.ajax({
+            url: "/order/process/?action=" + action ,
+            type: 'get',
+            dataType: 'html',
+            success: function (html) {
+                $.alert({
+                    title: html,
+                    type: 'blue',
+                    content: 'Для продолжения работы нажмите ОК',
+                });
+            },
+            error: function () {
+                console.log('ajax error');
+            }
+        });
+    });
+
+    $('.notify-button').click(function() {
+        var $this = $(this);
+        action = $(this).attr('id')=='email' ? 'edit-email' : 'edit-phone';
+        data = $("#"+$(this).attr('id')+"-value").val();
+        console.log(data);
+        $.ajax({
+            url: "/order/process/?action=" + action + "&val=" + data,
+            type: 'get',
+            dataType: 'html',
+            success: function (html) {
+                $.alert({
+                    title: html,
+                    type: 'blue',
+                    content: 'Для продолжения работы нажмите ОК',
+                });
+            },
+            error: function () {
+                console.log('ajax error');
+            }
+        });
+    });
 });
 
 function get_chart(date){

@@ -13,5 +13,5 @@
         <?= isset($cost) ? $cost : "" ?>
 
     </td>
-    <td><textarea style="width: 100%; height: 170px;" class="form-control" name="answer[<?= isset($id) ? $id : "" ?>]"><?= isset($answer) ? $answer : "" ?></textarea></td>
+    <td><textarea style="width: 100%; height: 170px; min-width: 200px;" class="form-control" name="answer[<?= isset($id) ? $id : "" ?>]"><?= isset($answer) ? $answer : "" ?></textarea></td>
 </tr>
