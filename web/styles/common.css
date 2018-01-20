@@ -246,7 +246,7 @@ body {
     .ks-page-content .ks-page-content-body > .container-fluid,
     .ks-page-content .ks-page-content-body > .ks-nav-body-wrapper > .container-fluid {
       height: 100%;
-      padding: 30px !important; }
+      padding: 30px; }
       .ks-page-content .ks-page-content-body > .container-fluid h4:first-child,
       .ks-page-content .ks-page-content-body > .ks-nav-body-wrapper > .container-fluid h4:first-child {
         margin-top: 0; }

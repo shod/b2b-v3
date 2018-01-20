@@ -97,8 +97,91 @@ $( document ).ready(function() {
             }
         });
     });
+
+    $('[data-dashboard-widget]').KosmoWidgetControls({
+        onRefresh: function (element) {
+            var zIndex = 1;
+
+            if (element.hasClass($.fn.KosmoWidgetControls.defaults.fullScreenClass)) {
+                zIndex = 11;
+            }
+
+            element.LoadingOverlay("show", {
+                color: 'rgba(255, 255, 255, 0.8)',
+                image: '',
+                fontawesome : "la la-refresh la-spin",
+                zIndex: zIndex
+            });
+
+            setTimeout(function () {
+                element.LoadingOverlay("hide");
+            }, 2000);
+        },
+        onFullScreen: function (element, isFullScreen) {
+
+        },
+        onClose: function (element, closeCallback) {
+            $.confirm({
+                title: 'Danger!',
+                content: 'Are you sure you want to remove this widget from dashboard?',
+                type: 'danger',
+                buttons: {
+                    confirm: {
+                        text: 'Yes, remove',
+                        btnClass: 'btn-danger',
+                        action: function() {
+                            closeCallback();
+                        }
+                    },
+                    cancel: function () {}
+                }
+            });
+        }
+    });
+
 });
 
+function getAjaxData(form_id,url,table_id){
+    $("[data-dashboard-widget]").LoadingOverlay("show", {
+        color: 'rgba(255, 255, 255, 0.8)',
+        image: '',
+        fontawesome : "la la-refresh la-spin",
+        zIndex: 11
+
+    });
+    $.get(url+'&' + $('#'+form_id).serialize(), function (data) {
+        $("#" + table_id ).html("");
+        $("#brands").html("<option value='0'>Производитель</option>");
+        $("#pages").html("");
+        $("#pages-2").html("");
+        json = JSON.parse(data);
+        $(json.data).hide().prependTo("#" + table_id).fadeIn();
+        $(json.brands).hide().appendTo("#brands").fadeIn();
+        $(json.pages).hide().prependTo("#pages").fadeIn();
+        $(json.pages).hide().prependTo("#pages-2").fadeIn();
+        work_type($("#work_type").prop("checked"));
+        $('ul a').click(function() { getAjaxData('theForm',$(this).prop('href'), 'productTable');return false;});
+        $("[data-dashboard-widget]").LoadingOverlay("hide");
+    });
+}
+
+function work_type(flag) {
+
+    if(flag){
+        $("th.product-item").hide();
+        $('#productTable').find("td.product-item").hide();
+
+        $("th.product-addation-tr").show();
+        $('#productTable').find("td.product-addation-tr").show();
+
+    } else{
+        $("th.product-item").show();
+        $('#productTable').find("td.product-item").show();
+
+        $("th.product-addation-tr").hide();
+        $('#productTable').find("td.product-addation-tr").hide();
+    }
+}
 function get_chart(date){
     date_chart = date;
     $.ajax({

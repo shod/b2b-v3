@@ -72,3 +72,11 @@
     margin-bottom: 10px;
     text-transform: uppercase;
 }
+
+.table-addition{
+    padding: 10px;
+    border: 1px solid #dee0e1;
+}
+.product-addation-tr{
+    /*display: none;*/
+}
