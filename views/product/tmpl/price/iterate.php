@@ -1,9 +1,9 @@
 <tr>
     <td  align="center">
-            <span style="font-size: 20px; cursor:pointer" class="la la-trash-o icon-bad"></span>
+            <span style="font-size: 20px; cursor:pointer" class="la la-trash-o icon-bad do_delete"></span>
     </td>
     <td >
-        <span style="font-size: 20px;cursor:pointer" class="la la-plus-square-o icon-good"></span>
+        <span style="font-size: 20px;cursor:pointer" class="la la-plus-square-o icon-good do_clone"></span>
         <a href="<?= isset($href_product) ? $href_product : "" ?>" target="_blank"><?= isset($name) ? $name : "" ?></a>
         <input type="hidden" name="del[<?= $product_id ?>][<?= $id ?>]" value="0" class="form-control del_input">
     </td>

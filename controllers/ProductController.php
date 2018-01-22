@@ -18,7 +18,8 @@ class ProductController extends Controller
      * @inheritdoc
      */
     public $seller_id;
-    public $offset = 50;
+    public $offset = 100;
+    public $seller_curs;
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
@@ -60,16 +61,145 @@ class ProductController extends Controller
     }
 
     public function actionGetDataProducts(){
-        $catalog_id = Yii::$app->request->get("catalog_id");
-        $brand = Yii::$app->request->get("brand") ?  Yii::$app->request->get("brand") : 0;
-        $page = Yii::$app->request->get("page") ? Yii::$app->request->get("page")-1 : 0;
-        $search = Yii::$app->request->get("search") ?  Yii::$app->request->get("search") : 0;
-        $mode = Yii::$app->request->get("mode") ?  Yii::$app->request->get("mode") : 0;
-        $vars['data'] = $this->getDataCatalogProducts($catalog_id,$page,$brand,$search,$mode);
+        $catalog_id = Yii::$app->request->post("catalog_id");
+        $brand = Yii::$app->request->post("brand") ?  Yii::$app->request->post("brand") : 0;
+        $page = Yii::$app->request->post("page") ? Yii::$app->request->post("page")-1 : 0;
+        $search = Yii::$app->request->post("search") ?  Yii::$app->request->post("search") : 0;
+        $mode = Yii::$app->request->post("mode") ?  Yii::$app->request->post("mode") : 0;
+        $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $setting_data = $obj_seller->setting_data;
+        $curr_data = unserialize($setting_data);
+        $curr = $curr_data["currency_base"];
+        $vars['is_goods'] = Yii::$app->request->post("goods") ?  "input type='hidden' name='goods' value=1 />" : "";
+        $vars['data'] = $this->getDataCatalogProducts($catalog_id,$page,$brand,$search,$mode,$curr);
         $vars['brands'] = $this->getBrandOptions($catalog_id, $brand);
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
         $json = json_encode($vars);
         echo $json;
+    }
+
+    public function actionSaveProducts(){
+        $del =Yii::$app->request->post("del");
+        $cost = Yii::$app->request->post("cost");
+        $desc = Yii::$app->request->post("desc");
+        $wh_state = Yii::$app->request->post("wh_state");
+        $link = Yii::$app->request->post("link");
+        $garant = Yii::$app->request->post("garant");
+        $manufacturer = Yii::$app->request->post("manufacturer");
+        $importer = Yii::$app->request->post("importer");
+        $service = Yii::$app->request->post("service");
+        $delivery_day = Yii::$app->request->post("delivery_day");
+        $term_use = Yii::$app->request->post("term_use");
+        $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $setting_data = $obj_seller->setting_data;
+        $curr_data = unserialize($setting_data);
+        $curr = $curr_data["currency_base"];
+        $rate_by = $this->get_curs($obj_seller);
+
+        $ids = array();
+        \Yii::$app->db->createCommand('start transaction;')->execute();
+        foreach ((array)$cost as $product_id => $cost_data)
+        {
+
+            foreach ((array)$cost_data as $ps_id => $ps_data)
+            {
+                $flag_update = ($ps_id > 1);
+
+                foreach ((array)$ps_data as $i => $c)
+                {
+
+                    if ($del[$product_id][$ps_id] == 0 and $c > 0) {
+                        $c = str_replace(" ", "", $c);
+                        $c = (float)$c;
+                        $_desc = $desc[$product_id][$ps_id];
+                        $_desc = str_replace(array("<br>", "<br />", "<br >", "<br/>"), " ", $_desc);
+                        $_desc = strip_tags($_desc);
+                        $garant_month = preg_replace("/[^0-9]/","",$garant[$product_id][$ps_id][$i]);
+                        $_wh_state = $wh_state[$product_id][$ps_id][$i];
+                        if((int)$_wh_state == 0){
+                            $_wh_state = 1;
+                        }
+                        if ($curr == 'byn'){
+                            $c = $c * 10000;
+                            $cost_us = $c / $rate_by;
+                            $cost_by = $c;
+                        } else {
+                            $cost_us = $curr == "br" ? $c / $rate_by : $c;
+                            $cost_by = $curr == "br" ? $c : $c * $rate_by;
+                        }
+                        $r = array(
+                            "cost_us" => $cost_us,
+                            "cost_by" => $cost_by,
+                            "description" => $_desc,
+                            "wh_state" => $_wh_state,
+                            "garant" => $garant_month ? $garant_month : "",
+                            "link" => $link[$product_id][$ps_id][$i],
+                            "manufacturer" => $this->clear_text($manufacturer[$product_id][$ps_id][$i]),
+                            "importer" => $this->clear_text($importer[$product_id][$ps_id][$i]),
+                            "service" => $this->clear_text($service[$product_id][$ps_id][$i]),
+                            "delivery_day" => $delivery_day[$product_id][$ps_id][$i],
+                            "term_use" => $term_use[$product_id][$ps_id][$i]
+                        );
+
+
+                        if ($flag_update) {
+                                $sql = "
+												update product_seller as ps set 
+													description = f_clear_prod_desc('{$r["description"]}'), 
+													cost_us='{$r["cost_us"]}', 
+													cost_by='{$r["cost_by"]}',
+													wh_state = '{$r["wh_state"]}',
+													garant = '{$r["garant"]}',
+													delivery_day = '{$r["delivery_day"]}',
+                                                    link = '{$r["link"]}',
+                                                    manufacturer = '{$r["manufacturer"]}',
+                                                    importer = '{$r["importer"]}',
+                                                    service = '{$r["service"]}',
+                                                    term_use = '{$r["term_use"]}',
+													title = if(ps.title = '', (SELECT basic_name from index_product WHERE product_id = ps.product_id), ps.title)
+													where id = {$ps_id}
+											";
+                            \Yii::$app->db->createCommand($sql)->execute();
+
+                            $flag_update = false;
+                        }
+                        else
+                        {
+                            $res =  \Yii::$app->db->createCommand("select id from product_seller where product_id={$product_id} and seller_id={$this->seller_id} and cost_us={$r["cost_us"]} and description='{$r["description"]}'")->queryAll();
+                            if (count($res)) {
+                                //ignore
+                            }
+                            else
+                            {
+                                $sql = "insert into product_seller (product_id, seller_id, title, cost_us, cost_by, description, wh_state, garant, start_date, delivery_day, 
+                                                link, manufacturer, importer, service, term_use ) values 
+											({$product_id}, {$this->seller_id}, (SELECT basic_name from index_product WHERE product_id = {$product_id}), '{$r["cost_us"]}', '{$r["cost_by"]}', 
+											f_clear_prod_desc('{$r["description"]}'), '{$r["wh_state"]}', '{$r["garant"]}',  UNIX_TIMESTAMP(NOW()), '{$r["delivery_day"]}',
+											'{$r["link"]}','{$r["manufacturer"]}','{$r["importer"]}','{$r["service"]}','{$r["term_use"]}')";
+
+                                \Yii::$app->db->createCommand($sql)->execute();
+                            }
+                        }
+                    }
+                    elseif ($ps_id)
+                    {
+                        if($del[$product_id][$ps_id]<0){
+                           $sql = "delete from product_seller where id={$ps_id}";
+                            \Yii::$app->db->createCommand($sql)->execute();
+                        }
+                        $flag_update = false;
+                    }
+                }
+            }
+        }
+        \Yii::$app->db->createCommand('commit;')->execute();
+        \Yii::$app->db->createCommand("update product_seller set start_date=UNIX_TIMESTAMP(NOW()) where seller_id={$this->seller_id}")->execute();
+        \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
+        \Yii::$app->db->createCommand("call pc_product_sel_cost_filter({$this->seller_id})")->execute();
+        \Yii::$app->db->createCommand("call pc_product_seller_actual_limit({$this->seller_id})")->execute();
+        \Yii::$app->db->createCommand("call ps_seller_export_info_update({$this->seller_id})")->execute();
+        \Yii::$app->db->createCommand("call pc_stop_word_mark({$this->seller_id})")->execute();
+        exit;
     }
 
 
@@ -102,13 +232,21 @@ class ProductController extends Controller
         $page = Yii::$app->request->get("page") ? Yii::$app->request->get("page")-1 : 0;
         $search = Yii::$app->request->get("search") ?  Yii::$app->request->get("search") : 0;
         $mode = Yii::$app->request->get("mode") ?  Yii::$app->request->get("mode") : 0;
+        $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $setting_data = $obj_seller->setting_data;
+        $curr_data = unserialize($setting_data);
+        $curr = $curr_data["currency_base"];
+        $vars["selected_mode_all"] = $mode ? "selected" : "";
         $vars['catalog_id'] = $catalog_id;
         $data_section =  \Yii::$app->db->createCommand("select * from v_catalog_sections where catalog_id = {$catalog_id}")->queryOne();
         $vars["catalog_name"] = $data_section['name'];
-        $vars['data'] = $this->getDataCatalogProducts($catalog_id,$page,$brand,$search,$mode);
+        $vars['data'] = $this->getDataCatalogProducts($catalog_id,$page,$brand,$search,$mode,$curr);
         $vars['catalog_options'] = $this->getCatalogOptions($catalog_id);
         $vars['brand_options'] = $this->getBrandOptions($catalog_id, $brand);
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
+        $vars['is_goods'] = Yii::$app->request->get("goods") ?  "<input type='hidden' name='goods' value=1 />" : "";
+        $vars['currency'] = $curr;
+
         return $this->render('catalog', $vars);
     }
 
@@ -266,7 +404,7 @@ class ProductController extends Controller
             return $html;
     }
 
-    private function getDataCatalogProducts($catalog_id, $page=0, $brand = 0, $search = 0, $mode=''){
+    private function getDataCatalogProducts($catalog_id, $page=0, $brand = 0, $search = 0, $mode='', $curr){
         $res = \Yii::$app->db->createCommand("
 			select p.id as madeid, p1.id as modelid, cs.subject_id as section_id
 			from properties p, properties p1, catalog_subject cs
@@ -327,10 +465,6 @@ class ProductController extends Controller
 
             $res = \Yii::$app->db->createCommand($str_sql)->queryAll();
         }
-        $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
-        $setting_data = $obj_seller->setting_data;
-        $curr_data = unserialize($setting_data);
-        $curr = $curr_data["currency_base"];
 
         $html = '';
 
@@ -496,5 +630,37 @@ class ProductController extends Controller
         }
 
         return $res;
+    }
+
+    private /*Получение курса валют*/
+    function get_curs($obj_seller)
+    {
+        if (empty($this->seller_curs)) {
+
+            $setting_data = $obj_seller->setting_data;
+            $curr_data = unserialize($setting_data);
+            $curr = $curr_data["currency_base"];
+
+            /*Если валюта белруб, то берем курс по нацбанку*/
+            if($curr == 'br' || $curr == 'byn'){
+                $res = \Yii::$app->db->createCommand('select rate from currency_nbrb order by id desc limit 1')->queryOne();
+                $this->seller_curs = $res['rate'];
+            }else{
+                $this->seller_curs = $curr_data['currency_rate'];
+            }
+
+            if (empty($this->seller_curs)) {
+                $res = \Yii::$app->db->createCommand('select rate from currency_nbrb order by id desc limit 1')->queryOne();
+                $this->seller_curs = $res['rate'];
+                //$this->seller_curs = file_get_contents("config/curs");
+            }
+        }
+        return $this->seller_curs;
+    }
+
+    private function clear_text($text){
+        $text = str_replace(array("<br>", "<br />", "<br >", "<br/>"), " ", $text);
+        $text = stripcslashes($text);
+        return strip_tags($text);
     }
 }
