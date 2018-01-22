@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Seller;
+use app\models_ex\BillAccount;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -15,8 +17,10 @@ class BalanceController extends Controller
     /**
      * @inheritdoc
      */
+    public $seller_id;
     public function behaviors()
     {
+        $this->seller_id = Yii::$app->user->identity->getId();
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -57,6 +61,9 @@ class BalanceController extends Controller
 
     public function actionAdd()
     {
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        //$bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+
         return $this->render('add');
     }
 

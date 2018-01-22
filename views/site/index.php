@@ -19,7 +19,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <p>10 - <a href="/news">Страница новостей</a></p>
             <p style="background-color:#b8f8b8">11 - <a href="/order/sms">SMS заказы</a></p>
             <p style="background-color:#b8f8b8">12 - <a href="/product/on-sale">Товары в продаже</a></p>
-            <p>13 - <a href="/product/catalog">Редактирование товаров в разделе</a></p>
+            <p style="background-color:#b8f8b8">13 - <a href="/product/catalog">Редактирование товаров в разделе</a></p>
             <p>14 - <a href="/product/price">Товары работа с прайсами</a></p>
             <p style="background-color:#b8f8b8">25 - <a href="/statistic/cost-analysis">Анализ цен конкурентов</a></p>
             <p>15 - <a href="/product/tariff">Калькулятор тарифов</a></p>

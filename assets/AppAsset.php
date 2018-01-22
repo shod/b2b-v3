@@ -38,6 +38,7 @@ class AppAsset extends AssetBundle
         'web/styles/widgets/panels.min.css',
         'web/styles/dashboard/tabbed-sidebar.min.css',
         'web/styles/site.css',
+        'web/styles/pricing/subscriptions.min.css',
         //'web/styles/widgets/payment.min.css',
     ];
     public $js = [
