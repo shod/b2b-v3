@@ -272,5 +272,7 @@ Sidebar icon color: #4c6ef5;
         border-bottom: 1px solid #dee0e1; }
       .ks-navbar > .ks-wrapper > .nav > .ks-navbar-actions.ks-open > .nav-item.ks-user .ks-info > .ks-description {
         color: #8997c3; }
+
       .ks-navbar > .ks-wrapper > .nav > .ks-navbar-actions.ks-open > .nav-item:not(.ks-languages):not(.ks-messages):not(.ks-notifications).show .dropdown-menu .dropdown-item:not(.dropdown) {
-        border-bottom: 1px solid #dee0e1; } }
+        border-bottom: 1px solid #dee0e1; }
+}

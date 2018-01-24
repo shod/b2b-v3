@@ -41,6 +41,39 @@ class BillAccount extends  \app\models\BillAccount {
         return $day_down;
     }
 
+    public function getDayDownCatalog($action = 0){
+        $id = $this->id;
+        if ($action == 1){
+            $sql_act = "";
+        } else {
+            $sql_act = " and ifnull(bbd.date_expired,DATE_ADD(now(),INTERVAL -1 DAY)) <= DATE_ADD(now(),INTERVAL -1 DAY) ";
+        }
+        // down_catalog
+        $res = \Yii::$app->db->createCommand("
+				select sum(bc.cost)/30 as value
+				from bill_catalog_seller bcs
+				inner join bill_catalog bc on (bc.id=bcs.catalog_id)
+				left join bill_cat_sel_discount as bbd on (bbd.seller_id = bcs.seller_id and bbd.catalog_id = bcs.catalog_id)
+				where bcs.seller_id in (select id from seller where bill_account_id={$id})
+				{$sql_act}
+				group by bc.f_tarif
+				order by bc.f_tarif desc
+			")->queryAll();
+        //$down_catalog = round($res[0]["value"] * (100 - $this->skidka()) * 0.01, 2);
+
+        $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
+        //$down_catalog = round($res[0]["value"] * (100 - $this->skidka()) * 0.01, 2);
+
+        if (count($res)>1)
+        {
+            $down_catalog += $res[1]["value"];
+        }
+
+        //total
+        $day_down_catalog = $down_catalog;
+        return $day_down_catalog;
+    }
+
     public function skidka()
     {
         /**/

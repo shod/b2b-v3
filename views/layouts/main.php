@@ -21,9 +21,19 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <style>
+        @media only screen and (max-width: 780px) {
+            a:not(.btn-danger) > .ks-action {
+                color: #25628f;
+            }
+            a:not(.btn-danger) > .ks-description{
+                color: #8997c3;
+            }
+        }
+    </style>
     <?php $this->head() ?>
 </head>
-<body class="ks-navbar-fixed ks-sidebar-default ks-sidebar-position-fixed ks-page-header-fixed ks-theme-primary"> <!-- remove ks-page-header-fixed to unfix header -->
+<body class="ks-navbar-fixed ks-sidebar-default ks-sidebar-position-fixed ks-page-header-fixed ks-theme-white"> <!-- remove ks-page-header-fixed to unfix header -->
 <!-- remove ks-page-header-fixed to unfix header -->
 
 <?php $this->beginBody() ?>
@@ -59,112 +69,61 @@ AppAsset::register($this);
 
             </div>
             <!-- END NAVBAR MENU -->
+            <div>
+            </div>
 
             <!-- BEGIN NAVBAR ACTIONS -->
             <div class="ks-navbar-actions">
-                <!-- BEGIN NAVBAR MESSAGES -->
-                <div class="nav-item dropdown ks-messages">
+
+                <div class="nav-item dropdown ks-user">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="la la-envelope ks-icon" aria-hidden="true">
-                            <span class="badge badge-pill badge-info">3</span>
+                        <span>
+                            <img src="http://static.migom.by/img/seller/logo$<?= $seller_id ?>.jpg" height="36">
                         </span>
-                        <span class="ks-text">Messages</span>
+                        <span class="ks-info">
+                            <span class="ks-name"><?= $seller->name; ?></span>
+                            <span class="ks-description"><?= $seller->id; ?></span>
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">
-                        <section class="ks-tabs-actions">
-                            <a href="#"><i class="la la-plus ks-icon"></i></a>
-                            <a href="#"><i class="la la-search ks-icon"></i></a>
-                        </section>
-                        <ul class="nav nav-tabs ks-nav-tabs ks-info" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" data-toggle="tab" data-target="#ks-navbar-messages-inbox" role="tab">Inbox</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="tab" data-target="#ks-navbar-messages-sent" role="tab">Sent</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="tab" data-target="#ks-navbar-messages-archive" role="tab">Archive</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane ks-messages-tab active" id="ks-navbar-messages-inbox" role="tabpanel">
-                                <div class="ks-wrapper ks-scrollable">
-                                    <a href="#" class="ks-message">
-                                        <div class="ks-avatar ks-online">
-                                            <img src="/web/img/avatars/avatar-1.jpg" width="36" height="36">
-                                        </div>
-                                        <div class="ks-info">
-                                            <div class="ks-user-name">Emily Carter</div>
-                                            <div class="ks-text">In golf, Danny Willett (pictured) wins the M...</div>
-                                            <div class="ks-datetime">1 minute ago</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="ks-view-all">
-                                    <a href="#">View all</a>
-                                </div>
-                            </div>
-                            <div class="tab-pane ks-empty" id="ks-navbar-messages-sent" role="tabpanel">
-                                There are no messages.
-                            </div>
-                            <div class="tab-pane ks-empty" id="ks-navbar-messages-archive" role="tabpanel">
-                                There are no messages.
-                            </div>
-                        </div>
+                        <a class="dropdown-item" href="/site/logout">
+                            <span class="la la-sign-out ks-icon" aria-hidden="true"></span>
+                            <span>Выйти</span>
+                        </a>
                     </div>
-
                 </div>
-                <!-- END NAVBAR MESSAGES -->
 
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
-                <div class="nav-item dropdown ks-notifications">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="la la-bell ks-icon" aria-hidden="true">
-                            <span class="badge badge-pill badge-info">7</span>
-                        </span>
-                        <span class="ks-text">Notifications</span>
+                <div class="nav-item ks-notifications">
+                    <a class="nav-link " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <?= $seller->active ? "<span style='padding-top: 7px;' class=\"badge badge-success\">АКТИВНЫЙ</span>" : "<span style='padding-top: 7px;' class=\"badge badge-danger\">ОТКЛЮЧЕН</span>"; ?>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">
-                        <ul class="nav nav-tabs ks-nav-tabs ks-info" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" data-toggle="tab" data-target="#navbar-notifications-all" role="tab">All</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane ks-notifications-tab active" id="navbar-notifications-all" role="tabpanel">
-                                <div class="ks-wrapper ks-scrollable">
-                                    <a href="#" class="ks-notification">
-                                        <div class="ks-avatar">
-                                            <img src="/web/img/avatars/avatar-3.jpg" width="36" height="36">
-                                        </div>
-                                        <div class="ks-info">
-                                            <div class="ks-user-name">Emily Carter <span class="ks-description">has uploaded 1 file</span></div>
-                                            <div class="ks-text"><span class="la la-file-text-o ks-icon"></span> logo vector doc</div>
-                                            <div class="ks-datetime">1 minute ago</div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="ks-view-all">
-                                    <a href="#">Show more</a>
-                                </div>
-                            </div>
-                            <div class="tab-pane ks-empty" id="navbar-notifications-activity" role="tabpanel">
-                                There are no activities.
-                            </div>
-                            <div class="tab-pane ks-empty" id="navbar-notifications-comments" role="tabpanel">
-                                There are no comments.
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- END NAVBAR NOTIFICATIONS -->
 
+                <div class="nav-item nav-link btn-action-block">
+                    <a class="btn" href="#">
+                        <span class="ks-action">Баланс 12 - 157/месяц (5.23/день) </span>
+                        <span class="ks-description">Бонус 23 </span>
+                    </a>
+                </div>
+
+                <div class="nav-item nav-link btn-action-block">
+                    <a class="btn btn-danger" href="#">
+                        <span class="ks-action"> Поставить </span>
+                        <span class="ks-description"> на паузу </span>
+                    </a>
+                </div>
+
+
+
+
+
 
                 <!-- BEGIN NAVBAR MESSAGES -->
                 <div class="nav-item dropdown ks-messages">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="la la-question-circle ks-icon" aria-hidden="true">
+                        <span class="la la-comments ks-icon" aria-hidden="true">
                         </span>
                         <span class="ks-text">Служба поддержки</span>
                     </a>
@@ -174,7 +133,7 @@ AppAsset::register($this);
                                 <a class="nav-link active" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-tech" role="tab">Служба технической поддержки</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-users" role="tab">Отдел по работе с клиентами</a>
+                                <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-users" role="tab">Ваш менеджер</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-reviews" role="tab">Модератор отзывов</a>
@@ -242,14 +201,13 @@ AppAsset::register($this);
                 </div>
                 <!-- END NAVBAR MESSAGES -->
 
-
             <!-- END NAVBAR ACTIONS -->
         </nav>
 
         <!-- BEGIN NAVBAR ACTIONS TOGGLER -->
         <nav class="nav navbar-nav ks-navbar-actions-toggle">
             <a class="nav-item nav-link" href="#">
-                <span class="la la-ellipsis-h ks-icon ks-open"></span>
+                <span class="la la-info la-2x ks-icon ks-open"></span>
                 <span class="la la-close ks-icon ks-close"></span>
             </a>
         </nav>
@@ -272,55 +230,31 @@ AppAsset::register($this);
     <div class="ks-column ks-sidebar ks-info">
         <div class="ks-wrapper ks-sidebar-wrapper">
             <ul class="nav nav-pills nav-stacked">
-                <li class="nav-item ks-user dropdown">
-                    <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="true">
-                        <div class="ks-info" style="margin-right: 10px;">
-                            <div class="ks-name">
-                                <span class="ks-icon la la-<?= $seller->active ? "dot" : "times"; ?>-circle-o" style="color: <?= $seller->active ? "#15ba15" : "#db4242"; ?>;font-size: 30px;"></span>
-                            </div>
-                        </div>
-                        <img src="http://static.migom.by/img/seller/logo$<?= $seller_id ?>.jpg" class="seller-logo">
+                <!--li class="nav-item ks-user">
+                    <a class="nav-link"  href="#" role="button" aria-haspopup="true" aria-expanded="true">
                         <div class="ks-info">
                             <div class="ks-name"><?= $seller->name; ?></div>
                             <div class="ks-text"><?= $seller->id; ?></div>
                         </div>
                     </a>
-
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile-social-profile.html">Профиль магазина</a>
-                        <a class="dropdown-item" href="/seller/settings">Настройки аккаунта</a>
-                        <a class="dropdown-item" href="/seller/delivery">Настройки доставки</a>
-                        <a class="dropdown-item" href="profile-settings-general.html">Настройки юридической информации</a>
-                        <a class="dropdown-item" href="/site/logout">Выйти</a>
-                    </div>
-                </li>
+                </li-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="true">
                         <span class="ks-icon la la-money"></span>
                         <span>Баланс</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/product/tariff">Настройка тарифа</a>
                         <a class="dropdown-item" href="/balance/add">Пополнить баланс</a>
+                        <!--a class="dropdown-item" href="/product/tariff">Настройка тарифа</a-->
                         <a class="dropdown-item" href="/balance/promise">Обещаный платеж</a>
-                        <a class="dropdown-item" href="/balance/akt">Акт приемки-сдачи выполненных работ</a>
                         <a class="dropdown-item" href="/balance/report">Финансовый отчет</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="ks-icon la la-shopping-cart"></span>
-                        <span>Товары</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/product/on-sale">Товары в продаже</a>
-                        <a class="dropdown-item" href="/product/price">Работа с прайсом</a>
+                        <a class="dropdown-item" href="/balance/akt">Акты</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="ks-icon la la-bullhorn"></span>
-                        <span>Продвижение</span>
+                        <span>Продвижение магазина</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/auction">Аукционы</a>
@@ -331,52 +265,74 @@ AppAsset::register($this);
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="ks-icon la la-bullhorn"></span>
+                        <span>Настройка магазина</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/product/tariff">Мой тариф</a>
+                        <a class="dropdown-item" href="/seller/settings">Информация для покупателей</a>
+                        <a class="dropdown-item" href="profile-settings-general.html">Реквизиты магазина</a>
+                        <a class="dropdown-item" href="/seller/delivery">Условия доставки</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="ks-icon la la-shopping-cart"></span>
+                        <span>Мои товары</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/product/on-sale">Товары в продаже</a>
+                        <a class="dropdown-item" href="/product/price">Импорт/экспорт прайсов</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="ks-icon la la-bar-chart-o"></span>
                         <span>Аналитика</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/statistic">Статистика по месяцам</a>
+                        <a class="dropdown-item" href="/statistic">Статистика магазина</a>
                         <a class="dropdown-item" href="/statistic/cost-analysis">Анализ цен конкурентов</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/reviews">
-                        <span class="ks-icon la la-comment"></span>
-                        <span>Отзывы</span>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="ks-icon la la-bar-chart-o"></span>
+                        <span>Отзывы на магазин</span>
                     </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/reviews">Отзывы покупателей</a>
+                        <a class="dropdown-item" href="/">Жалобы покупателей</a>
+                    </div>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="ks-icon la la-bar-chart-o"></span>
+                        <span>Условия работы</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/">Договор публичной оферты (с НДС)</a>
+                        <a class="dropdown-item" href="/">Договор публичной оферты (без НДС)</a>
+                        <a class="dropdown-item" href="/">Правила размещения</a>
+                    </div>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="/news">
                         <span class="ks-icon la la-newspaper-o"></span>
                         <span>Новости</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/help">
+                        <span class="ks-icon la la-newspaper-o"></span>
+                        <span>Помощь</span>
+                    </a>
+                </li>
             </ul>
             <div class="ks-sidebar-extras-block">
-                <!--div class="ks-extras-block-item">
-                    <div class="ks-name">Monthly Badwidth Transfer</div>
-                    <div class="ks-progress">
-                        <div class="progress ks-progress-xs">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 84%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="ks-description">
-                        <span class="ks-amount">84%</span>
-                        <span class="ks-text">(8 400 MB of 10 000)</span>
-                    </div>
-                </div>
-                <div class="ks-extras-block-item">
-                    <div class="ks-name">Disk Space Usage</div>
-                    <div class="ks-progress">
-                        <div class="progress ks-progress-xs">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 36%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="ks-description">
-                        <span class="ks-amount">36%</span>
-                        <span class="ks-text">(3 600 MB of 10 000)</span>
-                    </div>
-                </div-->
                 <div class="ks-extras-block-item"><?= isset($this->params['customParam']) ? $this->params['customParam'] : ""; ?></div>
                 <div class="ks-sidebar-copyright">© 2018 migom.by</div>
             </div>

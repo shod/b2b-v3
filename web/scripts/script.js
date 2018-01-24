@@ -145,6 +145,20 @@ $( document ).ready(function() {
 
 });
 
+function get_blanks(type){
+    $.ajax({
+        url: "/balance/get-blanks/?type=" + type,
+        type: 'get',
+        dataType: 'html',
+        success: function (html) {
+            $('#subscriptions').html(html);
+        },
+        error: function () {
+            console.log('ajax error');
+        }
+    });
+}
+
 function getAjaxData(form_id,url,table_id){
     $("[data-dashboard-widget]").LoadingOverlay("show", {
         color: 'rgba(255, 255, 255, 0.8)',
