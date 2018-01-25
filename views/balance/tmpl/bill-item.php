@@ -29,8 +29,8 @@
             </li>
         </ul>
 
-        <a href="#" class="btn btn-info-outline btn-block">Открыть счет</a>
-        <a href="#" class="btn btn-info-outline btn-block">Скачать в xlsx</a>
-        <a href="#" class="btn btn-info-outline btn-block">Скачать в pdf</a>
+        <a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=html" target="_blank" class="btn btn-info-outline btn-block">Открыть счет</a>
+        <a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=xlsx" target="_blank" class="btn btn-info-outline btn-block">Скачать в xlsx</a>
+        <a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=pdf" target="_blank" class="btn btn-info-outline btn-block">Скачать в pdf</a>
     </div>
 </div>

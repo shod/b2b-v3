@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
+use app\helpers\NumberService;
 use app\models\BlankTypes;
+use app\models\SellerInfo;
+use app\models_ex\Member;
 use app\models\Seller;
 use app\models\SysStatus;
 use app\models_ex\BillAccount;
@@ -79,6 +82,121 @@ class BalanceController extends Controller
         }
         $blanks = $this->getBlanks($seller, $curs, $nds);
         return $choise . $blanks;
+    }
+
+    public function actionBlankop(){
+        $id = Yii::$app->request->get("id");
+        $type = Yii::$app->request->get("type");
+        $render_type = Yii::$app->request->get("render-type");
+
+        if($type==1){
+            $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
+            $nds = 0;
+            $official_data = array(
+                "official_name" => "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ГРЕЧКО АРТЁМ ГЕННАДЬЕВИЧ",
+                "official_unp" => "УНП 101541947 ОКПО 37526626",
+                "official_address" => "220024,г.Минск, ул. Асаналиева, 24-6",
+                "official_rs" => "BY71 ALFA 3013 2293 0400 2027 0000 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;АЛЬФА-БАНК&quot; Ул. Сурганова, 43-47, 220013 Минск, Республика Беларусь",
+                "official_phone" => "тел.: +375 (29) 111 45 45, 777 45 45",
+                "official_faximille" => "http://b2b.migom.by/img/design/faximille_ip.jpg",
+                "official_owner" => "Гречко А. Г.",
+                "official_percent" => "",
+                "official_nds" => "",
+            );
+        } else {
+            $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
+            $nds = 1;
+            $official_data = array(
+                "official_name" => "ООО &quot;Альметра&quot;",
+                "official_unp" => "УНП 192147793 ОКПО 381393215000",
+                "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
+                "official_rs" => "р/с BY43ALFA30122078930080270000, в банке ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, 220030, г. Минск, ул. Мясникова, 70, БИК ALFABY2X",
+                "official_phone" => "тел.: +375 (29) 111 45 45, 777 45 45",
+                "official_faximille" => "http://b2b.migom.by/img/design/faximille.jpg",
+                "official_owner" => "Кладухина О.Н.",
+                "official_percent" => "20",
+                "official_nds" => "Сумма НДС:",
+            );
+        }
+
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $seller_info = SellerInfo::find()->where(['seller_id' => $this->seller_id])->one();
+        $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+        $member = Member::find()->where(['id' => $seller->member_id])->one();
+        $member_data = $member->getMemberProperties();
+
+        $blank = BlankTypes::find()->where(['id' => $id])->one();
+        if ($blank->sum > 0){
+            $sum = $blank->sum * $curs;
+        } else {
+            $sum = $blank->count_day * $bill_account->getDayDownCatalog()  * $curs;
+        }
+        $sum_str = NumberService::num2str($sum);
+        $sum_nds = $nds ? $sum * 0.2 : 0;
+        $nds_str = $nds ? NumberService::num2str($sum_nds) : "";
+        $sum_all = $sum + $sum_nds;
+        $sum_all_str = NumberService::num2str($sum_all);
+        $this->layout = false;
+
+        \Yii::$app->db->createCommand('start transaction;')->execute();
+        \Yii::$app->db->createCommand("call pc_getsellerblanknum()")->execute();
+        $res = \Yii::$app->db->createCommand("select max(num) as num from seller_blank_number where seller_id = 1500")->queryOne();
+        \Yii::$app->db->createCommand('commit;')->execute();
+
+        $docnum = $res['num'];
+
+        $vars = array_merge($official_data, $member_data);
+        $vars = array_merge([
+            "seller_id" => $this->seller_id,
+            "docnum" => $docnum,
+            "date_p" => date('d m Y'),
+            "sum" => number_format(round($sum, 2), 2,'.',' '),
+            "sum_str" => $sum_str,
+            "sum_nds" => number_format($sum_nds, 2,'.',' '),
+            "nds_str" => $nds_str,
+            "sum_all" => number_format(round($sum_all, 2), 2,'.',' '),
+            "sum_all_str" => $sum_all_str,
+            "contract_number" => $seller_info->contract_number,
+            "contract_date" => date('d.m.Y',$seller_info->contract_date),
+            "fax" => $member_data['fax'],
+            "text" => $blank->name
+        ],$vars);
+        if($render_type == 'html'){
+            return $this->render('tmpl/blankop/html-type', $vars);
+        }
+
+        if($render_type == 'xlsx'){
+            $html_data = $this->render('tmpl/blankop/xlsx-type', $vars);
+            header('Content-Type: text/html; charset=windows-1251');
+            header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            header('Cache-Control: no-store, no-cache, must-revalidate');
+            header('Cache-Control: post-check=0, pre-check=0', FALSE);
+            header('Pragma: no-cache');
+            header('Content-transfer-encoding: binary');
+            header("Content-Disposition: attachment; filename=bill-{$this->seller_id}.xls");
+            header('Content-Type: application/x-unknown');
+            header('Content-Encoding: UTF-8');
+            echo "\xEF\xBB\xBF"; // UTF-8 BOM
+            echo $html_data;
+            exit;
+        }
+
+        if($render_type == 'pdf'){
+            try {
+                $html_data = $this->render('tmpl/blankop/pdf-type', $vars);
+                $mpdf = new \mPDF('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
+                $mpdf->charset_in = 'cp1251';
+                $mpdf->WriteHTML($html_data);
+                $mpdf->Output("bill-{$this->seller_id}.pdf", 'I');;
+                exit;
+
+            } catch (Exception $e) {
+                echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+            }
+            exit;
+        }
+
     }
 
 

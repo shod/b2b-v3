@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0df01c7f810ee2702a62678f826c60ac",
+    "content-hash": "d73988f9c90ec583aafbd85e76c2c22b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -90,7 +90,7 @@
             "version": "2.0.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/yiisoft/jquery-pjax.git",
+                "url": "git@github.com:yiisoft/jquery-pjax.git",
                 "reference": "aef7b953107264f00234902a3880eb50dafc48be"
             },
             "dist": {
@@ -213,6 +213,52 @@
                 "html"
             ],
             "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "kbs1/mpdf-5.7-php7",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kbs1/mpdf-5.7-php7.git",
+                "reference": "f570a07fd7accebb1a679a6a42d2b0fb8338db3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kbs1/mpdf-5.7-php7/zipball/f570a07fd7accebb1a679a6a42d2b0fb8338db3b",
+                "reference": "f570a07fd7accebb1a679a6a42d2b0fb8338db3b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=4.3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "mpdf.php",
+                    "classes"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-1.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ian Back"
+                },
+                {
+                    "name": "Ing. Viliam Kubis"
+                }
+            ],
+            "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+            "homepage": "http://www.mpdf1.com/mpdf/index.php",
+            "keywords": [
+                "pdf",
+                "php",
+                "utf-8"
+            ],
+            "time": "2017-08-06T22:44:27+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -516,6 +562,49 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "appotter/jpgraph",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/appotter/jpgraph.git",
+                "reference": "edcfa68c898a002f59f9c79b833c47a9b9d33951"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/appotter/jpgraph/zipball/edcfa68c898a002f59f9c79b833c47a9b9d33951",
+                "reference": "edcfa68c898a002f59f9c79b833c47a9b9d33951",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JpGraph": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "QPL 1.0"
+            ],
+            "authors": [
+                {
+                    "name": "JpGraph team"
+                }
+            ],
+            "description": "jpGraph, library to make graphs and charts",
+            "homepage": "http://jpgraph.net",
+            "keywords": [
+                "chart",
+                "data",
+                "graph",
+                "jpgraph",
+                "pie"
+            ],
+            "time": "2017-07-07T09:57:03+00:00"
+        },
         {
             "name": "behat/gherkin",
             "version": "v4.4.5",
@@ -3141,7 +3230,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kbs1/mpdf-5.7-php7": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

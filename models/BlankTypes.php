@@ -34,7 +34,7 @@ class BlankTypes extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['sum'], 'number'],
             [['count_day', 'hidden', 'add_promise'], 'integer'],
-            [['name', 'seller_type'], 'string', 'max' => 255],
+            [['name', 'seller_type', 'blank_text'], 'string', 'max' => 255],
         ];
     }
 
@@ -51,6 +51,7 @@ class BlankTypes extends \yii\db\ActiveRecord
             'seller_type' => 'Seller Type',
             'hidden' => 'Hidden',
             'add_promise' => 'Add Promise',
+            'blank_text' => 'Blank text',
         ];
     }
 }
