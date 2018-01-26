@@ -1,9 +1,5 @@
 <?php
 $this->title = "Пополнение баланса";
-$this->registerJs(
-    " 
-        "
-);
 ?>
 <div class="row">
     <div class="col-lg-3">

@@ -220,6 +220,63 @@ class BalanceController extends Controller
 
     }
 
+    public function actionGetPromise(){
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+
+        $f_offerta = $seller->f_offerta;
+
+        if(!($f_offerta & 1) && ($f_offerta & 2)){
+            $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
+        } else {
+            $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
+        }
+
+        $sum = (int)Yii::$app->request->get('sum');
+        $max = (int)Yii::$app->request->get('max');
+        $type_promice = (int)Yii::$app->request->get('type_promice');
+        if ($type_promice == 'fixed'){
+            $res = \Yii::$app->db->createCommand("select promise_delivery from seller_info where seller_id = {$this->seller_id}")->queryAll();
+            if (($sum*1 <= $max*1)&&($res[0]['promise_delivery'] == 0)){
+                //\Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
+
+                //$whirl->mailer('seller')->delayed(0, 'promise_delivery', array('seller_id' => $this->seller_id,'sum' => $sum)); //TODO: mailer
+
+                $te = ($sum / $curs) * 1.0;
+
+               // \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
+
+                //$whirl->billing($this->seller_id)->transaction('up_promice_pay',$te); //TODO: transactions
+            }
+        } else {
+            $seller_choise = Yii::$app->request->get('seller_choise');
+            if ($seller_choise == 'set_sum_pay'){
+
+                $sum = (float)Yii::$app->request->get('set_sum_pay');
+                $te = ($sum / $curs) * 1.0;
+                $clicks = round($te/0.4);
+
+               // \Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
+               // \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
+
+              //  $whirl->mailer('seller')->delayed(0, 'promise_delivery', array('seller_id' => $this->seller_id,'sum' => $sum));
+
+                $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
+                                    where st.seller_id = {$this->seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
+                $res = \Yii::$app->db->createCommand($sql)->queryAll();
+
+                if ($res[0]['id'] == 1){
+                    //$whirl->billing($this->seller_id)->transaction('up_promice_pay',$te);
+                } else {
+                    // $whirl->billing($this->seller_id)->transaction('up_click',$clicks);
+                }
+            } else {
+                // $clicks = (int)$whirl->parms->get('transfer_clicks');
+            }
+        }
+
+        return $this->redirect(['balance/promise']);
+    }
 
     public function actionAdd()
     {
@@ -246,17 +303,69 @@ class BalanceController extends Controller
 
     public function actionPromise()
     {
-        return $this->render('promise');
-    }
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
 
-    public function actionAkt()
-    {
-        return $this->render('akt');
-    }
+        $f_offerta = $seller->f_offerta;
 
-    public function actionReport()
-    {
-        return $this->render('report');
+        if(!($f_offerta & 1) && ($f_offerta & 2)){
+            $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
+        } else {
+            $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
+        }
+
+        $vars['day_down'] = (round($bill_account->getDayDownCatalog(),2)*4*(float)$curs/100)*100;
+        $res = \Yii::$app->db->createCommand("SELECT
+                                            si.b2b_karma,
+                                            si.promise_delivery,
+                                            IF((((IF(s.date_act >= IFNULL(s.date_deact, NOW()), NOW(), s.date_deact) < DATE_ADD(now(), INTERVAL - 1 MONTH)) and s.active = 0) or (s.date_act is null and s.date_deact is null)),1,0) as block_deact
+                                        FROM
+                                            seller_info as si, seller as s
+                                        WHERE
+                                            si.seller_id = {$this->seller_id} and si.seller_id = s.id")->queryAll();
+
+        $res_check = \Yii::$app->db->createCommand("select 1 as check_dost
+                                                                            from seller as sl, bill_transaction as bt
+                                                                            where sl.id = {$this->seller_id}
+                                                                            and bt.account_id = sl.bill_account_id
+                                                                            and bt.type not in ('up_promice_pay')
+                                                                            and date_begin > DATE_ADD(now(),INTERVAL -3 MONTH)
+                                                                            order by bt.id desc
+                                                                            limit 1")->queryAll();
+        if ($res[0]['promise_delivery'] == 1 ){
+            $vars["disabled"] = 'disabled';
+            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert">Вы уже брали обещанный платеж</div>';
+        } elseif ($res[0]['b2b_karma'] != 1){
+            $vars["disabled"] = 'disabled';
+            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert">Вам недоступен обещанный платеж!</div>';
+        } elseif (count($res_check) != 1){
+            $vars["disabled"] = 'disabled';
+            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert">Вам недоступен обещанный платеж, в связи с отсутствием активности в течении 3-х месяцев.</div>';
+        } elseif($res[0]['block_deact'] == 1){
+            $vars["disabled"] = 'disabled';
+            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert"> Обещанный платеж недоступен! Вы были неактивны более месяца!</div>';
+        } else {
+            $vars["disabled"] = '';
+        }
+
+        if($seller->pay_type == 'fixed'){
+            $vars['day_down'] = (round($bill_account->getDayDown(1),2)*4*(float)$curs/100)*100;
+            //$vars['page_data'] = $whirl->processor->process_template(null, "content_billing", "tmpl/promice_fixed", $vars);
+        } else {
+            $sql = "select ROUND(avg(cnt_click)*cost_click*4) as click_cost
+                            from (select seller_id, cnt_click from seller_clicks_stat
+                            where seller_id = {$this->seller_id} and cnt_click>0 order by date_stat desc limit 10) as qw
+                            , seller_click_tarif as ct, bill_click_tarif as bc
+                            where ct.seller_id = qw.seller_id
+                            and bc.id = ct.bill_click_tarif_id;";
+            $res_sum =\Yii::$app->db->createCommand($sql)->queryAll();
+            $vars['day_te'] = round($res_sum[0]['click_cost'],2);
+            $vars['sum_click'] = intval($vars['day_te'] / 0.4);
+            $vars['day_down'] = ($vars['day_te']*(float)$curs/100)*100;
+            //$vars['page_data'] = $whirl->processor->process_template(null, "content_billing", "tmpl/promice_clicks", $vars);
+        }
+
+        return $this->render('promise',$vars);
     }
 
     private function getInfo($seller){

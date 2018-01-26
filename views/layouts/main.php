@@ -245,13 +245,12 @@ AppAsset::register($this);
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/balance/add">Пополнить баланс</a>
-                        <!--a class="dropdown-item" href="/product/tariff">Настройка тарифа</a-->
                         <a class="dropdown-item" href="/balance/promise">Обещаный платеж</a>
-                        <a class="dropdown-item" href="/balance/report">Финансовый отчет</a>
-                        <a class="dropdown-item" href="/balance/akt">Акты</a>
+                        <a class="dropdown-item" href="/bill-report">Финансовый отчет</a>
+                        <a class="dropdown-item" href="/bill-report/akt">Акты</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                <li id="" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="ks-icon la la-bullhorn"></span>
                         <span>Продвижение магазина</span>
@@ -302,7 +301,7 @@ AppAsset::register($this);
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/reviews">Отзывы покупателей</a>
-                        <a class="dropdown-item" href="/">Жалобы покупателей</a>
+                        <a class="dropdown-item" href="/complaint">Жалобы покупателей</a>
                     </div>
                 </li>
 
@@ -312,9 +311,9 @@ AppAsset::register($this);
                         <span>Условия работы</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/">Договор публичной оферты (с НДС)</a>
-                        <a class="dropdown-item" href="/">Договор публичной оферты (без НДС)</a>
-                        <a class="dropdown-item" href="/">Правила размещения</a>
+                        <a class="dropdown-item" href="/oferta-1">Договор публичной<br> оферты (с НДС)</a>
+                        <a class="dropdown-item" href="/oferta-2">Договор публичной <br>оферты (без НДС)</a>
+                        <a class="dropdown-item" href="/reles">Правила размещения</a>
                     </div>
                 </li>
 

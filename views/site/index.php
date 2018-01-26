@@ -9,7 +9,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
 
             <p>1 - <a href="/auction">Аукционы</a></p>
             <p>2 - <a href="/auction/add">Аукционы добавление</a></p>
-            <p>3 -  <a href="/balance/add">Баланс пополнить</a></p>
+            <p style="background-color:#b8f8b8">3 -  <a href="/balance/add">Баланс пополнить</a></p>
             <p>4 - <a href="/balance/promise">Баланс обещаный платех</a></p>
             <p>5 - <a href="/balance/akt">Баланс выгрузка актов</a></p>
             <p>6 - <a href="/balance/report">Баласн Финансовый отчет</a></p>

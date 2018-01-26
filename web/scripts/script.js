@@ -1,4 +1,14 @@
 $( document ).ready(function() {
+
+    page_url = window.location.pathname;
+    $( "ul.nav-stacked a.dropdown-item" ).each(function() {
+        href = $( this ).attr('href');
+        if(href == page_url){
+            $( this ).addClass('ks-active');
+            $( this ).parents( "li.dropdown" ).addClass('open');
+        }
+    });
+
     var $ajaxModalLinks = $('[data-toggle="ajaxModal"]');
 
     $ajaxModalLinks.on('click', function (e) {
