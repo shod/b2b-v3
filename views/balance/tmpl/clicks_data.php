@@ -1,0 +1,1 @@
+<h3><?= $click_bill_text ?> <?=$balance_clicks ?></h3>

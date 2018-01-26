@@ -26,17 +26,20 @@ class BillAccount extends  \app\models\BillAccount {
 				order by bc.f_tarif desc
 			")->queryAll();
 
-            $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
-            if (count($res)>1)
-            {
-                $down_catalog += $res[1]["value"];
+            if(count($res) > 0) {
+                $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
+                if (count($res) > 1) {
+                    $down_catalog += $res[1]["value"];
+                }
+
+
+                $down_other = $res[0]['value'];
+
+                //total + $down_other
+                $day_down = $down_catalog;
+            } else {
+                $day_down = 0;
             }
-
-
-            $down_other = $res[0]['value'];
-
-            //total + $down_other
-            $day_down = $down_catalog ;
         }
         return $day_down;
     }
@@ -59,18 +62,21 @@ class BillAccount extends  \app\models\BillAccount {
 				group by bc.f_tarif
 				order by bc.f_tarif desc
 			")->queryAll();
-        //$down_catalog = round($res[0]["value"] * (100 - $this->skidka()) * 0.01, 2);
 
-        $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
-        //$down_catalog = round($res[0]["value"] * (100 - $this->skidka()) * 0.01, 2);
+        if(count($res) > 0){
+            $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
 
-        if (count($res)>1)
-        {
-            $down_catalog += $res[1]["value"];
+            if (count($res)>1)
+            {
+                $down_catalog += $res[1]["value"];
+            }
+
+            //total
+            $day_down_catalog = $down_catalog;
+        } else {
+            $day_down_catalog = 0;
         }
 
-        //total
-        $day_down_catalog = $down_catalog;
         return $day_down_catalog;
     }
 

@@ -265,7 +265,7 @@ AppAsset::register($this);
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="ks-icon la la-bullhorn"></span>
+                        <span class="ks-icon la la-cogs"></span>
                         <span>Настройка магазина</span>
                     </a>
                     <div class="dropdown-menu">
@@ -297,7 +297,7 @@ AppAsset::register($this);
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="ks-icon la la-bar-chart-o"></span>
+                        <span class="ks-icon la la-comment-o"></span>
                         <span>Отзывы на магазин</span>
                     </a>
                     <div class="dropdown-menu">
@@ -308,7 +308,7 @@ AppAsset::register($this);
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="ks-icon la la-bar-chart-o"></span>
+                        <span class="ks-icon la la-file-pdf-o"></span>
                         <span>Условия работы</span>
                     </a>
                     <div class="dropdown-menu">
@@ -327,7 +327,7 @@ AppAsset::register($this);
 
                 <li class="nav-item">
                     <a class="nav-link" href="/help">
-                        <span class="ks-icon la la-newspaper-o"></span>
+                        <span class="ks-icon la la-question-circle"></span>
                         <span>Помощь</span>
                     </a>
                 </li>

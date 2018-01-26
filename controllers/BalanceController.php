@@ -11,6 +11,7 @@ use app\models\SysStatus;
 use app\models_ex\BillAccount;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -81,13 +82,18 @@ class BalanceController extends Controller
             $nds = 1;
         }
         $blanks = $this->getBlanks($seller, $curs, $nds);
-        return $choise . $blanks;
+        $array_data = [
+            'html' => $choise . $blanks,
+            'te' => $curs
+        ];
+        return Json::encode($array_data);
     }
 
     public function actionBlankop(){
         $id = Yii::$app->request->get("id");
         $type = Yii::$app->request->get("type");
         $render_type = Yii::$app->request->get("render-type");
+        $my_sum = Yii::$app->request->get("my_sum");
 
         if($type==1){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
@@ -125,12 +131,26 @@ class BalanceController extends Controller
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
 
-        $blank = BlankTypes::find()->where(['id' => $id])->one();
-        if ($blank->sum > 0){
-            $sum = $blank->sum * $curs;
+        if($my_sum){
+            $sum = $my_sum;
         } else {
-            $sum = $blank->count_day * $bill_account->getDayDownCatalog()  * $curs;
+            $blank = BlankTypes::find()->where(['id' => $id])->one();
+            if ($blank->sum > 0){
+                $sum = $blank->sum * $curs;
+            } else {
+                $sum = $blank->count_day * $bill_account->getDayDownCatalog()  * $curs;
+            }
+            if($blank->add_promise){
+                $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
+                $sum_promise = (count($pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
+
+                $balance = round($bill_account->balance*$curs,2);
+                $sum_promise += $balance < 0 ? -$balance : 0;
+                $sum += $sum_promise;
+            }
         }
+
+
         $sum_str = NumberService::num2str($sum);
         $sum_nds = $nds ? $sum * 0.2 : 0;
         $nds_str = $nds ? NumberService::num2str($sum_nds) : "";
@@ -159,7 +179,8 @@ class BalanceController extends Controller
             "contract_number" => $seller_info->contract_number,
             "contract_date" => date('d.m.Y',$seller_info->contract_date),
             "fax" => $member_data['fax'],
-            "text" => $blank->name
+            "text" => isset($blank) ? $blank->name : "Услуги по размещению рекламных материалов <br>
+            на сайте migom.by на сумму"
         ],$vars);
         if($render_type == 'html'){
             return $this->render('tmpl/blankop/html-type', $vars);
@@ -216,7 +237,9 @@ class BalanceController extends Controller
             $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
             $nds = 1;
         }
+        $vars['curs'] = $curs;
         $vars['blanks'] = $this->getBlanks($seller, $curs, $nds);
+        $vars['info'] = $this->getInfo($seller);
 
         return $this->render('add', $vars);
     }
@@ -236,6 +259,47 @@ class BalanceController extends Controller
         return $this->render('report');
     }
 
+    private function getInfo($seller){
+        $html = "";
+        if($seller->pay_type == 'fixed'){
+            $sql_actions = "select bc.name, DATE_FORMAT(date_expired, '%d.%m.%Y') as date
+            from bill_cat_sel_discount as bcd, bill_catalog as bc
+            where bcd.seller_id = {$this->seller_id}
+            and bc.id = bcd.catalog_id
+			and date_expired >= now();";
+
+            $actions = \Yii::$app->db->createCommand($sql_actions)->queryAll();
+            if(count($actions) > 0){
+                $actions_html = "";
+                foreach ($actions as $action){
+                    $actions_html .= $this->renderPartial('tmpl/action_item', $action);
+                }
+                $html .= $this->renderPartial('tmpl/action_table', ['actions' => $actions_html]);
+            } else {
+                $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+
+                $vars['balance_clicks'] = $bill_account->balance;
+                $vars["click_bill_text"] = "Баланс: ";
+
+                $html .= $this->renderPartial('tmpl/clicks_data', $vars);
+            }
+        } elseif ($seller->pay_type =='clicks'){
+            $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
+                    where st.seller_id = {$this->seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
+            $res = \Yii::$app->db->createCommand($sql)->queryAll();
+            $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+            if ($res[0]['id'] == 1){
+                $vars['balance_clicks'] = floor((float)$bill_account->balance / (float)$res[0]['cost_click']);
+                $vars["click_bill_text"] = "Стоимость клика: <span class='badge'>0.4 ТЕ</span> ";
+            } else {
+                $vars['balance_clicks'] = $bill_account->balance_clicks;
+                $vars["click_bill_text"] = "Баланс показов/переходов: ";
+            }
+            $html .= $this->renderPartial('tmpl/clicks_data', $vars);
+        }
+        return $html;
+    }
+
     private function getBlanks($seller, $curs, $nds){
         $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
 
@@ -247,30 +311,39 @@ class BalanceController extends Controller
 
         $blanks = BlankTypes::find()->where(['seller_type' => $seller->pay_type, 'hidden' => 0])->all();
         $blanks_items = '';
-        foreach ($blanks as $key => $b){
-            $blank_array = $b->toArray();
+        foreach ($blanks as $key => $blank){
+            $blank_array = $blank->toArray();
 
-            if($blank_array['sum'] > 0){
-                $blank_array['pay_sum'] = $blank_array['sum'] * $curs;
+            if ($blank->sum > 0){
+                $blank_array['pay_sum'] = $blank->sum * $curs;
             } else {
-                $blank_array['pay_sum'] = $bill_account->getDayDownCatalog()*$blank_array['count_day'] * $curs;
+                $blank_array['pay_sum'] = $blank->count_day * $bill_account->getDayDownCatalog()  * $curs;
             }
+
             $blank_array["finish"] = $blank_array['pay_sum'];
-            if($nds){
-                $blank_array["finish"] = $blank_array['pay_sum'] * 1.2;
-                $blank_array["nds"] = $blank_array['pay_sum'] * 0.2;;
-            } else {
-                $blank_array["nds"] = 0;
-            }
-            if($blank_array['add_promise']){
-                $blank_array['sum_promise'] = $sum;
-                $blank_array["finish"] += $sum;
+
+            if($blank->add_promise){
+                $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
+                $sum_promise = (count($pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
+                $balance = round($bill_account->balance*$curs,2);
+                $sum_promise += $balance < 0 ? -$balance : 0;
+
+                $blank_array['sum_promise'] = $sum_promise;
+                $blank_array["finish"] += $sum_promise;
             } else {
                 $blank_array['sum_promise'] = 0;
             }
 
+            if($nds){
+                $blank_array["finish"] = $blank_array['finish'] * 1.2;
+                $blank_array["nds"] = $blank_array['finish'] * 0.2;;
+            } else {
+                $blank_array["nds"] = 0;
+            }
+
             $blanks_items .= $this->renderPartial('tmpl/bill-item', $blank_array);
         }
+        $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds]);
 
         return $blanks_items;
     }

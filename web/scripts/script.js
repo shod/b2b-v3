@@ -151,11 +151,20 @@ function get_blanks(type){
         type: 'get',
         dataType: 'html',
         success: function (html) {
-            $('#subscriptions').html(html);
+            json = JSON.parse(html);
+            $('#subscriptions').html(json.html);
+            $('#te').html(json.te);
         },
         error: function () {
             console.log('ajax error');
         }
+    });
+}
+
+function change_href(cl,add_name, add_value){
+    $( "." + cl ).each(function() {
+        href = $( this ).attr('href');
+        $( this ).attr('href', href+'&'+add_name+'='+add_value);
     });
 }
 
