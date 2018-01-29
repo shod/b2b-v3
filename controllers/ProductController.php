@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\PriceService;
 use app\helpers\SiteService;
 use app\models\Seller;
 use Yii;
@@ -20,6 +21,7 @@ class ProductController extends Controller
     public $seller_id;
     public $offset = 100;
     public $seller_curs;
+    public $cnt_all = 0;
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
@@ -76,6 +78,48 @@ class ProductController extends Controller
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
         $json = json_encode($vars);
         echo $json;
+    }
+
+    public function actionPriceDownload(){
+        PriceService::getCsv($this->seller_id, 'my_price');
+        exit;
+    }
+
+    public function actionPriceTemplate(){
+        $catalog_id = Yii::$app->request->post("catalog_id");
+        PriceService::getCsv($this->seller_id, 'price_template', $catalog_id);
+        exit;
+    }
+
+    public function actionPriceImport(){
+        if (Yii::$app->request->post("type") == "file") {
+            $file = $_FILES["file"];
+            if ($file["tmp_name"] != "none" && $file["name"] != '') {
+                $filename = "{$file["name"]}.{$this->seller_id}";
+
+                $filename = SiteService::transliterate($filename);
+                $filename_to = "price/{$filename}";
+
+                if (file_exists($filename_to))
+                    unlink($filename_to);
+
+                if (move_uploaded_file($file["tmp_name"], $filename_to)) {
+                    $url = "http://b2b.migom.by/files/prices/{$filename}";
+                }
+            }
+        }
+        else
+        {
+            $url = Yii::$app->request->post("url");
+        }
+
+        if ($url) {
+            $url = rawurlencode($url);
+            $check_delete = Yii::$app->request->post("check_delete");
+            file_get_contents("http://www.pit.by/rmp_migom/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
+
+            exit;
+        }
     }
 
     public function actionSaveProducts(){
@@ -252,8 +296,14 @@ class ProductController extends Controller
 
     public function actionPrice()
     {
-        return $this->render('price');
+        $vars["catalog_options"] = $this->getCatalogOptionsForExport();
+        $vars["cnt_all"] = $this->cnt_all;
+        $vars["results"] = $this->getImportResultsHtml();
+        $vars['seller_id'] = $this->seller_id;
+        $vars['md5_seller'] = md5($this->seller_id . "panda");
+        return $this->render('price', $vars);
     }
+
 
     public function actionProcess(){
         $action = Yii::$app->request->get("action");
@@ -265,6 +315,108 @@ class ProductController extends Controller
                 break;
             // TODO: transactions
         }
+    }
+
+    private function getCatalogOptionsForExport(){
+        $res = \Yii::$app->db->createCommand("
+			select cs.catalog_id as id, count(p.id) as cnt
+			from products p
+			inner join catalog_subject cs on (cs.subject_id=p.section_id)
+			where p.is_archive = 0
+			group by cs.catalog_id
+			")->queryAll();
+        $data = array();
+        foreach ((array)$res as $r)
+        {
+            $data[$r["id"]] = $r["cnt"];
+        }
+
+        $html = '';
+        $res = \Yii::$app->db->createCommand("select * from bill_catalog where id in (select catalog_id from bill_catalog_seller where seller_id={$this->seller_id}) order by position")->queryAll();
+        foreach ((array)$res as $r)
+        {
+            $html_iterate = "";
+            $cnt = 0;
+            $res1 = \Yii::$app->db->createCommand("
+				select id, name
+				from catalog c
+				where id in (
+					select catalog_id from catalog_subject where subject_id in (
+						select section_id from bill_catalog_section where catalog_id={$r["id"]}
+					) and f_main=1
+				) and hidden=0
+				order by name
+				")->queryAll();
+            foreach ((array)$res1 as $r1)
+            {
+                $cnt1 = isset($data[$r1["id"]]) ? $data[$r1["id"]] : "";
+                //$selected = ($r1["id"] == $this->catalog_id) ? "selected" : "";
+                $selected = "";
+                $html_iterate .= "<option value=\"{$r1["id"]}\"{$selected}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r1["name"]} ({$cnt1})</option>";
+                $cnt += $cnt1;
+            }
+
+            $html .= "<option /><option value=\"bill_{$r["id"]}\">{$r["name"]} ({$cnt})</option>{$html_iterate}";
+            $this->cnt_all += $cnt;
+        }
+
+        return $html;
+    }
+
+    private function getImportResultsHtml(){
+        $res_data = file_get_contents("http://pit.by/rmp_migom/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
+        $res_data = unserialize($res_data);
+
+        $res = isset($res_data[$this->seller_id]) ? $res_data[$this->seller_id] : "";
+        $url = "";
+        $status = "";
+
+        if(is_array($res)){
+            if (($res["module"] == "price_import_sliv") && ($res["message"] == '')) {
+                $cnt = $this->get_cnt();
+                $status = "<font color=\"#009900\">Обновлен</font>";
+                $status .= "<br> Всего позиций: <b>{$cnt["all"]}</b><br>Добавлено предложений: <b>{$cnt["ok"]}</b>";
+            }
+            elseif ($res["error"] == 0 && $res["message"]<>'')
+            {
+                $status = $res["message"];
+            }
+            elseif ($res["error"] == 0)
+            {
+                $status = "в процессе...";
+            }
+            else
+            {
+                $message = htmlspecialchars($res["message"]);
+                $cdate = $res["cdate"];
+                $status = "<font color=\"#ff0000\" title=\"{$message}\">Произошла ошибка ({$message}).</font> {$cdate} <br/> Проверьте корректность формата прайса и попробуйте импорт еще раз. Если это не поможет, обратитесь к администратору проекта.";
+            }
+
+
+            if ($res["url"]){
+                if (strpos($res["url"], "b2b.migom.by/files/prices") === false) {
+                    $url = "<b>URL:</b> {$res["url"]}";
+                }
+                else
+                {
+                    $url = "<b>Файл:</b> " . basename($res["url"], ".{$this->seller_id}");
+                }
+            }
+
+        }
+
+        if(!empty($status)){
+            $status = 'Статус: '.$status;
+        }
+
+
+       $html = $this->renderPartial('tmpl/import-results', array(
+            "date_update" => $this->getDateUpdate(),
+            "url" => $url,
+            "status" => $status
+        ));
+
+        return $html;
     }
 
     private function getBrandOptions($catalog_id, $brand=0){

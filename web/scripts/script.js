@@ -151,6 +151,8 @@ $( document ).ready(function() {
 
     page_addition();
 
+    $("#frm_import input[name=url]").focus(function(){$("#frm_import input:radio").val(["url"])})
+    $("#frm_import label.file-label").click(function(){$("#frm_import input:radio").val(["file"])})
 
 
 });

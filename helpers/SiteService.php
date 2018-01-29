@@ -285,4 +285,19 @@ class SiteService {
         return $pages;
     }
 
+    public static function transliterate($st){
+        $st = strtr($st, "абвгдежзийклмнопрстуфыэАБВГДЕЖЗИЙКЛМНОПРСТУФЫЭ", "abvgdegziyklmnoprstufieABVGDEGZIYKLMNOPRSTUFIE"
+        );
+        $st = strtr($st, array(
+            'ё' => "yo", 'х' => "h", 'ц' => "ts", 'ч' => "ch", 'ш' => "sh",
+            'щ' => "shch", 'ъ' => '', 'ь' => '', 'ю' => "yu", 'я' => "ya",
+            'Ё' => "Yo", 'Х' => "H", 'Ц' => "Ts", 'Ч' => "Ch", 'Ш' => "Sh",
+            'Щ' => "Shch", 'Ъ' => '', 'Ь' => '', 'Ю' => "Yu", 'Я' => "Ya",
+        ));
+        // Remove any remaining non-safe characters
+        $st = preg_replace('/[^0-9A-Za-z_.-]/', '', $st);
+        $st = strtolower($st);
+        return $st;
+    }
+
 }

@@ -15,6 +15,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <div style="background-color:#b8f8b8">16 - <a href="/reviews">Отзывы</a></div>
             <div style="background-color:#b8f8b8">22 - <a href="/statistic">Статистика</a></div>
             <div style="background-color:#b8f8b8">23 - <a href="/statistic/month">Статистика по месяцам</a></div>
+            <div style="background-color:#b8f8b8">14 - <a href="/product/price">Товары работа с прайсами</a></div>
 
             <div>1 - <a href="/auction">Аукционы</a></div>
             <div>2 - <a href="/auction/add">Аукционы добавление</a></div>
@@ -24,7 +25,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <div>8 - <a href="/context-adv/blacklist">Контекстная реклама работа с разделами</a></div>
             <div>9. <a href="/info">Информационная страница</a></div>
             <div>10 - <a href="/news">Страница новостей</a></div>
-            <div>14 - <a href="/product/price">Товары работа с прайсами</a></div>
+
             <div>15 - <a href="/product/tariff">Калькулятор тарифов</a></div>
             <div>17. <a href="/seller">Продавец сводная информация</a></div>
             <div>18 - <a href="/seller/settings">Продавец настройки</a></div>
