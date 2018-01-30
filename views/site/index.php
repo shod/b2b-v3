@@ -1,7 +1,7 @@
 <?php
 $this->title = "Добро пожаловать в b2b.migom.by!";
 ?>
-<?= Yii::$app->user->identity->getId() ?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-block">

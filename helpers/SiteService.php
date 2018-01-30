@@ -123,6 +123,11 @@ class SiteService {
         return $res;
     }
 
+    public static function getMonthByIndex($m){
+        $month = array(1 => 'январь', 'февраль', 'март', 'апрел', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь');
+        return $month[$m];
+    }
+
     public static function starIterate($cnt_star){
         $round_cnt_star = floor($cnt_star);
         $isHalfExist = ($cnt_star > $round_cnt_star );

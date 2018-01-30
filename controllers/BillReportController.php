@@ -4,12 +4,15 @@ namespace app\controllers;
 
 use app\helpers\NumberService;
 use app\helpers\SiteService;
+use app\models\BillTransaction;
+use app\models\BillTransactionType;
 use app\models_ex\BillAccount;
 use app\models_ex\Member;
 use app\models\Seller;
 use app\models\SellerInfo;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -236,13 +239,286 @@ class BillReportController extends Controller
         exit;
     }
 
+    public function actionAllReport(){
+        $json["header"] = 'Общая статистика';
+        $json["body"] = $this->getReportDataAll(); //$this->renderPartial('tmpl/analysis_access');
+        echo Json::encode($json);
+    }
+
     public function actionIndex()
     {
-        return $this->render('index');
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $vars["month_options"] = $this->getMonthOptions($seller);
+        $vars["data"] = $this->getTransactionsHtml($seller);
+        $vars["date_from"] = Yii::$app->request->get("date_from");
+        $vars["date_to"] = Yii::$app->request->get("date_to");
+        return $this->render('index', $vars);
     }
 
     public function actionAkt()
     {
         return $this->render('akt');
+    }
+
+    private function getReportDataAll(){
+        $obj = Seller::find()->where(['id' => $this->seller_id])->one();
+        $account_id = $obj->bill_account_id;
+        $m = Yii::$app->request->get("m");
+        if(isset($m)){
+            $m = explode("_", $m);
+            $mm = "{$m[0]}_{$m[1]}";
+        }
+        $date_from = Yii::$app->request->get("date_from");
+        $date_to = Yii::$app->request->get("date_to");
+
+        if ($date_from && $date_to){
+            $sql_m = " and date_begin BETWEEN '{$date_from}' AND '{$date_to} 23:59:59'";
+        } else {
+            if(count($m) > 0)
+            {
+                $sql_m = " and YEAR(date_begin)={$m[0]} and MONTH(date_begin)={$m[1]}";
+            }
+            else
+            {
+                $res = \Yii::$app->db->createCommand("SELECT YEAR(date_begin) as y, MONTH(date_begin) as m FROM bill_transaction WHERE account_id={$account_id} order by date_begin desc limit 1")->queryAll();
+                if (count($res))
+                {
+                    $y = $res[0]["y"];
+                    $m = $res[0]["m"];
+                }
+                else
+                {
+                    $y = date("Y");
+                    $m = date("m");
+                }
+                $sql_m = " and (YEAR(date_begin - INTERVAL 1 DAY)={$y} and MONTH(date_begin - INTERVAL 1 DAY)={$m})";
+            }
+        }
+
+        $res = \Yii::$app->db->createCommand("
+			SELECT
+            if(vbc.main=1, 'Основной', 'Бонусный') as acc_name,
+             bt.type,
+             SUM(bt. VALUE) as sum_all,
+             (select name from bill_transaction_type as btt where btt.code = bt.type) as name
+            FROM
+             bill_transaction AS bt
+            , v_bill_account_owner as vbc
+            WHERE
+             (
+              vbc.account_id = {$account_id}  
+             )
+            AND bt.account_id = vbc.id
+            {$sql_m}
+            AND NOT (date_end IS NULL)
+            and type in ('down_auction','down_catalog','down_adv_spec','down_banner','down_click','down_spec')
+            GROUP BY
+             vbc.main,bt.type
+            order by vbc.main desc, bt.type
+		")->queryAll();
+        $html = "<table class='table'><tr><th>Счет</th><th>Транзакция</th><th>Сумма списаний</th></tr>";
+        foreach ((array) $res as $r)
+        {
+            $r['sum_all'] = -1 * $r['sum_all'];
+            $html .= "<tr><td>{$r['acc_name']}</td><td>{$r['name']}</td><td>{$r['sum_all']} TE</td></tr>";
+        }
+        $html .= "</table>";
+        return $html;
+    }
+
+    private function getMonthOptions($seller){
+        $html = '';
+        $m_value = Yii::$app->request->get("m");
+        $res = \Yii::$app->db->createCommand("
+			SELECT DISTINCT YEAR(date_begin) as y, MONTH(date_begin) as m
+			FROM bill_transaction
+			where account_id={$seller->bill_account_id} or account_id in (select id from bill_account where owner_id={$seller->bill_account_id})
+			order by y desc, m desc limit 2
+		")->queryAll();
+        foreach ((array) $res as $r)
+        {
+            $m = SiteService::getMonthByIndex($r["m"]);
+            $arr_month[] = $value = "{$r["y"]}_{$r["m"]}";
+            $selected = $m_value == $value ? " selected" : "";
+            $html .= "<option value=\"{$value}\"{$selected}>{$m} {$r["y"]}</option>";
+        }
+        return $html;
+    }
+
+    private function getTransactionsHtml($seller){
+        $m = Yii::$app->request->get("m");
+        if(isset($m)){
+            $m = explode("_", $m);
+            $mm = "{$m[0]}_{$m[1]}";
+        }
+        $date_from = Yii::$app->request->get("date_from");
+        $date_to = Yii::$app->request->get("date_to");
+
+        if ($date_from && $date_to){
+            $sql_m = " and ((type in ('down_catalog') and (date_begin - INTERVAL 1 DAY) BETWEEN '{$date_from}' AND '{$date_to} 23:59:59') OR (not(type in ('down_catalog')) and date_begin BETWEEN '{$date_from}' AND '{$date_to} 23:59:59'))";
+        } else {
+            if(isset($mm))
+            {
+                $sql_m = " and YEAR(date_begin)={$m[0]} and MONTH(date_begin)={$m[1]}";
+            }
+            else
+            {
+                $res = \Yii::$app->db->createCommand("SELECT YEAR(date_begin) as y, MONTH(date_begin) as m FROM bill_transaction WHERE account_id={$seller->bill_account_id} order by date_begin desc limit 1")->queryAll();
+                if (count($res))
+                {
+                    $y = $res[0]["y"];
+                    $m = $res[0]["m"];
+                }
+                else
+                {
+                    $y = date("Y");
+                    $m = date("m");
+                }
+                $sql_m = " and ((type in ('down_catalog') and YEAR(date_begin - INTERVAL 1 DAY)={$y} and MONTH(date_begin - INTERVAL 1 DAY)={$m}) OR (not(type in ('down_catalog')) and YEAR(date_begin)={$y} and MONTH(date_begin)={$m}))";
+            }
+        }
+
+        $res = \Yii::$app->db->createCommand("
+			select *, IF(type in ('down_catalog','back_down_catalog'), date_begin - INTERVAL 1 DAY, date_begin - INTERVAL 1 HOUR) as date_begin
+			from bill_transaction
+			where (account_id={$seller->bill_account_id} or account_id in (select id from bill_account where owner_id={$seller->bill_account_id})) {$sql_m} and not(date_end is null)
+			order by date_end desc, id desc
+		")->queryAll();
+
+        $data = array();
+        foreach ((array) $res as $r)
+        {
+            $key = date("d.m.Y", strtotime($r["date_begin"]));
+            if (!isset($data[$key]))
+                $data[$key] = array();
+            $data[$key][] = $r;
+        }
+
+        $html = "";
+        foreach ((array) $data as $day => $r_day)
+        {
+            $n = count($r_day);
+            $flag_first = true;
+            $html_data = "";
+            $sum = $sum_bonus = $balance = $balance_bonus = 0.0;
+            foreach ((array) $r_day as $r)
+            {
+                $is_bonus = ($r["account_id"]!=$seller->bill_account_id);
+
+                $obj = BillTransaction::find()->where(['id' => $r['id']])->one();
+                $obj_type = BillTransactionType::find()->where(['code' => $obj->type])->one();
+
+                $desc = $obj_type->name;
+                if ($error = $obj->error)
+                {
+                    $desc = "{$desc} <br /><b>{$error}</b>";
+                    $class = "class=\"error\"";
+                }
+                elseif ($obj->value > 0)
+                    $class = "class=\"up\"";
+
+                $time = in_array($obj->type, array('down_catalog','back_down_catalog')) ? '' : date('H:i', strtotime($obj->date_begin));
+
+                if ($flag_first)
+                {
+                    $d = strtotime($day);
+                    $date_day = date("d.m.Y", mktime(0, 0, 0, date("n", $d), date("j", $d), date("Y", $d)));
+
+                    if ($d<=mktime(0,0,0,12,7,2011))
+                        $date_day_popup = date("d.m.Y", mktime(0, 0, 0, date("n", $d), date("j", $d)-1, date("Y", $d)));
+                    else
+                        $date_day_popup = date("d.m.Y", mktime(0, 0, 0, date("n", $d), date("j", $d), date("Y", $d)));
+
+                    $day_html = $flag_first ? "<td rowspan=\"{$n}\" valign=\"top\" class=\"day\"><span class='badge badge-primary-outline' style='font-size: 14px;'>{$date_day}</span></td>" : "";
+                }
+                else
+                {
+                    $day_html = "";
+                }
+
+                if ($is_bonus)
+                {
+                    $balance_bonus = $obj->balance_before;
+                }
+                else
+                {
+                    $balance = $obj->balance_before;
+                }
+
+                $value = $obj->value;
+                $balance_before = round($obj->balance_before,2);
+                if ($is_bonus)
+                {
+                    $value .= " (бонус)";
+                    $balance_before .= " (бонус)";
+                }
+                $href = "";
+
+                if ($r["type"]=="down_auction")
+                {
+                    //$href = $whirl->parms->create_url(array("block"=>"report_auction", "d"=>$date_day_popup, "c"=>$r["object_id"]));
+                    $value = "<a href=\"{$href}\" class=\"popup_report\">{$value}</a>";
+                }
+                if ($r["type"]=="down_spec")
+                {
+                    //$href = $whirl->parms->create_url(array("block"=>"report_spec", "d"=>$date_day_popup, "c"=>$r["object_id"]));
+                    $value = "<a href=\"{$href}\" class=\"popup_report\">{$value}</a>";
+                }
+                if ($r["type"]=="down_adv_spec")
+                {
+                    //$href = $whirl->parms->create_url(array("block"=>"report_adv_spec", "d"=>$date_day_popup, "c"=>$r["object_id"]));
+                    $value = "<a href=\"{$href}\" class=\"popup_report\">{$value}</a>";
+                }
+
+                if (in_array($r["type"], array('info_back_auction','info_back_adv_spec')))
+                {
+                    if ($is_bonus)
+                        $desc = "{$desc}: <b>{$obj->data['value']} (бонус)</b>";
+                    else
+                        $desc = "{$desc}: <b>{$obj->data['value']}</b>";
+                    $value = "";
+                    $balance_defore = "";
+                    $time = "";
+                }
+
+                $html_data .= $this->renderPartial("tmpl/report-row", array(
+                "class" => isset($class) ? $class : "",
+                "day_html" => $day_html,
+                "desc" => $desc,
+                "balance_before" => isset($balance_defore) ? $balance_before : "",
+                "value" => $value,
+                'time' => $time
+            )) ;
+
+
+                $flag_first = false;
+                if (!in_array($r["type"], array('info_back_auction','info_back_adv_spec')))
+                {
+                    if ($is_bonus)
+                    {
+                        $sum_bonus += $obj->value;
+                    }
+                    else
+                    {
+                        $sum += $obj->value;
+                    }
+                }
+            }
+
+            $d = strtotime($day);
+
+            $balance = round($balance + $sum, 2);
+            $balance_bonus = round($balance_bonus + $sum_bonus, 2);
+            $sum = round($sum, 2);
+            $sum_bonus = round($sum_bonus, 2);
+
+            $html .= $this->renderPartial("tmpl/report-day", array(
+                "data" => $html_data,
+                "sum" => "{$sum}<br />{$sum_bonus}(бонус)",
+                "balance" => "{$balance}<br />{$balance_bonus}(бонус)"
+            ));
+        }
+
+        return $html;
     }
 }
