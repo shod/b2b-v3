@@ -12,6 +12,13 @@ $( document ).ready(function() {
     var $ajaxModalLinks = $('[data-toggle="ajaxModal"]');
 
     $ajaxModalLinks.on('click', function (e) {
+        $("[data-dashboard-widget]").LoadingOverlay("show", {
+            color: 'rgba(255, 255, 255, 0.8)',
+            image: '',
+            fontawesome : "la la-refresh la-spin",
+            zIndex: 11
+
+        });
         var $this = $(this),
             $remoteUrl = $this.data('remote') || $this.attr('href'),
             $modal = $('<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="modal-title"></h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="la la-close"></span></button></div><div class="modal-body" id="modal-body"></div></div></div></div>');
@@ -24,9 +31,11 @@ $( document ).ready(function() {
                 json = JSON.parse(html);
                 $modal.find('.modal-body').html(json.body);
                 $modal.find('.modal-title').html(json.header);
+                $("[data-dashboard-widget]").LoadingOverlay("hide");
                 $modal.modal('show');
             },
             error: function () {
+                $("[data-dashboard-widget]").LoadingOverlay("hide");
                 console.log('modal ajax error');
             }
         });
@@ -156,6 +165,22 @@ $( document ).ready(function() {
 
 
 });
+
+function get_report_data_more(type){
+    m = $('#select_m').val();
+    date_from = $('#date_from').val();
+    date_to = $('#date_to').val();
+    $("span.btn-sm").removeClass("btn-success");
+    $("#"+type).addClass("btn-success");
+    $.ajax({
+        method: "GET",
+        url: "/bill-report/get-more-data?m="+ m+"&type="+type+"&date_from=" + date_from + "&date_to=" + date_to
+    })
+        .done(function(msg){
+            $("#more_res").html(msg+"<br><a href='/bill-report/get-more-data-xlsx/?m="+ m+"&date_from="+date_from+"&date_to="+ date_to +"&type="+type+"' target='_blank'>Скачать</a>");
+        });
+    //$('#myModal').modal();
+}
 
 function get_blanks(type){
     $.ajax({

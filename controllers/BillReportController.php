@@ -245,6 +245,96 @@ class BillReportController extends Controller
         echo Json::encode($json);
     }
 
+    public function actionGetMoreData(){
+        $html = $this->getMoreData();
+        echo $html;
+        exit;
+    }
+
+    public function actionGetMoreDataXlsx(){
+        $html = $this->getMoreData();
+
+        header('Content-Type: text/html; charset=utf-8');
+        header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Cache-Control: no-store, no-cache, must-revalidate');
+        header('Cache-Control: post-check=0, pre-check=0', FALSE);
+        header('Pragma: no-cache');
+        header('Content-transfer-encoding: binary');
+        header("Content-Disposition: attachment; filename=report-{$this->seller_id}.xls");
+        header('Content-Type: application/x-unknown');
+
+        echo $html;
+        exit;
+    }
+
+    public function actionGetReportAuction(){
+        $d = strtotime(Yii::$app->request->get("d"));
+        $c = intval(Yii::$app->request->get("c"));
+
+        $res = \Yii::$app->db->createCommand("SELECT sum(VIEW) AS view, cost, sum(VIEW * cost) / 1000 AS s 
+				FROM migombyha.product_seller_stat, ( SELECT p.id FROM catalog_subject AS cs, products AS p WHERE cs.catalog_id = {$c} AND p.section_id = cs.subject_id ) AS selp 
+				WHERE seller_id={$this->seller_id} and date={$d} AND cost > 0 AND product_id = selp.id GROUP BY cost ORDER BY cost;
+		")->queryAll();
+
+        $html = "<table class='table'><tr><th>Кол-во показов</th><th>Ставка</th><th>Списалось</th></tr>";
+
+        $view_all = $cost_all = $sum_all = 0;
+
+        foreach((array)$res as $r)
+        {
+            $r["s"] = round($r["s"], 4);
+            $html .= "<tr><td>{$r["view"]}</td><td>{$r["cost"]}</td><td>{$r["s"]}</td></tr>";
+
+            $view_all += $r['view'];
+            $sum_all += $r['s'];
+        }
+        $cost_all = $view_all ? round($sum_all / $view_all * 1000, 4) : 0;
+
+        $html .= '<tr><th colspan=3>Итого</th></tr>';
+        $html .= "<tr><th>{$view_all}</th><th>{$cost_all}</th><th>{$sum_all}</th></tr>";
+        $html .= "</table>";
+
+        $json["header"] = 'Данные аукциона';
+        $json["body"] = $html; //$this->renderPartial('tmpl/analysis_access');
+        echo Json::encode($json);
+
+    }
+
+    public function actionGetReportSpec(){
+        $d = strtotime(Yii::$app->request->get("d"));
+        $c = intval(Yii::$app->request->get("c"));
+
+        $res = \Yii::$app->db->createCommand("
+			select sum(view) as view, cost, sum(view*cost)/1000 as s
+			from stat_spec
+			where seller_id={$this->seller_id} and date={$d} and product_id in (select id from products where section_id in (select subject_id from catalog_subject where catalog_id={$c}))
+			group by cost
+			order by cost
+		")->queryAll();
+
+        $html = "<table class='table'><tr><th>Кол-во показов</th><th>Ставка</th><th>Списалось</th></tr>";
+        $view_all = $cost_all = $sum_all = 0;
+
+        foreach((array)$res as $r)
+        {
+            $r["s"] = round($r["s"], 4);
+            $html .= "<tr><td>{$r["view"]}</td><td>{$r["cost"]}</td><td>{$r["s"]}</td></tr>";
+
+            $view_all += $r['view'];
+            $sum_all += $r['s'];
+        }
+
+        $cost_all = $view_all ? round($sum_all / $view_all * 1000, 4) : 0;
+
+        $html .= '<tr><th colspan=3>Итого</th></tr>';
+        $html .= "<tr><th>{$view_all}</th><th>{$cost_all}</th><th>{$sum_all}</th></tr>";
+        $html .= "</table>";
+        $json["header"] = 'Данные спецпредложений';
+        $json["body"] = $html;
+        echo Json::encode($json);
+    }
+
     public function actionIndex()
     {
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
@@ -258,6 +348,92 @@ class BillReportController extends Controller
     public function actionAkt()
     {
         return $this->render('akt');
+    }
+
+    private function getMoreData(){
+        $obj = Seller::find()->where(['id' => $this->seller_id])->one();
+        $account_id = $obj->bill_account_id;
+        $m = Yii::$app->request->get("m");
+        $type = Yii::$app->request->get("type");
+        if(isset($m)){
+            $m = explode("_", $m);
+        }
+
+        $date_from = Yii::$app->request->get("date_from");
+        $date_to = Yii::$app->request->get("date_to");
+
+        if ($date_from && $date_to){
+            $sql_m = " and date_begin BETWEEN '{$date_from}' AND '{$date_to} 23:59:59'";
+        } else {
+            if(count($m) > 0)
+            {
+                $sql_m = " and YEAR(date_begin)={$m[0]} and MONTH(date_begin)={$m[1]}";
+            }
+            else
+            {
+                $res = \Yii::$app->db->createCommand("SELECT YEAR(date_begin) as y, MONTH(date_begin) as m FROM bill_transaction WHERE account_id={$this->account_id} order by date_begin desc limit 1")->queryAll();
+                if (count($res))
+                {
+                    $y = $res[0]["y"];
+                    $m = $res[0]["m"];
+                }
+                else
+                {
+                    $y = date("Y");
+                    $m = date("m");
+                }
+                $sql_m = " and (YEAR(date_begin - INTERVAL 1 DAY)={$y} and MONTH(date_begin - INTERVAL 1 DAY)={$m})";
+            }
+        }
+
+        $sql = "SELECT vcs.name as catalog, vcs.catalog_id, vbc.main,
+            if(vbc.main=1, 'Основной', 'Бонусный') as acc_name,
+             bt.type,
+             SUM(bt. VALUE) as sum_all,
+             (select name from bill_transaction_type as btt where btt.code = bt.type) as name
+            FROM
+             bill_transaction AS bt
+            , v_bill_account_owner as vbc,
+            v_catalog_sections as vcs
+            WHERE
+             (
+              vbc.account_id = {$account_id}  
+             )
+            AND bt.account_id = vbc.id and vcs.catalog_id = bt.object_id
+            {$sql_m}
+            AND NOT (date_end IS NULL)
+            and type='{$type}'
+            GROUP BY
+             vbc.main,bt.type, bt.object_id
+            order by vbc.main desc, bt.type";
+        //echo "<p>{$sql}</p>";
+
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+        $html = "<table class='table'><tr><th>&nbsp;</th><th>Бонусный</th><th>Основной</th></tr>";
+        $array_catalog = array();
+        foreach ((array) $res as $r)
+        {
+            $r['sum_all'] = -1 * $r['sum_all'];
+            //$html .= "<tr><td>{$r['acc_name']}</td><td>{$r['name']}</td><td>{$r['sum_all']}</td></tr>";
+            $array_catalog[$r['catalog_id']]['name'] = $r['name'];
+            $array_catalog[$r['catalog_id']]['catalog'] = $r['catalog'];
+            if ($r['main'] == 1){
+                $array_catalog[$r['catalog_id']]['sum_main'] = $r['sum_all'];
+            } else {
+                $array_catalog[$r['catalog_id']]['sum_bonus'] = $r['sum_all'];
+            }
+        }
+        foreach ((array) $array_catalog as $r)
+        {
+            $sum_bonus = isset($r['sum_bonus']) ? str_replace('.', ',', $r['sum_bonus']) : 0;
+            $sum_main = isset($r['sum_main']) ? str_replace('.', ',', $r['sum_main']) : 0;
+            $html .= "<tr><td>{$r['catalog']}</td><td>{$sum_bonus} TE</td><td>{$sum_main} TE</td></tr>";
+        }
+
+
+        $html .= "</table>";
+
+        return $html;
     }
 
     private function getReportDataAll(){
@@ -322,7 +498,11 @@ class BillReportController extends Controller
             $r['sum_all'] = -1 * $r['sum_all'];
             $html .= "<tr><td>{$r['acc_name']}</td><td>{$r['name']}</td><td>{$r['sum_all']} TE</td></tr>";
         }
-        $html .= "</table>";
+        $html .= "</table><div>
+                            <p>Подробнее по разделам: </p>
+                            <span id='down_auction' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_auction');\">Аукционы</span> <span id='down_spec' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_spec');\">Спецпредложения</span> <span id='down_adv_spec' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_adv_spec');\">Баннерные спецпредложения</span>
+                        </div>
+                        <div id='more_res'></div>";
         return $html;
     }
 
@@ -456,18 +636,15 @@ class BillReportController extends Controller
 
                 if ($r["type"]=="down_auction")
                 {
-                    //$href = $whirl->parms->create_url(array("block"=>"report_auction", "d"=>$date_day_popup, "c"=>$r["object_id"]));
-                    $value = "<a href=\"{$href}\" class=\"popup_report\">{$value}</a>";
+                    $value = "<a data-remote=\"/bill-report/get-report-auction/?d={$date_day_popup}&c={$r["object_id"]}\" data-toggle=\"ajaxModal\" data-target=\".bd-example-modal-lg\">{$value}</a>";
                 }
                 if ($r["type"]=="down_spec")
                 {
-                    //$href = $whirl->parms->create_url(array("block"=>"report_spec", "d"=>$date_day_popup, "c"=>$r["object_id"]));
-                    $value = "<a href=\"{$href}\" class=\"popup_report\">{$value}</a>";
+                    $value = "<a data-remote=\"/bill-report/get-report-spec\?d={$date_day_popup}&c={$r["object_id"]}\" data-toggle=\"ajaxModal\" data-target=\".bd-example-modal-lg\" >{$value}</a>";
                 }
                 if ($r["type"]=="down_adv_spec")
                 {
-                    //$href = $whirl->parms->create_url(array("block"=>"report_adv_spec", "d"=>$date_day_popup, "c"=>$r["object_id"]));
-                    $value = "<a href=\"{$href}\" class=\"popup_report\">{$value}</a>";
+                    $value = "<a data-remote=\"/bill-report/get-report-adv-spec\?d={$date_day_popup}&c={$r["object_id"]}\" data-toggle=\"ajaxModal\" data-target=\".bd-example-modal-lg\" >{$value}</a>";
                 }
 
                 if (in_array($r["type"], array('info_back_auction','info_back_adv_spec')))
@@ -477,7 +654,7 @@ class BillReportController extends Controller
                     else
                         $desc = "{$desc}: <b>{$obj->data['value']}</b>";
                     $value = "";
-                    $balance_defore = "";
+                    $balance_before = "";
                     $time = "";
                 }
 
@@ -485,7 +662,7 @@ class BillReportController extends Controller
                 "class" => isset($class) ? $class : "",
                 "day_html" => $day_html,
                 "desc" => $desc,
-                "balance_before" => isset($balance_defore) ? $balance_before : "",
+                "balance_before" => isset($balance_before) ? $balance_before : "",
                 "value" => $value,
                 'time' => $time
             )) ;
