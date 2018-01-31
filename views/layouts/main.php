@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title>B2B.migom.by <?= Html::encode($this->title) ?></title>
     <style>
         @media only screen and (max-width: 780px) {
             a:not(.btn-danger) > .ks-action {

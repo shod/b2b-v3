@@ -27,7 +27,7 @@
     <div class="col-lg-6">
         <div class="card" style="height: 100%">
             <div class="card-block">
-                <?= $text; ?>
+                <?= isset($text) ? $text : ""; ?>
                 <h4>Максимальная сумма <?= $day_down; ?> руб. </h4>
                 <form class="form-inline">
                     <div class="input-group" style="width: 100%">
