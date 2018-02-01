@@ -40,6 +40,7 @@ class AppAsset extends AssetBundle
         'web/styles/site.css',
         'web/styles/pricing/subscriptions.min.css',
         'web/styles/pickmeup.min.css',
+        'web/styles/chosen.css',
         //'web/styles/widgets/payment.min.css',
     ];
     public $js = [
@@ -64,6 +65,7 @@ class AppAsset extends AssetBundle
         'web/libs/count-up/count-up.min.js',
         'web/scripts/kosmo.widget-controls.min.js',
         'web/scripts/jquery.pickmeup.min.js',
+        'web/scripts/chosen.jquery.min.js',
         'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
         'https://code.highcharts.com/highcharts.js',
     ];
