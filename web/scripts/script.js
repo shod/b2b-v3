@@ -307,8 +307,33 @@ $( document ).ready(function() {
         return true;
     })
 
+    if($('.click_checkbox:checked').length == $('.click_checkbox').length){
+        $('#all_check').prop("checked",true);
+    }
 
+    if(!$('#check_inp').prop( "checked" )){
+        $(".mydiv").addClass("disabledbutton");
+    }
 });
+
+function show_hide(obj){
+    if(!$(obj).prop( "checked" )){
+        $(".mydiv").addClass("disabledbutton");
+    } else {
+        $(".mydiv").removeClass("disabledbutton");
+    }
+}
+
+function check_all(checked){
+    $('.click_checkbox').prop("checked",checked);
+}
+function verify_chboxes(){
+    if($('.click_checkbox:checked').length == $('.click_checkbox').length){
+        $('#all_check').prop("checked",true);
+    } else {
+        $('#all_check').prop("checked",false);
+    }
+}
 
 function edit_delivery(id) {
     $.ajax({

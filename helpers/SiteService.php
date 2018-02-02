@@ -305,4 +305,11 @@ class SiteService {
         return $st;
     }
 
+    public static function set_bitvalue($data, $setting_bit, $value){
+        if(empty($value)){
+            $value = 0;
+        }
+        return $data = $data & ~ (int)$setting_bit | ($value * $setting_bit);
+    }
+
 }

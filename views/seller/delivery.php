@@ -1,12 +1,5 @@
 <?php
 $this->title = "Условия доставки";
-$this->registerJs(
-    "
-    $(document).ready(function () {
-		
-    });
-    "
-);
 ?>
 
 <div class="row" data-dashboard-widget>

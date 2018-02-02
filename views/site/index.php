@@ -24,24 +24,23 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <div class="done">6 - <a href="/balance/report">Баласн Финансовый отчет</a></div>
             <div class="done">4 - <a href="/balance/promise">Баланс обещаный платех</a></div>
             <div class="done">19 - <a href="/seller/delivery">Продавец информация о доставке</a></div>
+            <div class="done">7 - <a href="/context-adv">Контекстная реклама добавление</a></div>
+            <div class="done">8 - <a href="/context-adv/blacklist">Контекстная реклама работа с разделами</a></div>
 
             <div>1 - <a href="/auction">Аукционы</a></div>
             <div>2 - <a href="/auction/add">Аукционы добавление</a></div>
 
+            <div>20 - <a href="/spec">Спецпредложения</a></div>
+            <div>21 - <a href="/spec/add">Спецпредложения добавление</a></div>
 
-            <div>7 - <a href="/context-adv">Контекстная реклама добавление</a></div>
-            <div>8 - <a href="/context-adv/blacklist">Контекстная реклама работа с разделами</a></div>
 
-            <div>9. <a href="/info">Информационная страница</a></div>
-            <div>10 - <a href="/news">Страница новостей</a></div>
 
             <div>15 - <a href="/product/tariff">Калькулятор тарифов</a></div>
             <div>17. <a href="/seller">Продавец сводная информация</a></div>
             <div>18 - <a href="/seller/settings">Продавец настройки</a></div>
 
-
-            <div>20 - <a href="/spec">Спецпредложения</a></div>
-            <div>21 - <a href="/spec/add">Спецпредложения добавление</a></div>
+            <div>9. <a href="/info">Информационная страница</a></div>
+            <div>10 - <a href="/news">Страница новостей</a></div>
 
             <div style="background-color: #ffd7d6">24. <a href="/banner-spec">Баннерные спецпредложения</a></div>
             <div style="background-color: #ffd7d6">25. <a href="/banner-spec/add">Баннерные спецпредложения добавление</a></div>
