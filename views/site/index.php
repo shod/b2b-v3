@@ -26,7 +26,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <div class="done">13 - <a href="/seller/delivery">Продавец информация о доставке 12 ч</a></div>
             <div class="done">14 - <a href="/context-adv">Контекстная реклама добавление 2 ч</a></div>
             <div class="done">15 - <a href="/context-adv/blacklist">Контекстная реклама работа с разделами 1 ч</a></div>
-            <div class="done">16 - <a href="/info/?page=rules_placement#">Информационная страница</a></div>
+            <div class="done">16 - <a href="/info/?page=rules_placement">Информационная страница 1ч</a></div>
 
             <div>1 - <a href="/auction">Аукционы</a></div>
             <div>2 - <a href="/auction/add">Аукционы добавление</a></div>

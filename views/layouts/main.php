@@ -301,7 +301,7 @@ AppAsset::register($this);
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/reviews">Отзывы покупателей</a>
-                        <a class="dropdown-item" href="/complaint">Жалобы покупателей</a>
+                        <a class="dropdown-item" href="/reviews/complaint">Жалобы покупателей</a>
                     </div>
                 </li>
 

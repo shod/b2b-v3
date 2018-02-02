@@ -69,6 +69,55 @@ class ReviewsController extends Controller
         return $this->render('index', $vars);
     }
 
+    public function actionComplaint(){
+        $sql = "select po_active from seller_info where  seller_id = {$this->seller_id}";
+        $res = \Yii::$app->db->createCommand($sql)->queryOne();
+        if (count($res) == 1){
+            if ($res['po_active'] == 0){
+                $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+            }
+        }
+        $sql = "SELECT
+								f.id,
+								f.seller_id,
+								f.phone,
+								FROM_UNIXTIME(f.created_at) AS date,
+								f.product_id,
+								f.status,
+								si.po_balance,
+								si.po_phone,
+								si.po_email,
+								s.work_time,
+
+							IF (
+								po_active = 1
+								AND po_balance > 0
+								AND (
+									(po_phone IS NOT NULL)
+									OR (po_email IS NOT NULL)
+								),
+								1,
+								0
+							) AS po_active,
+							 s.name
+							FROM
+								migombyha.stat_seller_phone_fail f
+							JOIN migomby.seller_info si ON (f.seller_id = si.seller_id)
+							JOIN migomby.seller AS s ON (s.id = si.seller_id)
+							WHERE
+								f. STATUS = 0
+                            AND FROM_UNIXTIME(f.created_at) > (DATE_SUB(NOW(), INTERVAL 1 MONTH))
+							AND f.seller_id = {$this->seller_id} order by f.created_at desc";
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+
+        $vars['data_complaint'] = '';
+        foreach((array)$res as $r)
+        {
+            $vars['data_complaint'] .= $this->renderPartial('/statistic/tmpl/complaint-item', $r);
+        }
+        return $this->render('complaint', $vars);
+    }
+
     public function actionSaveAnswers(){
         if ($this->seller_id)
         {
