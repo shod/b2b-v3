@@ -311,9 +311,9 @@ AppAsset::register($this);
                         <span>Условия работы</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/oferta-1">Договор публичной<br> оферты (с НДС)</a>
-                        <a class="dropdown-item" href="/oferta-2">Договор публичной <br>оферты (без НДС)</a>
-                        <a class="dropdown-item" href="/reles">Правила размещения</a>
+                        <a class="dropdown-item" target="_blank" href="http://files.migom.by/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
+                        <a class="dropdown-item" target="_blank" href="http://file.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                        <a class="dropdown-item" href="/info/?page=rules_placement">Правила размещения</a>
                     </div>
                 </li>
 
