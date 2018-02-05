@@ -1,5 +1,6 @@
 <?php
 $this->title = 'Добавление спецпредложений';
+
 ?>
 
 <div class="row">
@@ -22,8 +23,8 @@ $this->title = 'Добавление спецпредложений';
         <div class="ks-nav-body">
             <div class="ks-nav-body-wrapper">
                 <div class="container-fluid" style="overflow: auto">
-                    <form method="post">
-                        <input type="hidden" name="block" value="content_spec" />
+                    <form method="post" action="/spec/process">
+                        <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
                         <input type="hidden" name="action" value="add" />
 
                         <table class="table table-striped table-bordered table-condenced">

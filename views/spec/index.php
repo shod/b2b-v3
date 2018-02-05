@@ -1,5 +1,6 @@
 <?php
     $this->title = 'Спецпредложения';
+    $this->registerJsFile(Yii::$app->request->baseUrl.'/web/scripts/js/spec.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 <div class="row">
