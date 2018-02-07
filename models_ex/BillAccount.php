@@ -103,4 +103,12 @@ class BillAccount extends  \app\models\BillAccount {
         return $skidka;
     }
 
+    /*Get child account object*/
+    public function getChildBillAccount(){
+        $resdata = \Yii::$app->db->createCommand("select id from bill_account where owner_id = {$this->id}")->queryAll();
+        $child_id = $resdata[0]['id'];
+        $baccount = BillAccount::find()->where(['id' => $child_id])->one();
+        return $baccount;
+    }
+
 }

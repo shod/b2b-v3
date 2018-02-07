@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\BillAuction;
+use app\models\Seller;
+use app\models_ex\BillAccount;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -21,9 +23,15 @@ class SpecController extends Controller
     var $min_balance = 10; /*Min баланс участия в аукционе*/
     var $min_stavka = 10; /*Min ставка участия в аукционе*/
     var $min_step = 0.1; /*Min шаг ставка*/
+    var $seller_action = "index";
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
+        if ($this->flag_disabled = !$this->is_auction_access())
+        {
+            $this->seller_action = "index_none";
+            \Yii::$app->db->createCommand("update bill_auction set cost=0 where owner_id={$this->seller_id} and type_id=2")->execute();
+        }
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -131,13 +139,13 @@ class SpecController extends Controller
                 if(isset($brands)){
                     foreach ((array)$brands as $brand_id=>$made)
                     {
-                        $sdata = (count($data[$brand_id])>0) ? $data[$brand_id] : '';
+                        $sdata = (isset($data[$brand_id])) ? $data[$brand_id] : '';
 
                         $html_data .= $this->renderPartial("tmpl/clarify/models", array(
                             "id" => $brand_id,
                             "catalog_id" => $catalog_id,
                             "data" => implode("",(array)$sdata),
-                            "data_x" => isset($data_x) ? implode("",(array)$data_x[$brand_id]) : "",
+                            "data_x" => isset($data_x[$brand_id]) ? implode("",(array)$data_x[$brand_id]) : "",
                         ));
                         //print_r($html_data);
                     }
@@ -173,12 +181,104 @@ class SpecController extends Controller
                     $bill_auction->date = date("Y-m-d H:i:s");
                     $bill_auction->save();
                 }
-                return $this->redirect(['spec']);
+                return $this->redirect(['spec/index']);
                 break;
             case "delete":
                 $id = Yii::$app->request->get("id");
                 \Yii::$app->db->createCommand("delete from bill_auction where owner_id={$this->seller_id} and id={$id}")->execute();
-                return $this->redirect(['spec']);
+                return $this->redirect(['spec/index']);
+                break;
+
+            case "save":
+                $res = \Yii::$app->db->createCommand("select * from bill_auction where owner_id={$this->seller_id} and type_id=2")->queryAll();
+                $data_cost = array();
+                foreach ((array) $res as $r)
+                {
+                    $data_cost[$r["id"]] = $r["cost"];
+                }
+
+                $value = Yii::$app->request->post("value");
+                foreach ((array) $value as $id => $cost)
+                {
+                    $cost = str_replace(',','.',$cost);
+                    //$data_cost_auto[$id] = str_replace(',','.',$data_cost_auto[$id]);
+
+                    if ($cost != $data_cost[$id])
+                    {
+                        $this->_set($id, $cost);
+                    }
+                }
+
+                $f_show = Yii::$app->request->post("f_show");
+                \Yii::$app->db->createCommand("update bill_auction set f_show=0 where owner_id={$this->seller_id} and type_id=2")->execute();
+                foreach ((array) $f_show as $id => $v)
+                {
+                    $bill_auction = BillAuction::find()->where(['id' => $id])->one();
+                    $bill_auction->f_show = 1;
+                    $bill_auction->save();
+                }
+
+                $models_x = Yii::$app->request->post("models_x");
+
+                foreach ((array) $models_x as $catalog_id => $brand_models_x)
+                {
+                    $bill_auction = BillAuction::find()->where(['owner_id' => $this->seller_id, "type_id" => 2, "object_id" => $catalog_id])->one();
+                    if (isset($bill_auction->id))
+                    {
+                        $values = array();
+                        foreach ((array) $brand_models_x as $brand_id => $product_models_x)
+                        {
+                            foreach ((array) $product_models_x as $product_id)
+                            {
+                                if($product_id>1){
+                                    $values[] = "({$bill_auction->id}, {$product_id})";
+                                }
+                            }
+                        }
+                        $values = implode(",", $values);
+
+                        \Yii::$app->db->createCommand("
+								delete quick from bill_auctions_products
+								where auction_id={$bill_auction->id} and product_id in (
+									select id from products where section_id in (select subject_id from catalog_subject where catalog_id={$catalog_id})
+								)
+							")->execute();
+                        $sql = "insert into bill_auctions_products (auction_id, product_id) values {$values}";
+                        \Yii::$app->db->createCommand($sql)->execute();
+                    }
+                }
+                return $this->redirect(['spec/index']);
+                break;
+            case "update":
+                $data = array("data" => array(), "time" => time());
+                $date = date("Y-m-d H:i:s", Yii::$app->request->post("time"));
+                $sql = "
+						select ba.*, IF(ba.owner_id={$this->seller_id}, 1, 0) as selected, TRIM(s.name) as name
+						from bill_auction ba
+						inner join seller s on (s.id=ba.owner_id)
+						inner join bill_account bacc on (bacc.id=s.bill_account_id)
+						where ba.object_id in (
+							select object_id from bill_auction where date>='{$date}' and object_id in (
+								select object_id from bill_auction where owner_id={$this->seller_id} and type_id=2
+							) and type_id=2
+						) and ba.cost>0 and s.active=1 and bacc.balance >= {$this->min_balance} and type_id=2
+						order by ba.object_id, ba.cost desc, ba.date asc
+					";
+                $res = \Yii::$app->db->createCommand($sql)->queryAll();
+                foreach ((array) $res as $r)
+                {
+                    $name = $r['name'];
+                    //$name = iconv("windows-1251", "UTF-8", $name);
+                    $name = htmlspecialchars($name);
+
+                    $_data = array("cost" => round($r["cost"],2), "selected" => $r["selected"], 'name'=>$name);
+                    if (is_array($data["data"][$r["object_id"]]))
+                        $data["data"][$r["object_id"]][] = $_data;
+                    else
+                        $data["data"][$r["object_id"]] = array($_data);
+                }
+
+                die(json_encode($data));
                 break;
         }
     }
@@ -190,14 +290,43 @@ class SpecController extends Controller
         $vars["title"] = $res["name"];
         $vars["text"] = $res["text"];
         $vars["text"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->min_step,$this->min_balance),$res["text"]);
+        $vars["min_balance"] = $this->min_balance;
 
-        return $this->render('index', $vars);
+        return $this->render($this->seller_action, $vars);
     }
 
     public function actionAdd()
     {
         $vars["data"] = $this->getDataAddHtml();
         return $this->render('add', $vars);
+    }
+
+    /*Проверка на участие в аукционе*/
+    function is_auction_access(){
+        $res = true;
+
+        /*Участвует в акции*/
+        $resdata = \Yii::$app->db->createCommand("select count(1) as cnt from bill_cat_sel_discount as bsc
+            where seller_id = {$this->seller_id} and now() <= date_expired;")->queryAll();
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $baccount_main = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+        $balance = $baccount_main->balance;
+        $balance_all = $baccount_main->balance_all;
+
+        if($resdata[0]['cnt'] == 0){
+            if($balance_all < $this->min_balance){
+                $res = false;
+            }
+        }else{
+            /*Child account*/
+            $balance_child = $baccount_main->getChildBillAccount();
+            if(isset($balance_child)&&($balance+$balance_child->balance)<=0){
+                $res = false;
+            }
+        }
+
+
+        return $res;
     }
 
     private function getDataHtml(){
@@ -385,5 +514,54 @@ class SpecController extends Controller
         }
 
         return $html;
+    }
+
+    private function _set($id, $cost)
+    {
+        $res = \Yii::$app->db->createCommand("
+            SELECT ba.*
+            FROM bill_auction ba
+            inner join seller s on (s.id=ba.owner_id and s.active=1)
+            inner join bill_auction ba1 on (ba1.object_id=ba.object_id and ba1.type_id=ba.type_id)
+            where ba1.id={$id}
+            order by ba.cost desc, ba.date asc
+		")->queryAll();
+
+
+        $cost = round($cost, 2);
+        $bill_auction = BillAuction::find()->where(['id' => $id])->one();
+        $cost_old = $bill_auction->cost;
+
+
+        if ($cost <> $cost_old)
+        {
+            $cost = min(round($cost,1), $cost_old + 10);
+            $cost = ($cost > 0) ? max($cost, $this->min_stavka) : 0;
+            $bill_auction->cost = $cost;
+            $bill_auction->date = date("Y-m-d H:i:s");
+            $bill_auction->save();
+        }
+
+        foreach ((array) $res as $i => $r)
+        {
+            if ($i + 1 > $r["place"])
+            {
+                $bill_auction->place = $i+1;
+                $bill_auction->f_notify = 0;
+                $bill_auction->save();
+            }
+            elseif ($i + 1 < $r["place"])
+            {
+                $bill_auction->place = $i+1;
+                $bill_auction->place_old = $i + 1;
+                $bill_auction->save();
+            }
+
+            if ($r["place_old"] == 0)
+            {
+                $bill_auction->place_old = $r["place"];
+                $bill_auction->save();
+            }
+        }
     }
 }

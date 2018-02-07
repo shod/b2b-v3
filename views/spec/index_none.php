@@ -1,6 +1,6 @@
 <?php
-    $this->title = 'Спецпредложения';
-    $this->registerJsFile(Yii::$app->request->baseUrl.'/web/scripts/js/spec.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->title = 'Спецпредложения';
+$this->registerJsFile(Yii::$app->request->baseUrl.'/web/scripts/js/spec.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 <div class="row">
@@ -14,7 +14,7 @@
     <div class="col-lg-6 content-end">
         <div class="ks-nav-body">
             <div class="ks-nav-body-wrapper">
-            <a href="/spec/add" class="btn btn-primary ks-light">Добавить спецпредложения</a>
+                <a href="/spec/add" class="btn btn-primary ks-light">Добавить спецпредложения</a>
             </div>
         </div>
     </div>

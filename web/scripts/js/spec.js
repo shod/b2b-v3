@@ -1,8 +1,8 @@
 var varUpdateInterval = 10000;
 var varUpdateTime = 100;
 
-/*var updateData = function () {
-    $.getJSON(".", {block: "content_spec", action: "update", time: varUpdateTime}, function (json) {
+var updateData = function () {
+    $.getJSON("/spec/process/", {action: "update", time: varUpdateTime}, function (json) {
         varUpdateTime = json.time
 
         $.each(json.data, function (catalog_id, data) {
@@ -19,7 +19,7 @@ var varUpdateTime = 100;
     })
 
 }
-setTimeout(updateData, varUpdateInterval)*/
+setTimeout(updateData, varUpdateInterval)
 
 $(document).ready(function () {
     $("#formSpec input:text").keydown(function (e) {
