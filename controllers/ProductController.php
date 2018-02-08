@@ -22,6 +22,15 @@ class ProductController extends Controller
     public $offset = 100;
     public $seller_curs;
     public $cnt_all = 0;
+
+    public function beforeAction($action) {
+        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
+            $this->redirect('site/login');
+        } else {
+            return parent::beforeAction($action);
+        }
+    }
+
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();

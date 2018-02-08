@@ -19,11 +19,21 @@ class SpecController extends Controller
      * @inheritdoc
      */
     public $seller_id;
+
     var $flag_disabled = false;
     var $min_balance = 10; /*Min баланс участия в аукционе*/
     var $min_stavka = 10; /*Min ставка участия в аукционе*/
     var $min_step = 0.1; /*Min шаг ставка*/
     var $seller_action = "index";
+
+    public function beforeAction($action) {
+        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
+            $this->redirect('site/login');
+        } else {
+            return parent::beforeAction($action);
+        }
+    }
+
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
@@ -502,7 +512,8 @@ class SpecController extends Controller
                     "id" => $r1["id"],
                     "name" => $r1["name"],
                     "cost" => "{$cost_from}{$cost_to}",
-                    "views" => $views
+                    "views" => $views,
+                    "cnt" => isset($cnt) ? $cnt : "0",
                 ));
             }
 

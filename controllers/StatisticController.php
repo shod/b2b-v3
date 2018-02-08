@@ -21,6 +21,15 @@ class StatisticController extends Controller
      * @inheritdoc
      *
      */
+
+    public function beforeAction($action) {
+        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
+            $this->redirect('site/login');
+        } else {
+            return parent::beforeAction($action);
+        }
+    }
+    
     public function behaviors()
     {
         return [
@@ -272,7 +281,6 @@ class StatisticController extends Controller
 												from_unixtime(`q_show`.`date`),
 												'%Y-%m'
 											)";
-
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
         $vars['data'] = '';
         foreach((array)$res as $r)

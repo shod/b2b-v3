@@ -34,17 +34,14 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
             <div>1 - <a href="/auction">Аукционы</a></div>
             <div>2 - <a href="/auction/add">Аукционы добавление</a></div>
 
+            <div>3 - <a href="/product/tariff">Калькулятор тарифов</a></div>
+            <div>4 - <a href="/seller">Продавец сводная информация</a></div>
+            <div>5 - <a href="/seller/settings">Продавец настройки</a></div>
 
+            <div>6 - <a href="/news">Страница новостей</a></div>
 
-
-            <div>4 - <a href="/product/tariff">Калькулятор тарифов</a></div>
-            <div>5 - <a href="/seller">Продавец сводная информация</a></div>
-            <div>6 - <a href="/seller/settings">Продавец настройки</a></div>
-
-            <div>7 - <a href="/news">Страница новостей</a></div>
-
-            <div style="background-color: #ffd7d6">8 - <a href="/banner-spec">Баннерные спецпредложения</a></div>
-            <div style="background-color: #ffd7d6">9 - <a href="/banner-spec/add">Баннерные спецпредложения добавление</a></div>
+            <div style="background-color: #ffd7d6">7 - <a href="/banner-spec">Баннерные спецпредложения</a></div>
+            <div style="background-color: #ffd7d6">8 - <a href="/banner-spec/add">Баннерные спецпредложения добавление</a></div>
         </div>
     </div>
 </div>
