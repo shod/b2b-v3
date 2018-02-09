@@ -29,7 +29,7 @@ class StatisticController extends Controller
             return parent::beforeAction($action);
         }
     }
-    
+
     public function behaviors()
     {
         return [
@@ -180,107 +180,7 @@ class StatisticController extends Controller
             }
         }
         $stat_interval_month = 6;
-        $sql = "SELECT
-											date_format(
-												from_unixtime(`q_show`.`date`),
-												'%Y-%m'
-											) AS `date`,
-											`q_show`.`seller_id` AS `seller_id`,
-											sproxy.cnt,
-											sproxy.avg_day,
-											IFNULL(sum(`q_show`.`view`),0) AS `view_stat`,
-											round(
-												(sum(`q_show`.`view`) / 30),
-												0
-											) AS `view_stat_day`,
-											IFNULL(s_order.view_order,0) as view_order,
-											IFNULL(stat_contact.cnt,0) AS count_contact,
-											IFNULL(stat_go.cnt,0) AS count_sms,
-                                            IFNULL(context, 0) as context
-										FROM
-											migombyha.`product_seller_stat` AS `q_show`
-										LEFT JOIN migombyha.v_stats_seller_proxy AS sproxy ON (
-											sproxy.seller_id = `q_show`.seller_id AND sproxy.date = date_format(
-											from_unixtime(`q_show`.`date`),
-											'%Y-%m'
-										)
-										)
-										LEFT JOIN (
-											SELECT
-												seller_id,
-												DATE_FORMAT(
-													FROM_UNIXTIME(date),
-													'%Y-%m'
-												) AS mdat,
-												count(*) AS view_order
-											FROM
-												stat_order_buffer
-											WHERE
-												date > UNIX_TIMESTAMP('2015-11-01') and 
-												date > UNIX_TIMESTAMP(
-													(
-														DATE_ADD(now(), INTERVAL - {$stat_interval_month} MONTH)
-													)
-												)
-											GROUP BY
-												seller_id,
-												DATE_FORMAT(
-													FROM_UNIXTIME(date),
-													'%Y-%m'
-												)
-										) AS s_order ON (
-											s_order.seller_id = `q_show`.seller_id
-											AND s_order.mdat = date_format(
-												from_unixtime(`q_show`.`date`),
-												'%Y-%m'
-											)
-										)
-
-										LEFT JOIN (SELECT
-											seller_id,
-											FROM_UNIXTIME(created_at, '%Y-%m') AS cdate,
-											count(*) AS cnt,
-                                            SUM(context) as context
-										FROM
-											migombyha.stat_popup
-										WHERE
-											seller_id = {$this->seller_id}
-											AND f_uniq = 1
-											AND created_at > UNIX_TIMESTAMP('2015-11-01') and created_at > UNIX_TIMESTAMP(
-											(
-												DATE_ADD(now(), INTERVAL - {$stat_interval_month} MONTH)
-											)
-										)
-										GROUP BY
-											seller_id,
-											FROM_UNIXTIME(created_at, '%Y-%m')) as stat_contact on (stat_contact.cdate = date_format(
-												from_unixtime(`q_show`.`date`),
-												'%Y-%m'
-											))
-
-										LEFT JOIN (select DATE_FORMAT(created_at,'%Y-%m') as dat, count(1) as cnt
-															from po_order as po
-															where seller_id = {$this->seller_id} and 
-															po.created_at > '2015-11-01'
-															group by dat) as stat_go on (stat_go.dat = date_format(
-												from_unixtime(`q_show`.`date`),
-												'%Y-%m'
-											))
-
-										WHERE
-											`q_show`.seller_id = {$this->seller_id}
-										AND `q_show`.`date` > UNIX_TIMESTAMP('2015-11-01') and `q_show`.`date` > UNIX_TIMESTAMP(
-											(
-												DATE_ADD(now(), INTERVAL - {$stat_interval_month} MONTH)
-											)
-										)
-										
-										GROUP BY
-											`q_show`.`seller_id`,
-											date_format(
-												from_unixtime(`q_show`.`date`),
-												'%Y-%m'
-											)";
+        $sql = "SELECT * from index_seller_stats WHERE seller_id = {$this->seller_id} ORDER BY date desc limit {$stat_interval_month}";
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
         $vars['data'] = '';
         foreach((array)$res as $r)

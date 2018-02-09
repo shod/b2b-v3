@@ -20,6 +20,7 @@ class AuctionController extends Controller
     public $seller_id;
     var $flag_disabled = false;
     var $min_balance = 10; /*Min баланс участия в аукционе*/
+    var $min_stavka = 1; /*Min баланс участия в аукционе*/
     var $_min_start = 10; /*Минимальный старт в аукционе*/
     var $_min_start_fix = 1; /*Минимальный старт в аукционе суточном*/
     var $_step = 0.1; /*Минимальный шаг в аукционе*/
@@ -108,7 +109,12 @@ class AuctionController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
+        $vars["title"] = $res[0]["name"];
+        $vars["text"] = $res[0]["text"];
+        $vars["text"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->_step,$this->min_balance),$res[0]["text"]);
+
+        return $this->render('index', $vars);
     }
 
     public function actionAdd()
