@@ -25,6 +25,7 @@ class BillReportController extends Controller
      * @inheritdoc
      */
     public $seller_id;
+    public $bonus_account_id;
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
@@ -37,6 +38,15 @@ class BillReportController extends Controller
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $this->bonus_account_id = BillAccount::find()->where(['owner_id' => $seller->bill_account_id])->one();
+
+        if(empty($this->bonus_account_id))
+        {
+            $this->bonus_account_id = 0;
+        } else {
+            $this->bonus_account_id = $this->bonus_account_id->id;
+        }
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -521,7 +531,7 @@ class BillReportController extends Controller
         $res = \Yii::$app->db->createCommand("
 			SELECT DISTINCT YEAR(date_begin) as y, MONTH(date_begin) as m
 			FROM bill_transaction
-			where account_id={$seller->bill_account_id} or account_id in (select id from bill_account where owner_id={$seller->bill_account_id})
+			where account_id in ({$seller->bill_account_id},{$this->bonus_account_id})
 			order by y desc, m desc limit 2
 		")->queryAll();
         foreach ((array) $res as $r)
@@ -570,7 +580,7 @@ class BillReportController extends Controller
         $res = \Yii::$app->db->createCommand("
 			select *, IF(type in ('down_catalog','back_down_catalog'), date_begin - INTERVAL 1 DAY, date_begin - INTERVAL 1 HOUR) as date_begin
 			from bill_transaction
-			where (account_id={$seller->bill_account_id} or account_id in (select id from bill_account where owner_id={$seller->bill_account_id})) {$sql_m} and not(date_end is null)
+			where account_id in ({$seller->bill_account_id},{$this->bonus_account_id}) {$sql_m} and not(date_end is null)
 			order by date_end desc, id desc
 		")->queryAll();
 

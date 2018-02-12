@@ -127,6 +127,27 @@ class AuctionController extends Controller
                 }
                 return $this->redirect(['auction/index']);
                 break;
+
+            case "delete":
+                $id = Yii::$app->request->get("id");
+
+                $res_auc = \Yii::$app->db->createCommand("select f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') as auction_fix from bill_auction as ba, catalog as ss
+							where ba.id = {$id} and ss.id = ba.object_id and type_id=1")->queryAll();
+                $auction_fix = $res_auc[0]['auction_fix'];
+
+                /*Запрещено удаление ставки*/
+                if($auction_fix == 1){
+                    $d = getdate(); // использовано текущее время
+                    $now = time();
+                    $auction_stop_down = mktime($this->auction_stop_down_time[0],$this->auction_stop_down_time[1],0,$d['mon'],$d['mday'],$d['year']);
+                    if(($auction_stop_down-$now)>0){
+                        \Yii::$app->db->createCommand("delete from bill_auction where id={$id}")->execute();
+                    }
+                }else{
+                     \Yii::$app->db->createCommand("delete from bill_auction where id={$id}")->execute();
+                }
+                return $this->redirect(['auction/index']);
+                break;
         }
 
     }
@@ -213,28 +234,6 @@ class AuctionController extends Controller
                                                 ps.prod_sec_id")->queryAll();
                 $r["name"] = "Доступные разделы";
             }else{
-                $res1_old = \Yii::$app->db->createCommand("
-				select id, name, bsel.cnt
-				from catalog c, (select ba.object_id, min(ba.cost) as cost_min, max(ba.cost) as cost_max, count(ba.owner_id) as cnt
-							from bill_auction ba
-							inner join seller s on (s.id=ba.owner_id)
-							inner join bill_account bacc on (bacc.id=s.bill_account_id)
-							where ba.type_id=1 and ba.cost>0 and s.active=1 and bacc.balance >= 10
-							group by object_id) as bsel
-				where id in (
-					select cs.catalog_id 
-					from catalog_subject cs				
-					where cs.subject_id in (
-						select bcs.section_id 					
-						from bill_catalog_section bcs 
-						inner join sections s on (s.id=bcs.section_id)
-						where bcs.catalog_id={$r["id"]} and (s.type<>'price' OR s.type is null)
-					)  					
-				) and hidden=0  and not id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)
-				and bsel.object_id = c.id
-				order by bsel.cnt desc, name
-				")->queryAll();
-
                 $res1 = \Yii::$app->db->createCommand("
 				select id, name, bsel.cnt, f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') as is_fix
 				from catalog c
@@ -268,20 +267,20 @@ class AuctionController extends Controller
                 $cost_from = $cost_min ? "от {$cost_min}" : " от {$this->_min_start} ";
                 $cost_to = ($cost_max && $cost_min!=$cost_max) ? " до {$cost_max}" : "";
                 list($views) = $this->getViews($r1["id"]);
-                $html_row .=  $this->renderPartial("tmpl/add_row", array(
+                $html_row .=  $this->renderPartial("tmpl/add_row", [
                     "id" => $r1["id"],
                     "name" => $r1["name"],
                     "fix" => $r1["is_fix"] ? "(фиксированный)" : "",
                     "cost" => "{$cost_from}{$cost_to}",
                     "cnt" => $cnt ? $cnt : "0",
                     "views" => $views
-                ));
+                ]);
             }
             $add_text = ($html_row == "") ? " <span style='color: #a1a1a1;font-size: 10px;'>Все доступные разделы подключены</span>" : "";
-            $html .= $this->renderPartial("tmpl/catalog", array(
+            $html .= $this->renderPartial("tmpl/catalog", [
                 "name" => $r["name"] . $add_text,
                 "data" => $html_row,
-            ));
+            ]);
         }
 
         return $html;
@@ -325,7 +324,7 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
         foreach((array)$res1 as $r1)
         {
             list($views, $forecast) =  $this->getViews($r1["catalog_id"], $cost[$r1["id"]]);
-            $html_row .= $this->renderPartial("tmpl/row", array(
+            $html_row .= $this->renderPartial("tmpl/row", [
                 "id" => $r1["id"],
                 "catalog_id" => $r1["catalog_id"],
                 "views" => $views,
@@ -335,9 +334,9 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
                 "value" => $f_auto[$r1["id"]] ? round($cost_auto[$r1["id"]],2) : round($cost[$r1["id"]],2),
                 "disabled" => $this->flag_disabled ? "disabled" : "",
                 "auto_checked" => $f_auto[$r1["id"]] ? "checked" : "",
-                "href_delete" => "",
+                "href_delete" => "/auction/process/?action=delete&id=". $r1["id"],
                 "min_step" => $this->_step
-            ));
+            ]);
         }
 
 
@@ -405,7 +404,7 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
         foreach((array)$res1 as $r1)
         {
             list($views, $forecast) =  $this->getViews($r1["catalog_id"], $cost[$r1["id"]]);
-            $html_row .= $this->renderPartial("tmpl/row_fix", array(
+            $html_row .= $this->renderPartial("tmpl/row_fix", [
                 "id" => $r1["id"],
                 "catalog_id" => $r1["catalog_id"],
                 "views" => $views,
@@ -415,9 +414,9 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
                 "value" => $f_auto[$r1["id"]] ? round($cost_auto[$r1["id"]],2) : round($cost[$r1["id"]],2),
                 "disabled" => $this->flag_disabled ? "disabled" : "",
                 "auto_checked" => $f_auto[$r1["id"]] ? "checked" : "",
-                "href_delete" => "",
+                "href_delete" => "/auction/process/?action=delete&id=". $r1["id"],
                 "min_step" => $this->_step
-            ));
+            ]);
         }
 
 

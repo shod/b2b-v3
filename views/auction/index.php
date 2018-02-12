@@ -22,14 +22,14 @@ $this->title = 'Аукционы';
 </div>
 
 <div class="row" style="padding-top: 10px; margin-top: 0px;">
-    <div class="col-lg-6">
+    <div class="col-lg-9">
         <div><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a></div>
         <div id="help-block" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
             <h3><?= isset($title) ? $title : "" ?></h3>
             <p><?= isset($text) ? $text : "" ?></p>
         </div>
     </div>
-    <div class="col-lg-6 content-end">
+    <div class="col-lg-3 content-end">
         <div class="ks-nav-body">
             <div class="ks-nav-body-wrapper">
                 <a href="/auction/add" class="btn btn-primary ks-light">Добавить аукцион с фиксированной ставкой</a>
@@ -86,14 +86,14 @@ $this->title = 'Аукционы';
 </div>
 
 <div class="row" style="padding-top: 10px; margin-top: 0px;">
-    <div class="col-lg-6">
+    <div class="col-lg-9">
         <div><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block-online').toggle(500)">ПОМОЩЬ</a></div>
         <div id="help-block-online" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
             <h3><?= isset($title_online) ? $title_online : "" ?></h3>
             <p><?= isset($text_online) ? $text_online : "" ?></p>
         </div>
     </div>
-    <div class="col-lg-6 content-end">
+    <div class="col-lg-3 content-end">
         <div class="ks-nav-body">
             <div class="ks-nav-body-wrapper">
                 <a href="/auction/add" class="btn btn-primary ks-light">Добавить аукцион с онлайн ставкой</a>
