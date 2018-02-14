@@ -1,5 +1,6 @@
 <?php
 $this->title = 'Аукционы';
+$this->registerJsFile(Yii::$app->request->baseUrl.'/web/scripts/js/auction.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 <style type="text/css">
@@ -38,46 +39,56 @@ $this->title = 'Аукционы';
     </div>
 </div>
 
-<div class="row" style="padding-top: 10px; margin-top: 0px;">
-    <div class="col-lg-12">
-        <div class="ks-nav-body">
-            <div class="ks-nav-body-wrapper">
-                <div class="container-fluid" style="overflow: auto">
-                    <table id="ks-datatable" class="table table-striped table-bordered table-condenced" width="100%">
-                        <thead>
-                        <tr>
-                            <th style='width:260px' class="head-title">Категория</th>
-                            <th style='width:130px' class="head-title bet">Позиция и цена</th>
-                            <th class="head-title" colspan="2">
-                                Ваша ставка за размещение.
-                            </th>
+<form method="post" action="/auction/process">
+    <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+    <input type="hidden" name="action" value="save" />
+    <input type="hidden" name="auction" value="fix" />
 
-                            <td></td>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th style='width:260px' class="head-title">Категория</th>
-                            <th style='width:130px' class="head-title bet">Позиция и цена</th>
-                            <th class="head-title" colspan="2">
-                                Ваша ставка за размещение.
-                            </th>
+    <div class="row" style="padding-top: 10px; margin-top: 0px;">
+        <div class="col-lg-12">
+            <div class="ks-nav-body">
+                <div class="ks-nav-body-wrapper">
+                    <div class="container-fluid" style="overflow: auto">
+                        <table id="ks-datatable" class="table table-striped table-bordered table-condenced" width="100%">
+                            <thead>
+                            <tr>
+                                <th style='width:260px' class="head-title">Категория</th>
+                                <th style='width:130px' class="head-title bet">Позиция и цена</th>
+                                <th class="head-title" colspan="2">
+                                    Ваша ставка за размещение.
+                                </th>
+
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th style='width:260px' class="head-title">Категория</th>
+                                <th style='width:130px' class="head-title bet">Позиция и цена</th>
+                                <th class="head-title" colspan="2">
+                                    Ваша ставка за размещение.
+                                </th>
 
 
-                            <td></td>
-                        </tr>
-                        </tfoot>
-                        <tbody>
+                                <td></td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
 
-                        <?= isset($data_catalog_fix) ? $data_catalog_fix : "" ?>
+                            <?= isset($data_catalog_fix) ? $data_catalog_fix : "" ?>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+            <div class="content-end">
+                <input id="btnSaveFix" class="btn btn-primary" type="button" value="Сохранить" onclick="this.disabled=true;this.value='Подождите...';this.form.submit();" />
             </div>
         </div>
     </div>
-</div>
+
+</form>
 
 <div class="row">
     <div class="col-lg-12">
@@ -102,58 +113,69 @@ $this->title = 'Аукционы';
     </div>
 </div>
 
+<form method="post" action="/auction/process">
+    <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+    <input type="hidden" name="action" value="save" />
+    <input type="hidden" name="auction" value="minute" />
 
-<div class="row" style="padding-top: 10px; margin-top: 0px;">
-    <div class="col-lg-12">
-        <div class="ks-nav-body">
-            <div class="ks-nav-body-wrapper">
-                <div class="container-fluid" style="overflow: auto">
-                    <table id="ks-datatable" class="table table-striped table-bordered table-condenced" width="100%">
-                        <thead>
-                        <tr>
-                            <th style='width:70px'>Категория</th>
-                            <th style='width:70px'>Показов вчера</th>
-                            <th style='width:70px'>Прогноз расхода за сутки</th>
-                            <th>Позиция и цена</th>
-                            <th>
-                                Ваша ставка за 1000 показов <br/>
-                                <input class="form-control" type="text" id="cost_all"
-                                       style="width: 50px; text-align: right;"/>
-                            </th>
-                            <th>Автобюджет <br/>
-                                <input type="checkbox"
-                                       onclick="$('.auction .auto').attr('checked', $(this).attr('checked'))"/>
-                            <td></td>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th style='width:70px'>Категория</th>
-                            <th style='width:70px'>Показов вчера</th>
-                            <th style='width:70px'>Прогноз расхода за сутки</th>
-                            <th>Позиция и цена</th>
-                            <th>
-                                Ваша ставка за 1000 показов <br/>
-                                <input class="form-control" type="text" id="cost_all"
-                                       style="width: 50px; text-align: right;"/>
-                            </th>
-                            <th>Автобюджет <br/>
-                                <input type="checkbox"
-                                       onclick="$('.auction .auto').attr('checked', $(this).attr('checked'))"/>
-                            <td></td>
-                        </tr>
-                        </tfoot>
-                        <tbody>
+    <div class="row" style="padding-top: 10px; margin-top: 0px;">
+        <div class="col-lg-12">
 
-                        <?= isset($data_catalog_minute) ? $data_catalog_minute : "" ?>
+            <div class="ks-nav-body">
+                <div class="ks-nav-body-wrapper">
+                    <div class="container-fluid" style="overflow: auto">
+                        <table id="ks-datatable" class="table table-striped table-bordered table-condenced" width="100%">
+                            <thead>
+                            <tr>
+                                <th style='width:70px'>Категория</th>
+                                <th style='width:70px'>Показов вчера</th>
+                                <th style='width:70px'>Прогноз расхода за сутки</th>
+                                <th>Позиция и цена</th>
+                                <th>
+                                    Ваша ставка за 1000 показов <br/>
+                                    <input class="form-control" type="text" id="cost_all"
+                                           style="width: 50px; text-align: right;"/>
+                                </th>
+                                <th>Автобюджет <br/>
+                                    <input type="checkbox"
+                                           onclick="$('.auction .auto').attr('checked', $(this).attr('checked'))"/>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th style='width:70px'>Категория</th>
+                                <th style='width:70px'>Показов вчера</th>
+                                <th style='width:70px'>Прогноз расхода за сутки</th>
+                                <th>Позиция и цена</th>
+                                <th>
+                                    Ваша ставка за 1000 показов <br/>
+                                    <input class="form-control" type="text" id="cost_all"
+                                           style="width: 50px; text-align: right;"/>
+                                </th>
+                                <th>Автобюджет <br/>
+                                    <input type="checkbox"
+                                           onclick="$('.auction .auto').attr('checked', $(this).attr('checked'))"/>
+                                <td></td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                            <?= isset($data_catalog_minute) ? $data_catalog_minute : "" ?>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            <div class="content-end">
+                <input class="btn btn-primary" type="button" value="Сохранить" onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+            </div>
+
         </div>
     </div>
-</div>
+
+</form>
 
 
 

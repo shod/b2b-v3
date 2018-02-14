@@ -7,6 +7,7 @@ use app\models\Seller;
 use app\models_ex\BillAccount;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -22,8 +23,8 @@ class AuctionController extends Controller
     var $flag_disabled = false;
     var $min_balance = 10; /*Min баланс участия в аукционе*/
     var $min_stavka = 1; /*Min баланс участия в аукционе*/
-    var $_min_start = 10; /*Минимальный старт в аукционе*/
-    var $_min_start_fix = 1; /*Минимальный старт в аукционе суточном*/
+    var $_min_start = 0.7; /*Минимальный старт в аукционе*/
+    var $_min_start_fix = 0.7; /*Минимальный старт в аукционе суточном*/
     var $_step = 0.1; /*Минимальный шаг в аукционе*/
     var $_step_fix = 1; /*Минимальный шаг в аукционе суточном*/
     var $auction_stop_time = array(17,40); /*Окончание аукциона время 17:40*/
@@ -112,6 +113,231 @@ class AuctionController extends Controller
         $action = Yii::$app->request->post("action");
         $action = isset($action) ? $action : Yii::$app->request->get("action");
         switch ($action) {
+            case "save":
+                $auction_type = Yii::$app->request->post("auction"); /*Тип аукциона*/
+                $arr_auto = Yii::$app->request->post("f_auto");
+                $auction_auto_max_val = 998;
+                $ids = array_keys((array)$arr_auto);
+                $ids = join(",", (array)$ids);
+
+                $value = Yii::$app->request->post("value");
+                $str_ids = implode(',',array_keys($value));
+
+                \Yii::$app->db->createCommand("update bill_auction set f_auto=0 where owner_id={$this->seller_id} and id in ({$str_ids})")->execute();
+
+                if($auction_type == 'fix'){
+                    $this->_step = $this->_step_fix;
+                    $this->_min_start = $this->_min_start_fix;
+
+                    if ($ids!=''){
+                        \Yii::$app->db->createCommand("update bill_auction set f_auto=1 where id in ({$ids}) and owner_id={$this->seller_id}")->execute();
+                    }
+
+                }else{
+
+                    if ($ids!=''){
+                        \Yii::$app->db->createCommand("update bill_auction set f_auto=1, cost=IF(cost>{$auction_auto_max_val},{$auction_auto_max_val}, cost) where id in ({$ids}) and owner_id={$this->seller_id}")->execute();
+                        \Yii::$app->db->createCommand("update bill_auction set cost={$this->_min_start} where owner_id={$this->seller_id} and id in ({$ids}) and f_auto=1 and cost=0")->execute();
+                    }
+                }
+
+
+                $res = \Yii::$app->db->createCommand("select * from bill_auction where owner_id={$this->seller_id} and type_id=1")->queryAll();
+                $data_cost = $data_cost_auto = $data_f_auto = array();
+
+
+                foreach((array)$res as $r)
+                {
+                    $data_cost[$r["id"]] = $r["cost"];
+                    $data_cost_auto[$r["id"]] = $r["cost_auto"];
+                    $data_f_auto[$r["id"]] = $r["f_auto"];
+                }
+
+
+
+                foreach((array)$value as $id=>$cost)
+                {
+                    $bill_auction = BillAuction::find()->where(['id' => $id])->one();
+                    $cost = str_replace(',','.',$cost);
+
+                    $cost = round($cost/$this->_step)*$this->_step;
+
+                    if($cost > 0 && $cost < $this->_min_start){
+                        $cost = $this->_min_start;
+                    }
+
+                    $data_cost_auto[$id] = str_replace(',','.',$data_cost_auto[$id]);
+
+                    if (($auction_type != 'fix') && $data_f_auto[$id])
+                    {
+                        if ($cost != $data_cost_auto[$id])
+                        {
+                            $bill_auction->cost_auto = min($cost,$auction_auto_max_val);
+                            $bill_auction->date = date("Y-m-d H:i:s");
+                            $bill_auction->save();
+                        }
+                    }
+                    else
+                    {
+
+                        if($cost > 0){
+                            $cost = max($cost,$this->_min_start);
+                        }
+
+                        if ($cost != $data_cost[$id])
+                        {
+                            $bill_auction->cost_auto = $cost;
+                            $bill_auction->date = date("Y-m-d H:i:s");
+                            $bill_auction->save();
+
+
+                            /*Фиксированный аукцион*/
+                            if($auction_type == 'fix'){
+                                $d = getdate(); // использовано текущее время
+                                $now = time();
+
+                                /*Окончание аукциона*/
+                                $auction_stop = mktime($this->auction_stop_time[0],$this->auction_stop_time[1],0,$d['mon'],$d['mday'],$d['year']);
+                                $auction_stop_down = mktime($this->auction_stop_down_time[0],$this->auction_stop_down_time[1],0,$d['mon'],$d['mday'],$d['year']);
+
+                                if(($auction_stop_down-$now)<0){
+                                    $cost_old = $bill_auction->cost;
+                                    $cost = max($cost, $cost_old);
+                                }
+
+                                if(($auction_stop-$now)>0){
+                                    $cost = min($cost, $this->get_max_bid());
+                                    $this->_set($id, $cost, false);
+                                }
+                            }else{
+                                $this->_set($id, $cost, true);
+                            }
+                        }
+                    }
+
+                }
+                return $this->redirect(['auction/index']);
+                break;
+            case "get_arch":
+                $json["header"] = 'Аукцион вчера';
+
+
+                $id = Yii::$app->request->get("baid");
+                $sql = "select name from catalog as ss where ss.id = {$id}";
+                $res = \Yii::$app->db->createCommand($sql)->queryAll();
+                $name = $res[0]['name'];
+
+                $sql = "select place, cost, owner_id from index_auction_data_base where object_id = {$id} and type_id=1 order by place";
+
+                $res = \Yii::$app->db->createCommand($sql)->queryAll();
+
+                $data = '';
+
+                $place_view = 0; // Место для вывода ставок
+                foreach((array)$res as $r){
+                    if($this->seller_id == $r['owner_id']){
+                        $place_view = $r['place'];
+                    }
+                }
+
+                foreach((array)$res as $r)
+                {
+                    if($this->seller_id == $r['owner_id']){
+                        $data .= "<tr class='success'><td>{$r['place']}</td><td>{$r['cost']} - Ваша ставка</td></tr>";
+                    }elseif(($place_view-2 < $r['place']) && ($place_view+2 > $r['place'])){
+                        $data .= "<tr><td>{$r['place']}</td><td>{$r['cost']}</td></tr>";
+                    }
+                    else{
+                        $data .= "<tr><td>{$r['place']}</td><td></td></tr>";
+                    }
+                }
+
+                $auc_win = $this->renderPartial("tmpl/auc_arch_win", array('name'=>$name ,'data'=> $data));
+                $json["body"] = $auc_win;
+                echo Json::encode($json);
+                break;
+            case "update":
+                //$auction_time_last = $this->memcache->get("auction");
+                $data = array(	"data" => array(), "time" => time() );
+                $date = date("Y-m-d H:i:s", Yii::$app->request->post("time"));
+
+                //if($auction_time_last > $P->get("time"))
+                {
+
+                    $sql = "select * from 
+							(SELECT
+								ba.*,
+							IF (ba.owner_id = {$this->seller_id}, 1, 0) AS selected
+							 , TRIM(s.name) as name
+							,(select count(1) as cnt from bill_cat_sel_discount as bsc
+										where bsc.seller_id = s.id and now() <= date_expired) as seller_action
+							, bacc.balance
+							, pay_type
+							, f_is_setting_bit_set(cat.setting_bit, 'catalog', 'auction_day') as auction_fix
+							FROM
+								bill_auction ba							
+							INNER JOIN seller s ON (s.id = ba.owner_id)
+							INNER JOIN bill_account bacc ON (bacc.id = s.bill_account_id)
+							INNER JOIN catalog as cat on (cat.id = ba.object_id)
+							WHERE
+								ba.object_id IN (
+									SELECT
+										bach.object_id
+									FROM
+										bill_auction AS own,
+										bill_auction AS bach
+									WHERE
+										own.owner_id = {$this->seller_id}
+									AND own.type_id = 1
+									AND bach.object_id = own.object_id
+									AND bach.date >= '{$date}'
+								)							
+							AND ba.cost > 0
+							AND s.active = 1
+							AND ba.type_id = 1
+							) as qsel
+							/*where ((IFNULL(seller_action,0)*10)+balance + (IF(pay_type = 'fixed', 0, 2) * 10)) >= {$this->min_balance}*/
+							ORDER BY
+								qsel.object_id,
+								qsel.cost DESC,
+								qsel.date ASC";
+
+                    $res = \Yii::$app->db->createCommand($sql)->queryAll();
+
+                    foreach((array)$res as $r)
+                    {
+                        $name = $r['name'];
+                        //$name = iconv("windows-1251", "UTF-8", $name);
+                        $name = htmlspecialchars($name);
+
+                        /*Если суточный, то не показывать имена*/
+                        if($r["auction_fix"] == 1){
+                            $name = '';
+                        }
+
+                        $_data = array("cost"=>round($r["cost"],2), "selected"=>$r["selected"], 'name'=>stripslashes($name));
+                        if (isset($data["data"][$r["object_id"]]) && is_array($data["data"][$r["object_id"]]))
+                            $data["data"][ $r["object_id"] ][] = $_data;
+                        else
+                            $data["data"][ $r["object_id"] ] = array($_data);
+
+                        /*Если ставки вслепую, то скрывать*/
+                        if($r["auction_fix"] == 1){
+                            $d = getdate(); // использовано текущее время
+                            $now = time();
+
+                            /*ставки вслепую*/
+                            $auction_blind = mktime($this->auction_blind_time[0],$this->auction_blind_time[1],0,$d['mon'],$d['mday'],$d['year']);
+
+                            if(($auction_blind-$now)<0){
+                                $data["data"][ $r["object_id"]] = '';
+                            }
+                        }
+                    }
+                }
+
+                die(json_encode($data));
+                break;
             case "add":
                 $ids = Yii::$app->request->post("ids");
                 foreach((array)$ids as $catalog_id)
@@ -309,17 +535,22 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 
 
         $html_row = "";
-        $res1 = \Yii::$app->db->createCommand("
-			select distinct ba.id as id, cat.name as name, ba.object_id as catalog_id
-			from bill_auction as ba
-			inner join (
-				select id, name
-				from catalog c
-				where hidden=0 and id in ({$ids_str})
-			) as cat on (cat.id=ba.object_id)
-			where ba.owner_id={$this->seller_id} and ba.type_id=1
-			order by name
-			")->queryAll();
+        if($ids_str){
+            $res1 = \Yii::$app->db->createCommand("
+                select distinct ba.id as id, cat.name as name, ba.object_id as catalog_id
+                from bill_auction as ba
+                inner join (
+                    select id, name
+                    from catalog c
+                    where hidden=0 and id in ({$ids_str})
+                ) as cat on (cat.id=ba.object_id)
+                where ba.owner_id={$this->seller_id} and ba.type_id=1
+                order by name
+                ")->queryAll();
+        } else {
+            $res1 = [];
+        }
+
 
         foreach((array)$res1 as $r1)
         {
@@ -387,7 +618,7 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 			")->queryAll();
 
 
-        if($this->seller_id == 1500){
+        /*if($this->seller_id == 1500){
             $res1 = \Yii::$app->db->createCommand("
 			select distinct ba.id as id, cat.name as name, ba.object_id as catalog_id
 			from bill_auction as ba
@@ -399,7 +630,7 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 			where ba.owner_id={$this->seller_id} and ba.type_id=1
 			order by name
 			")->queryAll();
-        }
+        }*/
 
         foreach((array)$res1 as $r1)
         {
@@ -496,5 +727,90 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
         $html = "<ol>{$html}</ol>";
 
         return stripcslashes($html);
+    }
+
+    /*Максимальная ставка по суточному аукциону*/
+    private function get_max_bid()
+    {
+        $Res = 0;
+
+        $obj = Seller::find()->where(['id' => $this->seller_id])->one();
+        $account_id = $obj->bill_account_id;
+
+        $baccount_main = BillAccount::find()->where(['id' => $account_id])->one();
+        // $balance = $baccount_main->get_property('balance');
+        $balance_all = $baccount_main->balance_all;
+        $day_down_cost = round($baccount_main->getDayDownCatalog(),2);
+        $Res = FLOOR($balance_all - ($day_down_cost*2));
+
+        return $Res;
+    }
+
+    private function _set($id, $cost, $flag_auc_minute = true)
+    {
+        $res = \Yii::$app->db->createCommand("
+            SELECT ba.*
+            FROM bill_auction ba
+            inner join seller s on (s.id=ba.owner_id and s.active=1)
+            inner join bill_auction ba1 on (ba1.object_id=ba.object_id and ba1.type_id=ba.type_id)
+            where ba1.id={$id}
+            order by ba.cost desc, ba.date asc
+		")->queryAll();
+
+        $cost = round($cost,2);
+
+        $bill_auction = BillAuction::find()->where(['id' => $id])->one();
+
+        $cost_old = $bill_auction->cost;
+
+        // if seller already is first
+        if ($flag_auc_minute){
+            if (isset($res[0]['owner_id']) && ($res[0]['owner_id']==$this->seller_id) && ($cost>$cost_old) && ($cost_old>0))
+            {
+                return;
+            }
+        }
+
+        if ($cost<>$cost_old)
+        {
+
+            $max_step = floor(10/$this->_step)*$this->_step;
+
+            if($flag_auc_minute){
+                $cost = min($cost, $cost_old+$max_step);
+                $cost = ($cost>0) ? max($cost, $this->_step) : 0;
+            }
+
+            $bill_auction->cost = $cost;
+            $bill_auction->date = date("Y-m-d H:i:s");
+            $bill_auction->save();
+
+            /*Запись о времени ставки в разделе*/
+
+            //@$this->memcache->set('auction', time(), false, 3600);
+        }
+
+        foreach ((array) $res as $i=>$r)
+        {
+            $bill_auction_obj = BillAuction::find()->where(['id' => $r["id"]])->one();
+            if ($i+1 > $r["place"])
+            {
+                $bill_auction_obj->place = $i+1;
+                $bill_auction_obj->f_notify = 0;
+                $bill_auction_obj->save();
+            }
+            elseif ($i+1 < $r["place"])
+            {
+                $bill_auction_obj->place = $i+1;
+                $bill_auction_obj->place_old = $i+1;
+                $bill_auction_obj->save();
+            }
+
+            if ($r["place_old"]==0)
+            {
+                $bill_auction_obj->place_old = $r["place"];
+                $bill_auction_obj->save();
+            }
+        }
     }
 }
