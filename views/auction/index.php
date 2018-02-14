@@ -19,6 +19,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/web/scripts/js/auction.js',[
 <div class="row">
     <div class="col-lg-12">
         <h3>Аукционы на сутки по фиксированной ставке</h3>
+        <p>Доступно к аукциону: <?= $max_bid ?> ТЕ /
+            <span style="color:red;">C <?= $time_stop_down ?> запрещается снижение ставок</span> / <span style="color:red;">C <?= $time_blind ?> ставки вслепую</span> /
+            <span id="reverce_time"></span>
+        </p>
     </div>
 </div>
 

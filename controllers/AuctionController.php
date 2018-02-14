@@ -390,6 +390,12 @@ class AuctionController extends Controller
         $vars["text_online"] = $res[0]["text"];
         $vars["text_online"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->_step,$this->min_balance),$res[0]["text"]);
 
+        $vars["hour_stop"] = $this->auction_stop_time[0];
+        $vars["minute_stop"] = $this->auction_stop_time[1];
+        $vars["time_stop_down"] = $this->auction_stop_down_time[0].':'.$this->auction_stop_down_time[1];
+        $vars["time_blind"] = $this->auction_blind_time[0].':'.$this->auction_blind_time[1];
+        $vars["max_bid"] = $this->get_max_bid();
+
         $fix_html = $this->getDataHtmlFix();
         if(strlen($fix_html)>0){
             $vars["data_catalog_fix"] = $fix_html;
