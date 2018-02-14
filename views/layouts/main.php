@@ -43,6 +43,10 @@ AppAsset::register($this);
     $seller = \app\models\Seller::find()
     ->where(['id' => $seller_id])
     ->one();
+    $bill_account = \app\models_ex\BillAccount::find()
+    ->where(['id' => $seller->bill_account_id])
+    ->one();
+    $bonus_account_id = \app\models_ex\BillAccount::find()->where(['owner_id' => $seller->bill_account_id])->one();
 ?>
 
 <!-- BEGIN HEADER -->
@@ -101,10 +105,11 @@ AppAsset::register($this);
                 </div>
                 <!-- END NAVBAR NOTIFICATIONS -->
 
+
                 <div class="nav-item nav-link btn-action-block">
                     <a class="btn" href="#">
-                        <span class="ks-action">Баланс 12 - 157/месяц (5.23/день) </span>
-                        <span class="ks-description">Бонус 23 </span>
+                        <span class="ks-action">Баланс <?= round($bill_account->balance,2); ?> - <?= $bill_account->getDayDownCatalog()*30 ?>/месяц (<?= $bill_account->getDayDownCatalog() ?>/день) </span>
+                        <span class="ks-description">Бонус  <?= round($bonus_account_id->balance,2); ?> </span>
                     </a>
                 </div>
 
