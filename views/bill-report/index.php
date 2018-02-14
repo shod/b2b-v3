@@ -26,61 +26,77 @@ $this->registerJs(
     "
 );
 ?>
-<div class="row" data-dashboard-widget>
-    <div class="col-lg-12">
-        <div>
-            <div>
+<div class="ks-page-content-body">
+    <div class="ks-dashboard-tabbed-sidebar">
+        <div class="ks-dashboard-tabbed-sidebar-widgets">
+            <div class="row" data-dashboard-widget>
+                <div class="col-lg-12">
+                    <div>
+                        <div>
 
-                <div class="row">
-                    <div class="col-lg-4">
-                        <form class="form-inline" method="get">
-                            <table width=100%>
-                                <tr>
-                                    <td style="padding-left: 0px;">
-                                        Месяц:
-                                        <select class="form-control" id='select_m' name="m" onchange="this.form.submit()">
-                                            <?= $month_options ?>
-                                        </select>
-                                    </td>
-                                    <td align=right>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="col-lg-6">
-                        <form class="form-inline" method="get">
-                            <input style="margin-top: 5px" id='date_from' class="form-control yes datepicker" name='date_from' type="text" maxlength="11" value='<?= isset($date_from) ? $date_from : ""?>' style="width:100px"/>
-                            <input style="margin-top: 5px" id='date_to' class="form-control yes datepicker" name='date_to' type="text" maxlength="11" value='<?= isset($date_to) ? $date_to: ""?>' style="width:100px"/>
-                            <input style="margin-top: 5px" type='submit' value='Показать за этот период' class='btn btn-primary' />
-                        </form>
-                    </div>
-                    <div class="col-lg-2">
-                        <button style="margin-top: 5px" class='btn btn-primary' data-remote="/bill-report/all-report" data-toggle="ajaxModal" data-target=".bd-example-modal-lg">Общая статистика</button>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <form class="form-inline" method="get">
+                                        <table width=100%>
+                                            <tr>
+                                                <td style="padding-left: 0px;">
+                                                    Месяц:
+                                                    <select class="form-control" id='select_m' name="m"
+                                                            onchange="this.form.submit()">
+                                                        <?= $month_options ?>
+                                                    </select>
+                                                </td>
+                                                <td align=right>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div>
+                                <div class="col-lg-6">
+                                    <form class="form-inline" method="get">
+                                        <input style="margin-top: 5px" id='date_from'
+                                               class="form-control yes datepicker" name='date_from' type="text"
+                                               maxlength="11" value='<?= isset($date_from) ? $date_from : "" ?>'
+                                               style="width:100px"/>
+                                        <input style="margin-top: 5px" id='date_to' class="form-control yes datepicker"
+                                               name='date_to' type="text" maxlength="11"
+                                               value='<?= isset($date_to) ? $date_to : "" ?>' style="width:100px"/>
+                                        <input style="margin-top: 5px" type='submit' value='Показать за этот период'
+                                               class='btn btn-primary'/>
+                                    </form>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button style="margin-top: 5px" class='btn btn-primary'
+                                            data-remote="/bill-report/all-report" data-toggle="ajaxModal"
+                                            data-target=".bd-example-modal-lg">Общая статистика
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div style="overflow: auto">
+                                <table class="table ks-payment-table-invoicing">
+                                    <thead>
+                                    <tr>
+                                        <th width="80">Дата</th>
+                                        <th width="50">Время</th>
+                                        <th>Транзакция</th>
+                                        <th>Счет до транзакции</th>
+                                        <th>Сумма</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?= isset($data) ? $data : "" ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <br>
 
-
-                <div style="overflow: auto">
-                <table class="table ks-payment-table-invoicing">
-                    <thead>
-                    <tr>
-                        <th width="80">Дата</th>
-                        <th width="50">Время</th>
-                        <th>Транзакция</th>
-                        <th>Счет до транзакции</th>
-                        <th>Сумма</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?= isset($data) ? $data : "" ?>
-                    </tbody>
-                </table>
             </div>
-        </div>
+
         </div>
     </div>
-
 </div>
-

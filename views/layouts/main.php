@@ -273,7 +273,7 @@ AppAsset::register($this);
                         <span>Настройка магазина</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/product/tariff">Мой тариф</a>
+                        <a class="dropdown-item" href="/tariff">Мой тариф</a>
                         <a class="dropdown-item" href="/seller/settings">Информация для покупателей</a>
                         <a class="dropdown-item" href="profile-settings-general.html">Реквизиты магазина</a>
                         <a class="dropdown-item" href="/seller/delivery">Условия доставки</a>
@@ -350,19 +350,18 @@ AppAsset::register($this);
             <section class="ks-title-and-subtitle">
                 <div class="ks-title-block">
                     <h3 class="ks-main-title"><?= Html::encode($this->title) ?></h3>
-                    <div class="ks-sub-title"></div>
+                    <!--div class="ks-sub-title"></div-->
+                    <!--div id="calc"></div-->
                 </div>
             </section>
         </div>
 
         <div class="ks-page-content">
-            <div class="ks-page-content-body">
-                <div class="ks-dashboard-tabbed-sidebar">
-                    <div class="ks-dashboard-tabbed-sidebar-widgets">
+
+
                         <?= $content;?>
-                    </div>
-                </div>
-            </div>
+
+
         </div>
     </div>
 </div>

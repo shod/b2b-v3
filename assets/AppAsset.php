@@ -33,6 +33,7 @@ class AppAsset extends AssetBundle
         'web/fonts/weather/css/weather-icons.min.css',
         'web/libs/c3js/c3.min.css',
         'web/libs/noty/noty.css',
+        'web/styles/apps/projects/grid-board.min.css',
         'web/libs/jquery-confirm/jquery-confirm.min.css',
         'web/styles/widgets/payment.min.css',
         'web/styles/widgets/panels.min.css',
@@ -41,6 +42,7 @@ class AppAsset extends AssetBundle
         'web/styles/pricing/subscriptions.min.css',
         'web/styles/pickmeup.min.css',
         'web/styles/chosen.css',
+        'web/scripts/charts/radial-progress/radial-progress.chart.min.css',
         //'web/styles/widgets/payment.min.css',
     ];
     public $js = [
