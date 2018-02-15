@@ -9,7 +9,7 @@
 namespace app\controllers;
 class billPosition
 {
-    var $id, $name;
+    var $id, $name, $_is_active;
 
     public function __construct($id, $seller_id, $r=false)
     {
@@ -36,13 +36,11 @@ class billPosition
     {
         $cost = $this->cost;
         $c1 = $cost ? round($cost / 30, 2) : 0;
-        return "<b>{$cost}</b> TE/мес ({$c1}/день)";
+        return ["cost" => $cost, 'c1' => $c1];
     }
 
     public function get_tarif_sections_html()
     {
-        global $whirl;
-
         $res = \Yii::$app->db->createCommand("
             select s.name
             from bill_catalog_section bcs
@@ -62,8 +60,7 @@ class billPosition
     public function is_active()
     {
         if (is_null($this->_is_active)) {
-            global $whirl;
-            $res = $whirl->dbd->query("select catalog_id from bill_catalog_seller where seller_id={$this->seller_id} and catalog_id={$this->id}");
+            $res = \Yii::$app->db->createCommand("select catalog_id from bill_catalog_seller where seller_id={$this->seller_id} and catalog_id={$this->id}")->queryAll();
             $this->_is_active = (count($res) > 0);
         }
 
@@ -139,9 +136,8 @@ class billPosition
 
     public function get_economy()
     {
-        global $whirl;
-        $res = $whirl->dbd->query("
-            select sum(cost) from (
+        $res = \Yii::$app->db->createCommand("
+            select sum(cost) as cost from (
             select min(cost) as cost
             from bill_catalog_section as bcs
             inner join bill_catalog_section as bcs1 on (bcs1.section_id = bcs.section_id and bcs1.catalog_id<>bcs.catalog_id)
@@ -149,8 +145,8 @@ class billPosition
             where bcs.catalog_id = {$this->id} and bc.owner_id >0
             group by bcs1.section_id
             ) as query
-        ");
-        return $res[0][0] - $this->cost;
+        ")->queryAll();
+        return $res[0]['cost'] - $this->cost;
     }
 
 }

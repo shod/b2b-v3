@@ -1,4 +1,11 @@
 /**
  * Created by Миг-к101 on 14.02.2018.
  */
-$("#calc").html("1<br>1<br>");
+$('.pack-checkbox').change(function () {
+    if ($(this).is(':checked')) {
+        $(this).parents('.card').css('background', 'rgba(0,0,0,.05)');
+    } else {
+        $(this).parents('.card').css('background', 'transparent');
+    }
+
+});

@@ -33,7 +33,7 @@ class AppAsset extends AssetBundle
         'web/fonts/weather/css/weather-icons.min.css',
         'web/libs/c3js/c3.min.css',
         'web/libs/noty/noty.css',
-        'web/styles/apps/projects/grid-board.min.css',
+        'web/styles/apps/projects/grid-board.css',
         'web/libs/jquery-confirm/jquery-confirm.min.css',
         'web/styles/widgets/payment.min.css',
         'web/styles/widgets/panels.min.css',

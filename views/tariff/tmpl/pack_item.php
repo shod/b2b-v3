@@ -1,8 +1,8 @@
 <div class="col-xl-4 col-lg-12" style="padding-bottom: 20px; height: 100%">
-    <div class="card panel panel-default ks-project">
+    <div class="card panel panel-default ks-project" <?= $active_style ?> >
         <div class="ks-project-header">
             <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success" style="margin-right: 0px;">
-                <input type="checkbox" class="custom-control-input" >
+                <input type="checkbox" class="custom-control-input pack-checkbox" <?= $checked ?> >
                 <span class="custom-control-indicator"></span>
             </label>
         </div>
@@ -10,9 +10,21 @@
             <a href="#" class="ks-name">
                 <span class="ks-text"><?= $name ?></span>
             </a>
-            <div class="ks-description ks-scrollable" style="height: 200px;">
+            <div class="ks-description" style="height: 150px; overflow: auto;">
                 <?= $sections ?>
             </div>
+            <div class="ks-widget-payment-simple-amount-item" style="padding: 0px;min-height: 0px;">
+                <div class="payment-simple-amount-item-body" style="text-align: center">
+                    <div class="payment-simple-amount-item-amount">
+                        <span class="ks-amount" style="color: rgb(37, 98, 143)"><?= $cost['cost'] ?> ТЕ</span>
+                        <span class="ks-amount" style="font-size: 16px;"><?= $cost['c1'] ?> в день</span>
+                    </div>
+                    <div class="payment-simple-amount-item-amount">
+                        <mark><span class="ks-progress-type">Экономия <?= $evalue ?> ТЕ</span></mark>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

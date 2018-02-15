@@ -193,8 +193,8 @@
             color: #25628F; }
   .ks-projects-grid-board .ks-projects-grid-board-tasks {
     background: #fff;
-    width: 394px;
-    min-width: 394px;
+    width: 300px;
+    min-width: 300px;
     border-left: 1px solid #dee0e1;
     display: -webkit-box;
     display: -webkit-flex;
@@ -257,7 +257,7 @@
           .ks-projects-grid-board .ks-projects-grid-board-tasks .ks-projects-grid-board-tasks-list .ks-projects-grid-board-tasks-body .jspPane-padding .ks-checkbox {
             display: block;
             margin-bottom: 14px; }
-            .ks-projects-grid-board .ks-projects-grid-board-tasks .ks-projects-grid-board-tasks-list .ks-projects-grid-board-tasks-body .jspPane-padding .ks-checkbox .custom-control-input:checked + .custom-control-indicator + .custom-control-description {
+            .ks-projects-grid-board .ks-projects-grid-board-tasks .ks-projects-grid-board-tasks-list .ks-projects-grid-board-tasks-body .jspPane-padding .ks-checkbox .custom-control-input:not(:checked) + .custom-control-indicator + .custom-control-description {
               text-decoration: line-through;
               color: #858585; }
             .ks-projects-grid-board .ks-projects-grid-board-tasks .ks-projects-grid-board-tasks-list .ks-projects-grid-board-tasks-body .jspPane-padding .ks-checkbox:last-child {
@@ -360,4 +360,5 @@
 
 @media screen and (max-width: 690px) {
   .ks-projects-grid-board .ks-projects-grid-board-tasks {
+    display: none;
     } }

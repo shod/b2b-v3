@@ -17,6 +17,8 @@ class TariffController extends Controller
      * @inheritdoc
      */
     public $seller_id;
+    public $active_pack = "";
+    public $active_pack_sum = 0;
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('site/login');
@@ -82,6 +84,8 @@ class TariffController extends Controller
     {
         $vars = [];
         $vars['pack_items'] = $this->get_data_bill_catalog_new_tarif();
+        $vars['pack_lines'] = $this->active_pack;
+        $vars['pack_sum'] = $this->active_pack_sum;
         return $this->render('index', $vars);
     }
 
@@ -104,17 +108,24 @@ class TariffController extends Controller
             $ID = $r['id'];
             $obj = new billPosition($ID, $this->seller_id);
 
-
+            $cost = $obj->get_cost_str();
             $html .= $this->renderPartial("tmpl/pack_item", array(
                 'id' => $ID,
                 'f_tarif' => $r['f_mode_tarif'] ? 1 : 0,
                 'f_tarif_class' => $r['f_mode_tarif'] ? 'mode_tarif' : '',
                 "name" => $obj->name,
-                "cost" => $obj->get_cost_str(),
+                "cost" => $cost,
+                "checked" => $obj->is_active() ? "checked" : "",
+                "active_style" => $obj->is_active() ? "style='background-color: rgba(0,0,0,.05)'" : "",
                 //"act" => $obj->get_act_str(),
                 "sections" => $obj->get_tarif_sections_html(),
-                //'evalue' => max($obj->get_economy(), 0)
+                'evalue' => max($obj->get_economy(), 0)
             ));
+            if($obj->is_active()){
+                $this->active_pack .= $this->renderPartial("tmpl/pack_line", ['cost' => $cost, 'name' => $obj->name]);
+                $this->active_pack_sum += $cost['cost'];
+            }
+
         }
 
         return $html;
