@@ -1,5 +1,5 @@
-<div class="col-xl-4 col-lg-12" style="padding-bottom: 20px; height: 100%">
-    <div class="card panel panel-default ks-project" <?= $active_style ?> >
+<div class="col-xl-4 col-lg-12" style="padding-bottom: 20px;">
+    <div class="card panel panel-default ks-project" style="height: 100%; <?= $active_style ?>"  >
         <div class="ks-project-header">
             <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success" style="margin-right: 0px;">
                 <input type="checkbox" class="custom-control-input pack-checkbox" <?= $checked ?> >
@@ -10,7 +10,7 @@
             <a href="#" class="ks-name">
                 <span class="ks-text"><?= $name ?></span>
             </a>
-            <div class="ks-description" style="height: 150px; overflow: auto;">
+            <div class="ks-description" style="max-height: 150px; overflow: auto;">
                 <?= $sections ?>
             </div>
             <div class="ks-widget-payment-simple-amount-item" style="padding: 0px;min-height: 0px;">

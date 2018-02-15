@@ -116,7 +116,7 @@ class TariffController extends Controller
                 "name" => $obj->name,
                 "cost" => $cost,
                 "checked" => $obj->is_active() ? "checked" : "",
-                "active_style" => $obj->is_active() ? "style='background-color: rgba(0,0,0,.05)'" : "",
+                "active_style" => $obj->is_active() ? "background-color: rgba(0,0,0,.05)" : "",
                 //"act" => $obj->get_act_str(),
                 "sections" => $obj->get_tarif_sections_html(),
                 'evalue' => max($obj->get_economy(), 0)
