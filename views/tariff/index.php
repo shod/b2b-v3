@@ -55,6 +55,16 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                     <?= isset($pack_items) ? $pack_items : "" ?>
                 </div>
 
+                <div class="row" style="padding-left: 15px;">
+                    <h3>Разделы</h3>
+                </div>
+                <div class="row">
+                    <table class="table table-condensed">
+                        <?= isset($section_items) ? $section_items : "" ?>
+                    </table>
+
+                </div>
+
 
             </div>
         </div>
@@ -126,4 +136,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
 
 
 </div>
+
+
 

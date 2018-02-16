@@ -22,6 +22,7 @@
                     <div class="payment-simple-amount-item-amount">
                         <mark><span class="ks-progress-type">Экономия <?= $evalue ?> ТЕ</span></mark>
                     </div>
+                    <div class="payment-simple-amount-item-amount"><?= $act ?></div>
                 </div>
             </div>
 

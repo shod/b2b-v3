@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\BillCatalog;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -86,7 +87,43 @@ class TariffController extends Controller
         $vars['pack_items'] = $this->get_data_bill_catalog_new_tarif();
         $vars['pack_lines'] = $this->active_pack;
         $vars['pack_sum'] = $this->active_pack_sum;
+
+        $vars['section_items'] = $this->get_data_bill_catalog_new_sections();
         return $this->render('index', $vars);
+    }
+
+    private function get_data_bill_catalog_new_sections()
+    {
+
+        $html = '';
+
+            $res1 = \Yii::$app->db->createCommand("
+                select c.id, c.name, c.owner_id, c.hidden, c.position, c.f_tarif, c.is_old, c.f_new, c.pay_type, IFNULL(s.f_tarif,1) as f_mode_tarif, IFNULL(s.seller_id,0) as active, 
+                if(ifnull(bbd.date_expired,DATE_ADD(now(),INTERVAL -1 DAY)) <= DATE_ADD(now(),INTERVAL -1 DAY) > 0, c.cost, 0) as cost
+                from bill_catalog c
+                left join bill_catalog_seller s on (s.seller_id={$this->seller_id} and s.catalog_id=c.id)
+                left join bill_cat_sel_discount as bbd on (bbd.seller_id = s.seller_id and bbd.catalog_id = s.catalog_id)
+                where c.hidden=0 and c.f_tarif = 0 and c.owner_id != 0
+                order by active desc, c.name
+            ")->queryAll();
+            foreach ((array)$res1 as $i => $r1)
+            {
+                $ID1 = $r1['id'];
+                $obj1 = new billPosition($ID1, $this->seller_id);
+
+                $html .= $this->renderPartial('tmpl/item_section', array(
+                    'id' => $ID1,
+                    'f_tarif' => $r1['f_mode_tarif'] ? 1 : 0,
+                    'f_tarif_class' => $r1['f_mode_tarif'] ? 'mode_tarif' : '',
+                    'name' => $obj1->name,
+                    'cost' => $obj1->get_cost_str(),
+                    "act" => $obj1->get_act_str(),
+                    "checked" => $obj1->is_active() ? "checked" : "",
+                    'class_last' => ($i + 1 == count($res1)) ? 'class="last"' : ''
+                ));
+            }
+
+        return $html;
     }
 
     private function get_data_bill_catalog_new_tarif()
@@ -100,7 +137,7 @@ class TariffController extends Controller
             left join bill_cat_sel_discount as bbd on (bbd.seller_id = s.seller_id and bbd.catalog_id = s.catalog_id)
             where c.f_tarif=1 and c.hidden=0
 			  and (c.is_old = 0 OR (s.f_tarif =1 and c.is_old=1))
-			  order by position
+			  order by active desc, c.name
         ")->queryAll();
         $html = '';
         foreach ((array)$res as $r)
@@ -117,7 +154,7 @@ class TariffController extends Controller
                 "cost" => $cost,
                 "checked" => $obj->is_active() ? "checked" : "",
                 "active_style" => $obj->is_active() ? "background-color: rgba(0,0,0,.05)" : "",
-                //"act" => $obj->get_act_str(),
+                "act" => $obj->get_act_str(),
                 "sections" => $obj->get_tarif_sections_html(),
                 'evalue' => max($obj->get_economy(), 0)
             ));

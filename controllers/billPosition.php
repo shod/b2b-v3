@@ -9,7 +9,7 @@
 namespace app\controllers;
 class billPosition
 {
-    var $id, $name, $_is_active;
+    var $id, $name, $_is_active, $_cnt_ps_sec, $_cnt_ps;
 
     public function __construct($id, $seller_id, $r=false)
     {
@@ -70,15 +70,15 @@ class billPosition
     public function get_cnt_ps()
     {
         if (is_null($this->_cnt_ps)) {
-            global $whirl;
-            $res = $whirl->dbd->query("
-                    select count(1)
+
+            $res = \Yii::$app->db->createCommand("
+                    select count(1) as cnt
                     from bill_catalog_section bcs
                     inner join products p on (p.section_id=bcs.section_id)
                     inner join product_seller ps on (ps.product_id=p.id)
                     where bcs.catalog_id={$this->id} and ps.seller_id={$this->seller_id}
-            ");
-            $this->_cnt_ps = $res[0][0];
+            ")->queryAll();
+            $this->_cnt_ps = $res[0]['cnt'];
         }
 
         return $this->_cnt_ps;
@@ -87,10 +87,10 @@ class billPosition
     public function get_cnt_ps_sec()
     {
         if (is_null($this->_cnt_ps_sec)) {
-            global $whirl;
-            $res = $whirl->dbd->query("
+
+            $res = \Yii::$app->db->createCommand("
                     SELECT
-                        count(1)
+                        count(1) as cnt
                     FROM
                         bill_catalog_section bcs
                     INNER JOIN bill_catalog AS bc ON (bc.id = bcs.catalog_id)
@@ -101,8 +101,8 @@ class billPosition
                     WHERE
                         bc.owner_id = {$this->id}
                     AND ps.seller_id = {$this->seller_id}
-            ");
-            $this->_cnt_ps_sec = $res[0][0];
+            ")->queryAll();
+            $this->_cnt_ps_sec = $res[0]['cnt'];
         }
 
         return $this->_cnt_ps_sec;
@@ -112,11 +112,11 @@ class billPosition
     {
         $cnt = $this->get_cnt_ps_sec();
         if ($this->is_active()) {
-            $act_str = "<span class=\"act\"> активный ($cnt)</span>";
+            $act_str = "<span class=\"badge badge-success-outline\"> активный ($cnt)</span>";
         }
         else
         {
-            $act_str = $cnt ? "<span class=\"red\">доступно ({$cnt})</span>" : "";
+            $act_str = $cnt ? "<span class=\"badge badge-default-outline\">доступно ({$cnt})</span>" : "";
         }
         return $act_str;
     }
@@ -125,11 +125,11 @@ class billPosition
     {
         $cnt = $this->get_cnt_ps();
         if ($this->is_active()) {
-            $act_str = "<span class=\"act\"> активный ($cnt)</span>";
+            $act_str = "<span class=\"badge badge-success-outline\"> активный ($cnt)</span>";
         }
         else
         {
-            $act_str = $cnt ? "<span class=\"red\">доступно ({$cnt})</span>" : "";
+            $act_str = $cnt ? "<span class=\"badge badge-default-outline\">доступно ({$cnt})</span>" : "";
         }
         return $act_str;
     }

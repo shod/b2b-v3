@@ -4,8 +4,10 @@
 $('.pack-checkbox').change(function () {
     if ($(this).is(':checked')) {
         $(this).parents('.card').css('background', 'rgba(0,0,0,.05)');
+        $(this).parents('tr').css('background', 'rgba(0,0,0,.05)');
     } else {
         $(this).parents('.card').css('background', 'transparent');
+        $(this).parents('tr').css('background', 'transparent');
     }
 
 });
