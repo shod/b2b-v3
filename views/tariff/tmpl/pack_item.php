@@ -8,9 +8,9 @@
         </div>
         <div class="ks-project-body">
             <a href="#" class="ks-name">
-                <span class="ks-text"><?= $name ?></span>
+                <span class="ks-text pack-name"><?= $name ?></span>
             </a>
-            <div class="ks-description" style="max-height: 150px; overflow: auto;">
+            <div class="ks-description pack-sections" style="max-height: 150px; overflow: auto;">
                 <?= $sections ?>
             </div>
             <div class="ks-widget-payment-simple-amount-item" style="padding: 0px;min-height: 0px;">

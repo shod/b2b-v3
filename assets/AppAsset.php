@@ -68,6 +68,7 @@ class AppAsset extends AssetBundle
         'web/scripts/kosmo.widget-controls.min.js',
         'web/scripts/jquery.pickmeup.min.js',
         'web/scripts/chosen.jquery.min.js',
+        'web/scripts/jquery.mark.js',
         'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
         'https://code.highcharts.com/highcharts.js',
     ];

@@ -37,7 +37,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
         <div class="ks-projects-grid-board-header">
             <div class="ks-search">
                 <div class="input-icon icon-right icon icon-lg icon-color-primary">
-                    <input id="input-group-icon-text" type="text" class="form-control" placeholder="Найти">
+                    <input id="input-group-icon-text" type="text" class="form-control" placeholder="Найти" onkeyup="search_str(this.value);">
                     <span class="icon-addon">
                                     <span class="la la-search"></span>
                                 </span>
