@@ -83,33 +83,17 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
             </div>
             <div class="ks-projects-grid-board-tasks-body ks-scrollable">
                 <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>ПАКЕТЫ</strong></div>
-                <div class="jspPane-padding">
+                <div class="jspPane-padding" id="calc_packs">
                     <?= $pack_lines ?>
                 </div>
                 <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <?= $pack_sum ?>
                     ТЕ
                 </div>
-                <!--div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>РАЗДЕЛЫ</strong></div>
+                <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>РАЗДЕЛЫ</strong></div>
                 <div class="jspPane-padding">
-                    <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success">
-                        <input type="checkbox" class="custom-control-input">
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Анлим</span>
-                    </label>
-                    <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success">
-                        <input type="checkbox" class="custom-control-input">
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Красота и здоровье</span>
-                    </label>
-                    <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success">
-                        <input type="checkbox" class="custom-control-input">
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Телефония</span>
-                        <span class="custom-control-cost" style="float: right">130 ТЕ</span>
-
-                    </label>
+                    <?= $section_lines ?>
                 </div>
-                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего 150 ТЕ</div-->
+                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <?= $section_sum ?> ТЕ</div>
             </div>
         </div>
 
@@ -117,13 +101,13 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
         <table class="ks-projects-grid-board-tasks-statistics">
             <tr>
                 <td class="ks-statistic-item">
-                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><?= $pack_sum ?> ТЕ</span>
+                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><?= $all_sum ?> ТЕ</span>
                     <span class="ks-text">в месяц</span>
                 </td>
             </tr>
             <tr>
                 <td class="ks-statistic-item">
-                    <span class="ks-amount"><?= $pack_sum / 30 ?></span>
+                    <span class="ks-amount"><?= $all_sum / 30 ?></span>
                     <span class="ks-text">в день</span>
                 </td>
             </tr>

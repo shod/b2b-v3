@@ -1,7 +1,7 @@
 <tr>
     <td>
         <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success" style="margin-right: 0px;">
-            <input type="checkbox" class="custom-control-input pack-checkbox" <?= $checked ?> >
+            <input type="checkbox" class="custom-control-input pack-checkbox" <?= $checked ?> id="section_<?= $id ?>">
             <span class="custom-control-indicator"></span>
         </label>
     </td>
