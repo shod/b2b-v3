@@ -86,14 +86,14 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                 <div class="jspPane-padding" id="calc_packs">
                     <?= $pack_lines ?>
                 </div>
-                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <?= $pack_sum ?>
+                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <span id="sum_pack"><?= $pack_sum ?></span>
                     ТЕ
                 </div>
                 <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>РАЗДЕЛЫ</strong></div>
-                <div class="jspPane-padding">
+                <div class="jspPane-padding" id="calc_sections">
                     <?= $section_lines ?>
                 </div>
-                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <?= $section_sum ?> ТЕ</div>
+                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <span id="sum_section"><?= $section_sum ?></span> ТЕ</div>
             </div>
         </div>
 
@@ -101,13 +101,13 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
         <table class="ks-projects-grid-board-tasks-statistics">
             <tr>
                 <td class="ks-statistic-item">
-                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><?= $all_sum ?> ТЕ</span>
+                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><span id="sum_all"><?= $all_sum ?></span> ТЕ</span>
                     <span class="ks-text">в месяц</span>
                 </td>
             </tr>
             <tr>
                 <td class="ks-statistic-item">
-                    <span class="ks-amount"><?= $all_sum / 30 ?></span>
+                    <span class="ks-amount"><span id="sum_all_day"><?= $all_sum / 30 ?></span></span>
                     <span class="ks-text">в день</span>
                 </td>
             </tr>
