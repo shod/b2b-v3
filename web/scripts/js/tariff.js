@@ -101,9 +101,6 @@ function sum_recount() {
     $("#sum_all_day").html(Number((sum/30).toFixed(1)));
 }
 
-
-
-
 function search_str(str) {
     $('.col-xl-4').show();
     $('tr').show();
@@ -139,4 +136,65 @@ function search_str(str) {
         $( ".pack-sections" ).mark(str);
         $( ".section-name" ).mark(str);
     }
+}
+
+function save_tariff() {
+    active_packs = [];
+    active_sections = [];
+    $( ".pack-line" ).each(function() {
+        id = $(this).attr('id').split("_");
+        type = id[1];
+        id = id[2];
+        if ($(this).is(':checked')) {
+            if(type == 'pack'){
+                active_packs.push(id);
+            } else {
+                active_sections.push(id);
+            }
+        }
+    });
+
+    sum = $("#sum_all").html();
+    sum_day = $("#sum_all_day").html();
+
+    if (sum > 9){
+        $.confirm({
+            title: 'Внимание!',
+            content: 'Сумма списания за размещение в каталоге составит <b>'+sum+'</b> ТЕ/мес   (<b>'+sum_day+'</b>/день) <br>Вы уверены в выборе?',
+            type: 'primary',
+            columnClass: 'col-md-4 col-md-offset-4',
+            buttons: {
+                confirm: {
+                    text: 'Сохранить', // With spaces and symbols
+                    btnClass: 'btn-primary',
+                    action: function () {
+
+                        $.ajax({
+                            method: "GET",
+                            url: "/tariff/process/?action=save&pack="+JSON.stringify(active_packs)+"&section="+JSON.stringify(active_sections),
+                            dataType: 'html',
+                        })
+                            .done(function( msg ) {
+                                $.alert({
+                                    title: "Тариф успешно сохранен",
+                                    type: 'blue',
+                                    content: 'Для продолжения работы нажмите ОК',
+                                });
+                            });
+                    }
+                },
+                cancel: {
+                    text: 'Отменить'
+                }
+            }
+        });
+    } else {
+        $.alert({
+            title: "Предупреждение",
+            type: 'blue',
+            content: 'Ваш тариф (сумма выбранных пакетов и/или разделов) не может быть менее 12 ТЕ.',
+        });
+    }
+
+
 }

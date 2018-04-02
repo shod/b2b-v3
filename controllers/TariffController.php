@@ -83,6 +83,21 @@ class TariffController extends Controller
         ];
     }
 
+    public function actionProcess(){
+        $action = Yii::$app->request->post("action");
+        $action = isset($action) ? $action : Yii::$app->request->get("action");
+
+
+        switch ($action) {
+            case "save":
+                $active_packs = json_decode(Yii::$app->request->get("pack"));
+                $active_sections = json_decode(Yii::$app->request->get("section"));
+
+
+                break;
+        }
+    }
+
     public function actionIndex()
     {
         $vars = [];

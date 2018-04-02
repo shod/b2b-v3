@@ -37,7 +37,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
         <div class="ks-projects-grid-board-header">
             <div class="ks-search">
                 <div class="input-icon icon-right icon icon-lg icon-color-primary">
-                    <input id="input-group-icon-text" type="text" class="form-control" placeholder="Найти" onkeyup="search_str(this.value);">
+                    <input id="input-group-icon-text" type="text" class="form-control" placeholder="Найти"
+                           onkeyup="search_str(this.value);">
                     <span class="icon-addon">
                                     <span class="la la-search"></span>
                                 </span>
@@ -72,50 +73,56 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
 
 
     <div class="ks-projects-grid-board-tasks" style="background-color: #f2f2f2;">
-        <div class="ks-projects-grid-board-tasks-list">
-            <div class="ks-projects-grid-board-tasks-header">
-                <span class="ks-text"><h4>Ваш тариф</h4></span>
-                <div class="ks-progress ks-progress-inline">
-                    <div>
-                        Стоимость указана без учета НДС
+            <div class="ks-projects-grid-board-tasks-list">
+                <div class="ks-projects-grid-board-tasks-header">
+                    <span class="ks-text"><h4>Ваш тариф</h4></span>
+                    <div class="ks-progress ks-progress-inline">
+                        <div>
+                            Стоимость указана без учета НДС
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ks-projects-grid-board-tasks-body ks-scrollable">
+                    <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>ПАКЕТЫ</strong>
+                    </div>
+                    <div class="jspPane-padding" id="calc_packs">
+                        <?= $pack_lines ?>
+                    </div>
+                    <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <span
+                                id="sum_pack"><?= $pack_sum ?></span>
+                        ТЕ
+                    </div>
+                    <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>РАЗДЕЛЫ</strong>
+                    </div>
+                    <div class="jspPane-padding" id="calc_sections">
+                        <?= $section_lines ?>
+                    </div>
+                    <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <span
+                                id="sum_section"><?= $section_sum ?></span> ТЕ
                     </div>
                 </div>
             </div>
-            <div class="ks-projects-grid-board-tasks-body ks-scrollable">
-                <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>ПАКЕТЫ</strong></div>
-                <div class="jspPane-padding" id="calc_packs">
-                    <?= $pack_lines ?>
-                </div>
-                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <span id="sum_pack"><?= $pack_sum ?></span>
-                    ТЕ
-                </div>
-                <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>РАЗДЕЛЫ</strong></div>
-                <div class="jspPane-padding" id="calc_sections">
-                    <?= $section_lines ?>
-                </div>
-                <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">Всего <span id="sum_section"><?= $section_sum ?></span> ТЕ</div>
+
+
+            <table class="ks-projects-grid-board-tasks-statistics">
+                <tr>
+                    <td class="ks-statistic-item">
+                        <span class="ks-amount" style="color: rgb(37, 98, 143)"><span
+                                    id="sum_all"><?= $all_sum ?></span> ТЕ</span>
+                        <span class="ks-text">в месяц</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ks-statistic-item">
+                        <span class="ks-amount"><span id="sum_all_day"><?= $all_sum / 30 ?></span></span>
+                        <span class="ks-text">в день</span>
+                    </td>
+                </tr>
+            </table>
+            <div style="text-align: center; padding: 20px; border-top: 1px solid #dee0e1">
+                <button class="btn btn-primary btn-lg" onclick="save_tariff()">Сохранить тариф</button>
             </div>
-        </div>
-
-
-        <table class="ks-projects-grid-board-tasks-statistics">
-            <tr>
-                <td class="ks-statistic-item">
-                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><span id="sum_all"><?= $all_sum ?></span> ТЕ</span>
-                    <span class="ks-text">в месяц</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="ks-statistic-item">
-                    <span class="ks-amount"><span id="sum_all_day"><?= $all_sum / 30 ?></span></span>
-                    <span class="ks-text">в день</span>
-                </td>
-            </tr>
-        </table>
-        <div style="text-align: center; padding: 20px; border-top: 1px solid #dee0e1">
-            <button class="btn btn-primary btn-lg">Сохранить тариф</button>
-        </div>
-
     </div>
 
 
