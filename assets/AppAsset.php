@@ -65,6 +65,7 @@ class AppAsset extends AssetBundle
         'web/libs/jquery-confirm/jquery-confirm.min.js',
         'web/libs/jquery/jquery-ui.min.js',
         'web/libs/count-up/count-up.min.js',
+        'web/libs/jquery-form-validator/jquery.form-validator.min.js',
         'web/scripts/kosmo.widget-controls.min.js',
         'web/scripts/jquery.pickmeup.min.js',
         'web/scripts/chosen.jquery.min.js',

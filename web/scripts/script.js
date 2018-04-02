@@ -1,5 +1,7 @@
 $( document ).ready(function() {
 
+    $.validate();
+
     page_url = window.location.pathname;
     $( "ul.nav-stacked a.dropdown-item" ).each(function() {
         href = $( this ).attr('href');
