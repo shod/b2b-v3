@@ -71,6 +71,7 @@ class SettingsController extends Controller
         $action = isset($action) ? $action : Yii::$app->request->get("action");
         switch ($action) {
             case "save":
+                return $this->redirect(['settings/index']);
                 break;
             case "add_img_registration":
                 $status = 1;
@@ -136,6 +137,10 @@ class SettingsController extends Controller
         $member_data = $member->getMemberProperties();
         $img_registration = $this->get_img_registration();
         return $this->render('index', array_merge($member_data, ['img_registration' => $img_registration]));
+    }
+
+    public function actionUserInfo(){
+        return $this->render('user_info');
     }
 
     private function data_img_registration() {

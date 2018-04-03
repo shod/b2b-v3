@@ -157,7 +157,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
 
                 <div class="row">
                     <div class="col-lg-3"> Копия свидетельства о гос. регистрации(максимальный размер 10мб, формат JPG, GIF, PNG)
-                        <br>
+                        <br><br>
                         <button id="upload" class="upload btn btn-sm btn-primary">Загрузить
                             фотографии
                         </button>
