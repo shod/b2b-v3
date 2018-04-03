@@ -1,5 +1,7 @@
 <?php
 $this->title = "Реквизиты магазина";
+$this->registerJsFile('https://b2b.migom.by/js/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <form method="post" action="/settings/process">
     <input type="hidden" name="_csrf"
@@ -148,28 +150,31 @@ $this->title = "Реквизиты магазина";
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
-                        Копия свидетельства о гос. регистрации
-                        (максимальный размер 10мб, формат JPG, GIF, PNG)
-                        <button style="display:none" id="upload" class="upload btn btn-sm btn-primary">Загрузить
-                            фотографии
-                        </button>
-                        <div id="status" class="status"></div>
-                        <div class="clear"><!-- --></div>
-                        <br>
-                        <div id="files" class="cont-files">
-                            <div class="item-info-file">
-                                <div style="display:none" class="del-img" id="dd9d5.JPG"></div>
-                                <img src="http://b2b.migom.by/img/seller/registration/1500/dd9d5.JPG" width="50">
-                            </div>
-                        </div>
-                        <div class="procces_load_img" id="procces_load_img">&nbsp;</div>
-                    </div>
                     <div class="col-lg-12 content-end">
                         <input class="btn btn-success" type="submit" value="Сохранить">
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-3"> Копия свидетельства о гос. регистрации(максимальный размер 10мб, формат JPG, GIF, PNG)
+                        <br>
+                        <button id="upload" class="upload btn btn-sm btn-primary">Загрузить
+                            фотографии
+                        </button>
+                    </div>
+                    <div class="col-lg-3">
+
+                        <div id="status" class="status"></div>
+                        <div id="files" class="cont-files">
+                            <?= $img_registration ?>
+                        </div>
+                        <div class="procces_load_img" id="procces_load_img">&nbsp;</div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </form>
+
+
