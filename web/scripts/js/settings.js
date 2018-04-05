@@ -2,6 +2,11 @@
  * Created by Миг-к101 on 03.04.2018.
  */
 $(document).ready(function () {
+    $('.chosen-select').chosen();
+    $("#tablePhones tr:visible select.chosen-select").chosen();
+    $('#tablePhones tr:visible select.chosen-select').on('click', function(event){
+        $(this).chosen();
+    });
     $('.del-img').on('click', function(event){
         $this = $(this);
         var $id = $(this).attr('id');
@@ -72,3 +77,53 @@ $(document).ready(function () {
         });
     });
 });
+
+$('#importers, #service_centers').on('click', function(event){
+    $id = $(this).attr('id');
+
+    var input = $('<input>', {
+        type: 'text',
+        name: $id+'[]',
+        class: 'form-control'
+    });
+
+    $('#cont_'+$id).append(input);
+    $('#cont_'+$id).append('<br>');
+
+});
+
+var add_phone = function()
+{
+
+    if(typeof str == "undefined") {
+        str = '<tr id="tmpl_id">'+$("#tablePhones tr:last").html()+'</tr>';
+    }
+
+    $(str).appendTo("#tablePhones");
+    var cnt = $('#tablePhones tr').length - 1;
+    var $tr = $("#tablePhones tr:last");
+    var $inp = $tr.find('input[name="phone_id[]"]');
+    var old_id = $inp.val();
+    var new_id = "_"+cnt;
+    $tr.find('input[name="phone_id[]"]').val(new_id);
+
+    $tr.find('td > input, td > select').each(function() {
+        $(this).attr("name", $(this).attr("name").replace("["+old_id+"]", "["+new_id+"]"));
+    });
+    $tr.find('select[name="phone_section['+old_id+'][]"]').attr("name","phone_section["+new_id+"][]");
+    $("#tablePhones tr:visible select.chosen-select").chosen();
+    $('#tablePhones tr:visible select.chosen-select').on('click', function(event){
+        $(this).chosen();
+    });
+
+}
+
+function openbox(id){
+    display = document.getElementById(id).style.display;
+
+    if(display=='none'){
+        document.getElementById(id).style.display='block';
+    }else{
+        document.getElementById(id).style.display='none';
+    }
+}

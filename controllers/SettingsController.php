@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Seller;
+use app\models\SellerInfo;
 use app\models_ex\Member;
 use Yii;
 use yii\filters\AccessControl;
@@ -140,7 +141,17 @@ class SettingsController extends Controller
     }
 
     public function actionUserInfo(){
-        return $this->render('user_info');
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $seller_info = SellerInfo::find()->where(['seller_id' => $this->seller_id])->one();
+        $work_time = $this->work_time_html($seller->work_time);
+        $phones = $this->get_phones($seller->phone, $seller->pay_type);
+        $res = $this->get_payment_list();
+        foreach($res as $item){
+            $vars['bit_'.$item['code']] = $item['f_check'] ? "checked" : "";
+        }
+        $vars["cont_importers"] = $this->deserilize('importers',$seller_info->importers);
+        $vars["cont_service_centers"] = $this->deserilize('service_centers',$seller_info->service_centers);
+        return $this->render('user_info', array_merge($vars, ['seller' => $seller, 'work_time' => $work_time, 'phones' => $phones, 'seller_info' => $seller_info]));
     }
 
     private function data_img_registration() {
@@ -167,6 +178,299 @@ class SettingsController extends Controller
             }
         }
         return $data;
+    }
+
+    private function work_time_html($wt)
+    {
+        $html = "";
+        $days = array(1 => "Понедельник", 2 => "Вторник", 3 => "Среда", 4 => "Четверг", 5 => "Пятница", 6 => "Суббота", 0 => "Воскресенье");
+        $time = array("07:00", "07:30" , "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30");
+        $wt = unserialize($wt);
+        foreach ((array) $days as $d => $d_str)
+        {
+            $options = [0=>'', 1=> ''];
+            foreach (array(0, 1) as $i)
+            {
+                $options[$i] .= "<option></option>";
+                foreach ((array) $time as $t)
+                {
+                    $selected = ($wt[$d][$i] == $t) ? "selected" : "";
+                    $options[$i] .= "<option value=\"{$t}\" {$selected}>{$t}</option>";
+                }
+            }
+            $html .= $this->renderPartial("tmpl/work_time", ['vars' => array(
+                "d" => $d, "d_str" => $d_str, "options0" => $options[0], "options1" => $options[1]
+            )]);
+        }
+        return $html;
+    }
+
+    private function get_phones($phone, $pay_type)
+    {
+        $html = "";
+        $phones = unserialize($phone);
+
+        $type_op = array('velcom'=>'Velcom','life'=>'Life:)','mts'=>'МТС','diallog'=>'Diallog','btk'=>'Городской',);
+
+        if (($phones === false) || !is_array($phones))
+        {
+            return $this->get_phones_old($phone);
+        }
+        else
+        {
+            $cnt = 0;
+
+            if ($pay_type == 'fixed'){
+                $res = \Yii::$app->db->createCommand("
+                    select c1.id as id, c1.name as name, c2.id as owner_id, c2.name as owner_name
+                    from bill_catalog_seller sel
+                    inner join bill_catalog_section sec on (sec.catalog_id=sel.catalog_id)
+                    inner join catalog_subject cs on (cs.subject_id=sec.section_id)
+                    inner join catalog c1 on (c1.id=cs.catalog_id and c1.hidden=0)
+                    inner join catalog c2 on (c2.id=c1.owner_id and c2.hidden=0)
+                    where sel.seller_id={$this->seller_id}
+                    group by c2.id, c1.id
+                    order by c2.position, c1.position
+                ")->queryAll();
+            } else {
+                $res = \Yii::$app->db->createCommand("
+                   SELECT DISTINCT vb.catalog_id as id, vb.`name`, vb.owner_id, c2.name as owner_name
+                    FROM v_catalog_sections AS vb
+                    LEFT JOIN (
+                        SELECT
+                            catalog_id
+                        FROM
+                            bill_click_catalog_blacklist AS bcl
+                        WHERE
+                            seller_id = {$this->seller_id}
+                    ) AS qoff ON (qoff.catalog_id = vb.catalog_id)
+                    left JOIN catalog c2 ON (c2.id = vb.owner_id AND c2.hidden = 0)
+                    join product_seller as ps on (ps.seller_id = {$this->seller_id} and ps.prod_sec_id = vb.section_id)
+                    WHERE vb.hidden = 0 AND qoff.catalog_id IS NULL AND NOT EXISTS (
+                        SELECT
+                            1
+                        FROM
+                            bill_click_catalog_blacklist AS bcl
+                        WHERE
+                            seller_id = 0
+                        AND vb.catalog_id = bcl.catalog_id
+                    )
+                    ORDER BY c2.position, vb.name
+                   ")->queryAll();
+            }
+
+            foreach ((array) $phones[0] as $i => $phone)
+            {
+                $owner_id = 0;
+                $options = "";
+
+                foreach ((array) $res as $r)
+                {
+                    if ($r["owner_id"] <> $owner_id)
+                    {
+                        $owner_id = $r["owner_id"];
+                        $options .= "<option value=\"{$owner_id}\"><b>{$r["owner_name"]}</b></option>";
+                    }
+                    $options .= "<option value=\"{$r["id"]}\">&nbsp;&nbsp;&nbsp;{$r["name"]}</option>";
+                }
+
+                if(!empty($phone["op"])) {
+                    $hidden ='displayNone';
+                    $text_op = $type_op[$phone["op"]];
+                } else {
+                    $text_op = '';
+                }
+                $checked_viber = $phone["viber"] ? "checked" : "";
+                $checked_telegram = $phone["telegram"] ? "checked" : "";
+                $checked_whatsapp = $phone["whatsapp"] ? "checked" : "";
+                $html .= $this->renderPartial("tmpl/phone", array(
+                    "id" => $i,
+                    "phone" => $phone["phone"],
+                    "phone_code" => $phone["code"],
+                    "selected_{$phone["op"]}" => "selected",
+                    "selected_{$phone["code"]}" => "selected",
+                    "selected_{$phone["type"]}" => "selected",
+                    "section_options" => $options,
+                    "checked_viber" => $checked_viber,
+                    "checked_telegram" => $checked_telegram,
+                    "checked_whatsapp" => $checked_whatsapp,
+                    'text_op'=>$text_op,
+                ));
+                $cnt++;
+            }
+
+            $res1 = \Yii::$app->db->createCommand("select id from catalog where hidden=0 order by owner_id, position")->queryAll();
+            foreach ((array) $res1 as $r)
+            {
+                $cat_id = $r["id"];
+                if (array_key_exists($cat_id, $phones))
+                {
+                    foreach ((array) $phones[$cat_id] as $i => $phone)
+                    {
+                        $owner_id = 0;
+                        $options = "";
+                        foreach ((array) $res as $r)
+                        {
+                            if ($r["owner_id"] <> $owner_id)
+                            {
+                                $owner_id = $r["owner_id"];
+                                $selected = $this->get_phones_catalog_selected($owner_id, $phone, $phones);
+                                $options .= "<option value=\"{$owner_id}\"{$selected}><b>{$r["owner_name"]}</b></option>";
+                            }
+
+                            $selected = $this->get_phones_catalog_selected($r["id"], $phone, $phones);
+                            $options .= "<option value=\"{$r["id"]}\"{$selected}>&nbsp;&nbsp;&nbsp;{$r["name"]}</option>";
+                        }
+                        $checked_viber = $phone["viber"] ? "checked" : "";
+                        $html .= $this->renderPartial("tmpl/phone", [
+                            "id" => "{$cat_id}_{$i}",
+                            "phone" => $phone["phone"],
+                            "phone_code" => $phone["code"],
+                            "selected_{$phone["code"]}" => "selected",
+                            "selected_{$phone["op"]}" => "selected",
+                            "selected_{$phone["type"]}" => "selected",
+                            "checked_viber" => $checked_viber,
+                            "section_options" => $options
+                        ]);
+                        $cnt++;
+                    }
+                }
+            }
+
+            $owner_id = 0;
+            $options = "";
+            foreach ((array) $res as $r)
+            {
+                if ($r["owner_id"] <> $owner_id)
+                {
+                    $owner_id = $r["owner_id"];
+                    $options .= "<option value=\"{$owner_id}\"><b>{$r["owner_name"]}</b></option>";
+                }
+                $options .= "<option value=\"{$r["id"]}\">&nbsp;&nbsp;&nbsp;{$r["name"]}</option>";
+            }
+
+            for ($i = $cnt; $i < 4; $i++)
+            {
+                $html .= $this->renderPartial("tmpl/phone", array("id" => "_{$i}", "section_options" => $options, 'tmpl_id'=>'id="tmpl_id"'));
+            }
+
+            //tmpl
+            $html .= $this->renderPartial("tmpl/phone", array("id" => "{{id}}", "section_options" => $options, 'tmpl_id'=>'id="tmpl_id"','style'=>'style="display:none"'));
+        }
+
+        return $html;
+    }
+
+    private function get_phones_catalog_selected($catalog_id, $phone, &$phones1)
+    {
+        $res = false;
+        if (array_key_exists($catalog_id, $phones1))
+        {
+            $phones = $phones1[$catalog_id];
+            foreach ((array) $phones as $i=>$p)
+            {
+                if (($p["code"] == $phone["code"]) && ($p["phone"] == $phone["phone"]) && ($p["op"] == $phone["op"]))
+                {
+                    $res = true;
+                    unset($phones1[$catalog_id][$i]);
+                    break;
+                }
+            }
+        }
+        return $res ? " selected" : "";
+    }
+
+    private function get_phones_old($phone)
+    {
+        $html = "";
+        $res = \Yii::$app->db->createCommand("
+            select c1.id as id, c1.name as name, c2.id as owner_id, c2.name as owner_name
+            from bill_catalog_seller sel
+            inner join bill_catalog_section sec on (sec.catalog_id=sel.catalog_id)
+            inner join catalog_subject cs on (cs.subject_id=sec.section_id)
+            inner join catalog c1 on (c1.id=cs.catalog_id and c1.hidden=0)
+            inner join catalog c2 on (c2.id=c1.owner_id and c2.hidden=0)
+            where sel.seller_id={$this->seller_id}
+            group by c2.id, c1.id
+            order by c2.position, c1.position
+        ")->queryAll();
+        $owner_id = 0;
+        $options = "";
+        foreach ((array) $res as $r)
+        {
+            if ($r["owner_id"] <> $owner_id)
+            {
+                $owner_id = $r["owner_id"];
+                $options .= "<option value=\"{$owner_id}\"><b>{$r["owner_name"]}</b></option>";
+            }
+            $options .= "<option value=\"{$r["id"]}\">&nbsp;&nbsp;&nbsp;{$r["name"]}</option>";
+        }
+
+        $phone = explode(";", $phone);
+        for ($i = 0; $i < 4; $i++)
+        {
+            $vars = array();
+            $p = ($i < count($phone)) ? $phone[$i] : "";
+            if (preg_match('/^8-\\((\\d+)\\)-([^\\s]+)/', $p, $res))
+            {
+                if (preg_match('/\\(([^\\s]+)\\)$/', $p, $res1))
+                    $vars["selected_{$res1[1]}"] = "selected";
+                $vars["phone_code"] = $res[1];
+                $vars["phone"] = $res[2];
+            }
+            else
+            {
+                $vars["phone"] = $p;
+            }
+            $vars["section_options"] = $options;
+            $vars["id"] = $i;
+            $html .= $this->renderPartial("tmpl/phone", $vars);
+        }
+
+        return $html;
+    }
+
+    function get_payment_list(){
+
+        $res = \Yii::$app->db->createCommand("select sd.bit, sd.description, sd.`code`, s.payment_mode_bit, IF(s.setting_bit & sd.bit>0,1,0) as f_check
+			from sys_doc
+			INNER JOIN sys_docstatus as sd on (sd.sysdoc_id = sys_doc.id)
+			INNER JOIN seller as s on (s.id = {$this->seller_id})
+			where sys_doc.`code` = 'seller'")->queryAll();
+
+        return $res;
+    }
+
+    function checkRemoteFile($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // don't download content
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if(curl_exec($ch)!==FALSE)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function deserilize($type_field,$data) {
+        $data_array = "";
+        $data = unserialize($data);
+        //print_r($data);
+        if(count($data) > 0 && $data !== false) {
+            foreach($data as $item) {
+                $data_array .= '<input class="form-control" type="text" name="'.$type_field.'[]" value="'.$item.'" /><br>';
+            }
+        } else {
+            $data_array = '<input class="form-control" type="text" name="'.$type_field.'[]" /><br>';
+        }
+        return $data_array;
     }
 
 
