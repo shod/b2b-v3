@@ -76,6 +76,69 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.del-img-doc').on('click', function(event){
+        $this = $(this);
+        var $id = $(this).attr('id');
+        $.ajax({
+            url: "/settings/process/?action=del_img_document&file_name="+$id,
+            success: function(data){
+                var data = eval("(" + data + ")");
+                if(data.success) {
+                    $this.parent().empty();
+                    alert('Документ был успешно удален');
+                } else {
+                    alert('Произошла ошибка при удалении документа. Попробуйте выполнить операцию еще раз.');
+                }
+            }
+        });
+    });
+
+    $(function(){
+        var imgs = new Array();
+        var btnUpload=$('#upload-doc');
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var count = 0;
+        var content = '';
+        new AjaxUpload(btnUpload, {
+            action: '/settings/process/?action=add_img_document',
+            name: 'img[]',
+            multiple: true,
+            data: {_csrf : csrfToken},
+            onSubmit: function(file, ext) {
+
+                if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+                    $('#status').text('Только JPG, PNG, GIF файлы');
+                    $('#status').show();
+                    return false;
+                }
+                ++count;
+                $('#procces_load_img').show();
+
+            },
+            onComplete: function(file, response) {
+
+                var data = JSON.parse(response);
+
+                if(data.status) {
+                    --count;
+                    if(count == 0) {
+                        $('#procces_load_img').hide();
+                    }
+                    var content = '';
+                    for (var i in data.src) {
+                        content += '<div class="item-info-file"><div class="del-img-doc" id="'+data.file_name[i]+'" style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div><img src="'+data.src[i]+'" width="50" /></div>';
+                    }
+
+                    $(content).appendTo('#files');
+
+                } else {
+                    alert(data.text);
+                }
+            }
+        });
+    });
+
 });
 
 $('#importers, #service_centers').on('click', function(event){

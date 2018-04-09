@@ -72,6 +72,8 @@ class AppAsset extends AssetBundle
         'web/scripts/jquery.mark.js',
         'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
         'https://code.highcharts.com/highcharts.js',
+        'web/scripts/tinymce/tiny_mce/tiny_mce.js',
+        'web/scripts/tinymce_config.v1.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -123,6 +123,56 @@ class SettingsController extends Controller
                 echo json_encode(array('success'=>$success));
                 exit;
                 break;
+
+            case "add_img_document":
+                $status = 1;
+                $f_check = false;
+                set_time_limit(0);
+                $type_permissible = array('image/jpeg','image/gif','image/png');
+                $size_permissible = 1024 * 1024 * 10;
+                if ($_FILES["img"]) {
+                    for($i=0;$i<count($_FILES['img']['name']);$i++) {
+                        $p_mane = explode('.',$_FILES['img']['name'][$i]);
+                        $exp = $p_mane[count($p_mane)-1];
+
+                        $new_file_name = substr(md5($_FILES['img']['name'][$i]),0,5).'.'.$exp;
+                        if(in_array($_FILES['img']['type'][$i],$type_permissible) && $_FILES['img']['size'][$i] <= $size_permissible) {
+
+                            $dir_sel_doc = 'seller/document/'.$this->seller_id.'/';
+                            $new_file = $dir_sel_doc.'/'.$new_file_name;
+                            if(!is_dir($dir_sel_doc)) {
+                                mkdir($dir_sel_doc, 0775);
+                                chmod($dir_sel_doc, 0775);
+                            }
+
+                            if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
+                                $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
+                                $file_name[] = $new_file_name;
+                            }
+
+                            $text[] = iconv('windows-1251','utf-8','Файл: '.$new_file_name.' загружен.<br>');
+                        } else {
+                            $src[] = $i;
+                            $text[] = iconv('windows-1251','utf-8',"ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>");
+                        }
+                    }
+                }
+                $this->data_img_document($file_name);
+
+                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src));
+                exit;
+                break;
+
+            case "del_img_document":
+                $success = false;
+                $file_name = Yii::$app->request->get("file_name");
+                if(unlink('seller/document/'.$this->seller_id.'/'.$file_name)) {
+                    $success = true;
+                    $this->data_img_document();
+                }
+                echo json_encode(array('success'=>$success));
+                exit;
+                break;
         }
     }
 
@@ -151,6 +201,17 @@ class SettingsController extends Controller
         }
         $vars["cont_importers"] = $this->deserilize('importers',$seller_info->importers);
         $vars["cont_service_centers"] = $this->deserilize('service_centers',$seller_info->service_centers);
+        $vars['img_documents'] = $this->get_img_documents();
+
+        $logo_url = "http://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg";
+        $vars["logo"] = "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>";;
+        $fl_logo_exist = $this->checkRemoteFile($logo_url);
+        $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
+        if($fl_logo_exist && ($vars['bit_logoauto'] == "")) {
+            $vars['dis_logo'] = "readonly disabled";
+            $vars['dis_logo_text'] = "<p>Для замены логотипа пришлите запрос на смену и новый логотип на <a href='mailto:admin@migom.by'>admin@migom.by</a> с указанием ID магазина</p>";
+        }
+
         return $this->render('user_info', array_merge($vars, ['seller' => $seller, 'work_time' => $work_time, 'phones' => $phones, 'seller_info' => $seller_info]));
     }
 
@@ -159,6 +220,12 @@ class SettingsController extends Controller
 		unset($documents_data[0],$documents_data[1]);
         \Yii::$app->db->createCommand("update seller_info set img_registration = '".json_encode($documents_data)."', f_registration = 0 where seller_id={$this->seller_id}")->execute();
 	}
+
+    private function data_img_document() {
+        $documents_data = scandir('seller/document/'.$this->seller_id.'/');
+        unset($documents_data[0],$documents_data[1]);
+        \Yii::$app->db->createCommand("update seller_info set img_documents = '".json_encode($documents_data)."' where seller_id={$this->seller_id}")->execute();
+    }
 
     private function get_img_registration($none = 0) {
 
@@ -471,6 +538,24 @@ class SettingsController extends Controller
             $data_array = '<input class="form-control" type="text" name="'.$type_field.'[]" /><br>';
         }
         return $data_array;
+    }
+
+    function get_img_documents() {
+
+        $data = "";
+        $dir = 'seller/document/'.$this->seller_id.'/';
+        if(is_dir($dir)) {
+            $documents_path = scandir('seller/document/'.$this->seller_id.'/');
+
+            foreach($documents_path as $file) {
+                if($file != "." && $file != "..") {
+                    $r['file_name'] = $file;
+                    $r['src'] = '/seller/document/'.$this->seller_id.'/'.$file;
+                    $data .= $this->renderPartial("tmpl/img_document", $r);
+                }
+            }
+        }
+        return $data;
     }
 
 

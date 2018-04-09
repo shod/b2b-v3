@@ -51,51 +51,33 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                                 <table>
                                                     <tbody>
                                                     <tr>
-                                                        <td style="margin-left:0px;"><img
-                                                                    src="http://static.migom.by/img/seller/logo$1500.jpg"
-                                                                    border="0" title="All" alt="All"></td>
-                                                        <td><input type="file" name="logo"></td>
+                                                        <td style="margin-left:0px;"><?= $logo ?></td>
+                                                        <td><input type="file" name="logo" <?= $dis_logo ?>></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                                 <br>
-                                                <p>Для замены логотипа пришлите запрос на смену и новый логотип на <a
-                                                            href="mailto:admin@migom.by">admin@migom.by</a> с указанием
-                                                    ID магазина</p>
+                                                <?= $dis_logo_text ?>
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td><span style="color:red;font-size:12px;">*</span> Образцы документов,
                                                 подтверждающих оплату <br>
                                                 <small>(максимальный размер 10мб, формат JPG, GIF, PNG)</small>
                                             </td>
                                             <td>
-                                                <button id="upload" class="upload">Загрузить фотографии</button>
+                                                <button id="upload-doc" class="upload">Загрузить фотографии</button>
                                                 <div id="status" class="status"></div>
                                                 <div class="clear"><!-- --></div>
+                                                <br>
                                                 <div id="files" class="cont-files">
-                                                    <div class="item-info-file">
-                                                        <div class="del-img" id="28ddd.jpg"
-                                                             style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div>
-                                                        <img src="http://b2b.migom.by/img/seller/document/1500/28ddd.jpg"
-                                                             width="50">
-                                                    </div>
-                                                    <div class="item-info-file">
-                                                        <div class="del-img" id="33e35.jpg"
-                                                             style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div>
-                                                        <img src="http://b2b.migom.by/img/seller/document/1500/33e35.jpg"
-                                                             width="50">
-                                                    </div>
-                                                    <div class="item-info-file">
-                                                        <div class="del-img" id="479d9.jpg"
-                                                             style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div>
-                                                        <img src="http://b2b.migom.by/img/seller/document/1500/479d9.jpg"
-                                                             width="50">
-                                                    </div>
+                                                    <?= $img_documents ?>
                                                 </div>
                                                 <div class="procces_load_img" id="procces_load_img">&nbsp;</div>
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td>Импортеры <br>(указывать ссылку запрещено)</td>
                                             <td class="importers">
@@ -285,6 +267,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                 </div>
 
             </form>
+            <span id="upload" class="upload"></span>
 
 
         </div>

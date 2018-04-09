@@ -13,14 +13,6 @@
         color: '#fff'
     });
 
-    /**
-     * Show overlay for an entire page
-     */
-    $.LoadingOverlay("show", {
-        fade: false,
-        zIndex: 99999
-    });
-
     window.Kosmo = {
         screen: {
             breakpoints: {
