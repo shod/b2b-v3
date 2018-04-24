@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\SiteService;
 use app\models\Seller;
 use app\models\SellerInfo;
 use app\models_ex\Member;
@@ -73,6 +74,124 @@ class SettingsController extends Controller
         switch ($action) {
             case "save":
                 return $this->redirect(['settings/index']);
+                break;
+            case "save_user":
+                $_SESSION["errormsg"] =  null;
+                $name = Yii::$app->request->post("name");
+                $register_date = Yii::$app->request->post("register_date");
+                $description = Yii::$app->request->post("description");
+                $icq = Yii::$app->request->post("icq");
+                $skype = Yii::$app->request->post("skype");
+                $phone_id = Yii::$app->request->post("phone_id");
+                $phone = Yii::$app->request->post("phone");
+                $viber = Yii::$app->request->post("viber");
+                $whatsapp = Yii::$app->request->post("whatsapp");
+                $telegram = Yii::$app->request->post("telegram");
+                $phone_code = Yii::$app->request->post("phone_code");
+                $phone_op = Yii::$app->request->post("phone_op");
+                $phone_type = Yii::$app->request->post("phone_type");
+                $phone_section = Yii::$app->request->post("phone_section");
+                $email = Yii::$app->request->post("email");
+                $site = Yii::$app->request->post("site");
+                $address = Yii::$app->request->post("address");
+                $work_time = Yii::$app->request->post("work_time");
+                $delivery = Yii::$app->request->post("delivery");
+                $f_beznal = Yii::$app->request->post("f_beznal") ? 1 : 0;
+                $f_nal = Yii::$app->request->post("f_nal") ? 1 : 0;
+                $f_credit = Yii::$app->request->post("f_credit") ? 1 : 0;
+                $f_rassrochka = Yii::$app->request->post("f_rassrochka") ? 1 : 0;
+                $f_description = Yii::$app->request->post("f_description") ? 1 : 0;
+                $f_download = Yii::$app->request->post("f_allow_download") ? 1 : 0;
+                $offer_default_desc = Yii::$app->request->post("offer_default_desc");
+                $importers_data = array_values(array_filter(Yii::$app->request->post("importers")));
+
+                $bit_setting = Yii::$app->request->post("bit_setting");
+                $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+                $setting_bit = $seller->setting_bit;
+                //dd(Yii::$app->request->post());
+                //защита от сторонних скриптов
+                $checked_items = array($description, $delivery);
+                foreach ((array) $checked_items as $item)
+                {
+                    if((strpos($item, 'iframe') !== false) || (strpos($item, 'script') !== false)){
+                        $_SESSION["errormsg"]="<div id='alert'><div class=' alert alert-block alert-danger fade in center'>Вы пытаетесь сохранить недопустимые данные! Обратитесь в службу технической поддержки.</div></div>";
+                    }
+                }
+
+                if ($_SESSION["errormsg"]){
+                    echo $_SESSION["errormsg"];
+                    break;
+                }
+                $res = $this->get_payment_list();
+                foreach($res as $item){
+                    $setting_bit =  SiteService::set_bitvalue($setting_bit,$item['bit'],isset($bit_setting['bit_'.$item['code']]) ? $bit_setting['bit_'.$item['code']] : 0);
+                }
+
+                foreach ((array) $importers_data as $key=>$value)
+                {
+                    $value = str_replace('"', "'", $value);
+                    $importers_data[$key] = $value;
+                }
+
+                $importers = addslashes(serialize($importers_data));
+                $centers = array_values(array_filter(Yii::$app->request->post("service_centers")));
+                foreach ((array) $centers as $key=>$value)
+                {
+                    $value = str_replace('"', "'", $value);
+                    $centers[$key] = $value;
+                }
+
+                $service_centers = addslashes(serialize($centers));
+
+                $phones = array(0 => array());
+                foreach ((array) $phone_id as $id)
+                {
+                    $phone[$id] = trim(preg_replace('/[^\\d]/', '', $phone[$id]));
+
+                    if ($phone[$id] != '')
+                    {
+                        if (array_key_exists($id, (array)$phone_section))
+                        {
+                            foreach((array)$phone_section[$id] as $cat_id)
+                            {
+                                if ($phone_code[$id] && $phone[$id] && $phone_op[$id]){
+                                    $f_viber = $viber[$id] ? 1 : 0;
+                                    $f_telegram = $telegram[$id] ? 1 : 0;
+                                    $f_whatsapp = $whatsapp[$id] ? 1 : 0;
+                                    $phones[$cat_id][] = array("code" => "{$phone_code[$id]}", "phone" => "{$phone[$id]}", "op" => "{$phone_op[$id]}", "type" => "{$phone_type[$id]}", "viber" => "{$f_viber}", "telegram" => "{$f_telegram}", "whatsapp" => "{$f_whatsapp}");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if ($phone_code[$id] && $phone[$id] && $phone_op[$id]){
+                                $f_viber = $viber[$id] ? 1 : 0;
+                                $f_telegram = $telegram[$id] ? 1 : 0;
+                                $f_whatsapp = $whatsapp[$id] ? 1 : 0;
+                                $phones[0][] = array("code" => "{$phone_code[$id]}", "phone" => "{$phone[$id]}", "op" => "{$phone_op[$id]}", "type" => "{$phone_type[$id]}", "viber" => "{$f_viber}", "telegram" => "{$f_telegram}", "whatsapp" => "{$f_whatsapp}");
+                            }
+                        }
+                    }
+                }
+
+                $phones[0] = array_reduce($phones[0], function($a, $b) {
+                    static $stored = array();
+                    $hash = md5(serialize($b));
+                    if (!in_array($hash, $stored)) {
+                        $stored[] = $hash;
+                        $a[] = $b;
+                    }
+                    return $a;
+                }, array());
+                $phones = serialize($phones);
+
+
+                $names = Array("name", "description", "phone", "email", "site", "address", "work_time", "delivery", "icq", "f_credit", 'f_rassrochka', "f_beznal", "f_nal", "skype","register_date","setting_bit");
+                $values = Array($name, $description, $phones, $email, $site, $address, serialize($work_time), $delivery, $icq, $f_credit, $f_rassrochka, $f_beznal, $f_nal, $skype,$register_date, $setting_bit);
+                dd($names);
+                dd($values);
+                exit;
+                return $this->redirect(['settings/user-info']);
                 break;
             case "add_img_registration":
                 $status = 1;
