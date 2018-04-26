@@ -2,6 +2,9 @@
 
 namespace app\models_ex;
 
+use app\models\SysObjectProperty;
+use app\models\SysObjectValue;
+
 class Member extends  \app\models\Member {
 
     public function getMemberProperties(){
@@ -17,5 +20,12 @@ class Member extends  \app\models\Member {
             $data_array[$d['name']] = $d['value'];
         }
         return $data_array;
+    }
+
+    public function setMemberProperty($name,$value,$property_id){
+        $id = $this->id;
+        $sys_object_value = SysObjectValue::find()->where(['object_id' => $id, 'object_property_id' => $property_id])->one();
+        $sys_object_value->value = $value;
+        $sys_object_value->save();
     }
 }

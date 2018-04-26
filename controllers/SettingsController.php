@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\SiteService;
 use app\models\Seller;
 use app\models\SellerInfo;
+use app\models\SysObjectProperty;
 use app\models_ex\Member;
 use Yii;
 use yii\filters\AccessControl;
@@ -73,6 +74,15 @@ class SettingsController extends Controller
         $action = isset($action) ? $action : Yii::$app->request->get("action");
         switch ($action) {
             case "save":
+                $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+                $member = Member::find()->where(['id' => $seller->member_id])->one();
+                $names = SysObjectProperty::find()->where(["object_type_id" => 7])->all();
+                foreach ((array) $names as $name) {
+                    $value = Yii::$app->request->post($name->name);
+                    if($value){
+                        $member->setMemberProperty($name->name,$value,$name->id);
+                    }
+                }
                 return $this->redirect(['settings/index']);
                 break;
             case "save_user":
