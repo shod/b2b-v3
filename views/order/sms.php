@@ -6,7 +6,7 @@ $this->title = "Обратный звонок";
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="card ks-panel">
+                    <div class="card ks-panel" style="height: 100%">
                         <h5 class="card-header">
                             Подключение услуги
                         </h5>
@@ -33,13 +33,6 @@ $this->title = "Обратный звонок";
                                                     <span class="ks-on">Вкл</span>
                                                     <span class="ks-off">Выкл</span>
                                                 </label>
-                                                <button class="btn btn-primary-outline ks-solid btn-block">Добавить 30
-                                                    заказов за 9 ТЕ
-                                                </button>
-                                                <br>
-                                                <button class="btn btn-primary-outline ks-solid btn-block">Добавить 100
-                                                    заказов за 19 ТЕ
-                                                </button>
                                             </div>
                                         </div>
                                     </div>

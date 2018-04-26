@@ -6,7 +6,7 @@
     <td style="max-width: 300px;">
         <mark><?= isset($product_name) ? $product_name : "" ?></mark> / <span class="ks-text-light"><?= $section_name ?></span>
     </td>
-    <td class="ks-text-bold"><mark><?= $cost_byn ?> руб.</mark>  <span class="ks-text-light font-11">(<?= $cost_us ?> руб.)</span></td>
+    <td class="ks-text-bold"><mark><?= $cost_byn ?> руб.</mark> </td>
     <td>
         <button class="btn btn-primary-outline btn-sm ks-solid ks-no-text button-sms" id="complete_<?= $order_id ?>">
             <span style="font-size: 20px;" class="la la-check"></span>

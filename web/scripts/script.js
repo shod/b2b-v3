@@ -80,43 +80,61 @@ $( document ).ready(function() {
     $('#active-sms').click(function() {
         var $this = $(this);
         action = $(this).prop('checked') ? 'active' : 'deactive';
-        $.ajax({
-            url: "/order/process/?action=" + action ,
-            type: 'get',
-            dataType: 'html',
-            success: function (html) {
-                $.alert({
-                    title: html,
-                    type: 'blue',
-                    content: 'Для продолжения работы нажмите ОК',
-                });
-            },
-            error: function () {
-                console.log('ajax error');
-            }
-        });
+        if(($("#email-value").val() == '') && (action == 'active')){
+            $.alert({
+                title: "Поле Email обязательно для заполнения!",
+                type: 'red',
+                content: 'Для продолжения работы нажмите ОК',
+            });
+            $(this).prop('checked',false);
+        } else {
+            $.ajax({
+                url: "/order/process/?action=" + action ,
+                type: 'get',
+                dataType: 'html',
+                success: function (html) {
+                    $.alert({
+                        title: html,
+                        type: 'blue',
+                        content: 'Для продолжения работы нажмите ОК',
+                    });
+                },
+                error: function () {
+                    console.log('ajax error');
+                }
+            });
+        }
+
     });
 
     $('.notify-button').click(function() {
         var $this = $(this);
         action = $(this).attr('id')=='email' ? 'edit-email' : 'edit-phone';
         data = $("#"+$(this).attr('id')+"-value").val();
-        console.log(data);
-        $.ajax({
-            url: "/order/process/?action=" + action + "&val=" + data,
-            type: 'get',
-            dataType: 'html',
-            success: function (html) {
-                $.alert({
-                    title: html,
-                    type: 'blue',
-                    content: 'Для продолжения работы нажмите ОК',
-                });
-            },
-            error: function () {
-                console.log('ajax error');
-            }
-        });
+        if(($(this).attr('id')=='email') && (data == '')){
+            $.alert({
+                title: "Поле Email обязательно для заполнения!",
+                type: 'red',
+                content: 'Для продолжения работы нажмите ОК',
+            });
+        } else {
+            console.log(data);
+            $.ajax({
+                url: "/order/process/?action=" + action + "&val=" + data,
+                type: 'get',
+                dataType: 'html',
+                success: function (html) {
+                    $.alert({
+                        title: html,
+                        type: 'blue',
+                        content: 'Для продолжения работы нажмите ОК',
+                    });
+                },
+                error: function () {
+                    console.log('ajax error');
+                }
+            });
+        }
     });
 
     $('[data-dashboard-widget]').KosmoWidgetControls({
@@ -192,7 +210,7 @@ $( document ).ready(function() {
         if ($city.val() == '') {
             $.alert({
                 title: "Введите город.",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
             $city.focus();
@@ -201,7 +219,7 @@ $( document ).ready(function() {
         if ($street.val() == '') {
             $.alert({
                 title: "Введите название улицы.",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
 
@@ -211,7 +229,7 @@ $( document ).ready(function() {
         if ($house.val() == '') {
             $.alert({
                 title: "Введите номер дома (корпуса).",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
 
@@ -222,7 +240,7 @@ $( document ).ready(function() {
         if ($type.length == 0) {
             $.alert({
                 title: "Выберите хотя бы один тип объекта.",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
 
@@ -243,7 +261,7 @@ $( document ).ready(function() {
         if ($geo_id.length == 0) {
             $.alert({
                 title: "Выберите регион доставки.",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
 
@@ -253,7 +271,7 @@ $( document ).ready(function() {
         if ($type_id.length == 0) {
             $.alert({
                 title: "Выберите тип доставки.",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
 
@@ -264,7 +282,7 @@ $( document ).ready(function() {
         if (($type_id[0].value == 3) && (($cost[0].value == "") || (!isNumber($cost[0].value)))) {
             $.alert({
                 title: "Введите стоимость доставки.",
-                type: 'blue',
+                type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
 
@@ -279,7 +297,7 @@ $( document ).ready(function() {
                 if ((val == "") || (!isNumber(val))) {
                     $.alert({
                         title: "Введите стоимость заказа до.",
-                        type: 'blue',
+                        type: 'red',
                         content: 'Для продолжения работы нажмите ОК',
                     });
 
@@ -293,7 +311,7 @@ $( document ).ready(function() {
                 if ((val == "") || (!isNumber(val))) {
                     $.alert({
                         title: "Введите стоимость доставки при заказе до определенной суммы.",
-                        type: 'blue',
+                        type: 'red',
                         content: 'Для продолжения работы нажмите ОК',
                     });
 
