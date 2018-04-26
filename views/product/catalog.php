@@ -8,6 +8,7 @@ $this->registerJs(
            
         "
 );
+$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">

@@ -1,6 +1,7 @@
 <?php
 $this->title = 'Статистика размещения за месяц';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "
     $(document).ready(function () {

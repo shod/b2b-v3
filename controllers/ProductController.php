@@ -74,7 +74,7 @@ class ProductController extends Controller
     public function actionGetDataProducts(){
         $catalog_id = Yii::$app->request->post("catalog_id");
         $brand = Yii::$app->request->post("brand") ?  Yii::$app->request->post("brand") : 0;
-        $page = Yii::$app->request->post("page") ? Yii::$app->request->post("page")-1 : 0;
+        $page = Yii::$app->request->get("page") ? Yii::$app->request->get("page")-1 : 0;
         $search = Yii::$app->request->post("search") ?  Yii::$app->request->post("search") : 0;
         $mode = Yii::$app->request->post("mode") ?  Yii::$app->request->post("mode") : 0;
         $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
