@@ -312,4 +312,58 @@ class SiteService {
         return $data = $data & ~ (int)$setting_bit | ($value * $setting_bit);
     }
 
+    public static function resize($file, $sizes)
+    {
+        list($width, $height, $type) = getimagesize($file);
+        list($new_width, $new_height) = SiteService::format_size($width, $height, array(0, 0, $sizes[0], $sizes[1]));
+        switch ($type)
+        {
+            case IMAGETYPE_GIF: $image = imagecreatefromgif($file);
+                break;
+            case IMAGETYPE_PNG: $image = imagecreatefrompng($file);
+                break;
+            case IMAGETYPE_WBMP: $image = imagecreatefromwbmp($file);
+                break;
+            case IMAGETYPE_JPEG:
+            default: $image = imagecreatefromjpeg($file);
+        }
+        if ($image)
+        {
+            // Resample
+            $image_p = imagecreatetruecolor($new_width, $new_height);
+            imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+
+            // Output
+            touch($file);
+            imagejpeg($image_p, $file, 100);
+        }
+    }
+
+    public static function format_size($width, $height, $s)
+    {
+        if ($width && $height && $s)
+        {
+            // width
+            if ($width < $s[0])
+                $k_w = $s[0] / $width;
+            elseif ($width > $s[2])
+                $k_w = $s[2] / $width;
+            else
+                $k_w = 1;
+            // height
+            if ($height < $s[1])
+                $k_h = $s[1] / $height;
+            elseif ($height > $s[3])
+                $k_h = $s[3] / $height;
+            else
+                $k_h = 1;
+
+            $k = min($k_w, $k_h);
+            $width = intval($width * $k);
+            $height = intval($height * $k);
+        }
+        return array($width, $height);
+    }
+
 }

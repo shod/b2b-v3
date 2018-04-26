@@ -185,12 +185,98 @@ class SettingsController extends Controller
                 }, array());
                 $phones = serialize($phones);
 
+                $seller->name = $name;
+                $seller->description = $description;
+                $seller->phone = $phones;
+                $seller->email = $email;
+                $seller->site = $site;
+                $seller->address = $address;
+                $seller->work_time = serialize($work_time);
+                $seller->delivery = $delivery;
+                $seller->icq = $icq;
+                $seller->f_credit = $f_credit;
+                $seller->f_rassrochka = $f_rassrochka;
+                $seller->f_beznal = $f_beznal;
+                $seller->f_nal = $f_nal;
+                $seller->skype = $skype;
+                $seller->register_date = $register_date;
+                $seller->setting_bit = $setting_bit;
+                //$seller->save();
 
-                $names = Array("name", "description", "phone", "email", "site", "address", "work_time", "delivery", "icq", "f_credit", 'f_rassrochka', "f_beznal", "f_nal", "skype","register_date","setting_bit");
-                $values = Array($name, $description, $phones, $email, $site, $address, serialize($work_time), $delivery, $icq, $f_credit, $f_rassrochka, $f_beznal, $f_nal, $skype,$register_date, $setting_bit);
-                dd($names);
-                dd($values);
-                exit;
+                $seller_info = SellerInfo::find()->where(['seller_id' => $this->seller_id])->one();
+                if($seller_info){
+                   // \Yii::$app->db->createCommand("update seller_info set offer_default_desc=f_clear_prod_desc('{$offer_default_desc}'), importers='{$importers}', service_centers='{$service_centers}', f_b2b_description={$f_description}, f_allow_download={$f_download} where seller_id=".$this->seller_id)->execute();
+                }
+
+                $fl_logo_exist = $this->checkRemoteFile("http://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg");
+                $bit_logoauto = $seller->setting_bit & 131072;
+                $fl_auto_logo = (($fl_logo_exist && $bit_logoauto) || !$fl_logo_exist);
+
+                $logo = $_FILES["logo"];
+                if ($logo["tmp_name"] != "none" && $logo["name"] != '')
+                {
+                    foreach (glob("seller/*\${$this->seller_id}.jpg") as $filename)
+                    {
+                        unlink($filename);
+                    }
+
+                    $filename = "seller/logo\${$this->seller_id}.jpg";
+
+                    if($_FILES['logo']['type'] == "image/jpeg") {
+                        if (move_uploaded_file($logo["tmp_name"], $filename)) {
+                            SiteService::resize($filename, array(90, 35));
+                            $filename = 'logo$'.$this->seller_id.'.jpg';
+                            $path_local = "http://b2b.migom.by/seller/{$filename}";
+                            $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                            file_get_contents($path, NULL, NULL, 0, 14);
+                            $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
+                            $seller->setting_bit = $setting_bit;
+                            //$seller->save();
+
+                        }
+                    } else {exit("Не верный формат загружаемого файла. Файл должен быть в формате JPG");}
+                } elseif($fl_auto_logo) {
+                    foreach (glob("seller/*\${$this->seller_id}.jpg") as $filename)
+                    {
+                        unlink($filename);
+                    }
+                    $filename = "seller/logo\${$this->seller_id}.jpg";
+
+
+                    // Create the image
+                    $im = imagecreatetruecolor(90, 35);
+
+                    // Create some colors
+                    $white = imagecolorallocate($im, 255, 255, 255);
+                    $grey = imagecolorallocate($im, 56, 56, 56);
+                    $black = imagecolorallocate($im, 0, 0, 0);
+                    imagefilledrectangle($im, 0, 0, 90, 35, $white);
+
+                    // Replace path by your own font path
+                    $font = 'css/fonts/aavantenr_book.ttf';
+
+                    $text = iconv("windows-1251", "utf-8", $name);
+                    // Add the text
+                    $n =  preg_match('/[А-Яа-яЁё]/u', $name) ? 6 : 1;
+                    $l = strlen($name);
+
+                    $fontsize = ($l < 5) ? 22 : ((110 + $l*$n) / $l);
+                    $x = ($l < 5) ? 20  : 5;
+                    imagettftext($im, $fontsize, 0, $x, 25, $grey, $font, $text);
+
+                    // Using imagepng() results in clearer text compared with imagejpeg()
+                    imagejpeg($im, $filename);
+                    imagedestroy($im);
+
+                    $filename = 'logo$'.$this->seller_id.'.jpg';
+                    $path_local = "http://b2b.migom.by/seller/{$filename}";
+                    $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+
+                    file_get_contents($path, NULL, NULL, 0, 14);
+                    $setting_bit = SiteService::set_bitvalue($setting_bit,131072,1);
+                    $seller->setting_bit = $setting_bit;
+                    //$seller->save();
+                }
                 return $this->redirect(['settings/user-info']);
                 break;
             case "add_img_registration":

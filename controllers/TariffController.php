@@ -157,7 +157,7 @@ class TariffController extends Controller
             from bill_catalog c
             left join bill_catalog_seller s on (s.seller_id={$this->seller_id} and s.catalog_id=c.id)
             left join bill_cat_sel_discount as bbd on (bbd.seller_id = s.seller_id and bbd.catalog_id = s.catalog_id)
-            where c.f_tarif=1 and c.hidden=0
+            where c.f_tarif=1 and c.hidden=0  and (c.id >= 588 or c.id in (223,261))
 			  and (c.is_old = 0 OR (s.f_tarif =1 and c.is_old=1))
 			  order by active desc, c.name
         ")->queryAll();
