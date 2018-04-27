@@ -1,7 +1,7 @@
 tinyMCE.init({
     // General options
     mode : "exact",
-	elements : 'description, delivery',
+	elements : 'description',
     theme : "simple",
     language : "ru",
     document_base_url : '/',

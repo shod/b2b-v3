@@ -21,7 +21,7 @@
                         <label class="btn btn-primary  btn-sm" onclick="delivery_notice_edit(4);">
                             <input name="type_id" value="4" id="type_id_4" type="radio" autocomplete="off"> зависит от заказа
                         </label>
-                        <label class="btn btn-primary  btn-sm" id="form_region_check" onclick="delivery_notice_edit(5);" style="display:none">
+                        <label class="btn btn-primary  btn-sm" id="form_region_check" onclick="delivery_notice_edit(5);">
                             <input type="radio" name="type_id" value="5" id="type_id_5"  autocomplete="off"> уточнить
                         </label>
                         <label class="btn btn-primary  btn-sm" onclick="delivery_notice_edit(1);">
@@ -47,7 +47,7 @@
                             <a onclick="add_pay_edit()" style="cursor:pointer">Еще стоимость</a>
                             <p id='free_for'></p></div>
                         <div class='delivery_options' style="display:none" id='addition_edit'>Примечание: <br />
-                            <textarea class="form-control" name="description"><?= $description ?></textarea></div>
+                            <textarea class="form-control" name="delivery_description"><?= $description ?></textarea></div>
                     </div>
 
                 </td>

@@ -90,7 +90,7 @@ class SellerController extends Controller
                 $json_data["cost"] = $cost_data['cost'];
                 $cost_data = json_encode($json_data);
                 $type_id = Yii::$app->request->post("type_id");
-                $desc = Yii::$app->request->post("description");
+                $desc = Yii::$app->request->post("delivery_description");
                 $delivery = new Delivery();
                 $delivery->seller_id = $this->seller_id;
                 $delivery->type_id = $type_id;
@@ -134,7 +134,7 @@ class SellerController extends Controller
                 } else {
                     $cost_data = '{"cost_data":[],"cost":""}';
                 }
-                $desc = Yii::$app->request->post("description");
+                $desc = Yii::$app->request->post("delivery_description");
                 $type_id = Yii::$app->request->post("type_id");
                 if(isset($id) && ($id > 0)){
                     $delivery = Delivery::find()->where(['id' => $id])->one();

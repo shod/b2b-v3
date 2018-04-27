@@ -18,7 +18,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
                         <h3>Все страницы для работы</h3>
                         <div class="done">1 -  <a href="/balance/add">Баланс пополнить 10-12 ч</a></div>
                         <div class="done">2 - <a href="/balance/akt">Баланс выгрузка актов 3 ч</a></div>
-                        <div class="transaction">3 - <a href="/order/sms">SMS заказы 6 ч</a></div>
+                        <div class="done">3 - <a href="/order/sms">SMS заказы 6 ч</a></div>
                         <div class="done">4 - <a href="/product/on-sale">Товары в продаже 6 ч</a></div>
                         <div class="done">5 - <a href="/product/catalog">Редактирование товаров в разделе 12 ч</a></div>
                         <div class="transaction">6 - <a href="/statistic/cost-analysis">Анализ цен конкурентов 6 ч</a></div>
@@ -38,8 +38,8 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
                         <div class="done">20 - <a href="/auction/add">Аукционы добавление</a></div>
                         <div class="transaction">21 - <a href="/auction">Аукционы</a></div>
                         <div class="transaction">22 - <a href="/tariff">Калькулятор тарифов</a></div>
-                        <div>1 - <a href="/seller">Продавец сводная информация</a></div>
-                        <div>2 - <a href="/seller/settings">Продавец настройки</a></div>
+                        <div class="done">23 - <a href="/settings/user-info">Продавец информация для пользователей</a></div>
+                        <div class="done">24 - <a href="/settings">Продавец настройки</a></div>
 
                         <div>3 - <a href="/news">Страница новостей</a></div>
 

@@ -1,5 +1,6 @@
 <?php
 $this->title = "Условия доставки";
+$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/delivery.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
@@ -11,6 +12,25 @@ $this->title = "Условия доставки";
                             Доставка
                         </div>
                         <div class="card-block">
+                            <p>Важно корректно заполнить настройки доставки для отображения в товарных позициях на migom.by</p>
+                            <p>Необходимо выбрать Минск или Регионы (все регионы, либо областные города  по отдельности: Брест, Витебск, Гомель, Гродно, Могилев).</p>
+
+                            <mark>Бесплатная доставка.</mark>
+                            <p>Магазин осуществляет только бесплатную доставку.
+                                Примечание заполняется по желанию продавца.
+                                В примечании не указывается диапазон цены товара для бесплатной доставки. В случае
+                                ограничений, используйте тип доставки «Зависит от заказа».</p>
+                            <mark>Платная доставка.</mark>
+                            <p>Магазин осуществляет только платную доставку. По фиксированной стоимости в Минск
+                                или выбранный регион (для всех товаров в ассортименте).</p>
+                            <mark>Зависит от заказа.</mark>
+                            <p>Необходимо указать диапазон цены товара и соответствующую стоимость доставки.
+                                В случае если цена товара попадает в указанный диапазон, на сайте стоимость доставки
+                                будет выводиться согласно ограничениям.</p>
+                            <mark>Уточнить.</mark>
+                            <p>Условия доставки могут быть заданы индивидуально.</p>
+                            <mark>Отсутствует.</mark>
+                            <p>Магазин не осуществляет доставку товаров.</p>
                             <form method="POST">
                                 <input NAME="block" TYPE=Hidden VALUE="content_settings">
                                 <input NAME="action" TYPE=Hidden VALUE="delivery">
@@ -76,9 +96,9 @@ $this->title = "Условия доставки";
                                                             от
                                                             заказа
                                                         </label>
-                                                        <label class="btn btn-primary" id="region_check"
+                                                        <label class="btn btn-primary"
                                                                onclick="delivery_notice(5);"
-                                                               style="display:none">
+                                                               >
                                                             <input type="radio" name="type_id" value="5"
                                                                    autocomplete="off">
                                                             уточнить
@@ -133,8 +153,8 @@ $this->title = "Условия доставки";
                                                         <div class='delivery_options' style="display:none"
                                                              id='addition'>Примечание:
                                                             <br/>
-                                                            <textarea class="form-control"
-                                                                      name="description"></textarea></div>
+                                                            <textarea id="delivery_desc" class="form-control"
+                                                                      name="delivery_description"></textarea></div>
                                                     </div>
 
                                                 </td>
