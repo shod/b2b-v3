@@ -251,15 +251,6 @@ class SellerController extends Controller
         }
     }
 
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
-    public function actionSettings()
-    {
-        return $this->render('settings');
-    }
 
     public function actionDelivery()
     {

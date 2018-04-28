@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\NotifierMessageB2b;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -15,6 +16,7 @@ class NotificationsController extends Controller
     /**
      * @inheritdoc
      */
+    public $seller_id;
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
@@ -23,19 +25,6 @@ class NotificationsController extends Controller
             return parent::beforeAction($action);
         }
     }
-
-    public $rules =
-        array(
-            "products" => 183,
-            "bill_catalog" => 182,
-            "catalog" => 183,
-            "import" => 184,
-            "reviews" => 185,
-            "billing" => 186,
-            "order" => 187,
-            "settings" => 188,
-            "rules_placement" => 211
-        );
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
@@ -78,10 +67,28 @@ class NotificationsController extends Controller
 
     public function actionProcess(){
         $action = Yii::$app->request->get("action");
-        $order_id = Yii::$app->request->get("order_id");
         switch ($action) {
             case "get_notify":
+                $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'popup', 'status'=>'0'])->one();
 
+                if(count($notification) > 0){
+                    $data["id"] = $notification->id;
+                    $params = $notification->param;
+                    $params = json_decode($params, true);
+                    $data["href"] = $params['href'];
+                    $data["button_name"] = $params["button_name"];
+
+                    $tmpl = $this->renderPartial($notification->tmpl, $params);
+                    $data["tmpl"] = $tmpl;
+
+                    echo json_encode($data);
+                }
+                break;
+            case "set_notify":
+                $id = Yii::$app->request->get("id");
+                $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'id' => $id])->one();
+                $notification->status = 1;
+                $notification->save();
                 break;
         }
     }

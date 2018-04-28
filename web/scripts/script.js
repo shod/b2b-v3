@@ -1,5 +1,40 @@
 $( document ).ready(function() {
 
+    $.ajax({
+        method: "GET",
+        url: "/notifications/process/?action=get_notify"
+    })
+        .done(function( msg ) {
+            if(msg){
+                data = JSON.parse(msg);
+                $.confirm({
+                    title: 'Обратите внимание',
+                    content: data.tmpl,
+                    buttons: {
+                        confirm: {
+                            text: data.button_name,
+                            action: function () {
+                                id= data.id;
+                                $.ajax({
+                                    method: "GET",
+                                    url: "/notifications/process/?action=set_notify&id="+id
+                                })
+                                    .done(function( msg ) {
+                                        if(msg){
+                                            //alert(msg);
+                                        }
+                                    });
+                                location.href = data.href;
+                            }
+                        },
+                        cancel: {
+                            text: 'Закрыть'
+                        }
+                    }
+                });
+            }
+        });
+
     $.validate();
 
     page_url = window.location.pathname;
