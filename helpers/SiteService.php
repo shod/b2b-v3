@@ -269,7 +269,7 @@ class SiteService {
             }
         }
 
-        for ($p = $first; $p < $last + 1; $p++)
+        for ($p = $first; $p < $last+1; $p++)
         {
             if ($last < 8) {
                 $a_selected = ($p == ($page + 1)) ? "active" : "";
@@ -283,7 +283,7 @@ class SiteService {
                 }
             }
         }
-        if (((($page < $last + 1) || ($page < $last)) && ($last >= 8))){
+        if (((($page+1 < $last)) && ($last >= 8))){
             $pages .= "<li class='page-item'><a class=\"page-link\" >...</a></li>";
             $pages .= "<li class='page-item'><a class=\"page-link\" href=\"{$url}&page={$last}\" >{$last}</a></li>";
         }
