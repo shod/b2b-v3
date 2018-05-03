@@ -256,5 +256,8 @@ h6 .badge {
     border-color: #ef5350; }
   .badge.ks-circle.badge-purple:before {
     border-color: #d149d0; }
+  .badge-number-crusta {
+    color: #e79716;
+  }
 
 /* END UIKIT BADGES */

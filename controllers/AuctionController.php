@@ -255,6 +255,7 @@ class AuctionController extends Controller
                 $auc_win = $this->renderPartial("tmpl/auc_arch_win", array('name'=>$name ,'data'=> $data));
                 $json["body"] = $auc_win;
                 echo Json::encode($json);
+                exit;
                 break;
             case "update":
                 //$auction_time_last = $this->memcache->get("auction");

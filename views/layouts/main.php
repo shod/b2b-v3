@@ -257,14 +257,14 @@ AppAsset::register($this);
                 </li>
                 <li id="" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="ks-icon la la-bullhorn"></span>
+                        <span class="ks-icon la la-bullhorn"><span class="badge badge-pill badge-crusta ks-label">1</span></span>
                         <span>Продвижение магазина</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/auction">Аукционы</a>
                         <a class="dropdown-item" href="/spec">Спецпредложения</a>
                         <a class="dropdown-item" href="/context-adv">Контекстная реклама</a>
-                        <a class="dropdown-item" href="/order/sms">Обратный звонок</a>
+                        <a class="dropdown-item" href="/order/sms">Обратный звонок<span style="color: #e79716;margin: 10px;font-weight: 900;">+1</span></a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -301,12 +301,12 @@ AppAsset::register($this);
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="ks-icon la la-comment-o"></span>
+                        <span class="ks-icon la la-comment-o"><span class="badge badge-pill badge-crusta ks-label">3</span></span>
                         <span>Отзывы на магазин</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/reviews">Отзывы покупателей</a>
-                        <a class="dropdown-item" href="/reviews/complaint">Жалобы покупателей</a>
+                        <a class="dropdown-item" href="/reviews"> Отзывы покупателей <span style="color: #e79716;margin: 10px;font-weight: 900;">+1</span></a>
+                        <a class="dropdown-item" href="/reviews/complaint">Жалобы покупателей <span style="color: #e79716;margin: 10px;font-weight: 900;">+2</span></a>
                     </div>
                 </li>
 
