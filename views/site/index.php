@@ -1,5 +1,13 @@
 <?php
 $this->title = "Добро пожаловать в b2b.migom.by!";
+$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJs(
+    "
+    $(document).ready(function () {
+        get_chart('2018-05');
+    });
+    "
+);
 ?>
 <style>
     .done {
@@ -70,75 +78,26 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
                      data-toggle="ajaxWidget">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="card card-block">
+                        <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
-                <div class="col-xl-4 col-lg-4">
-                    <div class="card ks-card-widget ks-widget-payment-table-invoicing" style="height: 100%;">
-                        <h5 class="card-header">
-                            Подключенные пакеты по акции
-                        </h5>
-                        <div class="card-block">
-                            <table class="table ks-payment-table-invoicing">
-                                <tbody>
-                                <tr>
-                                    <td>Детские товары</td>
-                                    <td><mark>до 05.08.2018</mark></td>
-                                </tr>
-                                <tr>
-                                    <td>Крупная бытовая техника</td>
-                                    <td><mark>до 05.08.2018</mark></td>
-                                </tr>
-                                <tr>
-                                    <td>Другие товары</td>
-                                    <td><mark>до 05.08.2018</mark></td>
-                                </tr>
-                                <tr>
-                                    <td>Спорт</td>
-                                    <td><mark>до 05.08.2018</mark></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4">
-                    <div class="card ks-card-widget ks-widget-payment-table-invoicing" style="height: 100%;">
-                        <h5 class="card-header">
-                            Последний отзыв
-                        </h5>
-                        <div class="card-block">
-                            <mark>Не очень хорошего качества!</mark>
-                            <p>
-                                Здравствуйте, купил велосипед Аист Fly26-670, товар доставили курьером по заявленной цене и вовремя, как и договаривались - это плюс!
-                                Велик привезли, но чек не дали. Когда я распаковал коробку, то увидел, что руль был полностью ржавый и краска на нем слезла! Придется самому разбирать и красить руль! Для меня не проблема минус 200 тыс., но все равно неприятно, когда ты его купил в подарок! При заказе менеджер был вежливым, но не очень хорошо знал особенности товара! И самое главное то, что я просил велосипед для взрослого человека, но мне привезли почему-то подростковый, самый маленький во всей этой серии!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4">
-                    <div class="card ks-card-widget ks-widget-payment-table-invoicing" style="height: 100%;">
-                        <h5 class="card-header">
-                            Жалобы
-                        </h5>
-                        <div class="card-block">
-                            <table class="table ks-payment-table-invoicing">
-                                <tbody>
-                                <tr>
-                                    <td><span class="badge badge-default">2018-05-02 01:17</span></td>
-                                    <td>сайт : belpro.by</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-default">2018-05-01 13:50</span></td>
-                                    <td>375 29 957-55-68</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-default">2018-05-01 13:49</span></td>
-                                    <td>375 29 957-55-68</td>
-                                </tr>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'actions', 'sid' => $sid]) ?>"
+                     data-toggle="ajaxWidget">
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'reviews', 'sid' => $sid]) ?>"
+                     data-toggle="ajaxWidget">
+
+                </div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'complaint', 'sid' => $sid]) ?>"
+                     data-toggle="ajaxWidget">
+
                 </div>
             </div>
 
@@ -176,7 +135,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
 
                             <div class="ks-payment-total-amount-item-body">
                                 <div class="ks-payment-total-amount-item-amount">
-                                    <span class="ks-amount" style="color: #d52626;">42 %</span>
+                                    <span class="ks-amount" style="color: #007a05;">42 %</span>
                                 </div>
                                 <div class="ks-payment-total-amount-item-description">
                                     самая низкая цена
@@ -184,7 +143,7 @@ $this->title = "Добро пожаловать в b2b.migom.by!";
                             </div>
                             <div class="ks-payment-total-amount-item-body">
                                 <div class="ks-payment-total-amount-item-amount">
-                                    <span class="ks-amount" style="color: #007a05;">17 %</span>
+                                    <span class="ks-amount" style="color: #d52626;">17 %</span>
                                 </div>
                                 <div class="ks-payment-total-amount-item-description">
                                     самая высокая цена

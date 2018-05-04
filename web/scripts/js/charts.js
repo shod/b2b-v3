@@ -9,7 +9,7 @@ function get_chart(date){
         url: "/statistic/get-chart/?date=" + date,
         success: function(json){
 
-            if (json != 'null'){
+            if ((json != 'null') && (json != "[]")){
                 $(function () {
                     var jsonStr = JSON.parse(json);
                     chart_data = new Array;
