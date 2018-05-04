@@ -109,7 +109,7 @@ AppAsset::register($this);
                 <div class="nav-item nav-link btn-action-block">
                     <a class="btn" href="#">
                         <span class="ks-action">Баланс <?= round($bill_account->balance,2); ?> - <?= $bill_account->getDayDownCatalog()*30 ?>/месяц (<?= $bill_account->getDayDownCatalog() ?>/день) </span>
-                        <span class="ks-description">Бонус  <?= round($bonus_account_id->balance,2); ?> </span>
+                        <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                     </a>
                 </div>
 
