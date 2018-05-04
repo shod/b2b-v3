@@ -160,6 +160,7 @@ return [
 
         'rules' => [
             '' => 'site/index',
+            'widget/<widget_name>'=> 'site/widget',
             ['pattern' => '<controller>/<action>',  'route' => '<controller>/<action>',],
         ],
     ],

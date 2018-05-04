@@ -62,6 +62,14 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionWidget($widget_name)
+    {
+        $get = $_GET;
+        unset($get['widget_name']);
+        $widget_path = 'app\components\widgets\\' . ucfirst($widget_name);
+        return $widget_path::widget($get);
+    }
+
     /**
      * Displays homepage.
      *
@@ -70,7 +78,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         Yii::$app->view->params['customParam'] = 'B2B главная.';
-        return $this->render('index');
+        $seller_id = Yii::$app->user->identity->getId();
+        return $this->render('index', ['sid' => $seller_id]);
     }
 
     /**

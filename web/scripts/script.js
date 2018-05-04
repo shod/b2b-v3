@@ -1,5 +1,12 @@
 $( document ).ready(function() {
 
+    $('[data-toggle="ajaxWidget"]').each(function() {
+        var $this = $(this),
+            $remoteUrl = $this.data('remote');
+        $(this).load($remoteUrl);
+
+    });
+
     $.ajax({
         method: "GET",
         url: "/notifications/process/?action=get_notify"
