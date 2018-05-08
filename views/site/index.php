@@ -87,18 +87,8 @@ $this->registerJs(
                 <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promise', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
                 <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'cost', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
 
-                <div class="col-xl-3 col-lg-3 col-md-6">
-                    <div class="card ks-widget-payment-price-ratio ks-green" style="height: 100%;">
-                        <div class="ks-price-ratio-title">
-                            Курс НБРБ (USD)
-                        </div>
-                        <div class="ks-price-ratio-amount">2.0082</div>
-                        <div class="ks-price-ratio-progress">
-                            <span class="ks-icon ks-icon-circled-up-right"></span>
-                            <div class="ks-text">0.32%</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+
 
                 <div class="col-xl-3 col-lg-3 col-md-6">
                     <div class="card ks-widget-weather-and-datetime ks-sunny" style="height: 100%;">
