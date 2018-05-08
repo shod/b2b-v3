@@ -90,23 +90,7 @@ $this->registerJs(
                 <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
 
 
-                <div class="col-xl-3 col-lg-3 col-md-6">
-                    <div class="card ks-widget-weather-and-datetime ks-sunny" style="height: 100%;">
-                        <div class="ks-widget-weather-and-datetime-weather-block">
-                            <div class="ks-widget-weather-and-datetime-weather-block-amount">
-                                +24º
-                            </div>
-                            <div class="ks-widget-weather-and-datetime-weather-block-type">
-                                Солнечно
-                            </div>
-                        </div>
-                        <div class="ks-widget-weather-and-datetime-datetime-block">
-                            <div class="ks-widget-weather-and-datetime-datetime-block-datetime">6:18 pm</div>
-                            <div class="ks-widget-weather-and-datetime-datetime-block-location">Минск</div>
-                            <span class="ks-icon wi wi-day-cloudy"></span>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'weather', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
 
             </div>
 
