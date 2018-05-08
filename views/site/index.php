@@ -235,34 +235,7 @@ $this->registerJs(
                 </div>
 
 
-                <div class="col-xl-4 col-lg-4">
-
-                    <div class="card ks-card-widget ks-widget-payment-budget" style="height: 100%;">
-                        <a class="card-header">Изменение тарифов</a>
-                        <div class="ks-card-widget-datetime">Дата <span class="ks-text-bold">2018.04.15</span>
-                        </div>
-                        <div style="margin-left: 20px;margin-right: 20px;">
-                            <p>Уважаемые партнеры!<br><br>Мы изменили <a
-                                        href="https://b2b.migom.by/?admin=products&amp;&amp;action=bill_catalog_new"
-                                        target="_blank">тарифы</a> на размещение.<br><br>Тарифные планы стали еще
-                                выгоднее:</p>
-                            <ul>
-                                <li>еще больше разделов в тарифных пакетах;</li>
-                                <li>еще больше доступных товаров;</li>
-                                <li>меньше затрат на рекламу;</li>
-                                <li>еще больше покупателей!</li>
-                            </ul>
-                            <p><br>Вам необходимо до <span style="color: #ff0000;">15 мая 2018 г.</span> выбрать
-                                подходящий <a
-                                        href="https://b2b.migom.by/?admin=products&amp;&amp;action=bill_catalog_new"
-                                        target="_blank">тарифный пакет</a> и перейти на него.<br><br>Старые тарифные
-                                пакеты действуют до 15 мая 2018 г.<br><br>Будем рады получить от Вас обратную связь и
-                                ответим на любые вопросы по тел.&nbsp; +375 29 111-45-<br>45 (Velcom) +375 29 777-45- 45
-                                (МТС) и еmail:&nbsp;<a href="mailto:sale@migom.by" target="_blank">sale@migom.by</a></p>
-                        </div>
-                    </div>
-
-                </div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'news', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
             </div>
 
         </div>

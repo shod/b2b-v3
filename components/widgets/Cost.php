@@ -10,6 +10,7 @@ class Cost extends \yii\base\Widget {
     public $viewFile = 'cost/show';
     public $sid;
     public function run() {
+        \Yii::$app->db->createCommand("call migombyha.pc_stat_seller_place({$this->sid},1)")->execute();
         $data_cost = \Yii::$app->db->createCommand("
 					select seller_id
 					, round(sum(prod_cnt_cost_max)/sum(prod_cnt_all)*100) as perc_max
