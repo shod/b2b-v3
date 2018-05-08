@@ -40,7 +40,7 @@ class Complaint extends \yii\base\Widget {
 							WHERE
 								f. STATUS = 0
                             AND FROM_UNIXTIME(f.created_at) > (DATE_SUB(NOW(), INTERVAL 1 DAY ))
-							AND f.seller_id = {$this->sid} order by f.created_at desc limit 8";
+							AND f.seller_id = {$this->sid} order by f.created_at desc limit 5";
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
 
         $complaints = '';

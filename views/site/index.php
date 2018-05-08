@@ -103,16 +103,9 @@ $this->registerJs(
 
             <div class="row">
 
-                <div class="col-xl-3 col-lg-3 col-md-6">
-                    <div class="card ks-widget-payment-price-ratio ks-purple" style="height: 100%;">
-                        <div class="ks-price-ratio-title">
-                            Обещанный платеж
-                        </div>
-                        <div class="ks-price-ratio-amount">5 ТЕ</div>
-                        <div class="ks-price-ratio-progress">
-                            <div class="ks-text">до 24.05.17</div>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promise', 'sid' => $sid]) ?>"
+                     data-toggle="ajaxWidget">
+
                 </div>
 
                 <div class="col-xl-3 col-lg-3 col-md-6">
