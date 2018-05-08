@@ -65,18 +65,9 @@ $this->registerJs(
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
-
-                <div class="col-xl-4 col-lg-4 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'balance', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-                </div>
-
-                <div class="col-xl-4 col-lg-4 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'products', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-                </div>
-
-                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promotion', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'balance', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-4 col-lg-4 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'products', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promotion', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
             </div>
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12">
@@ -87,31 +78,14 @@ $this->registerJs(
             </div>
 
             <div class="row">
-                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'actions', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-
-                </div>
-                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'reviews', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-
-                </div>
-                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'complaint', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-
-                </div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'actions', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'reviews', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'complaint', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
             </div>
 
             <div class="row">
-
-                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promise', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-
-                </div>
-
-                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'cost', 'sid' => $sid]) ?>"
-                     data-toggle="ajaxWidget">
-
-                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promise', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'cost', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
 
                 <div class="col-xl-3 col-lg-3 col-md-6">
                     <div class="card ks-widget-payment-price-ratio ks-green" style="height: 100%;">
@@ -147,94 +121,8 @@ $this->registerJs(
             </div>
 
             <div class="row">
-                <div class="col-xl-4 col-lg-4">
-
-                    <div class="card ks-card-widget ks-widget-payment-card-rate-details" style="height: 100%;">
-                        <h5 class="card-header">
-                            Аукционы
-                        </h5>
-                        <div class="card-block">
-                            <div class="ks-card-widget-datetime">
-                                Фиксированная ставка
-                            </div>
-
-                            <table class="table ks-payment-card-rate-details-table">
-                                <tbody>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Водонагреватели (бойлеры)
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">4 место</td>
-                                </tr>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Мобильные телефоны
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">1 место</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <br>
-                            <a href="#" class="btn btn-primary ks-light">Перейти к аукционам</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="col-xl-4 col-lg-4">
-
-                    <div class="card ks-card-widget ks-widget-payment-card-rate-details" style="height: 100%;">
-                        <h5 class="card-header">
-                            Аукционы
-                        </h5>
-                        <div class="card-block">
-                            <div class="ks-card-widget-datetime">
-                                Онлайн ставка
-                            </div>
-
-                            <table class="table ks-payment-card-rate-details-table">
-                                <tbody>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Автоусилители
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">1 место</td>
-                                </tr>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Другие товары
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">12 место</td>
-                                </tr>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Маникюрные наборы
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">4 место</td>
-                                </tr>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Электробигуди
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">5 место</td>
-                                </tr>
-                                <tr>
-                                    <td class="ks-currency">
-                                        Яйцеварки
-                                    </td>
-                                    <td class="ks-amount" style="width: 100px;">2 место</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <br>
-                            <a href="#" class="btn btn-primary ks-light">Перейти к аукционам</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'auction', 'sid' => $sid, 'type' => 'fix']) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'auction', 'sid' => $sid, 'type' => 'online']) ?>" data-toggle="ajaxWidget"></div>
                 <div class="col-xl-4 col-lg-4" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'news', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
             </div>
 

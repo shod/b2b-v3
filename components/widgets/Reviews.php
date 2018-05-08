@@ -18,6 +18,10 @@ class Reviews extends \yii\base\Widget {
 			order by date desc
 			limit 1
 			")->queryOne();
+        if(!$review){
+            $review['title'] = "К сожалению отзывов на ваш магазин нет.";
+            $review['review'] = "Напоминайте покупателям оставлять отзывы на migom.by.";
+        }
         echo $this->render($this->viewFile, ['review' => $review]);
     }
 }

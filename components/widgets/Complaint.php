@@ -48,6 +48,9 @@ class Complaint extends \yii\base\Widget {
         {
             $complaints .= $this->render('//statistic/tmpl/complaint-item', $r);
         }
+        if($complaints == ""){
+            $complaints = "Все отлично, жалоб на недоступность телефонов нет!";
+        }
         echo $this->render($this->viewFile, ['complaints' => $complaints]);
     }
 }

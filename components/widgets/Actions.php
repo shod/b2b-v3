@@ -21,6 +21,9 @@ class Actions extends \yii\base\Widget {
         foreach ($data as $d){
             $html .= "<tr><td>{$d['name']}</td><td><mark>до {$d['date']}</mark></td></tr>";
         }
+        if($html == ""){
+            $html = "Не подключено. Подробную информацию уточняйте у менеджеров.";
+        }
         echo $this->render($this->viewFile, ['actions' => $html]);
     }
 }
