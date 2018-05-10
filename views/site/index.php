@@ -85,9 +85,9 @@ $this->registerJs(
 
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'promise', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
-                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'cost', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-4 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'cost', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
 
-                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-2 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
 
 
                 <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'weather', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>

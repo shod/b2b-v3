@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>KOSMO - Multi Purpose Bootstrap 4 Admin Template</title>
+    <title>B2B Migom.by</title>
 
     <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,11 +44,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="form-group">
                         <div class="input-icon icon-left icon-lg icon-color-primary">
                             <?= $form->field($model, 'username')->label('Логин'); ?>
+                            <span class="icon-addon" style="top:13px;">
+                                <span class="la la-user"></span>
+                            </span>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <div class="input-icon icon-left icon-lg icon-color-primary">
-                            <?= $form->field($model, 'password')->label('Пароль'); ?>
+                            <?= $form->field($model, 'password')->passwordInput()->label('Пароль'); ?>
+                            <span class="icon-addon" style="top:13px;">
+                                <span class="la la-key"></span>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
