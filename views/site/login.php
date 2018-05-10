@@ -28,14 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </head>
 <body>
 
-<div class="ks-page">
-    <div class="ks-page-header">
-        <a href="https://www.migom.by" class="ks-logo" target="_blank">migom.by</a>
-    </div>
+<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.migom.by/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png);">
     <div class="ks-page-content">
-        <div class="ks-logo">B2B.MIGOM.BY</div>
+        <div class="ks-logo" style="color: white">B2B.MIGOM.BY</div>
 
-        <div class="card panel panel-default ks-light ks-panel ks-login">
+        <div class="card panel panel-default ks-light ks-panel ks-login" style="max-width: 364px;">
             <div class="card-block">
                 <?php $form = ActiveForm::begin(); ?>
 
@@ -64,17 +61,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="ks-text-center">
                        Нет аккаунта? <a href="/site/sign-up">Зарегистрироваться</a>
                     </div>
+                    <br>
+                    <div class="ks-text-center">
+                        По вопросам работы Migom.by пишите на почту <a href="#">sale@migom.by</a>
+                        или звоните по телефонам <a href="#">+375 (29) 111-45-45</a> velcom, <a href="#">+375 (29) 777-45-45</a> мтс
+                    </div>
+
                 </form>
                 <?php ActiveForm::end(); ?>
+
+
 
             </div>
         </div>
     </div>
     <div class="ks-footer">
-        <span class="ks-copyright">&copy; 2018 migom.by</span>
+        <span class="ks-copyright" style="color: white">&copy; 2018 migom.by</span>
         <ul>
             <li>
-                <a href="#">Контакты</a>
+                <a href="#" style="color: white">О проекте</a>
+            </li>
+            <li>
+                <a href="#" style="color: white">Реклама на сайте</a>
             </li>
         </ul>
     </div>

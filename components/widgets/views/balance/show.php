@@ -18,7 +18,7 @@
 
         <div class="ks-payment-total-amount-item-body">
             <div class="ks-payment-total-amount-item-amount">
-                <span class="ks-amount" style="color: #25628f"><?= $balance ?> TE</span>
+                <span class="ks-amount" style="color: #25628f"><?= $balance == 0 ? '0' : $balance ?> TE</span>
             </div>
             <div class="ks-payment-total-amount-item-description">
                 Бонус <?= $bonus ?> ТЕ
