@@ -25,7 +25,16 @@ class Member extends  \app\models\Member {
     public function setMemberProperty($name,$value,$property_id){
         $id = $this->id;
         $sys_object_value = SysObjectValue::find()->where(['object_id' => $id, 'object_property_id' => $property_id])->one();
-        $sys_object_value->value = $value;
+        if($sys_object_value){
+            $sys_object_value->value = $value;
+        } else {
+            $sys_object_value = new SysObjectValue();
+            $sys_object_value->object_id = $id;
+            $sys_object_value->object_property_id = $property_id;
+            $sys_object_value->object_sub_id = 0;
+            $sys_object_value->object_type_id = 7;
+            $sys_object_value->value = $value;
+        }
         $sys_object_value->save();
     }
 }

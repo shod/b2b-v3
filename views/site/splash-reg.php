@@ -34,44 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="card panel panel-default ks-light ks-panel ks-login" style="max-width: 364px;">
             <div class="card-block">
-                <?php $form = ActiveForm::begin(); ?>
-
-                <form class="form-container">
-                    <h4 class="ks-header">Войти в систему</h4>
-                    <div class="form-group">
-                        <div class="input-icon icon-left icon-lg icon-color-primary">
-                            <?= $form->field($model, 'username')->label('Логин'); ?>
-                            <span class="icon-addon" style="top:13px;">
-                                <span class="la la-user"></span>
-                            </span>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="input-icon icon-left icon-lg icon-color-primary">
-                            <?= $form->field($model, 'password')->passwordInput()->label('Пароль'); ?>
-                            <span class="icon-addon" style="top:13px;">
-                                <span class="la la-key"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <?= Html::submitButton('Войти', ['class' => 'btn btn-primary btn-block']) ?>
-                    </div>
-                    <div class="ks-text-center">
-                       Нет аккаунта? <a href="/site/sign-up">Зарегистрироваться</a>
-                    </div>
-                    <br>
-                    <div class="ks-text-center">
-                        По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
-                        или звоните по телефонам <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom, <a href="tel:+375297774545">+375 (29) 777-45-45</a> мтс
-                    </div>
-
-                </form>
-                <?php ActiveForm::end(); ?>
-
-
-
+                <h3>Спасибо за регистрацию на b2b.migom.by</h3>
+                <p>В ближайшее время администратор проекта свяжется с Вами по указанным контактным данным</p>
+                <br/>
+                <p><b>Внимание!</b> Магазин и указанный логин будут активированы только после проверки корректности данных администратором проекта. </p>
+                <br>
+                <p>
+                    По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
+                    или звоните по телефонам <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom, <a href="tel:+375297774545">+375 (29) 777-45-45</a> мтс
+                </p>
             </div>
         </div>
     </div>

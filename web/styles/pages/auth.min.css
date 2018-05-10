@@ -78,7 +78,7 @@ body {
 }
 
 .ks-page .ks-page-content .ks-panel.ks-signup {
-    min-height: 467px
+    min-height: 900px
 }
 
 .ks-page .ks-page-content .ks-panel.ks-forgot-password > .card-block > .form-container > .ks-header, .ks-page .ks-page-content .ks-panel.ks-login > .card-block > .form-container > .ks-header, .ks-page .ks-page-content .ks-panel.ks-signup > .card-block > .form-container > .ks-header {
