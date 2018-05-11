@@ -4,7 +4,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js',
 $this->registerJs(
     "
     $(document).ready(function () {
-        get_chart('2018-05');
+        get_chart('2018-05','areaspline');
     });
     "
 );

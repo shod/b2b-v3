@@ -2,7 +2,7 @@
  * Created by Миг-к101 on 26.04.2018.
  */
 
-function get_chart(date){
+function get_chart(date, type = 'spline'){
     date_chart = date;
     $.ajax({
         type: "GET",
@@ -51,7 +51,7 @@ function get_chart(date){
                     });
                     $('#chart').highcharts({
                         chart: {
-                            type: 'spline'
+                            type: type
                         },
                         title: {
                             text: 'Статистика кликов по дням ' + date_chart
@@ -77,7 +77,11 @@ function get_chart(date){
                             pointFormat: '{point.x:%e %b}: {point.y}'
                         },
 
-                        series: [{
+                        series: [
+                        {
+                            name: 'Всего',
+                            data: chart_data_sum
+                        },{
                             name: 'Количество кликов',
                             data: chart_data
                         },{
@@ -86,9 +90,6 @@ function get_chart(date){
                         },{
                             name: 'Количество по контекстной рекламе',
                             data: chart_data_context
-                        },{
-                            name: 'Всего',
-                            data: chart_data_sum
                         }]
                     });
                 });
