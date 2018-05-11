@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\NotifierMessageB2b;
+use app\models\PoOrder;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -89,6 +90,23 @@ class NotificationsController extends Controller
                 $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'id' => $id])->one();
                 $notification->status = 1;
                 $notification->save();
+                break;
+            case "get_notify_reviews":
+                $notifications = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'notify', 'status'=>'0'])->all();
+                $data = [];
+                foreach ($notifications as $notify){
+                    if(isset($data[$notify->tmpl])){
+                        $data[$notify->tmpl] += 1;
+                    } else {
+                        $data[$notify->tmpl] = 1;
+                    }
+                }
+                echo json_encode($data);
+                break;
+            case "get_notify_po_order":
+                $cnt = PoOrder::find()->where(['seller_id' => $this->seller_id, 'status'=>'0'])->count();
+                $data['po_cnt'] = $cnt;
+                echo json_encode($data);
                 break;
         }
     }

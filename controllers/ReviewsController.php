@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\SiteService;
+use app\models\NotifierMessageB2b;
 use app\models\Review;
 use Yii;
 use yii\filters\AccessControl;
@@ -70,6 +71,12 @@ class ReviewsController extends Controller
 
     public function actionIndex()
     {
+        $cnt = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'notify', 'status'=>'0', 'tmpl' => 'review'])->count();
+        if($cnt > 0){
+            $sql = "update notifier_message_b2b set status=1 WHERE seller_id = {$this->seller_id} and type='notify' and tmpl = 'review' and status=0";
+            \Yii::$app->db->createCommand($sql)->execute();
+        }
+
         $page = Yii::$app->request->get("page") ? Yii::$app->request->get("page")-1 : 0;
         $vars["data"] = $this->get_data($page);
         $vars["pages"] = $this->get_pages($page);
@@ -79,6 +86,11 @@ class ReviewsController extends Controller
     }
 
     public function actionComplaint(){
+        $cnt = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'notify', 'status'=>'0', 'tmpl' => 'complaint'])->count();
+        if($cnt > 0){
+            $sql = "update notifier_message_b2b set status=1 WHERE seller_id = {$this->seller_id} and type='notify' and tmpl = 'complaint' and status=0";
+            \Yii::$app->db->createCommand($sql)->execute();
+        }
         $sql = "select po_active from seller_info where  seller_id = {$this->seller_id}";
         $res = \Yii::$app->db->createCommand($sql)->queryOne();
         if (count($res) == 1){

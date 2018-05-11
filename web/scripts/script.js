@@ -42,6 +42,38 @@ $( document ).ready(function() {
             }
         });
 
+    $.ajax({
+        method: "GET",
+        url: "/notifications/process/?action=get_notify_reviews"
+    })
+        .done(function( msg ) {
+            if(msg){
+                data = JSON.parse(msg);
+                sum = 0;
+                for(var k in data) {
+                    $("#"+k+"_notify").html("+"+data[k]);
+                    sum += data[k];
+                }
+                if(sum > 0){
+                    $("#review_owner").html("<span class='badge badge-pill badge-crusta ks-label'>"+sum+"</span>");
+                }
+            }
+        });
+
+    $.ajax({
+        method: "GET",
+        url: "/notifications/process/?action=get_notify_po_order"
+    })
+        .done(function( msg ) {
+            if(msg){
+                data = JSON.parse(msg);
+                if(data['po_cnt'] > 0){
+                    $("#po_cnt").html("<span class='badge badge-pill badge-crusta ks-label'>"+data['po_cnt']+"</span>");
+                    $("#po_notify").html("+"+data['po_cnt']);
+                }
+            }
+        });
+
     $.validate();
 
     page_url = window.location.pathname;
