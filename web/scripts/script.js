@@ -7,73 +7,7 @@ $( document ).ready(function() {
 
     });
 
-    $.ajax({
-        method: "GET",
-        url: "/notifications/process/?action=get_notify"
-    })
-        .done(function( msg ) {
-            if(msg){
-                data = JSON.parse(msg);
-                $.confirm({
-                    title: 'Обратите внимание',
-                    content: data.tmpl,
-                    buttons: {
-                        confirm: {
-                            text: data.button_name,
-                            action: function () {
-                                id= data.id;
-                                $.ajax({
-                                    method: "GET",
-                                    url: "/notifications/process/?action=set_notify&id="+id
-                                })
-                                    .done(function( msg ) {
-                                        if(msg){
-                                            //alert(msg);
-                                        }
-                                    });
-                                location.href = data.href;
-                            }
-                        },
-                        cancel: {
-                            text: 'Закрыть'
-                        }
-                    }
-                });
-            }
-        });
-
-    $.ajax({
-        method: "GET",
-        url: "/notifications/process/?action=get_notify_reviews"
-    })
-        .done(function( msg ) {
-            if(msg){
-                data = JSON.parse(msg);
-                sum = 0;
-                for(var k in data) {
-                    $("#"+k+"_notify").html("+"+data[k]);
-                    sum += data[k];
-                }
-                if(sum > 0){
-                    $("#review_owner").html("<span class='badge badge-pill badge-crusta ks-label'>"+sum+"</span>");
-                }
-            }
-        });
-
-    $.ajax({
-        method: "GET",
-        url: "/notifications/process/?action=get_notify_po_order"
-    })
-        .done(function( msg ) {
-            if(msg){
-                data = JSON.parse(msg);
-                if(data['po_cnt'] > 0){
-                    $("#po_cnt").html("<span class='badge badge-pill badge-crusta ks-label'>"+data['po_cnt']+"</span>");
-                    $("#po_notify").html("+"+data['po_cnt']);
-                }
-            }
-        });
-
+    get_notifications();
     $.validate();
 
     page_url = window.location.pathname;
@@ -97,7 +31,7 @@ $( document ).ready(function() {
         });
         var $this = $(this),
             $remoteUrl = $this.data('remote') || $this.attr('href'),
-            $modal = $('<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="modal-title"></h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="la la-close"></span></button></div><div class="modal-body" id="modal-body"></div></div></div></div>');
+            $modal = $('<div id="myDefaultModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="modal-title"></h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="la la-close"></span></button></div><div class="modal-body" id="modal-body"></div></div></div></div>');
         $('#modal-div').append($modal);
         $.ajax({
             url: $remoteUrl,
@@ -116,6 +50,7 @@ $( document ).ready(function() {
             }
         });
     });
+
 
     $('.button-sms').click(function() {
         var $this = $(this);
@@ -290,6 +225,42 @@ function verify_chboxes(){
     }
 }
 
+function ajaxSubmit(obj) {
+    var frm = $('#'+obj);
+
+    frm.submit(function (e) {
+
+        e.preventDefault();
+
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $('#myDefaultModal').modal('hide');
+                $.alert({
+                    title: data,
+                    type: 'blue',
+                    content: 'Для продолжения работы нажмите ОК',
+                });
+                console.log('Submission was successful.');
+                console.log(data);
+            },
+            error: function (data) {
+                $('#myDefaultModal').modal('hide');
+                $.alert({
+                    title: 'Что-то пошло не так :( попробуйте еще раз!',
+                    type: 'red',
+                    content: 'Для продолжения работы нажмите ОК',
+                });
+                console.log('An error occurred.');
+                console.log(data);
+            },
+        });
+    });
+    frm.submit();
+}
+
 
 function get_report_data_more(type){
     m = $('#select_m').val();
@@ -328,6 +299,75 @@ function change_href(cl,add_name, add_value){
         href = $( this ).attr('href');
         $( this ).attr('href', href+'&'+add_name+'='+add_value);
     });
+}
+
+function get_notifications() {
+    $.ajax({
+        method: "GET",
+        url: "/notifications/process/?action=get_notify"
+    })
+        .done(function( msg ) {
+            if(msg){
+                data = JSON.parse(msg);
+                $.confirm({
+                    title: 'Обратите внимание',
+                    content: data.tmpl,
+                    buttons: {
+                        confirm: {
+                            text: data.button_name,
+                            action: function () {
+                                id= data.id;
+                                $.ajax({
+                                    method: "GET",
+                                    url: "/notifications/process/?action=set_notify&id="+id
+                                })
+                                    .done(function( msg ) {
+                                        if(msg){
+                                            //alert(msg);
+                                        }
+                                    });
+                                location.href = data.href;
+                            }
+                        },
+                        cancel: {
+                            text: 'Закрыть'
+                        }
+                    }
+                });
+            }
+        });
+
+    $.ajax({
+        method: "GET",
+        url: "/notifications/process/?action=get_notify_reviews"
+    })
+        .done(function( msg ) {
+            if(msg){
+                data = JSON.parse(msg);
+                sum = 0;
+                for(var k in data) {
+                    $("#"+k+"_notify").html("+"+data[k]);
+                    sum += data[k];
+                }
+                if(sum > 0){
+                    $("#review_owner").html("<span class='badge badge-pill badge-crusta ks-label'>"+sum+"</span>");
+                }
+            }
+        });
+
+    $.ajax({
+        method: "GET",
+        url: "/notifications/process/?action=get_notify_po_order"
+    })
+        .done(function( msg ) {
+            if(msg){
+                data = JSON.parse(msg);
+                if(data['po_cnt'] > 0){
+                    $("#po_cnt").html("<span class='badge badge-pill badge-crusta ks-label'>"+data['po_cnt']+"</span>");
+                    $("#po_notify").html("+"+data['po_cnt']);
+                }
+            }
+        });
 }
 
 

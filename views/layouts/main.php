@@ -47,6 +47,18 @@ AppAsset::register($this);
     ->where(['id' => $seller->bill_account_id])
     ->one();
     $bonus_account_id = \app\models_ex\BillAccount::find()->where(['owner_id' => $seller->bill_account_id])->one();
+
+    //$res = $whirl->dbd->query("select type from bill_transaction where account_id={$account_id} and type in ('deactivate', 'deactivate_b2b') order by id desc limit 1");
+    //$denied = ((count($res) && $res[0][0]=='deactivate') || $vars["date_start"] == NULL);
+    $denied = false;
+    $activation = $seller->active ? "deactivate" : ( ($bill_account->balance > 0) ? ($denied ? 'activate_denied' : 'activate') : "activate_none");
+    $activation_button = $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+                        <span class=\"ks-action\"> Поставить </span>
+                        <span class=\"ks-description\"> на паузу </span>
+                    </a>" : "<a class=\"btn btn-success\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+                        <span class=\"ks-action\"> Возобновить </span>
+                        <span class=\"ks-description\"> аккаунт </span>
+                    </a>";
 ?>
 
 <!-- BEGIN HEADER -->
@@ -79,24 +91,6 @@ AppAsset::register($this);
             <!-- BEGIN NAVBAR ACTIONS -->
             <div class="ks-navbar-actions">
 
-                <div class="nav-item dropdown ks-user">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span>
-                            <img src="http://static.migom.by/img/seller/logo$<?= $seller_id ?>.jpg" height="36">
-                        </span>
-                        <span class="ks-info">
-                            <span class="ks-name"><?= $seller->name; ?></span>
-                            <span class="ks-description"><?= $seller->id; ?></span>
-                        </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">
-                        <a class="dropdown-item" href="/site/logout">
-                            <span class="la la-sign-out ks-icon" aria-hidden="true"></span>
-                            <span>Выйти</span>
-                        </a>
-                    </div>
-                </div>
-
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
                 <div class="nav-item ks-notifications">
                     <a class="nav-link " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -114,15 +108,8 @@ AppAsset::register($this);
                 </div>
 
                 <div class="nav-item nav-link btn-action-block">
-                    <a class="btn btn-danger" href="#">
-                        <span class="ks-action"> Поставить </span>
-                        <span class="ks-description"> на паузу </span>
-                    </a>
+                    <?= $activation_button ?>
                 </div>
-
-
-
-
 
 
                 <!-- BEGIN NAVBAR MESSAGES -->
@@ -206,6 +193,24 @@ AppAsset::register($this);
                 </div>
                 <!-- END NAVBAR MESSAGES -->
 
+                <div class="nav-item dropdown ks-user">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span>
+                            <img src="http://static.migom.by/img/seller/logo$<?= $seller_id ?>.jpg" height="36">
+                        </span>
+                        <span class="ks-info">
+                            <span class="ks-name"><?= $seller->name; ?></span>
+                            <span class="ks-description"><?= $seller->id; ?></span>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">
+                        <a class="dropdown-item" href="/site/logout">
+                            <span class="la la-sign-out ks-icon" aria-hidden="true"></span>
+                            <span>Выйти</span>
+                        </a>
+                    </div>
+                </div>
+
             <!-- END NAVBAR ACTIONS -->
         </nav>
 
@@ -235,14 +240,6 @@ AppAsset::register($this);
     <div class="ks-column ks-sidebar ks-info">
         <div class="ks-wrapper ks-sidebar-wrapper">
             <ul class="nav nav-pills nav-stacked">
-                <!--li class="nav-item ks-user">
-                    <a class="nav-link"  href="#" role="button" aria-haspopup="true" aria-expanded="true">
-                        <div class="ks-info">
-                            <div class="ks-name"><?= $seller->name; ?></div>
-                            <div class="ks-text"><?= $seller->id; ?></div>
-                        </div>
-                    </a>
-                </li-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  href="#" role="button" aria-haspopup="true" aria-expanded="true">
                         <span class="ks-icon la la-money"></span>
@@ -264,7 +261,7 @@ AppAsset::register($this);
                         <a class="dropdown-item" href="/auction">Аукционы</a>
                         <a class="dropdown-item" href="/spec">Спецпредложения</a>
                         <a class="dropdown-item" href="/context-adv">Контекстная реклама</a>
-                        <a class="dropdown-item" href="/order/sms">Обратный звонок<span style="color: #e79716;margin: 10px;font-weight: 900;" id="po_notify">+1</span></a>
+                        <a class="dropdown-item" href="/order/sms">Обратный звонок<span style="color: #e79716;margin: 10px;font-weight: 900;" id="po_notify"></span></a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

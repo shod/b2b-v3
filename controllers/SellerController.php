@@ -8,6 +8,7 @@ use app\models\Seller;
 use app\models\SellerPlaces;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -194,6 +195,28 @@ class SellerController extends Controller
                 return $this->redirect(['seller/delivery']);
                 break;
         }
+    }
+
+    public function actionGetActivate(){
+        $type = Yii::$app->request->get("type");
+
+        $json["header"] = 'Внимание';
+        $json["body"] = $this->renderPartial('activations/'.$type);
+        echo Json::encode($json);
+    }
+
+    public function actionActivateProcess(){
+        $action = Yii::$app->request->get("action");
+
+        switch ($action) {
+            case "activate":
+                echo "Работа возобновлена!";
+                break;
+            case 'deactivate':
+                echo "Работа поставлена на паузу!";
+                break;
+        }
+        //TODO: TRANSACTIONS
     }
 
     public function actionPlaceActions(){

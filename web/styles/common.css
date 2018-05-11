@@ -9456,7 +9456,7 @@ body.ks-sidebar-iconbar_compact .ks-navbar .navbar-brand {
     }
 
     .ks-navbar > .ks-wrapper > .nav > .ks-navbar-actions > .ks-user .ks-info {
-        display: none;
+        /*display: none;*/
     }
 }
 
