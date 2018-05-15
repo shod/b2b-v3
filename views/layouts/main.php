@@ -196,11 +196,11 @@ AppAsset::register($this);
                 <div class="nav-item dropdown ks-user">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span>
-                            <img src="http://static.migom.by/img/seller/logo$<?= $seller_id ?>.jpg" height="36">
+
                         </span>
                         <span class="ks-info">
                             <span class="ks-name"><?= $seller->name; ?></span>
-                            <span class="ks-description"><?= $seller->id; ?></span>
+                            <span class="ks-description">ID: <?= $seller->id; ?></span>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">

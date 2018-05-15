@@ -1,4 +1,4 @@
-<div class="card ks-card-widget ks-widget-payment-total-amount ks-purple-light" style="height: 100%;">
+<div class="card ks-card-widget ks-widget-payment-total-amount ks-purple-light" >
     <h5 class="card-header">
         Баланс
         <div class="dropdown ks-control">
