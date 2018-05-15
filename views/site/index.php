@@ -4,12 +4,14 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js',
 $this->registerJs(
     "
     $(document).ready(function () {
-        get_chart('2018-05','areaspline');
+        var now = new Date();
+        var month = now.getUTCMonth()+1;
+        get_chart(now.getUTCFullYear()+'-'+month,'areaspline');
     });
     "
 );
 ?>
-<div class="ks-page-content-body">
+<div class="ks-page-content-body" style="background-color: #f4f4f4">
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">

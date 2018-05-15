@@ -93,7 +93,7 @@ AppAsset::register($this);
 
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
                 <div class="nav-item ks-notifications">
-                    <a class="nav-link " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <?= $seller->active ? "<span style='padding-top: 7px;' class=\"badge badge-success\">АКТИВНЫЙ</span>" : "<span style='padding-top: 7px;' class=\"badge badge-danger\">ОТКЛЮЧЕН</span>"; ?>
                     </a>
                 </div>
@@ -101,7 +101,7 @@ AppAsset::register($this);
 
 
                 <div class="nav-item nav-link btn-action-block">
-                    <a class="btn" href="#">
+                    <a class="btn" href="/balance/add">
                         <span class="ks-action">Баланс <?= round($bill_account->balance,2); ?> - <?= $bill_account->getDayDownCatalog()*30 ?>/месяц (<?= $bill_account->getDayDownCatalog() ?>/день) </span>
                         <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                     </a>
@@ -353,7 +353,7 @@ AppAsset::register($this);
             </section>
         </div>
 
-        <div class="ks-page-content">
+        <div class="ks-page-content" >
 
 
                         <?= $content;?>
