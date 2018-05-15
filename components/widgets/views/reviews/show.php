@@ -3,9 +3,12 @@
         Последний отзыв
     </h5>
     <div class="card-block">
-        <mark><?= $review['title'] ?></mark>
-        <p>
+        <div class="ks-item">
+            <span><?= $review['title'] ?></span><br>
+            <span class="ks-card-widget-datetime">
             <?= $review['review'] ?>
-        </p>
+        </span>
+        </div>
+
     </div>
 </div>

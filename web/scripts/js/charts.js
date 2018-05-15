@@ -93,6 +93,8 @@ function get_chart(date, type = 'spline'){
                         }]
                     });
                 });
+            } else {
+                $('#chart').html("Недостаточно данных для отображения статистики");
             }
 
         }

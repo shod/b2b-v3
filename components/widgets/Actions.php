@@ -22,7 +22,7 @@ class Actions extends \yii\base\Widget {
             $html .= "<tr><td>{$d['name']}</td><td><mark>до {$d['date']}</mark></td></tr>";
         }
         if($html == ""){
-            $html = "Не подключено. Подробную информацию уточняйте у менеджеров.";
+            $html = "<span class=\"ks-card-widget-datetime\">Не подключено. Подробную информацию уточняйте у менеджеров.</span>";
         }
         echo $this->render($this->viewFile, ['actions' => $html]);
     }

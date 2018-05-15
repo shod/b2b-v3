@@ -31,7 +31,7 @@ $this->registerJs(
 
             <div class="row">
                 <div class="col-xl-10 col-lg-10 col-md-12">
-                    <div class="card card-block">
+                    <div class="card card-block" style="height: 100%">
                         <div id="chart"></div>
                     </div>
                 </div>
