@@ -1,4 +1,4 @@
-<div class="ks-subscription" >
+<div class="ks-subscription" style="margin-right: 15px; margin-left: 15px;">
     <div class="ks-header">
         <span class="ks-name"><?= $name ?></span>
         <span class="ks-price">
