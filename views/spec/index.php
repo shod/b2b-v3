@@ -14,12 +14,21 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
                             менее <?= isset($min_balance) ? $min_balance : "" ?> ТЕ.
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 content-end">
+                </div><br><br>
+                <div class="col-lg-6">
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             <a href="/spec/add" class="btn btn-primary ks-light">Добавить спецпредложения</a>
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a>
+                    </div>
+                    <div id="help-block" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
+                        <h4><?= $title ?></h4>
+                        <br>
+                        <?= stripcslashes($text) ?>
                     </div>
                 </div>
             </div>
@@ -63,7 +72,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
 
                                         </tbody>
                                     </table>
-                                    <div class="content-end" style="margin-bottom: 15px;">
+                                    <div style="margin-bottom: 15px;">
                                         <input class="btn btn-primary" type="submit" value="Сохранить"/>
                                     </div>
 
@@ -72,13 +81,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="alert alert-primary ks-solid-light" role="alert">
-                        <h4><?= $title ?></h4>
-                        <br>
-                        <?= stripcslashes($text) ?>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

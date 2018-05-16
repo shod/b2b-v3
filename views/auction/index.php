@@ -94,7 +94,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                                 </div>
                             </div>
                         </div>
-                        <div class="content-end">
+                        <div >
                             <input id="btnSaveFix" class="btn btn-primary" type="button" value="Сохранить"
                                    onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
                         </div>
@@ -105,7 +105,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Аукционы с онлайн ставками</h3>
+                    <h3>Аукционы с онлайн-ставками</h3>
                 </div>
             </div>
 
@@ -185,7 +185,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                                 </div>
                             </div>
                         </div>
-                        <div class="content-end">
+                        <div >
                             <input class="btn btn-primary" type="button" value="Сохранить"
                                    onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
                         </div>
