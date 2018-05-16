@@ -38,7 +38,7 @@ $this->title = "Обещаный платеж";
                                     <input class="form-control" type="text"
                                            placeholder="Максимальная сумма <?= $day_down; ?> руб.">
                                     <span class="input-group-btn">
-                           <input class="btn btn-primary" type="submit" <?= $disabled; ?>
+                           <input class="btn btn-primary" type="submit" <?= $disabled; ?> value="Получить обещанный платеж"/>
                         </span>
                                 </div>
                             </form>

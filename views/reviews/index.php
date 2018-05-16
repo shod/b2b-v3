@@ -4,6 +4,24 @@ $this->title = "Отзывы";
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
+            <div class="row" style="margin-top: 0px;">
+                <div class="col-lg-12">
+                    <div class="card panel panel-default ks-solid ks-bg-light-gray">
+                        <div class="card-block">
+                            <h3 class="card-title">Модератор отзывов</h3>
+                            <p class="card-text"><b>E-mail:</b> <a href="mailto:report@migom.by">report@migom.by</a> </p>
+                            <p class="card-text"><b>Время работы:</b> с 9:00 до 18:00</p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ks-dashboard-tabbed-sidebar">
+        <div class="ks-dashboard-tabbed-sidebar-widgets">
             <form method="post" action="/reviews/save-answers">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                 <div class="row" style="margin-top: 0px;">
