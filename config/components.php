@@ -154,6 +154,7 @@ return [
         ],
     ],
     'db' => require(__DIR__ . '/components/db.php'),
+    'db_event' => require(__DIR__ . '/components/db_event.php'),
     'urlManager' => [
         'enablePrettyUrl' => true,
         'showScriptName' => false,

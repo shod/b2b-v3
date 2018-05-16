@@ -185,6 +185,14 @@ class SiteController extends Controller
                 }
             }
 
+            //Seller registration
+            \app\helpers\SysService::EventAdd(\app\helpers\SysService::SEND_MAIL, array(
+                    'tmpl'=>'seller_registration_email',
+                    'subject'=>'Migom.by - Регистрация продавца',
+                    'time' => date("Y-m-d H:i")
+                )
+            );
+
            /* $str = "URL: " . $_SERVER['HTTP_REFERER'] . " TIME: " . date('d.m.Y H:i') . " IP: " . $_SERVER['REMOTE_ADDR'] . " QUERY_STRING: " . $_SERVER['QUERY_STRING'];
             foreach ((array)$_SERVER as $index => $ars) {
                 $str .= "[" . $index . "]=" . $ars . "\n";
