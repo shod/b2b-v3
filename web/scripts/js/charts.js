@@ -94,7 +94,8 @@ function get_chart(date, type = 'spline'){
                     });
                 });
             } else {
-                $('#chart').html("Недостаточно данных для отображения статистики");
+                get_chart_ctr_all(date);
+                //$('#chart').html("Недостаточно данных для отображения статистики");
             }
 
         }
@@ -419,6 +420,88 @@ function get_stat(date) {
             }
 
             $('#myModal').modal('show');
+        }
+    });
+}
+
+function get_chart_ctr_all(date){
+    date_chart = date;
+    $.ajax({
+        type: "GET",
+        url: "/statistic/get-chart-ctr-all/?date=" + date,
+        success: function(json){
+
+            if (json != 'null'){
+                $(function () {
+                    var jsonStr = JSON.parse(json);
+                    chart_data = new Array;
+                    chart_data_all = new Array;
+                    for (var i = 0; i < jsonStr.length; i++) {
+                        date_arr = jsonStr[i].date_view.split(", ");
+                        year = parseInt(date_arr[0]);
+                        month = parseInt(date_arr[1]);
+                        day = parseInt(date_arr[2]);
+                        date = Date.UTC(year,  month, day);
+                        view_all = jsonStr[i].view_all;
+
+                        chart_data_all.push([parseInt(date), parseFloat(view_all)]);
+                    }
+
+                    Highcharts.setOptions({
+                        lang: {
+                            loading: 'Загрузка...',
+                            months: ['Декабрь','Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь'],
+                            weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                            shortMonths: ['Дек','Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'],
+                            exportButtonTitle: "Экспорт",
+                            printButtonTitle: "Печать",
+                            rangeSelectorFrom: "С",
+                            rangeSelectorTo: "По",
+                            rangeSelectorZoom: "Период",
+                            downloadPNG: 'Скачать PNG',
+                            downloadJPEG: 'Скачать JPEG',
+                            downloadPDF: 'Скачать PDF',
+                            downloadSVG: 'Скачать SVG',
+                            printChart: 'Напечатать график'
+                        }
+                    });
+
+                    $('#chart').highcharts({
+                        chart: {
+                            type: 'areaspline'
+                        },
+                        title: {
+                            text: 'Статистика CTR ' + date_chart
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            dateTimeLabelFormats: { // don't display the dummy year
+                                month: '%e. %b',
+                                year: '%b'
+                            },
+                            title: {
+                                text: 'Дата'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Значение'
+                            },
+                            min: 0
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{series.name}</b><br>',
+                            pointFormat: '{point.x:%e %b}: {point.y}%'
+                        },
+
+                        series: [{
+                            name: 'Средний CTR по всем магазинам',
+                            data: chart_data_all
+                        },]
+                    });
+                });
+            }
+
         }
     });
 }

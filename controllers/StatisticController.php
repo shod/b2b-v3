@@ -326,6 +326,33 @@ class StatisticController extends Controller
         exit;
     }
 
+    public function actionGetChartCtrAll(){
+        $date = Yii::$app->request->get("date");
+        $arr_date = explode("-", $date);
+        $year = $arr_date[0];
+        $month = $arr_date[1];
+
+
+        $sql = "SELECT scs.date, ROUND(AVG(scs.ctr_popup)*100,2) as ctr_all FROM migombyha.seller_ctr_stat as scs
+					where
+					DATE_FORMAT(
+						scs.date,
+						'%Y-%m'
+					) = '{$year}-0{$month}'  and scs.ctr_popup < 1
+					 GROUP BY scs.date order by scs.date desc";
+        $data = \Yii::$app->db->createCommand($sql)->queryAll();
+        $array_data = array();
+        foreach((array)$data as $r)
+        {
+            $a['date_view'] = str_replace("-", ", ",$r['date']);
+            $a['view_all'] = $r['ctr_all'];
+            $array_data[]= $a;
+        }
+        $json = json_encode($array_data);
+        echo $json;
+        exit;
+    }
+
     public function actionGetDayStat(){
         $date = Yii::$app->request->get("date");
         $sql = "SELECT *, DATE_FORMAT(FROM_UNIXTIME(created_at), '%H:%i') as datetime from migombyha.stat_popup WHERE seller_id = {$this->seller_id} and DATE_FORMAT(FROM_UNIXTIME(created_at),'%Y-%m-%d') = '{$date}' and f_uniq = 1 ORDER BY created_at asc";
