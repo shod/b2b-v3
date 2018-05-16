@@ -44,6 +44,6 @@
                 самая высокая цена
             </div>
         </div>
-        <div style="width: 100%; text-align: center; padding-top: 10px;"><a href="/tariff" class="btn btn-primary ks-light btn-sm">Анализ цен</a></div>
+        <div style="width: 100%; text-align: center; padding-top: 10px;"><a href="/statistic/cost-analysis" class="btn btn-primary ks-light btn-sm">Анализ цен</a></div>
     </div>
 </div>

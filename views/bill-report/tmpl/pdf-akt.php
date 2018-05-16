@@ -624,8 +624,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl678508 style='height:15.75pt'></td>
             <td class=xl688508>Исполнитель:</td>
-            <td colspan=4 rowspan=2 class=xl828508 width=275 style='width:207pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ООО
-                &quot;Альметра&quot;</td>
+            <td colspan=4 rowspan=2 class=xl828508 width=275 style='width:207pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $official_name ?></td>
             <td class=xl678508 colspan=3></td>
             <td class=xl688508>Заказчик:</td>
             <td colspan=7 rowspan=2 class=xl828508 width=252 style='width:191pt'><?= $company_name ?><span style='mso-spacerun:yes'> </span></td>
@@ -643,7 +642,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl678508 style='height:15.75pt'></td>
             <td class=xl688508>Р/счет №:</td>
-            <td colspan=4 class=xl838508>BY43ALFA30122078930080270000<br>БИК ALFABY2X</td>
+            <td colspan=4 class=xl838508><?= $official_rs ?></td>
             <td class=xl678508 colspan=3></td>
             <td class=xl688508>Р/счет №:</td>
             <td colspan=5 class=xl838508><?= $ras_schet ?></td>
@@ -653,9 +652,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl678508 style='height:15.75pt'></td>
             <td class=xl688508>Банк:</td>
-            <td colspan=4 rowspan=4 class=xl828508 width=275 style='width:207pt'>ЗАО
-                &quot;Альфа-Банк&quot;. Центральный офис, 220030, г. Минск, ул. Мясникова,
-                70, код 270<br></td>
+            <td colspan=4 rowspan=4 class=xl828508 width=275 style='width:207pt'><?= $official_bank ?><br></td>
             <td class=xl678508 colspan=3></td>
             <td class=xl688508>Банк:</td>
             <td colspan=7 rowspan=4 class=xl828508 width=252 style='width:191pt'><?= stripcslashes($bank_name) ?> <?= $bank_address ?> код <?= $bank_code ?></td>
@@ -689,7 +686,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:16.35pt'>
             <td height=21 class=xl678508 style='height:16.35pt'></td>
             <td class=xl688508>УНП:</td>
-            <td colspan=4 class=xl848508 width=275 style='width:207pt'>192147793</td>
+            <td colspan=4 class=xl848508 width=275 style='width:207pt'><?= $official_unp ?></td>
             <td class=xl678508 colspan=3></td>
             <td class=xl688508>УНП:</td>
             <td colspan=5 class=xl848508 width=252 style='width:191pt'><?= $unn ?></td>
@@ -699,7 +696,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:16.35pt'>
             <td height=21 class=xl678508 style='height:16.35pt'></td>
             <td class=xl688508>ОКПО:</td>
-            <td colspan=4 class=xl848508 width=275 style='width:207pt'>381393215000</td>
+            <td colspan=4 class=xl848508 width=275 style='width:207pt'><?= $official_okpo ?></td>
             <td class=xl678508 colspan=3></td>
             <td class=xl688508></td>
             <td colspan=5 class=xl848508 width=252 style='width:191pt'></td>
@@ -709,8 +706,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl678508 style='height:15.75pt'></td>
             <td class=xl688508>Адрес:</td>
-            <td colspan=4 rowspan=3 class=xl828508 width=275 style='width:207pt'>220007,
-                г. Минск, ул. Могилевская 2/2, помещение 10-1</td>
+            <td colspan=4 rowspan=3 class=xl828508 width=275 style='width:207pt'><?= $official_address ?></td>
             <td class=xl678508 colspan=3></td>
             <td class=xl688508>Адрес:</td>
             <td colspan=7 rowspan=3 class=xl828508 width=252 style='width:191pt'><?= $city_law ?>, <?= $address_law ?></td>
@@ -735,7 +731,7 @@ DIV будут заменены.-->
         </tr>
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:15.75pt'>
             <td class=xl698508>Телефон/факс:</td>
-            <td class=xl708508 colspan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+375 (29) 111 45 45, 7774545</td>
+            <td class=xl708508 colspan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $official_phone ?></td>
             <td class=xl678508></td>
             <td class=xl678508></td>
             <td class=xl678508></td>
@@ -977,7 +973,7 @@ DIV будут заменены.-->
         <tr class=xl658508 height=17 style='mso-height-source:userset;height:13.35pt'>
             <td colspan=2 height=17 class=xl918508 width=140 style='height:13.35pt;
   width:106pt'>Управляющий</td>
-            <td colspan=3 class=xl928508 style="text-align: left">Кладухина О.Н.</td>
+            <td colspan=3 class=xl928508 style="text-align: left"><?= $official_owner ?></td>
             <td class=xl658508></td>
             <td class=xl658508></td>
             <td class=xl808508>&nbsp;</td>
@@ -1046,7 +1042,7 @@ DIV будут заменены.-->
         <tr class=xl658508>
             <td></td>
             <td class=xl708508></td>
-            <td class=xl658508><img width='222px' style="position:relative; top:-53px" src="http://b2b.migom.by/img/design/faximille.jpg"/></td>
+            <td class=xl658508><img width='222px' style="position:relative; top:-53px" src="<?= $official_faximille ?>"/></td>
             <td class=xl658508></td>
             <td class=xl658508></td>
             <td class=xl658508></td>

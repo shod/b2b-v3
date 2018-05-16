@@ -102,6 +102,41 @@ class BillReportController extends Controller
             12 => '31 декабря'
         );
 //exit;
+        $no_nds = Yii::$app->request->post('no_nds');
+
+        if($no_nds == 2){
+            $pay_source = 2;
+            $official_data = array(
+                "official_name" => "ИНДИВИДУАЛЬНЫЙ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ПРЕДПРИНИМАТЕЛЬ <br>ГРЕЧКО АРТЁМ ГЕННАДЬЕВИЧ<br>",
+                "official_unp" => "101541947",
+                "official_okpo" => "37526626",
+                "official_address" => "220024,г.Минск, ул. Асаналиева, 24-6",
+                "official_rs" => "BY71 ALFA 3013 2293 0400 2027 0000 <br>БИК ALFABY2X",
+                "official_bank" => "ЗАО &quot;АЛЬФА-БАНК&quot; Ул. Сурганова, 43-47, 220013 Минск, Республика Беларусь",
+                "official_phone" => "тел.: +375(29)1114545, 7774545",
+                "official_faximille" => "http://b2b.migom.by/img/design/faximille_ip.jpg",
+                "official_owner" => "Гречко А. Г.",
+                "official_percent" => "",
+                "official_nds" => "",
+            );
+            $nds = "";
+        } else {
+            $pay_source = 1;
+            $official_data = array(
+                "official_name" => "ООО &quot;Альметра&quot;",
+                "official_unp" => "192147793",
+                "official_okpo" => "381393215000",
+                "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
+                "official_rs" => "р/с BY43ALFA30122078930080270000 <br> БИК ALFABY2X",
+                "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, 220030, г. Минск, ул. Мясникова, 70",
+                "official_phone" => "тел.: +375(29)1114545, 7774545",
+                "official_faximille" => "http://b2b.migom.by/img/design/faximille.jpg",
+                "official_owner" => "Кладухина О.Н.",
+                "official_percent" => "20",
+                "official_nds" => "Сумма НДС:",
+            );
+        }
+
         $month = Yii::$app->request->post('month');
         $dat = $month_data[$month];
         $year = Yii::$app->request->post('year');
@@ -129,7 +164,7 @@ class BillReportController extends Controller
 													AND sov.object_property_id = 26
 												)
 												WHERE
-													1 = 1
+													1 = 1 and bs.pay_source ={$pay_source}
 												AND bs.tdate > '20{$year}-{$month}-01'
 												AND bs.tdate < '20{$year_2}-{$month_2}-01'
 												and ss.owner_id = {$owner_id}";
@@ -146,11 +181,17 @@ class BillReportController extends Controller
 
         $sum_all = $sum;
 
-        if($year >= 16){
-            $sum = $sum_all / 1.2;
+        if($no_nds == 2){
+            if($year >= 16){
+                $sum = $sum_all;
+            }
+            $sum_nds = 0;
+        } else {
+            if($year >= 16){
+                $sum = $sum_all / 1.2;
+            }
+            $sum_nds = $sum * 0.2;
         }
-
-        $sum_nds = $sum * 0.2;
 
         $denomination_date = ((($year*10).$month)*1);
         if($denomination_date >= 1607)
@@ -172,7 +213,7 @@ class BillReportController extends Controller
         }
 
         $nds = 20;
-        if ($year < 16){
+        if (($year < 16) || ($no_nds == 2)){
             $sum_nds = 0;
             $sum_all = $sum;
             $sum_all_str = $sum_str;
@@ -217,6 +258,7 @@ class BillReportController extends Controller
                 "month" => $month
             )
             , $member_data);
+        $vars = array_merge($vars, $official_data);
         $html_data = $this->render('tmpl/html-akt', $vars);
 
         if ($load == 'xlsx'){
@@ -366,7 +408,13 @@ class BillReportController extends Controller
 
     public function actionAkt()
     {
-        return $this->render('akt');
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $f_offerta = $seller->f_offerta;
+        $akt_no_nds = "";
+        if($f_offerta & 2){
+            $akt_no_nds = $this->renderPartial('akt-no-nds');
+        }
+        return $this->render('akt', ['akt_no_nds' => $akt_no_nds]);
     }
 
     private function getMoreData(){

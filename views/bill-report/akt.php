@@ -13,7 +13,7 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                             <form class="form-inline" action="/bill-report/get-akt" id="frm_blankop"
                                   target="_blank" method="post">
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
-                                <select class="form-control" name="year" onchange="showMonth(this)">
+                                <select class="form-control" name="year" onchange="showMonth(this)" style="margin-right: 10px;">
                                     <option value="0">Год</option>
                                     <option value="17">2018</option>
                                     <option value="17">2017</option>
@@ -42,7 +42,7 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                     $('#btn_report').html("");
                     month_list = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
                     if (year < year_now) {
-                        html = "<select class='form-control' name='month' onchange='getReport()'>" +
+                        html = "<select class='form-control' name='month' onchange='getReport()' style=\"margin-right: 10px;\">" +
                             "<option value='0'>Месяц</option>" +
                             "<option value='1'>Январь</option>" +
                             "<option value='2'>Февраль</option>" +
@@ -82,12 +82,13 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
 
                 function getReport() {
                     $('#btn_report').html("");
-                    html = "<button class='btn btn-primary' onclick=$('#type_report').html(''); >Сформировать акт</button>   <button class='btn btn-primary' onclick='get_xlsx()'>Скачать в xlsx</button>   <button class='btn btn-primary' onclick='get_pdf()'>Скачать в pdf</button>";
+                    html = "<button class='btn btn-primary-outline' onclick=$('#type_report').html(''); style=\"margin-right: 5px;\">Сформировать акт</button>   <button class=\"btn btn-primary-outline\" onclick='get_xlsx()'><span class=\"la la-file-excel-o ks-icon\"></span><span class=\"ks-text\">Скачать в xlsx</span></button>   <button class=\"btn btn-primary-outline\" onclick='get_pdf()'><span class=\"la la-file-pdf-o ks-icon\"></span><span class=\"ks-text\">Скачать в pdf</span></button>";
                     $('#btn_report').html(html);
                 }
             </script>
 
         </div>
     </div>
+    <?= $akt_no_nds ?>
 </div>
 

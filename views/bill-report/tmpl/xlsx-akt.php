@@ -995,8 +995,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl6527918 style='height:15.75pt'></td>
             <td class=xl6627918>Исполните<span style='display:none'>ль:</span></td>
-            <td colspan=5 rowspan=2 class=xl6927918 width=216 style='width:162pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ООО
-                &quot;Альметра&quot;</td>
+            <td colspan=5 rowspan=2 class=xl6927918 width=216 style='width:162pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $official_name ?></td>
             <td class=xl6627918 colspan=2>Заказчик:</td>
             <td colspan=7 rowspan=2 class=xl6927918 width=202 style='width:151pt'><?= $company_name ?><span
                     style='mso-spacerun:yes'> </span></td>
@@ -1014,7 +1013,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl6527918 style='height:15.75pt'></td>
             <td class=xl6627918>Р/счет №:</td>
-            <td colspan=5 class=xl7027918>BY43ALFA30122078930080270000<br>БИК ALFABY2X</td>
+            <td colspan=5 class=xl7027918><?= $official_rs ?></td>
             <td class=xl6627918 colspan=2>Р/счет №:</td>
             <td colspan=5 class=xl7027918><?= $ras_schet ?></td>
             <td class=xl6527918></td>
@@ -1025,9 +1024,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl6527918 style='height:15.75pt'></td>
             <td class=xl6627918>Банк:</td>
-            <td colspan=5 rowspan=4 class=xl6927918 width=216 style='width:162pt'>ЗАО
-                &quot;Альфа-Банк&quot;. Центральный офис, 220030, г. Минск, ул. Мясникова,
-                70, код 270<br></td>
+            <td colspan=5 rowspan=4 class=xl6927918 width=216 style='width:162pt'><?= $official_bank ?><br></td>
             <td class=xl6627918 colspan=2>Банк:</td>
             <td colspan=7 rowspan=4 class=xl6927918 width=202 style='width:151pt'><?= stripcslashes($bank_name) ?> <?= $bank_address ?> код <?= $bank_code ?></td>
             <td class=xl6527918></td>
@@ -1060,7 +1057,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=21 style='mso-height-source:userset;height:16.35pt'>
             <td height=21 class=xl6527918 style='height:16.35pt'></td>
             <td class=xl6627918>УНП:</td>
-            <td colspan=5 class=xl7127918 width=216 style='width:162pt'>192147793</td>
+            <td colspan=5 class=xl7127918 width=216 style='width:162pt'><?= $official_unp ?></td>
             <td class=xl6627918 colspan=2>УНП:</td>
             <td colspan=5 class=xl7127918 width=147 style='width:110pt'><?= $unn ?></td>
             <td class=xl6527918></td>
@@ -1071,7 +1068,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=21 style='mso-height-source:userset;height:16.35pt'>
             <td height=21 class=xl6527918 style='height:16.35pt'></td>
             <td class=xl6627918>ОКПО:</td>
-            <td colspan=5 class=xl7127918 width=216 style='width:162pt'>381393215000</td>
+            <td colspan=5 class=xl7127918 width=216 style='width:162pt'><?= $official_okpo ?></td>
             <td class=xl6627918 colspan=2></td>
             <td colspan=5 class=xl7127918 width=147 style='width:110pt'></td>
             <td class=xl6527918></td>
@@ -1082,8 +1079,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl6527918 style='height:15.75pt'></td>
             <td class=xl6627918>Адрес:</td>
-            <td colspan=5 rowspan=3 class=xl6927918 width=216 style='width:162pt'>220007,
-                г. Минск, ул. Могилевская 2/2, помещение 10-1</td>
+            <td colspan=5 rowspan=3 class=xl6927918 width=216 style='width:162pt'><?= $official_address ?></td>
             <td class=xl6627918 colspan=2>Адрес:</td>
             <td colspan=7 rowspan=3 class=xl6927918 width=202 style='width:151pt'><?= $city_law ?>, <?= $address_law ?></td>
             <td class=xl6527918></td>
@@ -1108,8 +1104,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=38 style='mso-height-source:userset;height:28.5pt'>
             <td height=38 class=xl6527918 style='height:28.5pt'></td>
             <td class=xl10927918 width=75 style='width:56pt'>Телефон/факс:</td>
-            <td colspan=3 class=xl6727918>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+375 (29) 111 45
-                45, 7774545</td>
+            <td colspan=3 class=xl6727918>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $official_phone ?></td>
             <td class=xl6527918></td>
             <td class=xl10827918 width=29 style='width:22pt'></td>
             <td colspan=2 class=xl10927918 width=77 style='width:58pt'>Телефон/факс:</td>
@@ -1373,7 +1368,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=17 style='mso-height-source:userset;height:13.35pt'>
             <td colspan=2 height=17 class=xl10727918 width=97 style='height:13.35pt;
   width:73pt'>Управляющий</td>
-            <td colspan=3 class=xl7827918>Кладухина О.Н.</td>
+            <td colspan=3 class=xl7827918><?= $official_owner ?></td>
             <td class=xl6427918></td>
             <td class=xl6427918></td>
             <td class=xl7827918>&nbsp;</td>
@@ -1452,7 +1447,7 @@ kwEAAAsAAAAAAAAAAAAAAAAAMQEAAF9yZWxzLy5yZWxzUEsBAi0AFAAGAAgAAAAhALDyx0ZJAgAA
 ACEAXbsBetsAAABTAQAAHQAAAAAAAAAAAAAAAADqBQAAZHJzL19yZWxzL3BpY3R1cmV4bWwueG1s
 LnJlbHNQSwUGAAAAAAUABQBCAQAAAAcAAAAA
 ">
-                    <v:imagedata src="http://b2b.migom.by/img/design/faximille.jpg" o:title=""/>
+                    <v:imagedata src="<?= $official_faximille ?>" o:title=""/>
                     <x:ClientData ObjectType="Pict">
                         <x:SizeWithCells/>
                         <x:CF>Bitmap</x:CF>
@@ -1461,8 +1456,8 @@ LnJlbHNQSwUGAAAAAAUABQBCAQAAAAcAAAAA
                 </v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout;
   position:absolute;z-index:1;margin-left:64px;margin-top:15px;width:213px;
   height:161px'><img width=213 height=161
-                     src="http://b2b.migom.by/img/design/faximille.jpg"
-                     alt="http://b2b.migom.by/img/design/faximille.jpg" v:shapes="Picture_x0020_1"></span><![endif]><span
+                     src="<?= $official_faximille ?>"
+                     alt="<?= $official_faximille ?>" v:shapes="Picture_x0020_1"></span><![endif]><span
                     style='mso-ignore:vglayout2'>
   <table cellpadding=0 cellspacing=0>
    <tr>
