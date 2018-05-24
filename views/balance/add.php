@@ -5,7 +5,7 @@ $this->title = "Пополнение баланса";
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-6">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
                             <!--h5 class="card-title">Курс тарифной единицы</h5-->
@@ -13,7 +13,7 @@ $this->title = "Пополнение баланса";
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-6">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
                             <!--h5 class="card-title">Информация о балансе</h5-->

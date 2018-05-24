@@ -61,19 +61,23 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                     </form>
                                 </div>
                                 <div class="row" style="width: 99%">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-5">
                                         <ul id="pages" class="pagination pagination-sm" style="margin: 10px;">
                                             <?= isset($pages) ? $pages : "" ?>
                                         </ul>
 
                                     </div>
-                                    <div class="col-lg-6 content-end">
+                                    <div class="col-lg-5 content-end">
                                         <label class="custom-control custom-checkbox">
                                             <input id="work_type" onclick="work_type(this.checked)" type="checkbox"
                                                    class="custom-control-input">
                                             <span class="custom-control-indicator"></span>
                                             <span class="custom-control-description">Дополнительный режим</span>
                                         </label>
+                                    </div>
+                                    <div class="col-lg-2 content-end">
+                                        <button data-remote="/product/get-curs/?catalog_id=<?= $catalog_id ?>" data-toggle="ajaxModal"
+                                           data-target=".bd-example-modal-lg" class="btn btn-primary">Настройка валюты</button>
                                     </div>
                                 </div>
 

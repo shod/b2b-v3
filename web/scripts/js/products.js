@@ -148,3 +148,13 @@ function page_addition(){
         $(this).hide(0)
     })
 }
+
+function check_currency(){
+    curr_select = $('#curr_select').val();
+
+    if ((curr_select == 'br') || (curr_select == 'byn')){
+        $(".sh_tr").hide();
+    } else {
+        $(".sh_tr").show();
+    }
+}

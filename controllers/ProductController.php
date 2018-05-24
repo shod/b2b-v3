@@ -4,7 +4,10 @@ namespace app\controllers;
 
 use app\helpers\PriceService;
 use app\helpers\SiteService;
+use app\helpers\SysService;
 use app\models\Seller;
+use app\models\SellerInfo;
+use PHPUnit\Util\Xml;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -22,6 +25,7 @@ class ProductController extends Controller
     public $offset = 100;
     public $seller_curs;
     public $cnt_all = 0;
+    public $curr_do_percent = 300;
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
@@ -69,6 +73,84 @@ class ProductController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionGetCurs(){
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $vars['catalog_id'] = Yii::$app->request->get('catalog_id');
+        $setting_data = $seller->setting_data;
+        $setting_data = unserialize($setting_data);
+        $vars["selected_{$setting_data["currency_base"]}"] = "selected";
+        $vars["currency_rate"] = $setting_data["currency_rate"];
+        $vars["currency_rate_byn"] = (float)$setting_data["currency_rate"] / 10000;
+        $vars["price_correct_{$setting_data["price_correct"]}"] = "selected";
+        $vars["price_correct_value"] = $setting_data["price_correct_value"];
+        $vars["base_rate_str"] = $setting_data["currency_base"] == "usd" ? "USD" : "бел. руб.";
+
+
+        $curr = SysService::get('currency_nbrb')/10000.0;
+        $vars['curr_ot'] = $curr - $curr * 0.1;
+        $vars['curr_do'] = $curr + $curr * (0.1 * $this->curr_do_percent);
+        $vars['curr_bank'] = $curr;
+
+        //$vars["selected_round_{$vars['cost_round_num']}"] = "selected";
+        $vars["currency_rate"] =  ($vars["currency_rate"] > 0) ?  $vars["currency_rate"] : $vars['curr_bank'];
+
+        $vars['body'] = $this->renderPartial('tmpl/curs-setting', $vars);
+        $vars['header'] = "Настройка валюты прайса";
+        $json = json_encode($vars);
+        echo $json;
+        exit;
+    }
+
+    public function actionSaveCurs(){
+        $catalog_id = Yii::$app->request->post("catalog_id");
+        $curr_base = Yii::$app->request->post("currency_base");
+        $curr_rate = Yii::$app->request->post("currency_rate");
+        $curr_rate = str_replace(",", ".", $curr_rate);
+        if ($curr_rate < 100){
+            $curr_rate = (float)$curr_rate * 10000;
+        }
+        $price_correct = Yii::$app->request->post("price_correct");
+        $price_correct_value = Yii::$app->request->post("price_correct_value");
+        $setting_data = serialize(array("currency_base" => $curr_base, "currency_rate" => $curr_rate,"price_correct" => $price_correct, "price_correct_value" => $price_correct_value));
+
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $old_str_setting = $seller->setting_data;
+        $old_setting = unserialize($old_str_setting);
+        $old_rate = $old_setting["currency_rate"];
+        $old_base = $old_setting["currency_base"];
+        $seller->setting_data = $setting_data;
+        $seller->save();
+
+        // пересчет цен по курсу
+        if ($old_base != $curr_base) {
+            if (($curr_base == "br") && $curr_rate)
+            {
+                \Yii::$app->db->createCommand("update product_seller set cost_by = ROUND(cost_us * {$curr_rate}, -2) where seller_id={$this->seller_id}")->execute();
+            }
+            else
+            {
+                \Yii::$app->db->createCommand("update product_seller set cost_us = ROUND(cost_by / {$curr_rate}, 2) where seller_id={$this->seller_id}")->execute();
+            }
+        } elseif ($old_rate != $curr_rate) {
+            if (($curr_base == "br") && $curr_rate)
+            {
+                \Yii::$app->db->createCommand("update product_seller set cost_us = ROUND(cost_by / {$curr_rate}, 2) where seller_id={$this->seller_id}")->execute();
+            }
+            else
+            {
+                \Yii::$app->db->createCommand("update product_seller set cost_by = ROUND(cost_us * {$curr_rate}, -2) where seller_id={$this->seller_id}")->execute();
+            }
+        }
+
+        $cost_round_num = Yii::$app->request->post("cost_round_num");
+        $seller_info = SellerInfo::find()->where(['seller_id' => $this->seller_id])->one();
+        $seller_info->cost_round_num = $cost_round_num;
+        $seller_info->save();
+        \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
+
+        $this->redirect('/product/catalog/?catalog_id='.$catalog_id);
     }
 
     public function actionGetDataProducts(){
