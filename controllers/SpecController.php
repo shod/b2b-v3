@@ -356,7 +356,8 @@ class SpecController extends Controller
 
 
         $html_row = "";
-        $res1 = \Yii::$app->db->createCommand("
+        if($ids_str){
+            $res1 = \Yii::$app->db->createCommand("
 			select distinct ba.id as id, cat.name as name, ba.object_id as catalog_id, ba.f_show
 			from bill_auction as ba
 			inner join (
@@ -367,22 +368,24 @@ class SpecController extends Controller
 			where ba.owner_id={$this->seller_id} and ba.type_id=2
 			order by name
 			")->queryAll();
-        foreach ((array) $res1 as $r1)
-        {
-            list($views, $forecast) = $this->getViews($r1["catalog_id"], $cost[$r1["id"]]);
-            $html_row .= $this->renderPartial("tmpl/row", array(
-                "id" => $r1["id"],
-                "catalog_id" => $r1["catalog_id"],
-                "checked_f_show" => $r1["f_show"] ? "checked" : "",
-                "views" => $views,
-                "forecast" => $forecast,
-                "name" => $r1["name"],
-                "data" => $this->getPositionDataHtml($ids[$r1["id"]]),
-                "value" => $cost[$r1["id"]] ==0 ? "0.0" : round($cost[$r1["id"]], 1),
-                "disabled" => $this->flag_disabled ? "disabled" : "",
-                "href_delete" => "/spec/process/?action=delete&id=". $r1["id"]
-            ));
+            foreach ((array) $res1 as $r1)
+            {
+                list($views, $forecast) = $this->getViews($r1["catalog_id"], $cost[$r1["id"]]);
+                $html_row .= $this->renderPartial("tmpl/row", array(
+                    "id" => $r1["id"],
+                    "catalog_id" => $r1["catalog_id"],
+                    "checked_f_show" => $r1["f_show"] ? "checked" : "",
+                    "views" => $views,
+                    "forecast" => $forecast,
+                    "name" => $r1["name"],
+                    "data" => $this->getPositionDataHtml($ids[$r1["id"]]),
+                    "value" => $cost[$r1["id"]] ==0 ? "0.0" : round($cost[$r1["id"]], 1),
+                    "disabled" => $this->flag_disabled ? "disabled" : "",
+                    "href_delete" => "/spec/process/?action=delete&id=". $r1["id"]
+                ));
+            }
         }
+
 
 
         $html .= $this->renderPartial("tmpl/catalog", array(
