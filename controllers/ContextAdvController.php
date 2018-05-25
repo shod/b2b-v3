@@ -137,7 +137,10 @@ class ContextAdvController extends Controller
         $setting_bit = $seller->setting_bit;
         $vars["checked_ads"] = ($setting_bit & $this->bit) ? "checked" : "";
         $res = \Yii::$app->db->createCommand("select click_cost_max from seller_clicks_setting where seller_id = {$this->seller_id}")->queryAll();
-        $vars["checked_{$res[0]['click_cost_max']}"] = "checked";
+        if(count($res)){
+            $vars["checked_{$res[0]['click_cost_max']}"] = "checked";
+        }
+
         return $this->render('index', $vars);
     }
 

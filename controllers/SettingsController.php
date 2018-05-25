@@ -562,9 +562,9 @@ class SettingsController extends Controller
                 } else {
                     $text_op = '';
                 }
-                $checked_viber = $phone["viber"] ? "checked" : "";
-                $checked_telegram = $phone["telegram"] ? "checked" : "";
-                $checked_whatsapp = $phone["whatsapp"] ? "checked" : "";
+                $checked_viber = isset($phone["viber"]) && $phone["viber"] ? "checked" : "";
+                $checked_telegram = isset($phone["telegram"]) && $phone["telegram"] ? "checked" : "";
+                $checked_whatsapp = isset($phone["whatsapp"]) && $phone["whatsapp"] ? "checked" : "";
                 $html .= $this->renderPartial("tmpl/phone", array(
                     "id" => $i,
                     "phone" => $phone["phone"],
@@ -743,6 +743,9 @@ class SettingsController extends Controller
 
     function deserilize($type_field,$data) {
         $data_array = "";
+        $data = preg_replace_callback ( '!s:(\d+):"(.*?)";!', function($match) {
+            return ($match[1] == strlen($match[2])) ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+        },$data );
         $data = unserialize($data);
         //print_r($data);
         if(count($data) > 0 && $data !== false) {
