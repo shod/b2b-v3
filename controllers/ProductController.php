@@ -455,7 +455,7 @@ class ProductController extends Controller
     }
 
     private function getImportResultsHtml(){
-        $res_data = file_get_contents("http://pit.by/rmp_migom/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
+        $res_data = file_get_contents("https://up.migom.by/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
         $res_data = unserialize($res_data);
 
         $res = isset($res_data[$this->seller_id]) ? $res_data[$this->seller_id] : "";
@@ -905,5 +905,32 @@ class ProductController extends Controller
         $text = str_replace(array("<br>", "<br />", "<br >", "<br/>"), " ", $text);
         $text = stripcslashes($text);
         return strip_tags($text);
+    }
+
+    private function get_cnt()
+    {
+        global $whirl;
+        $res =  \Yii::$app->db->createCommand("select * from seller_export_info where seller_id={$this->seller_id}")->queryAll();
+        $res_prod = \Yii::$app->db->createCommand("select count(product_id) as cnt from product_seller where seller_id={$this->seller_id}")->queryOne();
+        $cnt_ok1 = $res_prod['cnt'];
+        if (count($res)) {
+            $r = $res[0];
+            return array("ok" => $cnt_ok1, "all" => $r["cnt_all"]);
+        }
+        else
+        {
+            $res = \Yii::$app->db->createCommand("select count(id) as cnt from product_price where seller_id={$this->seller_id} and section_id>0")->queryOne();
+            $cnt_ok2 = $res['cnt'];
+            $res = \Yii::$app->db->createCommand("
+				select count(1) as cnt
+				from price_import as t
+				left join price_export_dict_ignore ti on (ti.seller_id=t.seller_id and ti.product_name=t.`name`)
+				where t.seller_id={$this->seller_id} and t.product_id is null and ti.id is null				
+			")->queryOne();
+            $cnt_fail = $res['cnt'];
+
+            $arr_res = array("ok" => $cnt_ok1 + $cnt_ok2, "all" => $cnt_ok1 + $cnt_ok2 + $cnt_fail);
+            return $arr_res;
+        }
     }
 }
