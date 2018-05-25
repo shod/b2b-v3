@@ -106,8 +106,12 @@ class BillAccount extends  \app\models\BillAccount {
     /*Get child account object*/
     public function getChildBillAccount(){
         $resdata = \Yii::$app->db->createCommand("select id from bill_account where owner_id = {$this->id}")->queryAll();
-        $child_id = $resdata[0]['id'];
-        $baccount = BillAccount::find()->where(['id' => $child_id])->one();
+        if(count($resdata)){
+            $child_id = $resdata[0]['id'];
+            $baccount = BillAccount::find()->where(['id' => $child_id])->one();
+        } else {
+            $baccount = 0;
+        }
         return $baccount;
     }
 

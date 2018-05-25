@@ -95,12 +95,12 @@ class AuctionController extends Controller
         $balance_child = $baccount_main->getChildBillAccount();
 
         if($resdata[0]['cnt'] == 0){
-            if(($balance_all < $this->min_balance) && ($balance_child->balance <=0)){ // добавлено условие, что осн. баланс меньше min_balance и бонус меньше либо равен 0
+            if(($balance_all < $this->min_balance) && ($balance_child && ($balance_child->balance <=0))){ // добавлено условие, что осн. баланс меньше min_balance и бонус меньше либо равен 0
                 $res = false;
             }
         }else{
             /*Child account*/
-            if(($balance)<=0 && $balance_child->balance<=0){
+            if(($balance)<=0 && ($balance_child && ($balance_child->balance <=0))){
                 $res = false;
             }
         }
@@ -612,7 +612,8 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 
 
         $html_row = "";
-        $res1 = \Yii::$app->db->createCommand("
+        if($ids_str){
+            $res1 = \Yii::$app->db->createCommand("
 			select distinct ba.id as id, cat.name as name, ba.object_id as catalog_id
 			from bill_auction as ba
 			inner join (
@@ -624,38 +625,25 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 			order by name
 			")->queryAll();
 
-
-        /*if($this->seller_id == 1500){
-            $res1 = \Yii::$app->db->createCommand("
-			select distinct ba.id as id, cat.name as name, ba.object_id as catalog_id
-			from bill_auction as ba
-			inner join (
-				select id, name
-				from catalog c
-				where id in ({$ids_str})
-			) as cat on (cat.id=ba.object_id)
-			where ba.owner_id={$this->seller_id} and ba.type_id=1
-			order by name
-			")->queryAll();
-        }*/
-
-        foreach((array)$res1 as $r1)
-        {
-            list($views, $forecast) =  $this->getViews($r1["catalog_id"], $cost[$r1["id"]]);
-            $html_row .= $this->renderPartial("tmpl/row_fix", [
-                "id" => $r1["id"],
-                "catalog_id" => $r1["catalog_id"],
-                "views" => $views,
-                "forecast" => $forecast,
-                "name" => $r1["name"],
-                "data" => $this->getPositionDataHtml($ids[$r1["id"]], false),
-                "value" => $f_auto[$r1["id"]] ? round($cost_auto[$r1["id"]],2) : round($cost[$r1["id"]],2),
-                "disabled" => $this->flag_disabled ? "disabled" : "",
-                "auto_checked" => $f_auto[$r1["id"]] ? "checked" : "",
-                "href_delete" => "/auction/process/?action=delete&id=". $r1["id"],
-                "min_step" => $this->_step
-            ]);
+            foreach((array)$res1 as $r1)
+            {
+                list($views, $forecast) =  $this->getViews($r1["catalog_id"], $cost[$r1["id"]]);
+                $html_row .= $this->renderPartial("tmpl/row_fix", [
+                    "id" => $r1["id"],
+                    "catalog_id" => $r1["catalog_id"],
+                    "views" => $views,
+                    "forecast" => $forecast,
+                    "name" => $r1["name"],
+                    "data" => $this->getPositionDataHtml($ids[$r1["id"]], false),
+                    "value" => $f_auto[$r1["id"]] ? round($cost_auto[$r1["id"]],2) : round($cost[$r1["id"]],2),
+                    "disabled" => $this->flag_disabled ? "disabled" : "",
+                    "auto_checked" => $f_auto[$r1["id"]] ? "checked" : "",
+                    "href_delete" => "/auction/process/?action=delete&id=". $r1["id"],
+                    "min_step" => $this->_step
+                ]);
+            }
         }
+
 
 
         $html .= $this->renderPartial("tmpl/catalog", array(
