@@ -688,7 +688,7 @@ class ProductController extends Controller
         {
             $goods = Yii::$app->request->post("goods");
             $goods = isset($goods) ? $goods : Yii::$app->request->get("goods");
-           
+
             if($goods){
                 //$sql_join = "JOIN products as p on (pp2.product_id = p.id)";
                 $sect = " and p.section_link_id";
@@ -735,7 +735,7 @@ class ProductController extends Controller
             $r["garant"] = preg_replace("/[^0-9]/","",$r["garant"]);
             $r["delivery_day"] = ($r["delivery_day"] == 0) ? '' : $r["delivery_day"];
             $r["term_use"] = ($r["term_use"]) ? $r["term_use"] : '';
-            $r["cost_filter"] = ($r["cost_filter"] == 1) ? '' : '<span style="font-size:10px;color:red;">Подозрительная цена</span>';
+            $r["cost_filter"] = ($r["cost_filter"] == 1) ? '' : '<span style="font-size:10px;color:#9f0000;">Подозрительная цена</span>';
             $html .= $this->renderPartial('tmpl/price/iterate', $r);
         }
         return $html;

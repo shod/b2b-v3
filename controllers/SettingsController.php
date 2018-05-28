@@ -211,11 +211,11 @@ class SettingsController extends Controller
                 $seller->skype = $skype;
                 $seller->register_date = $register_date;
                 $seller->setting_bit = $setting_bit;
-                //$seller->save();
+                $seller->save();
 
                 $seller_info = SellerInfo::find()->where(['seller_id' => $this->seller_id])->one();
                 if($seller_info){
-                   // \Yii::$app->db->createCommand("update seller_info set offer_default_desc=f_clear_prod_desc('{$offer_default_desc}'), importers='{$importers}', service_centers='{$service_centers}', f_b2b_description={$f_description}, f_allow_download={$f_download} where seller_id=".$this->seller_id)->execute();
+                    \Yii::$app->db->createCommand("update seller_info set offer_default_desc=f_clear_prod_desc('{$offer_default_desc}'), importers='{$importers}', service_centers='{$service_centers}', f_b2b_description={$f_description}, f_allow_download={$f_download} where seller_id=".$this->seller_id)->execute();
                 }
 
                 $fl_logo_exist = $this->checkRemoteFile("http://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg");
@@ -241,7 +241,7 @@ class SettingsController extends Controller
                             file_get_contents($path, NULL, NULL, 0, 14);
                             $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
                             $seller->setting_bit = $setting_bit;
-                            //$seller->save();
+                            $seller->save();
 
                         }
                     } else {exit("Не верный формат загружаемого файла. Файл должен быть в формате JPG");}
@@ -285,7 +285,7 @@ class SettingsController extends Controller
                     file_get_contents($path, NULL, NULL, 0, 14);
                     $setting_bit = SiteService::set_bitvalue($setting_bit,131072,1);
                     $seller->setting_bit = $setting_bit;
-                    //$seller->save();
+                    $seller->save();
                 }
                 return $this->redirect(['settings/user-info']);
                 break;
