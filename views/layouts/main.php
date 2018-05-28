@@ -335,7 +335,7 @@ AppAsset::register($this);
             </ul>
             <div class="ks-sidebar-extras-block">
                 <div class="ks-extras-block-item"><?= isset($this->params['customParam']) ? $this->params['customParam'] : ""; ?></div>
-                <div class="ks-sidebar-copyright">© 2018 migom.by</div>
+                <div class="ks-sidebar-copyright">© <?= date("Y"); ?> migom.by</div>
             </div>
         </div>
     </div>

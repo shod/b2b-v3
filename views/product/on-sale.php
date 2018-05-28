@@ -11,7 +11,7 @@ $this->title = "Товары в продаже";
                         ,
                         из них активных
                         <mark><?= isset($prod_stat_cnt_bill) ? $prod_stat_cnt_bill : "" ?></mark>
-                        .<a href="/?admin=products&&action=bill_catalog_new">
+                        .<a href="/tariff">
                             Процент активных:
                             <mark><?= isset($prod_active_percent) ? $prod_active_percent : "" ?>%</mark>
                         </a></p>

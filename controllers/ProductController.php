@@ -909,7 +909,6 @@ class ProductController extends Controller
 
     private function get_cnt()
     {
-        global $whirl;
         $res =  \Yii::$app->db->createCommand("select * from seller_export_info where seller_id={$this->seller_id}")->queryAll();
         $res_prod = \Yii::$app->db->createCommand("select count(product_id) as cnt from product_seller where seller_id={$this->seller_id}")->queryOne();
         $cnt_ok1 = $res_prod['cnt'];

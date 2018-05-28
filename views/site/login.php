@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="ks-footer">
-        <span class="ks-copyright" style="color: white">&copy; 2018 migom.by</span>
+        <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> migom.by</span>
         <ul>
             <li>
                 <a href="https://www.migom.by/page/about/" style="color: white">О проекте</a>
