@@ -91,6 +91,10 @@ AppAsset::register($this);
             <!-- BEGIN NAVBAR ACTIONS -->
             <div class="ks-navbar-actions">
 
+                <div class="nav-item ks-notifications">
+                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:white">Тур по изменениям</a>
+                </div>
+
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
                 <div class="nav-item ks-notifications">
                     <a class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

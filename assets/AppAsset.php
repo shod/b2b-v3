@@ -43,6 +43,7 @@ class AppAsset extends AssetBundle
         'web/styles/pickmeup.min.css',
         'web/styles/chosen.css',
         'web/scripts/charts/radial-progress/radial-progress.chart.min.css',
+        'web/styles/anno.css',
         //'web/styles/widgets/payment.min.css',
     ];
     public $js = [
@@ -74,6 +75,7 @@ class AppAsset extends AssetBundle
         'https://code.highcharts.com/highcharts.js',
         'web/scripts/tinymce/tiny_mce/tiny_mce.js',
         'web/scripts/tinymce_config.v1.js',
+        'web/scripts/anno.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

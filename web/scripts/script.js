@@ -206,6 +206,46 @@ $( document ).ready(function() {
     }
 });
 
+function show_annotation() {
+    /*var anno = new Anno({
+        target : 'nav:first',
+        content: 'Информационная панель',
+        buttons: [
+            AnnoButton.NextButton,
+           {
+                text: 'Закрыть',
+                className: 'anno-btn-low-importance',
+                click: function(anno, evt){
+                    anno.hide()
+                }
+            }
+        ]
+    });*/
+    var anno =  new Anno([{
+        target: 'nav:first',
+        content: "Панель с балансом и статусом продавца",
+        buttons: [AnnoButton.NextButton,{
+            text: 'Закрыть',
+            className: 'anno-btn-low-importance',
+            click: function(anno, evt){
+                anno.hide()
+            }
+        }]
+    }, {
+        target: 'div.ks-sidebar',
+        position:'right',
+        content: "Основное меню",
+        buttons: [AnnoButton.BackButton,AnnoButton.NextButton,{
+            text: 'Закрыть',
+            className: 'anno-btn-low-importance',
+            click: function(anno, evt){
+                anno.hide()
+            }
+        }]
+    }])
+    anno.show();
+}
+
 function show_hide(obj){
     if(!$(obj).prop( "checked" )){
         $(".mydiv").addClass("disabledbutton");
