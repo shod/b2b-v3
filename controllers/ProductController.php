@@ -686,7 +686,9 @@ class ProductController extends Controller
         }
         else
         {
-            $goods = Yii::$app->request->get('goods');
+            $goods = Yii::$app->request->post("goods");
+            $goods = isset($goods) ? $goods : Yii::$app->request->get("goods");
+           
             if($goods){
                 //$sql_join = "JOIN products as p on (pp2.product_id = p.id)";
                 $sect = " and p.section_link_id";
@@ -728,7 +730,7 @@ class ProductController extends Controller
             }
 
             $r["name"] = "<b>{$r["brand"]}</b> {$r["model"]}";
-            $r["href_product"] = "http://www.migom.by/{$r["product_id"]}/info_seller/";
+            $r["href_product"] = "http://www.migom.by/-{$r["product_id"]}/info_seller/";
             $r["selected_{$r["wh_state"]}"] = "selected";
             $r["garant"] = preg_replace("/[^0-9]/","",$r["garant"]);
             $r["delivery_day"] = ($r["delivery_day"] == 0) ? '' : $r["delivery_day"];
