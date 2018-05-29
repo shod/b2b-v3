@@ -40,19 +40,25 @@ AppAsset::register($this);
 
 <?php
     $seller_id = Yii::$app->user->identity->getId();
-    $seller = \app\models\Seller::find()
-    ->where(['id' => $seller_id])
-    ->one();
-    $bill_account = \app\models_ex\BillAccount::find()
-    ->where(['id' => $seller->bill_account_id])
-    ->one();
-    $bonus_account_id = \app\models_ex\BillAccount::find()->where(['owner_id' => $seller->bill_account_id])->one();
+	if(isset($seller_id)){
+		$seller = \app\models\Seller::find()
+		->where(['id' => $seller_id])
+		->one();
+		if($seller->bill_account_id){
+			$bill_account = \app\models_ex\BillAccount::find()
+			->where(['id' => $seller->bill_account_id])
+			->one();
+			$bonus_account_id = \app\models_ex\BillAccount::find()->where(['owner_id' => $seller->bill_account_id])->one();
+		}
+	}
+    
+    
 
     //$res = $whirl->dbd->query("select type from bill_transaction where account_id={$account_id} and type in ('deactivate', 'deactivate_b2b') order by id desc limit 1");
     //$denied = ((count($res) && $res[0][0]=='deactivate') || $vars["date_start"] == NULL);
     $denied = false;
-    $activation = $seller->active ? "deactivate" : ( ($bill_account->balance > 0) ? ($denied ? 'activate_denied' : 'activate') : "activate_none");
-    $activation_button = $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+    $activation = isset($seller) && $seller->active ? "deactivate" : ( (isset($bill_account) && $bill_account->balance > 0) ? ($denied ? 'activate_denied' : 'activate') : "activate_none");
+    $activation_button = isset($seller) && $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
                         <span class=\"ks-action\"> Поставить </span>
                         <span class=\"ks-description\"> на паузу </span>
                     </a>" : "<a class=\"btn btn-success\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
@@ -98,7 +104,7 @@ AppAsset::register($this);
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
                 <div class="nav-item ks-notifications">
                     <a class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <?= $seller->active ? "<span style='padding-top: 7px;' class=\"badge badge-success\">АКТИВНЫЙ</span>" : "<span style='padding-top: 7px;' class=\"badge badge-danger\">ОТКЛЮЧЕН</span>"; ?>
+                        <?= isset($seller) && $seller->active ? "<span style='padding-top: 7px;' class=\"badge badge-success\">АКТИВНЫЙ</span>" : "<span style='padding-top: 7px;' class=\"badge badge-danger\">ОТКЛЮЧЕН</span>"; ?>
                     </a>
                 </div>
                 <!-- END NAVBAR NOTIFICATIONS -->
@@ -106,7 +112,7 @@ AppAsset::register($this);
 
                 <div class="nav-item nav-link btn-action-block">
                     <a class="btn" href="/balance/add">
-                        <span class="ks-action">Баланс <?= round($bill_account->balance,2); ?> - <?= $bill_account->getDayDownCatalog()*30 ?>/месяц (<?= $bill_account->getDayDownCatalog() ?>/день) </span>
+                        <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> - <?= isset($bill_account) ? $bill_account->getDayDownCatalog()*30 : 0 ?>/месяц (<?= isset($bill_account) ? $bill_account->getDayDownCatalog() : 0 ?>/день) </span>
                         <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                     </a>
                 </div>
@@ -203,8 +209,8 @@ AppAsset::register($this);
 
                         </span>
                         <span class="ks-info">
-                            <span class="ks-name"><?= $seller->name; ?></span>
-                            <span class="ks-description">ID: <?= $seller->id; ?></span>
+                            <span class="ks-name"><?= isset($seller) && $seller->name ? $seller->name : ""; ?></span>
+                            <span class="ks-description">ID: <?= isset($seller) && $seller->id ? $seller->id : ""; ?></span>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">
