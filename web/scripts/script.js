@@ -213,11 +213,6 @@ $(document).ready(function () {
 
 function show_annotation() {
     var anno = new Anno([{
-        target: 'div.ks-messages',
-        position: 'left',
-        content: "Чтобы обратиться к технической поддержке, нажмите здесь.",
-        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
         target: 'nav:first',
         content: "Панель с балансом и статусом продавца",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
@@ -226,12 +221,42 @@ function show_annotation() {
         position: 'right',
         content: "Основное меню",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    } /*, {
-        target: 'div.ks-notifications:first',
-        position: 'left',
-        content: "Статус.",
+    },{
+        target: 'div.ks-widget-payment-total-amount:first',
+        position: 'bottom',
+        content: "Ваш баланс",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
+        target: 'div.ks-widget-payment-price-ratio:first',
+        position: 'bottom',
+        content: "Обещанный платеж",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
+        target: 'div.ks-widget-tasks-statuses-progress:first',
+        position: 'bottom',
+        content: "Использование возможностей продвижения на площадке migom.by",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
+        target: 'div.ks-widget-payment-total-amount:eq(1)',
+        position: 'bottom',
+        content: "Ваши товары в продаже и цены на ваши товары",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
+        target: 'div.ks-widget-payment-card-rate-details',
+        position: 'bottom',
+        content: "Участие в аукционах",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
+        target: 'div.row:eq(1)',
+        position: 'bottom',
+        content: "Информация о подключенных акциях, отзывах и жалобах на магазин и последняя новость для продавцов.",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
+        target: 'div.row:eq(2)',
+        position: 'top',
+        content: "Справочная информация.",
         buttons: [AnnoButton.DoneButton]
-    }*/]);
+    }]);
     anno.show();
 }
 
