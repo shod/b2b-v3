@@ -19,9 +19,8 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function beforeAction($action)
-    {
-        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'sign-up')) {
+    public function beforeAction($action) {
+        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('site/login');
         } else {
             return parent::beforeAction($action);

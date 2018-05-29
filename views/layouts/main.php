@@ -117,7 +117,7 @@ AppAsset::register($this);
 
 
                 <!-- BEGIN NAVBAR MESSAGES -->
-                <div class="nav-item dropdown ks-messages">
+                <div class="nav-item dropdown ks-messages" style="background-color: #25628f">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="la la-comments ks-icon" aria-hidden="true">
                         </span>

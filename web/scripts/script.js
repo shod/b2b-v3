@@ -1,6 +1,6 @@
-$( document ).ready(function() {
+$(document).ready(function () {
 
-    $('[data-toggle="ajaxWidget"]').each(function() {
+    $('[data-toggle="ajaxWidget"]').each(function () {
         var $this = $(this),
             $remoteUrl = $this.data('remote');
         $(this).load($remoteUrl);
@@ -11,11 +11,11 @@ $( document ).ready(function() {
     $.validate();
 
     page_url = window.location.pathname;
-    $( "ul.nav-stacked a.dropdown-item" ).each(function() {
-        href = $( this ).attr('href');
-        if(href == page_url){
-            $( this ).addClass('ks-active');
-            $( this ).parents( "li.dropdown" ).addClass('open');
+    $("ul.nav-stacked a.dropdown-item").each(function () {
+        href = $(this).attr('href');
+        if (href == page_url) {
+            $(this).addClass('ks-active');
+            $(this).parents("li.dropdown").addClass('open');
         }
     });
 
@@ -25,7 +25,7 @@ $( document ).ready(function() {
         $("[data-dashboard-widget]").LoadingOverlay("show", {
             color: 'rgba(255, 255, 255, 0.8)',
             image: '',
-            fontawesome : "la la-refresh la-spin",
+            fontawesome: "la la-refresh la-spin",
             zIndex: 11
 
         });
@@ -52,7 +52,7 @@ $( document ).ready(function() {
     });
 
 
-    $('.button-sms').click(function() {
+    $('.button-sms').click(function () {
         var $this = $(this);
         var $p = $(this).attr('id').split('_');
         $.confirm({
@@ -64,13 +64,13 @@ $( document ).ready(function() {
                     text: 'ОК', // With spaces and symbols
                     btnClass: 'btn-primary',
                     action: function () {
-                        $this.attr('disabled','disabled');
+                        $this.attr('disabled', 'disabled');
                         $.ajax({
-                            url: "/order/process/?order_id="+$p[1]+"&action="+$p[0],
+                            url: "/order/process/?order_id=" + $p[1] + "&action=" + $p[0],
                             type: 'get',
                             dataType: 'html',
                             success: function (html) {
-                                document.getElementById("tr_"+$p[1]).style.display = 'none';
+                                document.getElementById("tr_" + $p[1]).style.display = 'none';
                                 $(html).hide().prependTo("#history-body").fadeIn();
                             },
                             error: function () {
@@ -86,19 +86,19 @@ $( document ).ready(function() {
         });
     });
 
-    $('#active-sms').click(function() {
+    $('#active-sms').click(function () {
         var $this = $(this);
         action = $(this).prop('checked') ? 'active' : 'deactive';
-        if(($("#email-value").val() == '') && (action == 'active')){
+        if (($("#email-value").val() == '') && (action == 'active')) {
             $.alert({
                 title: "Поле Email обязательно для заполнения!",
                 type: 'red',
                 content: 'Для продолжения работы нажмите ОК',
             });
-            $(this).prop('checked',false);
+            $(this).prop('checked', false);
         } else {
             $.ajax({
-                url: "/order/process/?action=" + action ,
+                url: "/order/process/?action=" + action,
                 type: 'get',
                 dataType: 'html',
                 success: function (html) {
@@ -116,11 +116,11 @@ $( document ).ready(function() {
 
     });
 
-    $('.notify-button').click(function() {
+    $('.notify-button').click(function () {
         var $this = $(this);
-        action = $(this).attr('id')=='email' ? 'edit-email' : 'edit-phone';
-        data = $("#"+$(this).attr('id')+"-value").val();
-        if(($(this).attr('id')=='email') && (data == '')){
+        action = $(this).attr('id') == 'email' ? 'edit-email' : 'edit-phone';
+        data = $("#" + $(this).attr('id') + "-value").val();
+        if (($(this).attr('id') == 'email') && (data == '')) {
             $.alert({
                 title: "Поле Email обязательно для заполнения!",
                 type: 'red',
@@ -157,7 +157,7 @@ $( document ).ready(function() {
             element.LoadingOverlay("show", {
                 color: 'rgba(255, 255, 255, 0.8)',
                 image: '',
-                fontawesome : "la la-refresh la-spin",
+                fontawesome: "la la-refresh la-spin",
                 zIndex: zIndex
             });
 
@@ -177,18 +177,23 @@ $( document ).ready(function() {
                     confirm: {
                         text: 'Yes, remove',
                         btnClass: 'btn-danger',
-                        action: function() {
+                        action: function () {
                             closeCallback();
                         }
                     },
-                    cancel: function () {}
+                    cancel: function () {
+                    }
                 }
             });
         }
     });
 
-    $("#frm_import input[name=url]").focus(function(){$("#frm_import input:radio").val(["url"])});
-    $("#frm_import label.file-label").click(function(){$("#frm_import input:radio").val(["file"])});
+    $("#frm_import input[name=url]").focus(function () {
+        $("#frm_import input:radio").val(["url"])
+    });
+    $("#frm_import label.file-label").click(function () {
+        $("#frm_import input:radio").val(["file"])
+    });
 
     $('#geo_4 optgroup option').click(function () {
         return false;
@@ -197,76 +202,61 @@ $( document ).ready(function() {
         $(this).find('option').attr('selected', true);
     })
 
-    if($('.click_checkbox:checked').length == $('.click_checkbox').length){
-        $('#all_check').prop("checked",true);
+    if ($('.click_checkbox:checked').length == $('.click_checkbox').length) {
+        $('#all_check').prop("checked", true);
     }
 
-    if(!$('#check_inp').prop( "checked" )){
+    if (!$('#check_inp').prop("checked")) {
         $(".mydiv").addClass("disabledbutton");
     }
 });
 
 function show_annotation() {
-    /*var anno = new Anno({
-        target : 'nav:first',
-        content: 'Информационная панель',
-        buttons: [
-            AnnoButton.NextButton,
-           {
-                text: 'Закрыть',
-                className: 'anno-btn-low-importance',
-                click: function(anno, evt){
-                    anno.hide()
-                }
-            }
-        ]
-    });*/
-    var anno =  new Anno([{
+    var anno = new Anno([{
+        target: 'div.ks-messages',
+        position: 'left',
+        content: "Чтобы обратиться к технической поддержке, нажмите здесь.",
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    },{
         target: 'nav:first',
         content: "Панель с балансом и статусом продавца",
-        buttons: [AnnoButton.NextButton,{
-            text: 'Закрыть',
-            className: 'anno-btn-low-importance',
-            click: function(anno, evt){
-                anno.hide()
-            }
-        }]
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
         target: 'div.ks-sidebar',
-        position:'right',
+        position: 'right',
         content: "Основное меню",
-        buttons: [AnnoButton.BackButton,AnnoButton.NextButton,{
-            text: 'Закрыть',
-            className: 'anno-btn-low-importance',
-            click: function(anno, evt){
-                anno.hide()
-            }
-        }]
-    }])
+        buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
+    } /*, {
+        target: 'div.ks-notifications:first',
+        position: 'left',
+        content: "Статус.",
+        buttons: [AnnoButton.DoneButton]
+    }*/]);
     anno.show();
 }
 
-function show_hide(obj){
-    if(!$(obj).prop( "checked" )){
+function show_hide(obj) {
+    if (!$(obj).prop("checked")) {
         $(".mydiv").addClass("disabledbutton");
     } else {
         $(".mydiv").removeClass("disabledbutton");
     }
 }
 
-function check_all(checked){
-    $('.click_checkbox').prop("checked",checked);
+function check_all(checked) {
+    $('.click_checkbox').prop("checked", checked);
 }
-function verify_chboxes(){
-    if($('.click_checkbox:checked').length == $('.click_checkbox').length){
-        $('#all_check').prop("checked",true);
+
+function verify_chboxes() {
+    if ($('.click_checkbox:checked').length == $('.click_checkbox').length) {
+        $('#all_check').prop("checked", true);
     } else {
-        $('#all_check').prop("checked",false);
+        $('#all_check').prop("checked", false);
     }
 }
 
 function ajaxSubmit(obj) {
-    var frm = $('#'+obj);
+    var frm = $('#' + obj);
 
     frm.submit(function (e) {
 
@@ -302,23 +292,23 @@ function ajaxSubmit(obj) {
 }
 
 
-function get_report_data_more(type){
+function get_report_data_more(type) {
     m = $('#select_m').val();
     date_from = $('#date_from').val();
     date_to = $('#date_to').val();
     $("span.btn-sm").removeClass("btn-success");
-    $("#"+type).addClass("btn-success");
+    $("#" + type).addClass("btn-success");
     $.ajax({
         method: "GET",
-        url: "/bill-report/get-more-data?m="+ m+"&type="+type+"&date_from=" + date_from + "&date_to=" + date_to
+        url: "/bill-report/get-more-data?m=" + m + "&type=" + type + "&date_from=" + date_from + "&date_to=" + date_to
     })
-        .done(function(msg){
-            $("#more_res").html(msg+"<br><a href='/bill-report/get-more-data-xlsx/?m="+ m+"&date_from="+date_from+"&date_to="+ date_to +"&type="+type+"' target='_blank'>Скачать</a>");
+        .done(function (msg) {
+            $("#more_res").html(msg + "<br><a href='/bill-report/get-more-data-xlsx/?m=" + m + "&date_from=" + date_from + "&date_to=" + date_to + "&type=" + type + "' target='_blank'>Скачать</a>");
         });
     //$('#myModal').modal();
 }
 
-function get_blanks(type){
+function get_blanks(type) {
     $.ajax({
         url: "/balance/get-blanks/?type=" + type,
         type: 'get',
@@ -334,10 +324,10 @@ function get_blanks(type){
     });
 }
 
-function change_href(cl,add_name, add_value){
-    $( "." + cl ).each(function() {
-        href = $( this ).attr('href');
-        $( this ).attr('href', href+'&'+add_name+'='+add_value);
+function change_href(cl, add_name, add_value) {
+    $("." + cl).each(function () {
+        href = $(this).attr('href');
+        $(this).attr('href', href + '&' + add_name + '=' + add_value);
     });
 }
 
@@ -346,8 +336,8 @@ function get_notifications() {
         method: "GET",
         url: "/notifications/process/?action=get_notify"
     })
-        .done(function( msg ) {
-            if(msg){
+        .done(function (msg) {
+            if (msg) {
                 data = JSON.parse(msg);
                 $.confirm({
                     title: 'Обратите внимание',
@@ -356,13 +346,13 @@ function get_notifications() {
                         confirm: {
                             text: data.button_name,
                             action: function () {
-                                id= data.id;
+                                id = data.id;
                                 $.ajax({
                                     method: "GET",
-                                    url: "/notifications/process/?action=set_notify&id="+id
+                                    url: "/notifications/process/?action=set_notify&id=" + id
                                 })
-                                    .done(function( msg ) {
-                                        if(msg){
+                                    .done(function (msg) {
+                                        if (msg) {
                                             //alert(msg);
                                         }
                                     });
@@ -381,16 +371,16 @@ function get_notifications() {
         method: "GET",
         url: "/notifications/process/?action=get_notify_reviews"
     })
-        .done(function( msg ) {
-            if(msg){
+        .done(function (msg) {
+            if (msg) {
                 data = JSON.parse(msg);
                 sum = 0;
-                for(var k in data) {
-                    $("#"+k+"_notify").html("+"+data[k]);
+                for (var k in data) {
+                    $("#" + k + "_notify").html("+" + data[k]);
                     sum += data[k];
                 }
-                if(sum > 0){
-                    $("#review_owner").html("<span class='badge badge-pill badge-crusta ks-label'>"+sum+"</span>");
+                if (sum > 0) {
+                    $("#review_owner").html("<span class='badge badge-pill badge-crusta ks-label'>" + sum + "</span>");
                 }
             }
         });
@@ -399,23 +389,23 @@ function get_notifications() {
         method: "GET",
         url: "/notifications/process/?action=get_notify_po_order"
     })
-        .done(function( msg ) {
-            if(msg){
+        .done(function (msg) {
+            if (msg) {
                 data = JSON.parse(msg);
-                if(data['po_cnt'] > 0){
-                    $("#po_cnt").html("<span class='badge badge-pill badge-crusta ks-label'>"+data['po_cnt']+"</span>");
-                    $("#po_notify").html("+"+data['po_cnt']);
+                if (data['po_cnt'] > 0) {
+                    $("#po_cnt").html("<span class='badge badge-pill badge-crusta ks-label'>" + data['po_cnt'] + "</span>");
+                    $("#po_notify").html("+" + data['po_cnt']);
                 }
             }
         });
 }
 
 
-
 function add_pay() {
     i = $(".tr_tbl").length;
     $("#cost_data_table").append("<tr class='tr_tbl'><td><input name='cost_data[" + i + "][pay_until]' class='form-control pay_until' style='width:90%' type='text' /> руб. </td><td><input name='cost_data[" + i + "][cost_until]' style='width:90%' class='form-control cost_until' type='text' /> руб.</td></tr>");
 }
+
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
