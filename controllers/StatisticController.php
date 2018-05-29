@@ -361,7 +361,7 @@ class StatisticController extends Controller
         $data .= "<tr><th colspan=4>Статистика кликов</th></tr>";
         foreach((array)$res as $r)
         {
-            $r['context'] = isset($r['context']) ? "Контекст" : "";
+            $r['context'] = isset($r['context']) && ($r['context'] > 0) ? "Контекст" : "";
             if($r['product_id'] != 0){
                 $sql = "SELECT basic_name from index_product WHERE product_id = {$r['product_id']}";
                 $name_product = \Yii::$app->db->createCommand($sql)->queryAll();
@@ -379,7 +379,7 @@ class StatisticController extends Controller
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
         foreach((array)$res as $r)
         {
-            $r['context'] = isset($r['context']) ? "Контекст" : "";
+            $r['context'] = isset($r['context']) && ($r['context'] > 0) ? "Контекст" : "";
             $data .= $this->renderPartial('tmpl/month-data-item-report', $r);
         }
         $data .= "</table>";
