@@ -24,6 +24,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
 						where s.id='{$id}'
 						")->queryOne();
         if(isset($res)){
+            if ($res["f_reg_confirm"]==0)
+            {
+                return null;
+            }
             $user = new User();
             $user->username = $res['login'];
             $user->password = $res['pwd'];
@@ -63,6 +67,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
 						where (m.login='{$username}' or s.id='{$username}')
 						")->queryOne();
         if(isset($res)){
+            if ($res["f_reg_confirm"]==0)
+            {
+                return null;
+            }
             $user = new User();
             $user->username = $res['login'];
             $user->password = $res['pwd'];
