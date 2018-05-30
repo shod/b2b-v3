@@ -24,7 +24,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                 </a>
                             </div>
                         </h5>
-                        <div class="card-block ks-scrollable" data-height="1000" data-widget-content>
+                        <div class="card-block" data-height="1000" data-widget-content style="overflow: auto">
                             <div class="table-addition">
                                 <div>
                                     <form id="theForm" class="form-inline" method="get">

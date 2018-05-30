@@ -25,19 +25,19 @@ $this->registerJs(
             </div>
 
             <div class="row">
-                <div class="col-xl-3 col-lg-3" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'actions', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
-                <div class="col-xl-3 col-lg-3" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'reviews', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
-                <div class="col-xl-3 col-lg-3" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'complaint', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
-                <div class="col-xl-3 col-lg-3" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'news', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'actions', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'reviews', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'complaint', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
+                <div class="col-xl-3 col-lg-3 col-md-6" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'news', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
             </div>
 
             <div class="row">
-                <div class="col-xl-10 col-lg-10 col-md-12">
+                <div class="col-xl-10 col-lg-10 col-md-9">
                     <div class="card card-block" style="height: 100%">
                         <div id="chart"></div>
                     </div>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-6">
+                <div class="col-xl-2 col-lg-2 col-md-3">
                     <div data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div><br>
                     <div data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'weather', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
                 </div>
