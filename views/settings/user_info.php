@@ -127,8 +127,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                         </tr>
                                         <tr>
                                             <td>Email для заказов</td>
-                                            <td><input class="form-control" type="text" name="<?= $seller->email ?>"
-                                                       value="sale@migom.by"></td>
+                                            <td><input class="form-control" type="text" name="email"
+                                                       value="<?= $seller->email ?>"></td>
                                         </tr>
                                         <tr>
                                             <td>Веб сайт
@@ -165,7 +165,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                                 </div>
                                             </td>
                                             <td>Ссылка на сайт: <input class="form-control" type="text" name="site"
-                                                                       value="<?= $seller->site ?>" readonly=""><br>
+                                                                       value="<?= $seller->site ?>"><br>
                                                 Название ссылки: <input class="form-control" type="text"
                                                                         name="site_alias" value="<?= $seller->site_alias ?>">
                                             </td>
