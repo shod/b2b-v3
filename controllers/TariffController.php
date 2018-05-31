@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\BillCatalog;
+use app\models\Seller;
+use app\models\SysStatus;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -100,7 +102,27 @@ class TariffController extends Controller
 
     public function actionIndex()
     {
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $f_offerta = $seller->f_offerta;
+
+        $curs_html = "";
+        if($f_offerta & 1){
+            $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
+            $curs_html .= "<div class=\"ks-projects-grid-board-tasks-header\">
+                    <span class=\"ks-text\"><h4>1 ТЕ = {$curs}</h4></span>
+                </div>";
+        }
+
+        if ($f_offerta & 2){
+            $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
+            $curs_html .= "<div class=\"ks-projects-grid-board-tasks-header\">
+                    <span class=\"ks-text\"><h4>1 ТЕ = {$curs} без НДС</h4></span>
+                </div>";
+        }
+
+
         $vars = [];
+        $vars['curs'] = $curs_html;
         $vars['pack_items'] = $this->get_data_bill_catalog_new_tarif();
         $vars['pack_lines'] = $this->active_pack;
         $vars['pack_sum'] = $this->active_pack_sum;

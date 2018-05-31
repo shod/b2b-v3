@@ -76,12 +76,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
             <div class="ks-projects-grid-board-tasks-list">
                 <div class="ks-projects-grid-board-tasks-header">
                     <span class="ks-text"><h4>Ваш тариф</h4></span>
-                    <div class="ks-progress ks-progress-inline">
-                        <div>
-                            Стоимость указана без учета НДС
-                        </div>
-                    </div>
                 </div>
+                <?= $curs ?>
 
                 <div class="ks-projects-grid-board-tasks-body ks-scrollable">
                     <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>ПАКЕТЫ</strong>
