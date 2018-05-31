@@ -2,6 +2,19 @@
 $this->title = 'Информация для покупателей';
 $this->registerJsFile('https://b2b.migom.by/js/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJs(
+    "
+    $(function () {
+		if (!$('#datepicker').is('[readonly]')){
+			$('#datepicker').pickmeup({
+				position		: 'bottom',
+				hide_on_select	: true,
+				format: 'd.m.Y'
+			});
+		}
+	});
+    "
+);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
@@ -99,7 +112,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                                 торговом реестре <br>
                                                 <small>(пример 28.12.2013)</small>
                                             </td>
-                                            <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
+                                            <td><input id="datepicker" <?//= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
                                                        name="register_date" value="<?= $seller->register_date ?>" maxlength="11"></td>
                                         </tr>
                                         <tr>

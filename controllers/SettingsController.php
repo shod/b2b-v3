@@ -367,10 +367,10 @@ class SettingsController extends Controller
                                 $file_name[] = $new_file_name;
                             }
 
-                            $text[] = iconv('windows-1251','utf-8','Файл: '.$new_file_name.' загружен.<br>');
+                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
                         } else {
                             $src[] = $i;
-                            $text[] = iconv('windows-1251','utf-8',"ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>");
+                            $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";
                         }
                     }
                 }
