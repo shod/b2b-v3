@@ -75,7 +75,22 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
     <div class="ks-projects-grid-board-tasks" style="background-color: #f2f2f2;">
             <div class="ks-projects-grid-board-tasks-list">
 
-                <?= $curs ?>
+                <div class="ks-projects-grid-board-tasks-header">
+                    <span class="ks-text"><h4>1 ТЕ = <?= $curs ?> руб.</h4></span>
+                    <div class="ks-progress ks-progress-inline">
+                        <div>
+                            без учета НДС 20%
+                        </div>
+                    </div>
+                </div>
+                <div class="ks-projects-grid-board-tasks-header">
+                    <span class="ks-text"><h4>1 ТЕ = <?= $curs * 1.2 ?> руб.</h4></span>
+                    <div class="ks-progress ks-progress-inline">
+                        <div>
+                            с учетом НДС 20%
+                        </div>
+                    </div>
+                </div>
                 <div class="ks-projects-grid-board-tasks-header">
                     <span class="ks-text"><h4>Ваш тариф</h4></span>
                 </div>
