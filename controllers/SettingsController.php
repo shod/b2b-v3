@@ -221,72 +221,74 @@ class SettingsController extends Controller
                 $fl_logo_exist = $this->checkRemoteFile("http://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg");
                 $bit_logoauto = $seller->setting_bit & 131072;
                 $fl_auto_logo = (($fl_logo_exist && $bit_logoauto) || !$fl_logo_exist);
-
-                $logo = $_FILES["logo"];
-                if ($logo["tmp_name"] != "none" && $logo["name"] != '')
-                {
-                    foreach (glob("seller/*\${$this->seller_id}.jpg") as $filename)
+                if(isset($_FILES["logo"])){
+                    $logo = $_FILES["logo"];
+                    if ($logo["tmp_name"] != "none" && $logo["name"] != '')
                     {
-                        unlink($filename);
-                    }
-
-                    $filename = "seller/logo\${$this->seller_id}.jpg";
-
-                    if($_FILES['logo']['type'] == "image/jpeg") {
-                        if (move_uploaded_file($logo["tmp_name"], $filename)) {
-                            SiteService::resize($filename, array(90, 35));
-                            $filename = 'logo$'.$this->seller_id.'.jpg';
-                            $path_local = "http://b2b.migom.by/seller/{$filename}";
-                            $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
-                            file_get_contents($path, NULL, NULL, 0, 14);
-                            $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
-                            $seller->setting_bit = $setting_bit;
-                            $seller->save();
-
+                        foreach (glob("seller/*\${$this->seller_id}.jpg") as $filename)
+                        {
+                            unlink($filename);
                         }
-                    } else {exit("Не верный формат загружаемого файла. Файл должен быть в формате JPG");}
-                } elseif($fl_auto_logo) {
-                    foreach (glob("seller/*\${$this->seller_id}.jpg") as $filename)
-                    {
-                        unlink($filename);
+
+                        $filename = "seller/logo\${$this->seller_id}.jpg";
+
+                        if($_FILES['logo']['type'] == "image/jpeg") {
+                            if (move_uploaded_file($logo["tmp_name"], $filename)) {
+                                SiteService::resize($filename, array(90, 35));
+                                $filename = 'logo$'.$this->seller_id.'.jpg';
+                                $path_local = "http://b2b.migom.by/seller/{$filename}";
+                                $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                                file_get_contents($path, NULL, NULL, 0, 14);
+                                $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
+                                $seller->setting_bit = $setting_bit;
+                                $seller->save();
+
+                            }
+                        } else {exit("Не верный формат загружаемого файла. Файл должен быть в формате JPG");}
+                    } elseif($fl_auto_logo) {
+                        foreach (glob("seller/*\${$this->seller_id}.jpg") as $filename)
+                        {
+                            unlink($filename);
+                        }
+                        $filename = "seller/logo\${$this->seller_id}.jpg";
+
+
+                        // Create the image
+                        $im = imagecreatetruecolor(90, 35);
+
+                        // Create some colors
+                        $white = imagecolorallocate($im, 255, 255, 255);
+                        $grey = imagecolorallocate($im, 56, 56, 56);
+                        $black = imagecolorallocate($im, 0, 0, 0);
+                        imagefilledrectangle($im, 0, 0, 90, 35, $white);
+
+                        // Replace path by your own font path
+                        $font = 'css/fonts/aavantenr_book.ttf';
+
+                        $text = iconv("windows-1251", "utf-8", $name);
+                        // Add the text
+                        $n =  preg_match('/[А-Яа-яЁё]/u', $name) ? 6 : 1;
+                        $l = strlen($name);
+
+                        $fontsize = ($l < 5) ? 22 : ((110 + $l*$n) / $l);
+                        $x = ($l < 5) ? 20  : 5;
+                        imagettftext($im, $fontsize, 0, $x, 25, $grey, $font, $text);
+
+                        // Using imagepng() results in clearer text compared with imagejpeg()
+                        imagejpeg($im, $filename);
+                        imagedestroy($im);
+
+                        $filename = 'logo$'.$this->seller_id.'.jpg';
+                        $path_local = "http://b2b.migom.by/seller/{$filename}";
+                        $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+
+                        file_get_contents($path, NULL, NULL, 0, 14);
+                        $setting_bit = SiteService::set_bitvalue($setting_bit,131072,1);
+                        $seller->setting_bit = $setting_bit;
+                        $seller->save();
                     }
-                    $filename = "seller/logo\${$this->seller_id}.jpg";
-
-
-                    // Create the image
-                    $im = imagecreatetruecolor(90, 35);
-
-                    // Create some colors
-                    $white = imagecolorallocate($im, 255, 255, 255);
-                    $grey = imagecolorallocate($im, 56, 56, 56);
-                    $black = imagecolorallocate($im, 0, 0, 0);
-                    imagefilledrectangle($im, 0, 0, 90, 35, $white);
-
-                    // Replace path by your own font path
-                    $font = 'css/fonts/aavantenr_book.ttf';
-
-                    $text = iconv("windows-1251", "utf-8", $name);
-                    // Add the text
-                    $n =  preg_match('/[А-Яа-яЁё]/u', $name) ? 6 : 1;
-                    $l = strlen($name);
-
-                    $fontsize = ($l < 5) ? 22 : ((110 + $l*$n) / $l);
-                    $x = ($l < 5) ? 20  : 5;
-                    imagettftext($im, $fontsize, 0, $x, 25, $grey, $font, $text);
-
-                    // Using imagepng() results in clearer text compared with imagejpeg()
-                    imagejpeg($im, $filename);
-                    imagedestroy($im);
-
-                    $filename = 'logo$'.$this->seller_id.'.jpg';
-                    $path_local = "http://b2b.migom.by/seller/{$filename}";
-                    $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
-
-                    file_get_contents($path, NULL, NULL, 0, 14);
-                    $setting_bit = SiteService::set_bitvalue($setting_bit,131072,1);
-                    $seller->setting_bit = $setting_bit;
-                    $seller->save();
                 }
+
                 return $this->redirect(['settings/user-info']);
                 break;
             case "add_img_registration":
