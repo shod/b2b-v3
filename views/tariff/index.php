@@ -48,7 +48,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
         <div class="ks-projects-grid-board-body ks-scrollable">
             <div class="ks-scroll-wrapper ks-rows-section">
                 <div class="row" style="padding-left: 15px;">
-                    <h3>Пакетные предложения</h3>
+                    <h3>Пакетное размещение</h3><br>
+                </div>
+                <div class="row" style="padding-left: 15px;">
+                    <h5>Готовые пакеты, включающие набор разделов каталога</h5>
                 </div>
                 <div class="row">
 
@@ -57,7 +60,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                 </div>
 
                 <div class="row" style="padding-left: 15px;">
-                    <h3>Разделы</h3>
+                    <h3>Размещение по разделам</h3>
+                </div>
+                <div class="row" style="padding-left: 15px;">
+                    <h5>Выбор тдельных разделов каталога для подключения</h5>
                 </div>
                 <div class="row">
                     <table class="table table-condensed">
@@ -128,6 +134,13 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                     <td class="ks-statistic-item">
                         <span class="ks-amount"><span id="sum_all_day"><?= $all_sum / 30 ?></span></span>
                         <span class="ks-text">в день</span>
+                    </td>
+                </tr>
+            </table>
+            <table class="ks-projects-grid-board-tasks-statistics">
+                <tr>
+                    <td class="ks-statistic-item">
+                        <span class="ks-text">При добавлении пакетов и/или разделов происходит списание за суточное размещение следующего дня.</span>
                     </td>
                 </tr>
             </table>

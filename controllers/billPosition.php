@@ -112,11 +112,11 @@ class billPosition
     {
         $cnt = $this->get_cnt_ps_sec();
         if ($this->is_active()) {
-            $act_str = "<span class=\"badge badge-success-outline\"> активно $cnt</span>";
+            $act_str = "<span class=\"badge badge-success-outline\"> активных товаров $cnt</span>";
         }
         else
         {
-            $act_str = $cnt ? "<span class=\"badge badge-default-outline\">доступно {$cnt}</span>" : "";
+            $act_str = $cnt ? "<span class=\"badge badge-default-outline\">доступных товаров {$cnt}</span>" : "";
         }
         return $act_str;
     }
@@ -125,11 +125,11 @@ class billPosition
     {
         $cnt = $this->get_cnt_ps();
         if ($this->is_active()) {
-            $act_str = "<span class=\"badge badge-success-outline\"> активно $cnt</span>";
+            $act_str = "<span class=\"badge badge-success-outline\"> активных товаров $cnt</span>";
         }
         else
         {
-            $act_str = $cnt ? "<span class=\"badge badge-default-outline\">доступно {$cnt}</span>" : "";
+            $act_str = $cnt ? "<span class=\"badge badge-default-outline\">доступных товаров {$cnt}</span>" : "";
         }
         return $act_str;
     }
