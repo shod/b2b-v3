@@ -109,13 +109,37 @@ AppAsset::register($this);
                 </div>
                 <!-- END NAVBAR NOTIFICATIONS -->
 
+                <?php if ($seller->pay_type == 'fixed'): ?>
+                    <div class="nav-item nav-link btn-action-block">
+                        <a class="btn" href="/balance/add">
+                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> - <?= isset($bill_account) ? $bill_account->getDayDownCatalog()*30 : 0 ?>/месяц (<?= isset($bill_account) ? $bill_account->getDayDownCatalog() : 0 ?>/день) </span>
+                            <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <?
 
-                <div class="nav-item nav-link btn-action-block">
-                    <a class="btn" href="/balance/add">
-                        <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> - <?= isset($bill_account) ? $bill_account->getDayDownCatalog()*30 : 0 ?>/месяц (<?= isset($bill_account) ? $bill_account->getDayDownCatalog() : 0 ?>/день) </span>
-                        <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
-                    </a>
-                </div>
+                        $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
+                        where st.seller_id = {$seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
+                            $res = \Yii::$app->db->createCommand($sql)->queryOne();
+                            if ($res['id'] == 1){
+                                $balance_clicks = "";
+                                $balance_text = "Стоимость клика: <span class='badge'>0.4 ТЕ</span> ";
+                            } else {
+                                $balance_clicks = $bill_account->balance_clicks;
+                                $balance_text = "Баланс показов/переходов: <span class='badge'>{$balance_clicks}</span>";
+                            }
+
+
+                    ?>
+                    <div class="nav-item nav-link btn-action-block">
+                        <a class="btn" href="/balance/add">
+                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?>  ( <?= $balance_text ?>)</span>
+                            <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
+                        </a>
+                    </div>
+                <?php endif; ?>
+
 
                 <div class="nav-item nav-link btn-action-block">
                     <?= $activation_button ?>
@@ -280,7 +304,7 @@ AppAsset::register($this);
                         <span>Настройка магазина</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/tariff">Мой тариф</a>
+                        <a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a>
                         <a class="dropdown-item" href="/settings/user-info">Информация для покупателей</a>
                         <a class="dropdown-item" href="/settings">Реквизиты магазина</a>
                         <a class="dropdown-item" href="/seller/delivery">Условия доставки</a>

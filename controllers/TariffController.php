@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\ProductService;
 use app\models\BillCatalog;
 use app\models\Seller;
 use app\models\SysStatus;
@@ -97,6 +98,45 @@ class TariffController extends Controller
 
 
                 break;
+            case "save_catalogs":
+                $catalogs = Yii::$app->request->post("catalog_check");
+                $good_ids = array();
+                $good_ids[] = 0;
+                foreach ((array)$catalogs as $id => $r)
+                {
+                    $good_ids[] = $id;
+                }
+                $str_good_ids = implode(",", $good_ids);
+                $sql = "SELECT DISTINCT
+                        vb.catalog_id
+                    FROM
+                        v_catalog_sections AS vb
+                    WHERE
+                        vb.hidden = 0
+                    AND vb.section_id != 1
+                    AND NOT EXISTS (
+                        SELECT
+                            1
+                        FROM
+                            bill_click_catalog_blacklist AS bcl
+                        WHERE
+                            seller_id = 0
+                        AND vb.catalog_id = bcl.catalog_id
+                    )
+                    AND vb.catalog_id NOT IN ({$str_good_ids});";
+                $res = \Yii::$app->db->createCommand($sql)->queryAll();
+                \Yii::$app->db->createCommand("delete from bill_click_catalog_blacklist where seller_id = {$this->seller_id}")->execute();
+                foreach ((array)$res as $r)
+                {
+                    \Yii::$app->db->createCommand("insert into bill_click_catalog_blacklist (catalog_id, seller_id) values ({$r['catalog_id']}, {$this->seller_id})")->execute();
+                }
+                \Yii::$app->db->createCommand("CALL pc_product_seller_actual({$this->seller_id});")->execute();
+                return $this->redirect(['tariff/click']);
+                break;
+            case "refresh":
+                \Yii::$app->db->createCommand("call pc_product_seller_actual({$this->seller_id});")->execute();
+                return $this->redirect(['tariff/click']);
+                break;
         }
     }
 
@@ -121,6 +161,95 @@ class TariffController extends Controller
 
         $vars['section_items'] = $this->get_data_bill_catalog_new_sections();
         return $this->render('index', $vars);
+    }
+
+    public function actionClick(){
+        $vars = [];
+        $sql = "SELECT DISTINCT
+                            vb.catalog_id,
+                            vb.`name`,
+                            IF(qoff.catalog_id,1,0) AS cat_off
+                        FROM
+                            v_catalog_sections AS vb
+                        LEFT JOIN (
+                            SELECT
+                                catalog_id
+                            FROM
+                                bill_click_catalog_blacklist AS bcl
+                            WHERE
+                                seller_id = {$this->seller_id}
+                        ) AS qoff ON (
+                            qoff.catalog_id = vb.catalog_id
+                        )
+                        join sections as s on (s.id = vb.section_id)
+                        WHERE
+                            vb.hidden = 0 and vb.section_id != 1
+                        AND NOT EXISTS (
+                            SELECT
+                                1
+                            FROM
+                                bill_click_catalog_blacklist AS bcl
+                            WHERE
+                                seller_id = 0
+                            AND vb.catalog_id = bcl.catalog_id
+                        ) order by cat_off,  vb.name";
+        $res = \Yii::$app->db->createCommand($sql)->queryAll();
+
+        $sql = "select cs.catalog_id as id, count(ps.id) as cnt
+                        from product_seller ps
+                        inner join products p on (p.id=ps.product_id)
+                        inner join catalog_subject cs on (cs.subject_id=p.section_id)
+                        where ps.seller_id={$this->seller_id}
+                        group by cs.catalog_id";
+        $res_count = \Yii::$app->db->createCommand($sql)->queryAll();
+
+        $sql = "SELECT
+                            cs.catalog_id AS id,
+                            count(ps.id) AS cnt
+                        FROM
+                            product_seller ps
+                        INNER JOIN products p ON (p.id = ps.product_id)
+                        INNER JOIN catalog_subject cs ON (
+                            cs.subject_id = p.section_link_id
+                        )
+                        WHERE
+                            ps.seller_id = {$this->seller_id}
+                        AND ps.active = 1
+                        AND p.section_id != p.section_link_id
+                        AND NOT EXISTS (
+                            SELECT
+                                1
+                            FROM
+                                product_double_link
+                            WHERE
+                                product_id = ps.product_id
+                        )
+                        GROUP BY
+                            cs.catalog_id";
+        $res_goods = \Yii::$app->db->createCommand($sql)->queryAll();
+
+        $data = array();
+        foreach ((array)$res_count as $r)
+        {
+            $data[$r["id"]] = $r["cnt"];
+        }
+
+        $data_goods = array();
+        foreach ((array)$res_goods as $r)
+        {
+            $data_goods[$r["id"]] = $r["cnt"];
+        }
+        $vars['data'] = "";
+        foreach((array)$res as $r)
+        {
+            $r['count_products'] = isset($data[$r['catalog_id']]) && $data[$r['catalog_id']] > 0 ? $data[$r['catalog_id']] : "-";
+            $r['count_goods'] = isset($data_goods[$r['catalog_id']]) && $data_goods[$r['catalog_id']] > 0 ? "<a href='/?admin=products&&catalog_id={$r['catalog_id']}&goods=1' >(+{$data_goods[$r['catalog_id']]} в товарах без описания)</a>" : "";
+            $r['checked'] = $r['cat_off'] > 0 ? "" : "checked";
+            $vars['data'] .= $this->renderPartial('tmpl/click_item', $r);
+
+        }
+        $vars["status"] = ProductService::getDateUpdate($this->seller_id);
+        return $this->render('click', $vars);
     }
 
     private function get_data_bill_catalog_new_sections()

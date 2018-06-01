@@ -40,7 +40,7 @@ class Promise extends \yii\base\Widget {
             } else {
                 $sql = "select ROUND(avg(cnt_click)*cost_click*4) as click_cost
                             from (select seller_id, cnt_click from seller_clicks_stat
-                            where seller_id = {$this->seller_id} and cnt_click>0 order by date_stat desc limit 10) as qw
+                            where seller_id = {$this->sid} and cnt_click>0 order by date_stat desc limit 10) as qw
                             , seller_click_tarif as ct, bill_click_tarif as bc
                             where ct.seller_id = qw.seller_id
                             and bc.id = ct.bill_click_tarif_id;";
