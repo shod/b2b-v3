@@ -367,6 +367,7 @@ function get_notifications() {
                 $.confirm({
                     title: 'Обратите внимание',
                     content: data.tmpl,
+                    columnClass: 'col-md-7',
                     buttons: {
                         confirm: {
                             text: data.button_name,

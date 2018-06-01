@@ -49,7 +49,7 @@ class Complaint extends \yii\base\Widget {
             $complaints .= $this->render('//statistic/tmpl/complaint-item', $r);
         }
         if($complaints == ""){
-            $complaints = "<span class=\"ks-card-widget-datetime\">Все отлично, жалоб на недоступность телефонов нет!</span>";
+            $complaints = "<span class=\"ks-card-widget-datetime\">Все отлично, жалоб на недоступность телефонов, сайта или электронной почты нет!</span>";
         }
         echo $this->render($this->viewFile, ['complaints' => $complaints]);
     }
