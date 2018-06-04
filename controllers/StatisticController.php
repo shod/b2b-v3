@@ -177,6 +177,9 @@ class StatisticController extends Controller
             if ($res['po_active'] == 0){
                 $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Услуга отключена</a>";
                 $vars["po_sms_alert"]  = "<p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' style='color:red'>SMS-заказы</a></p>";
+                $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+
+
             }
         }
         $stat_interval_month = 6;

@@ -1,5 +1,5 @@
 <?php
-$this->title = 'Статистика размещения';
+$this->title = 'Статистика магазина';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ks-page-content-body">
@@ -11,6 +11,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="ks-nav-body-wrapper">
                             <div class="container-fluid" style="overflow: auto">
                                 <div><h5>Статистика по месяцам</h5></div>
+                                <div class="alert alert-danger ks-solid-light" role="alert">Внимание! В период 1.03.2018 - 5.04.2018 произошел сбой в системе сбора статистики. Статистика выводится не в полном объеме.
+                                </div>
                                 <table id="ks-datatable" class="table table-striped table-bordered table-condenced"
                                        width="100%">
                                     <thead>
@@ -48,7 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             <div class="container-fluid" style="overflow: auto">
-                                <div><h5>Жалобы покупателей на недоступность телефонов</h5></div>
+                                <div><h5>Жалобы покупателей на недоступность телефонов, сайта или электронной почты</h5></div>
+                                <?= isset($alert) ? $alert : "" ?>
                                 <table id="ks-datatable" class="table table-striped table-bordered table-condenced"
                                        width="100%">
                                     <thead>

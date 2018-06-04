@@ -36,7 +36,7 @@ $this->registerJs(
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             <div class="container-fluid" style="overflow: auto">
-                                <div><h5>Статистика по дням</h5></div>
+                                <div><h5>Статистика по дням <?= $date ?></h5></div>
                                 <table id="ks-datatable" class="table table-striped table-bordered table-condenced"
                                        width="100%">
                                     <thead>
@@ -70,7 +70,7 @@ $this->registerJs(
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             <div class="container-fluid" style="overflow: auto">
-                                <div><h5>Статистика по разделам</h5></div>
+                                <div><h5>Статистика по разделам <?= $date ?></h5></div>
                                 <table id="ks-datatable" class="table table-striped table-bordered table-condenced"
                                        width="100%">
                                     <thead>
