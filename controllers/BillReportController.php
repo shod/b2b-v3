@@ -567,9 +567,9 @@ class BillReportController extends Controller
         }
         $html .= "</table><div>
                             <p>Подробнее по разделам: </p>
-                            <span id='down_auction' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_auction');\">Аукционы</span> <span id='down_spec' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_spec');\">Спецпредложения</span> <span id='down_adv_spec' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_adv_spec');\">Баннерные спецпредложения</span>
+                            <span id='down_auction' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_auction');\">Аукционы</span> <span id='down_spec' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_spec');\">Спецпредложения</span> <!--span id='down_adv_spec' class='btn btn-primary btn-sm' onclick=\"get_report_data_more('down_adv_spec');\">Баннерные спецпредложения</span-->
                         </div>
-                        <div id='more_res'></div>";
+                        <div id='more_res' style='min-height: 100px;'></div>";
         return $html;
     }
 
@@ -626,7 +626,7 @@ class BillReportController extends Controller
         }
 
         $res = \Yii::$app->db->createCommand("
-			select *, IF(type in ('down_catalog','back_down_catalog'), date_begin - INTERVAL 1 DAY, date_begin - INTERVAL 1 HOUR) as date_begin
+			select *, IF(type in ('down_catalog','back_down_catalog'), date_begin - INTERVAL 1 DAY, date_begin) as date_begin
 			from bill_transaction
 			where account_id in ({$seller->bill_account_id},{$this->bonus_account_id}) {$sql_m} and not(date_end is null)
 			order by date_end desc, id desc
@@ -653,9 +653,9 @@ class BillReportController extends Controller
                 $is_bonus = ($r["account_id"]!=$seller->bill_account_id);
 
                 $obj = BillTransaction::find()->where(['id' => $r['id']])->one();
-                $obj_type = BillTransactionType::find()->where(['code' => $obj->type])->one();
+                $obj_type = \app\models_ex\BillTransactionType::find()->where(['code' => $obj->type])->one();
 
-                $desc = $obj_type->name;
+                $desc = $obj_type->getDescription($obj->object_id);
                 if ($error = $obj->error)
                 {
                     $desc = "{$desc} <br /><b>{$error}</b>";

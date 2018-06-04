@@ -1,4 +1,4 @@
-<tr align="center" $vars[class]>
+<tr align="center">
     <?= $day_html ?>
     <td class="day"><?= $time ?></td>
     <td align="left"><?= $desc ?></td>

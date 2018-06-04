@@ -323,11 +323,20 @@ function get_report_data_more(type) {
     date_to = $('#date_to').val();
     $("span.btn-sm").removeClass("btn-success");
     $("#" + type).addClass("btn-success");
+    $("#more_res").html("");
+    $("#more_res").LoadingOverlay("show", {
+        color: 'rgba(255, 255, 255, 0.8)',
+        image: '',
+        fontawesome: "la la-refresh la-spin",
+        zIndex: 1100
+    });
+
     $.ajax({
         method: "GET",
         url: "/bill-report/get-more-data?m=" + m + "&type=" + type + "&date_from=" + date_from + "&date_to=" + date_to
     })
         .done(function (msg) {
+            $("#more_res").LoadingOverlay("hide");
             $("#more_res").html(msg + "<br><a href='/bill-report/get-more-data-xlsx/?m=" + m + "&date_from=" + date_from + "&date_to=" + date_to + "&type=" + type + "' target='_blank'>Скачать</a>");
         });
     //$('#myModal').modal();

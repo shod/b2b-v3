@@ -257,6 +257,18 @@ $this->registerJs(
                                             <td><input type="checkbox" name="bit_setting[bit_halva]" value="1" <?= $bit_halva ?>></td>
                                         </tr>
                                         <tr>
+                                            <td>Возможна оплата по системе "Карта покупок" от Белгазпромбанка</td>
+                                            <td><input type="checkbox" name="bit_setting[bit_purchase]" value="1" <?= $bit_purchase ?>></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Возможна оплата по системе "Черепаха" от Банка ВТБ</td>
+                                            <td><input type="checkbox" name="bit_setting[bit_turtle]" value="1" <?= $bit_turtle ?>></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Возможна оплата по системе "SMART карта" от Банка Москва-Минск</td>
+                                            <td><input type="checkbox" name="bit_setting[bit_smart]" value="1" <?= $bit_smart ?> ></td>
+                                        </tr>
+                                        <tr>
                                             <th colspan="2">Время работы (приёма заказов)</th>
                                         </tr>
 
