@@ -812,7 +812,7 @@ class ProductController extends Controller
                         "name" => $r1["name"],
                         "cnt" => $cnt ? $cnt : "-",
                         "href" => '/product/catalog/?catalog_id='.$r1['id'],
-                        "cnt_goods" => $cnt_goods ? "<a href='{$href_goods}' target=_blank >(+ {$cnt_goods} в товарах без описания)</a>" : ""
+                        "cnt_goods" => $cnt_goods ? "<a style=\"text-decoration: underline\" href='{$href_goods}' target=_blank >(+ {$cnt_goods} в товарах без описания)</a>" : ""
                     ));
                 }
             }

@@ -15,6 +15,7 @@ $this->title = "Товары в продаже";
                             Процент активных:
                             <mark><?= isset($prod_active_percent) ? $prod_active_percent : "" ?>%</mark>
                         </a></p>
+                    <p><a href="/tariff" class="btn btn-primary">Подключить еще разделы или пакеты</a> </p>
                     <p><span class="badge badge-default">Обновлены <?= isset($status) ? $status : "" ?></span></p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
