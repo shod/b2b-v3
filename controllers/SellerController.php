@@ -250,9 +250,9 @@ class SellerController extends Controller
                 $name = urlencode($obj_seller->name);
                 $city = urlencode($seller_place->city);
                 $address = urlencode($seller_place->street. ", ".$seller_place->house);
-                $str = "http://maps.migom.by/api/organisation/createorganisation/?seller_id={$this->seller_id}&name={$name}&id={$seller_place->id}&city={$city}&address={$address}&t={$type}&flat={$seller_place->flat}";
+                //$str = "http://maps.migom.by/api/organisation/createorganisation/?seller_id={$this->seller_id}&name={$name}&id={$seller_place->id}&city={$city}&address={$address}&t={$type}&flat={$seller_place->flat}";
 
-                file_get_contents($str);
+                //file_get_contents($str);
                 return $this->redirect(['seller/delivery']);
                 break;
             case "place_delete":
@@ -266,9 +266,9 @@ class SellerController extends Controller
                 $obj_seller->f_auto = ($res[0]['cnt'] > 0) ? 1 : 0;
                 $obj_seller->save();
 
-                $str = "http://maps.migom.by/api/organisation/DelOrganisation/?id=".$id;
+                //$str = "http://maps.migom.by/api/organisation/DelOrganisation/?id=".$id;
 
-                file_get_contents($str);
+                //file_get_contents($str);
                 return $this->redirect(['seller/delivery']);
                 break;
         }

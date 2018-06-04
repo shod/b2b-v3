@@ -189,7 +189,6 @@ function delivery_notice(id) {
             break;
         case 3:
             $("#paid").show();
-            $("#addition").show();
             $("#button_delivery").show();
             break;
         case 4:

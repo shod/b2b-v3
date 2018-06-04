@@ -83,8 +83,10 @@ class ProductController extends Controller
         $vars["selected_{$setting_data["currency_base"]}"] = "selected";
         $vars["currency_rate"] = $setting_data["currency_rate"];
         $vars["currency_rate_byn"] = (float)$setting_data["currency_rate"] / 10000;
-        $vars["price_correct_{$setting_data["price_correct"]}"] = "selected";
-        $vars["price_correct_value"] = $setting_data["price_correct_value"];
+        $price_correct = isset($setting_data["price_correct"]) ? $setting_data["price_correct"] : "";
+        $vars["price_correct_{$price_correct}"] = "selected";
+        $price_correct_value = isset($setting_data["price_correct_value"]) ? $setting_data["price_correct_value"] : "";
+        $vars["price_correct_value"] = $price_correct_value;
         $vars["base_rate_str"] = $setting_data["currency_base"] == "usd" ? "USD" : "бел. руб.";
 
 
