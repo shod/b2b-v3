@@ -365,6 +365,19 @@ function change_href(cl, add_name, add_value) {
     });
 }
 
+function set_sum(obj, max){
+    $("#sub_button").addClass("disabled");
+    max_sum = typeof max !== 'undefined' ? max : $("#max_sum").text();
+
+    if (obj.value != ''){
+        if (parseFloat(obj.value) <= parseFloat(max_sum) && parseFloat(obj.value) > 0){
+            $("#sub_button").removeClass("disabled");
+        } else {
+            alert('обещанный платеж не должен превышать '+max_sum+' сумму и должен быть больше 0!');
+        }
+    }
+}
+
 function get_notifications() {
     $.ajax({
         method: "GET",

@@ -343,16 +343,16 @@ class BalanceController extends Controller
                                                                             limit 1")->queryAll();
         if ($res[0]['promise_delivery'] == 1 ){
             $vars["disabled"] = 'disabled';
-            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert">Вы уже брали обещанный платеж</div>';
+            $vars['text'] = '<div class="alert alert-danger ks-solid" role="alert">Вы уже брали обещанный платеж</div>';
         } elseif ($res[0]['b2b_karma'] != 1){
             $vars["disabled"] = 'disabled';
-            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert">Вам недоступен обещанный платеж!</div>';
+            $vars['text'] = '<div class="alert alert-danger  ks-solid" role="alert">Вам недоступен обещанный платеж!</div>';
         } elseif (count($res_check) != 1){
             $vars["disabled"] = 'disabled';
-            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert">Вам недоступен обещанный платеж, в связи с отсутствием активности в течении 3-х месяцев.</div>';
+            $vars['text'] = '<div class="alert alert-danger  ks-solid" role="alert">Вам недоступен обещанный платеж, в связи с отсутствием активности в течении 3-х месяцев.</div>';
         } elseif($res[0]['block_deact'] == 1){
             $vars["disabled"] = 'disabled';
-            $vars['text'] = '<div class="alert alert-danger ks-active-border" role="alert"> Обещанный платеж недоступен! Вы были неактивны более месяца!</div>';
+            $vars['text'] = '<div class="alert alert-danger  ks-solid" role="alert"> Обещанный платеж недоступен! Вы были неактивны более месяца!</div>';
         } else {
             $vars["disabled"] = '';
         }
@@ -360,6 +360,7 @@ class BalanceController extends Controller
         if($seller->pay_type == 'fixed'){
             $vars['day_down'] = (round($bill_account->getDayDown(1),2)*4*(float)$curs/100)*100;
             //$vars['page_data'] = $whirl->processor->process_template(null, "content_billing", "tmpl/promice_fixed", $vars);
+            return $this->render('promise',$vars);
         } else {
             $sql = "select ROUND(avg(cnt_click)*cost_click*4) as click_cost
                             from (select seller_id, cnt_click from seller_clicks_stat
@@ -372,9 +373,9 @@ class BalanceController extends Controller
             $vars['sum_click'] = intval($vars['day_te'] / 0.4);
             $vars['day_down'] = ($vars['day_te']*(float)$curs/100)*100;
             //$vars['page_data'] = $whirl->processor->process_template(null, "content_billing", "tmpl/promice_clicks", $vars);
+            return $this->render('promise_clicks',$vars);
         }
 
-        return $this->render('promise',$vars);
     }
 
     private function getInfo($seller){
