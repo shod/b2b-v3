@@ -1,5 +1,5 @@
 <?php
-$this->title = "Отзывы";
+$this->title = "Отзывы покупателей";
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
@@ -13,9 +13,6 @@ $this->title = "Отзывы";
                             <p class="card-text"><b>Время работы:</b> с 9:00 до 18:00</p>
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </div>

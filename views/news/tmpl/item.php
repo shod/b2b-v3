@@ -3,6 +3,7 @@
         <?= $news->title ?>
     </div>
     <div class="card-block">
-        <?= $news->text ?>
+        <?= stripcslashes($news->text) ?>
+        <div class="content-end" style="color: grey"><?= $news->date ?></div>
     </div>
 </div>

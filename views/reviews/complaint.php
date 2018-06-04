@@ -1,5 +1,5 @@
 <?php
-$this->title = 'Жалобы покупателей на недоступность телефонов';
+$this->title = 'Жалобы покупателей на недоступность телефонов, сайта или электронной почты';
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">

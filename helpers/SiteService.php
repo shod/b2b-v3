@@ -109,6 +109,31 @@ class SiteService {
         return $res;
     }
 
+    public static function getStrDateNoTime($date) {
+        if($date > 10000) {
+            $date = $date;
+        } else {
+            $date = strtotime($date);
+        }
+
+        if (date('Y.m.d', $date) == date("Y.m.d")) {
+            $res = "сегодня";
+        }
+        elseif (date('Y.m.d', $date) == date("Y.m.d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y"))))
+        {
+            $res = "вчера";
+        }
+        elseif (date('Y.m.d', $date) == date("Y.m.d", mktime(0, 0, 0, date("m"), date("d") - 2, date("Y"))))
+        {
+            $res = "позавчера";
+        }
+        else {
+            $month = array(1 => 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
+            $res = date('j ' . $month[date('n', $date)] . ' Y',$date); // в H:i
+        }
+        return $res;
+    }
+
     public static function getStrDateSimple($date) {
         if($date > 10000) {
             $date = $date;

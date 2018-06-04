@@ -174,7 +174,7 @@ class ReviewsController extends Controller
         $html = "";
         foreach((array)$res as $r)
         {
-            $r["date"] = SiteService::getStrDate(($r["date"]));
+            $r["date"] = SiteService::getStrDateNoTime(($r["date"]));
             $r["stars"] = SiteService::starIterate($r["popular"] / 100.0);
             $r["delivery"] = $r["delivery"] ? "<b>Доставка:</b> {$r["delivery"]} <br />" : "";
             $r["cost"] = $r["cost"] ? "<b>Цена:</b> {$r["cost"]} <br />" : "";

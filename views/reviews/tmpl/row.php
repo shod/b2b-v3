@@ -3,7 +3,7 @@
         <h5><?= isset($date) ? $date : "" ?></h5>
         <span class="list-inline rating-list inline m-b-0 m-r-10"><?= isset($stars) ? $stars : "" ?></span> <br />
         <p><?= isset($name) ? $name : "" ?></p>
-        <p><?= isset($email) ? $email : "" ?> </p>
+        <!--p><?//= isset($email) ? $email : "" ?> </p-->
         <?= isset($tmpl_conclusion) ? $tmpl_conclusion : "" ?>
     </td>
     <td style="width: 35%">
