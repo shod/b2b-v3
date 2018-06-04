@@ -18,6 +18,8 @@ $this->title = "Товары в продаже";
                     <p><span class="badge badge-default">Обновлены <?= isset($status) ? $status : "" ?></span></p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
+                        <button data-remote="/product/get-curs/" data-toggle="ajaxModal"
+                                data-target=".bd-example-modal-lg" class="btn btn-primary">Настройка валюты</button>
 
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 content-end">

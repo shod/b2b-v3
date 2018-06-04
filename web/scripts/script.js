@@ -365,6 +365,16 @@ function change_href(cl, add_name, add_value) {
     });
 }
 
+function check_currency(){
+    curr_select = $('#curr_select').val();
+
+    if ((curr_select == 'br') || (curr_select == 'byn')){
+        $(".sh_tr").hide();
+    } else {
+        $(".sh_tr").show();
+    }
+}
+
 function set_sum(obj, max){
     $("#sub_button").addClass("disabled");
     max_sum = typeof max !== 'undefined' ? max : $("#max_sum").text();

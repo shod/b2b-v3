@@ -78,7 +78,6 @@ class ProductController extends Controller
 
     public function actionGetCurs(){
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
-        $vars['catalog_id'] = Yii::$app->request->get('catalog_id');
         $setting_data = $seller->setting_data;
         $setting_data = unserialize($setting_data);
         $vars["selected_{$setting_data["currency_base"]}"] = "selected";
@@ -105,7 +104,6 @@ class ProductController extends Controller
     }
 
     public function actionSaveCurs(){
-        $catalog_id = Yii::$app->request->post("catalog_id");
         $curr_base = Yii::$app->request->post("currency_base");
         $curr_rate = Yii::$app->request->post("currency_rate");
         $curr_rate = str_replace(",", ".", $curr_rate);
@@ -151,7 +149,7 @@ class ProductController extends Controller
         $seller_info->save();
         \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
 
-        $this->redirect('/product/catalog/?catalog_id='.$catalog_id);
+        $this->redirect('/product/on-sale');
     }
 
     public function actionGetDataProducts(){

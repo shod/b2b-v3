@@ -76,8 +76,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                         </label>
                                     </div>
                                     <div class="col-lg-2 content-end">
-                                        <button data-remote="/product/get-curs/?catalog_id=<?= $catalog_id ?>" data-toggle="ajaxModal"
-                                           data-target=".bd-example-modal-lg" class="btn btn-primary">Настройка валюты</button>
+
                                     </div>
                                 </div>
 

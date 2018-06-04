@@ -3,7 +3,6 @@
         <div class="card-block">
             <form method="post" action="/product/save-curs">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
-                <input type="hidden" name="catalog_id" value="<?= $catalog_id ?>"/>
                 <div class="row">
                     <div class="col-lg-6">Валюта прайса</div>
                     <div class="col-lg-6">

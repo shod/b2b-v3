@@ -112,7 +112,7 @@ $this->registerJs(
                                                 торговом реестре <br>
                                                 <small>(пример 28.12.2013)</small>
                                             </td>
-                                            <td><input id="datepicker" <?//= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
+                                            <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
                                                        name="register_date" value="<?= $seller->register_date ?>" maxlength="11"></td>
                                         </tr>
                                         <tr>
