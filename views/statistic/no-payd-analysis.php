@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-12">
                     <div class="card card-block">
                         <div class="alert alert-danger  ks-solid-light" role="alert"><strong><?= isset($cost_max) ? $cost_max : '-' ?>%</strong> ваших товаров имеют самую высокую цену</div>
-                        <div class="alert alert-success  ks-solid-light" role="alert"><strong><?= isset($cost_min) ? $cost_min : '-' ?>&</strong> ваших товаров имеют самую низкую цену</div>
+                        <div class="alert alert-success  ks-solid-light" role="alert"><strong><?= isset($cost_min) ? $cost_min : '-' ?>%</strong> ваших товаров имеют самую низкую цену</div>
                         <button data-remote="/statistic/get-access/" data-toggle="ajaxModal"
                                 data-target=".bd-example-modal-lg" class="btn btn-primary">Получить доступ
                         </button><br><br>

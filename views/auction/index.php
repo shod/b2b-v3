@@ -50,13 +50,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                 </div>
             </div>
 
-            <form method="post" action="/auction/process">
+            <form method="post" action="/auction/process" id="formAuctionFix">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                 <input type="hidden" name="action" value="save"/>
                 <input type="hidden" name="auction" value="fix"/>
 
                 <div class="row" style="padding-top: 10px; margin-top: 0px;">
                     <div class="col-lg-12">
+                        <div class="content-end">
+                            <input id="btnSaveFix" class="btn btn-primary" type="button" value="Сохранить"
+                                   onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+                        </div>
+                        <br>
                         <div class="ks-nav-body">
                             <div class="ks-nav-body-wrapper">
                                 <div class="container-fluid" style="overflow: auto">
@@ -94,7 +99,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                                 </div>
                             </div>
                         </div>
-                        <div >
+                        <div class="content-end">
                             <input id="btnSaveFix" class="btn btn-primary" type="button" value="Сохранить"
                                    onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
                         </div>
@@ -129,13 +134,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                 </div>
             </div>
 
-            <form method="post" action="/auction/process">
+            <form method="post" action="/auction/process" id="formAuction">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                 <input type="hidden" name="action" value="save"/>
                 <input type="hidden" name="auction" value="minute"/>
 
                 <div class="row" style="padding-top: 10px; margin-top: 0px;">
                     <div class="col-lg-12">
+                        <div class="content-end">
+                            <input class="btn btn-primary" type="button" value="Сохранить"
+                                   onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+                        </div>
+                        <br>
 
                         <div class="ks-nav-body">
                             <div class="ks-nav-body-wrapper">
@@ -185,7 +195,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                                 </div>
                             </div>
                         </div>
-                        <div >
+                        <div class="content-end">
                             <input class="btn btn-primary" type="button" value="Сохранить"
                                    onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
                         </div>

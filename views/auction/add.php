@@ -28,6 +28,11 @@ $this->title = 'Добавление аукционов';
                                     <input type="hidden" name="_csrf"
                                            value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                     <input type="hidden" name="action" value="add"/>
+                                    <div><input class="btn btn-primary" type="button"
+                                                                    value="Добавить"
+                                                                    onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+                                    </div>
+                                    <br>
 
                                     <table class="table table-striped table-bordered table-condenced">
                                         <tr class="active">

@@ -349,7 +349,7 @@ class AuctionController extends Controller
                     $bill_auction->object_id = $catalog_id;
                     $bill_auction->cost = 0;
                     $bill_auction->date = date("Y-m-d H:i:s");
-                    $bill_auction->f_auto = 1;
+                    $bill_auction->f_auto = 0;
                     $bill_auction->save();
                 }
                 return $this->redirect(['auction/index']);

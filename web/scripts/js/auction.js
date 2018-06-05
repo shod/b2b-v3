@@ -32,6 +32,13 @@ $(document).ready(function(){
         }
     })
 
+    $("#formAuctionFix input:text").keydown(function (e) {
+        if (e.which == 13)
+        {
+            $("#formAuctionFix").submit()
+        }
+    })
+
     var t_cost;
     $("#cost_all").keypress(function(){
         var $this = $(this);

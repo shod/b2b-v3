@@ -68,7 +68,7 @@ $this->registerJs(
                                 <div class="col-lg-12">
                                     <br>
                                     <div class="alert alert-danger  ks-solid-light" role="alert"><strong><?= isset($cost_max) ? $cost_max : '-' ?>%</strong> ваших товаров имеют самую высокую цену</div>
-                                    <div class="alert alert-success  ks-solid-light" role="alert"><strong><?= isset($cost_min) ? $cost_min : '-' ?>&</strong> ваших товаров имеют самую низкую цену</div>
+                                    <div class="alert alert-success  ks-solid-light" role="alert"><strong><?= isset($cost_min) ? $cost_min : '-' ?>%</strong> ваших товаров имеют самую низкую цену</div>
                                 </div>
 
                             </div>
