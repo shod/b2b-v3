@@ -123,7 +123,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                     <div class="col-lg-3">
                         <label>наименование банка</label>
                         <input name="bank_name" type="text"
-                               class="form-control" <?= (isset($bank_name) && $bank_name != "") ? "readonly" : "" ?>
+                               class="form-control" <?= (isset($bank_name) && stripcslashes($bank_name) != "" && stripcslashes($bank_name) != " ") ? "readonly" : "" ?>
                                placeholder="" value="<?= stripcslashes($bank_name) ?>" data-validation="length"
                                data-validation-length="min1" data-validation-error-msg="Введите наименование банка">
                     </div>

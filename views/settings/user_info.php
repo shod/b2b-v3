@@ -69,12 +69,12 @@ $this->registerJs(
                                                     <tbody>
                                                     <tr>
                                                         <td style="margin-left:0px;"><?= $logo ?></td>
-                                                        <td><input type="file" name="logo" <?= $dis_logo ?>></td>
+                                                        <td><input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                                 <br>
-                                                <?= $dis_logo_text ?>
+                                                <?= isset($dis_logo_text) ? $dis_logo_text : "" ?>
                                             </td>
                                         </tr>
 

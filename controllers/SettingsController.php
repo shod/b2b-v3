@@ -218,7 +218,7 @@ class SettingsController extends Controller
                     \Yii::$app->db->createCommand("update seller_info set offer_default_desc=f_clear_prod_desc('{$offer_default_desc}'), importers='{$importers}', service_centers='{$service_centers}', f_b2b_description={$f_description}, f_allow_download={$f_download} where seller_id=".$this->seller_id)->execute();
                 }
 
-                $fl_logo_exist = $this->checkRemoteFile("http://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg");
+                $fl_logo_exist = $this->checkRemoteFile("https://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg");
                 $bit_logoauto = $seller->setting_bit & 131072;
                 $fl_auto_logo = (($fl_logo_exist && $bit_logoauto) || !$fl_logo_exist);
                 if(isset($_FILES["logo"])){
@@ -420,7 +420,7 @@ class SettingsController extends Controller
         $vars["cont_service_centers"] = $this->deserilize('service_centers',$seller_info->service_centers);
         $vars['img_documents'] = $this->get_img_documents();
 
-        $logo_url = "http://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg";
+        $logo_url = "https://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg";
         $vars["logo"] = "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>";;
         $fl_logo_exist = $this->checkRemoteFile($logo_url);
         $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
