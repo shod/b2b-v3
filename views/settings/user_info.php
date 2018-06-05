@@ -25,11 +25,14 @@ $this->registerJs(
                 </div>
             </div>
 
-            <form method="post" action="/settings/process">
+            <form method="post" action="/settings/process" id="userForm">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                 <input type="hidden" name="action" value="save_user"/>
 
                 <div class="row" style="padding-top: 10px; margin-top: 0px;">
+                    <div class="col-lg-12">
+                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь в службу технической поддержки <a href="mailto:admin@migom.by">admin@migom.by</a> или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .</div>
+                    </div>
                     <div class="col-lg-12">
                         <div class="ks-nav-body">
                             <div class="ks-nav-body-wrapper">
@@ -53,7 +56,8 @@ $this->registerJs(
                                             <td><span style="color:red;font-size:12px;">*</span> Название магазина
                                                 <small>(до 30 символов)</small>
                                             </td>
-                                            <td><input readonly="" style="width:300px" class="form-control yes"
+                                            <td><input <?= (isset($seller->name) && $seller->name != "") ? "readonly" : "" ?> style="width:300px" class="form-control yes" data-validation="length" data-validation-length="min5"
+                                                       data-validation-error-msg="Введите название магазина"
                                                        type="text" name="name" value="<?= $seller->name; ?>" maxlength="30"></td>
                                         </tr>
                                         <tr>
@@ -113,11 +117,12 @@ $this->registerJs(
                                                 <small>(пример 28.12.2013)</small>
                                             </td>
                                             <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
-                                                       name="register_date" value="<?= $seller->register_date ?>" maxlength="11"></td>
+                                                       name="register_date" value="<?= $seller->register_date ?>" maxlength="11" data-validation="length" data-validation-length="min5"
+                                                       data-validation-error-msg="Введите дату регистрации в торговом реестре"></td>
                                         </tr>
                                         <tr>
                                             <td>Кратко о магазине <small>(до 1000 символов)</small></td>
-                                            <td><textarea style="width: 100%" name="description" maxlength="1000" $vars[dis_description] id='description'><?= $seller->description ?></textarea></td>
+                                            <td><textarea style="width: 100%" name="description" maxlength="1000" id='description'><?= $seller->description ?></textarea></td>
                                         </tr>
                                         <tr>
                                             <td>Контактные телефоны <br/><small>дубликаты удаляются автоматически</small></td>
@@ -285,8 +290,7 @@ $this->registerJs(
                             </div>
                         </div>
                         <div class="content-end">
-                            <input id="btnSaveFix" class="btn btn-primary" type="button" value="Сохранить"
-                                   onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+                            <input class="btn btn-primary" type="submit" value="Сохранить"/>
                         </div>
                     </div>
                 </div>
