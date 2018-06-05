@@ -420,6 +420,21 @@ class StatisticController extends Controller
     public function actionCostAnalysis()
     {
         $vars = [];
+        $data_cost = \Yii::$app->db->createCommand("
+					select seller_id
+					, round(sum(prod_cnt_cost_max)/sum(prod_cnt_all)*100) as perc_max
+					, round(sum(prod_cnt_cost_min)/sum(prod_cnt_all)*100) as perc_min
+					from migombyha.stat_seller_cost_place
+					where seller_id = {$this->seller_id}
+					GROUP BY seller_id
+			")->queryAll();
+        if(count($data_cost > 0)){
+            $vars['cost_min'] = $data_cost[0]["perc_min"];
+            $vars['cost_max'] = $data_cost[0]["perc_max"];
+        } else {
+            $vars['cost_min'] = 0;
+            $vars['cost_max'] = 0;
+        }
         Yii::$app->view->params['customParam'] = 'Аналитика цен поможет вам сделать свои предложения более привлекательными для покупателей.';
         $bit = \Yii::$app->db->createCommand("select f_is_setting_bit_set(setting_bit,'seller_b2b','analyze') as is_set from seller as t where t.id={$this->seller_id}")->queryOne();
         if ($bit && !$bit['is_set']) {
@@ -473,8 +488,14 @@ class StatisticController extends Controller
 
                 $vars['data'] .= $this->renderPartial('tmpl/analysis-item', $r);
             }
-            $vars['min'] = round($cnt_min / $cnt * 100, 2);
-            $vars['max'] = round($cnt_max / $cnt * 100, 2);
+            if($cnt > 0){
+                $vars['min'] = round($cnt_min / $cnt * 100, 2);
+                $vars['max'] = round($cnt_max / $cnt * 100, 2);
+            } else {
+                $vars['min'] = 0;
+                $vars['max'] = 0;
+            }
+
             $vars['pages'] = $this->get_pages($section_id, $brand, $basic_name, $wh_state, $page);
 
 
