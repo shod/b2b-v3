@@ -91,13 +91,18 @@ class ReviewsController extends Controller
             $sql = "update notifier_message_b2b set status=1 WHERE seller_id = {$this->seller_id} and type='notify' and tmpl = 'complaint' and status=0";
             \Yii::$app->db->createCommand($sql)->execute();
         }
-        $sql = "select po_active from seller_info where  seller_id = {$this->seller_id}";
+        $sql = "select po_active, po_balance from seller_info where  seller_id = {$this->seller_id}";
         $res = \Yii::$app->db->createCommand($sql)->queryOne();
-        if (count($res) == 1){
-            if ($res['po_active'] == 0){
-                $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+        if (count($res) > 0){
+            if (($res['po_active'] == 0) || ((int)$res['po_balance'] < 1)){
+                if($res['po_active'] == 0) {
+                    $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+                } else {
+                    $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Предоплаченные СМС уведомления закончились</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+                }
             }
         }
+        
         $sql = "SELECT
 								f.id,
 								f.seller_id,

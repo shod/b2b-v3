@@ -171,15 +171,19 @@ class StatisticController extends Controller
     public function actionIndex()
     {
         $vars = [];
-        $sql = "select po_active from seller_info where  seller_id = {$this->seller_id}";
+        $sql = "select po_active, po_balance from seller_info where  seller_id = {$this->seller_id}";
         $res = \Yii::$app->db->createCommand($sql)->queryOne();
-        if (count($res) == 1){
-            if ($res['po_active'] == 0){
-                $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Услуга отключена</a>";
+        if (count($res) > 0){
+            if (($res['po_active'] == 0) || ((int)$res['po_balance'] < 1)){
+                if($res['po_active'] == 0) {
+                    $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Услуга отключена</a>";
+                    $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+                } else {
+                    $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Предоплаченные СМС закончились</a>";
+                    $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Предоплаченные СМС уведомления закончились</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+                }
+
                 $vars["po_sms_alert"]  = "<p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' style='color:red'>SMS-заказы</a></p>";
-                $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
-
-
             }
         }
         $stat_interval_month = 6;
