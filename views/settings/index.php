@@ -150,6 +150,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger  ks-solid-light" role="alert">Все поля обязательны для заполнения</div>
+                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены пароля обратитесь в службу технической поддержки.</div>
+                    </div>
                     <div class="col-lg-12 content-end">
                         <input class="btn btn-success" type="submit" value="Сохранить">
                     </div>
