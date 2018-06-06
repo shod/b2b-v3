@@ -8,8 +8,16 @@ $this->title = "Пополнение баланса";
                 <div class="col-lg-6">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
-                            <!--h5 class="card-title">Курс тарифной единицы</h5-->
-                            <h3 class="ks-payment-earnings-amount">1ТЕ = <span id="te"><?= $curs; ?></span> руб.</h3>
+                            <h3 class="ks-payment-earnings-amount">1ТЕ = <span id="te"><?= $curs; ?></span> руб.
+                                <span class="ks-description small">
+                                    без учета НДС 20%
+                                </span>
+                            </h3>
+                            <h3 class="ks-payment-earnings-amount">1ТЕ = <span id="te"><?= $curs * 1,2; ?></span> руб.
+                                <span class="ks-description small">
+                                с учетом НДС 20%
+                                </span>
+                            </h3>
                         </div>
                     </div>
                 </div>
