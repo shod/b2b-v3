@@ -188,7 +188,7 @@ class BalanceController extends Controller
             "contract_number" => $seller_info->contract_number,
             "contract_date" => date('d.m.Y',$seller_info->contract_date),
             "fax" => $member_data['fax'],
-            "text" => isset($blank) ? $blank->name : "Услуги по размещению рекламных материалов <br>
+            "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов <br>
             на сайте migom.by на сумму"
         ],$vars);
         if($render_type == 'html'){
@@ -306,6 +306,7 @@ class BalanceController extends Controller
         $vars['curs'] = $curs;
         $vars['blanks'] = $this->getBlanks($seller, $curs, $nds);
         $vars['info'] = $this->getInfo($seller);
+        $vars['f_offerta'] = $seller->f_offerta;
 
         return $this->render('add', $vars);
     }
