@@ -347,8 +347,12 @@ AppAsset::register($this);
                         <span>Условия работы</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
-                        <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                        <?php if ($seller->f_offerta & 1): ?>
+                            <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
+                        <?php endif; ?>
+                        <?php if ($seller->f_offerta & 2): ?>
+                            <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                        <?php endif; ?>
                         <a class="dropdown-item" href="/info/?page=rules_placement">Правила размещения</a>
                     </div>
                 </li>
