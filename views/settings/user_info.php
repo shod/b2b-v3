@@ -69,7 +69,13 @@ $this->registerJs(
                                                     <tbody>
                                                     <tr>
                                                         <td style="margin-left:0px;"><?= $logo ?></td>
-                                                        <td><input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>></td>
+                                                        <td>
+                                                            <button class="btn btn-<?= isset($dis_logo) ? $dis_logo : "primary" ?> ks-btn-file">
+                                                                <span class="la la-cloud-upload ks-icon"></span>
+                                                                <span class="ks-text">Выберите файл</span>
+                                                                <input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>>
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -84,7 +90,7 @@ $this->registerJs(
                                                 <small>(максимальный размер 10мб, формат JPG, GIF, PNG)</small>
                                             </td>
                                             <td>
-                                                <button id="upload-doc" class="upload">Загрузить фотографии</button>
+                                                <button id="upload-doc" class="upload btn btn-sm btn-primary">Загрузить фотографии</button>
                                                 <div id="status" class="status"></div>
                                                 <div class="clear"><!-- --></div>
                                                 <br>
