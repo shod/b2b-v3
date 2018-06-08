@@ -132,7 +132,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                 </tr>
                 <tr>
                     <td class="ks-statistic-item">
-                        <span class="ks-amount"><span id="sum_all_day"><?= $all_sum / 30 ?></span></span>
+                        <span class="ks-amount"><span id="sum_all_day"><?= round($all_sum / 30, 2) ?></span></span>
                         <span class="ks-text">в день</span>
                     </td>
                 </tr>
