@@ -149,7 +149,7 @@ AppAsset::register($this);
                 <!-- BEGIN NAVBAR MESSAGES -->
                 <div class="nav-item dropdown ks-messages" style="background-color: #25628f">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="la la-comments ks-icon" aria-hidden="true">
+                        <span class="la la-phone la-2x ks-icon" aria-hidden="true">
                         </span>
                         <span class="ks-text">Служба поддержки</span>
                     </a>
@@ -171,10 +171,10 @@ AppAsset::register($this);
                                 <div class="ks-wrapper">
                                     <div class="ks-message" style="height: 61%;">
                                         <div class="">
-                                            <img src="http://b2b.migom.by/img/design/alena.jpg" style="margin-right: 10px;" height="130">
+                                            <img src="http://b2b.migom.by/img/design/kate_admin5.jpg" style="margin-right: 10px;" height="130">
                                         </div>
                                         <div class="ks-info">
-                                            <div class="ks-user-name"><h4>Алена</h4></div>
+                                            <div class="ks-user-name"><h4>Екатерина</h4></div>
                                             <div class="ks-text">
                                                 <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">688-45-46</span> (Velcom)<br>
                                                 <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">858-45-46</span> (МТС)<br>
@@ -365,9 +365,10 @@ AppAsset::register($this);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/help">
+                    <a class="nav-link" href="#" data-remote="/site/ask" data-toggle="ajaxModal"
+                       data-target=".bd-example-modal-md">
                         <span class="ks-icon la la-question-circle"></span>
-                        <span>Помощь</span>
+                        <span>Обратная связь</span>
                     </a>
                 </li>
             </ul>

@@ -8,6 +8,7 @@ use app\models\Seller;
 use app\models\SysStatus;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -220,5 +221,35 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionAsk(){
+        $json["header"] = 'Обратная связь';
+        $json["body"] = $this->renderPartial('aks_form');
+        echo Json::encode($json);
+    }
+
+    public function actionSendQuestion(){
+        $text = Yii::$app->request->post("question");
+        $seller_id = Yii::$app->user->identity->getId();
+        $seller = Seller::find()->where(['id' => $seller_id])->one();
+        $member = Member::find()->where(['id' => $seller->member_id])->one();
+        $member_data = $member->getMemberProperties();
+        $name = $seller->name;
+        $email = $member_data['email'];
+        $fio = $member_data['fio'];
+        $phone = $member_data['fax'];
+
+        $text_email = "<p><b>Продавец:</b> [{$seller_id}] {$name}</p>";
+        $text_email .= "<p><b>Email:</b> {$email}</p>";
+        $text_email .= "<p><b>ФИО:</b> {$fio}</p>";
+        $text_email .= "<p><b>Телефон:</b> {$phone}</p>";
+        $text_email .= "<p><b>Текст сообщения:</b></p><p>{$text}</p>";
+        //$admin_emails = ["admin@migom.by","promo@migom.by","sale@migom.by"];
+        $admin_emails = ["nk@migom.by"];
+        foreach ($admin_emails as $email){
+            \app\helpers\SysService::sendEmail($email, 'Обратная связь', 'support@migom.by', $text_email);
+        }
+        echo 'Ваше сообщение отправлено! Вам ответят в ближайшее время!';
     }
 }
