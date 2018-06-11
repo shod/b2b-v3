@@ -307,6 +307,7 @@ class BalanceController extends Controller
         $vars['blanks'] = $this->getBlanks($seller, $curs, $nds);
         $vars['info'] = $this->getInfo($seller);
         $vars['f_offerta'] = $seller->f_offerta;
+        $vars['pay_type'] = $seller->pay_type;
 
         return $this->render('add', $vars);
     }
@@ -463,7 +464,7 @@ class BalanceController extends Controller
 
             $blanks_items .= $this->renderPartial('tmpl/bill-item', $blank_array);
         }
-        $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds]);
+        $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds, 'pay_type' => $seller->pay_type]);
 
         return $blanks_items;
     }

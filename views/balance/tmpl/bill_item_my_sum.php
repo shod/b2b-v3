@@ -1,6 +1,10 @@
 <div class="ks-subscription" style="margin-right: 15px; margin-left: 15px;">
     <div class="ks-header">
         <span class="ks-name">Своя сумма</span>
+        <?php if ($pay_type == 'clicks'): ?>
+            <div>Пополнение любой суммы (стоимость клика 0.4 ТЕ)</div>
+        <?php endif; ?>
+
         <input type="text" onchange="change_href('my-sum','my_sum', $(this).val())" class="form-control">
     </div>
     <div class="ks-body">
