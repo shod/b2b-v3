@@ -314,7 +314,7 @@ class SettingsController extends Controller
                             }
 
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
-                                $src[] = 'seller/registration/'.$this->seller_id.'/'.$new_file_name;
+                                $src[] = '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
                                 $file_name[] = $new_file_name;
                             }
 
@@ -455,7 +455,7 @@ class SettingsController extends Controller
                 if($file != "." && $file != "..") {
 
                     $r['file_name'] = $file;
-                    $r['src'] = 'seller/registration/'.$this->seller_id.'/'.$file;
+                    $r['src'] = '/seller/registration/'.$this->seller_id.'/'.$file;
                     $r['none'] = $none;
                     $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
                 }
