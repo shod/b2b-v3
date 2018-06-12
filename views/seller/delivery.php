@@ -240,7 +240,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/delivery.js
                                                         <tr>
                                                             <td style="padding-left: 0px; padding-bottom: 0; vertical-align: bottom;"><span>город<br/><input
                                                                             class="form-control" type="text" name="city"
-                                                                            value="Минск"
                                                                             style="width:80px;"></span></td>
                                                             <td style="padding-bottom: 0; vertical-align: bottom;"><span>улица<br/><input
                                                                             class="form-control" type="text"

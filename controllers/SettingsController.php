@@ -403,7 +403,9 @@ class SettingsController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
-        $img_registration = $this->get_img_registration();
+        $res = \Yii::$app->db->createCommand("select f_registration from seller_info where seller_id = {$this->seller_id}")->queryOne();
+        $none = $res['f_registration'] ? "style='display:none'" : "";
+        $img_registration = $this->get_img_registration($none);
         return $this->render('index', array_merge($member_data, ['img_registration' => $img_registration]));
     }
 
