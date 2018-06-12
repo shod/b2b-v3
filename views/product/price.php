@@ -70,8 +70,7 @@ $this->registerJs(
                                     <a style="width: 100%"
                                        href='http://api.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
-                                        http://api.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>
-                                        &key_str=<?= $md5_seller ?>
+                                        http://api.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
                                 </div>
                                 <div class="col-lg-2">
@@ -85,8 +84,7 @@ $this->registerJs(
                                 <div class="col-lg-8">
                                     <a href='http://api.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
-                                        http://api.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>
-                                        &key_str=<?= $md5_seller ?>
+                                        http://api.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
                                 </div>
                                 <div class="col-lg-2">
@@ -138,8 +136,8 @@ $this->registerJs(
                                 <span class="la la-warning la-2x"></span>
                                 Перед закачкой прайса проверьте <b>соответствие</b>
                                 валюты в прайсе и в
-                                <a class="alert-link" href='/?admin=settings&&action=options'
-                                   target="_blank">настройках</a>.
+                                <a class="alert-link" href='/product/on-sale'
+                                   target="_blank">настройках валюты</a> для вашего аккаунта.
                             </div>
 
                             <form method="post" action="/product/price-import" id="frm_import"
