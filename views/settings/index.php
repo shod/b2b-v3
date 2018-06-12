@@ -11,6 +11,12 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
         <div class="ks-dashboard-tabbed-sidebar">
             <div class="ks-dashboard-tabbed-sidebar-widgets">
                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger  ks-solid-light" role="alert">Все поля обязательны для заполнения</div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь в службу технической поддержки <a href="mailto:admin@migom.by">admin@migom.by</a> или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .</div>
+                    </div>
                     <h4 class="col-lg-12">Контактная информация</h4>
 
                     <div class="col-lg-4">
@@ -21,7 +27,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                data-validation-error-msg="Введите Ф.И.О">
                     </div>
                     <div class="col-lg-4">
-                        <label>адрес электронной почты</label>
+                        <label>Адрес электронной почты</label>
                         <input name="email" type="text"
                                class="form-control" <?= (isset($email) && $email != "") ? "readonly" : "" ?>
                                placeholder="" value="<?= $email ?>" data-validation="length"
@@ -29,10 +35,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                data-validation-error-msg="Введите адрес электронной почты">
                     </div>
                     <div class="col-lg-4">
-                        <label>телефон, факс</label>
-                        <input name="fax" type="text"
-                               class="form-control" <?= (isset($fax) && $fax != "") ? "readonly" : "" ?> placeholder=""
-                               value="<?= (isset($fax) && $fax != "") ? $fax : "" ?>" data-validation="length" data-validation-length="min5"
+                        <label>Телефон</label>
+                        <input name="phone" type="text"
+                               class="form-control" <?= (isset($phone) && $phone != "") ? "readonly" : "" ?> placeholder=""
+                               value="<?= (isset($phone) && $phone != "") ? $phone : "" ?>" data-validation="length" data-validation-length="min5"
                                data-validation-error-msg="Введите телефон, факс">
                     </div>
                 </div>
@@ -121,28 +127,28 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                     <h4 class="col-lg-12">Банковские реквизиты</h4>
 
                     <div class="col-lg-3">
-                        <label>наименование банка</label>
+                        <label>Наименование банка</label>
                         <input name="bank_name" type="text"
                                class="form-control" <?= (isset($bank_name) && stripcslashes($bank_name) != "" && stripcslashes($bank_name) != " ") ? "readonly" : "" ?>
                                placeholder="" value="<?= (isset($bank_name) && stripcslashes($bank_name) != "" && stripcslashes($bank_name) != " ") ? stripcslashes($bank_name) : "" ?>" data-validation="length"
                                data-validation-length="min1" data-validation-error-msg="Введите наименование банка">
                     </div>
                     <div class="col-lg-3">
-                        <label>код банка</label>
+                        <label>Код банка (БИК)</label>
                         <input name="bank_code" type="text"
                                class="form-control" <?= (isset($bank_code) && $bank_code != "") ? "readonly" : "" ?>
                                placeholder="" value="<?= (isset($bank_code) && $bank_code != "") ? stripcslashes($bank_code) : "" ?>" data-validation="length"
                                data-validation-length="min1" data-validation-error-msg="Введите код банка">
                     </div>
                     <div class="col-lg-3">
-                        <label>расч. счет</label>
+                        <label>Расч. счет (IBAN)</label>
                         <input name="ras_schet" type="text"
                                class="form-control" <?= (isset($ras_schet) && $ras_schet != "") ? "readonly" : "" ?>
                                placeholder="" value="<?= (isset($ras_schet) && $ras_schet != "") ? stripcslashes($ras_schet) : "" ?>" data-validation="length"
                                data-validation-length="min1" data-validation-error-msg="Введите расч. счет">
                     </div>
                     <div class="col-lg-3">
-                        <label>адрес банка</label>
+                        <label>Адрес банка</label>
                         <input name="bank_address" type="text"
                                class="form-control" <?= (isset($bank_address) && $bank_address != "") ? "readonly" : "" ?>
                                placeholder="" value="<?= (isset($bank_address) && $bank_address != "") ? stripcslashes($bank_address) : "" ?>" data-validation="length"
@@ -151,7 +157,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="alert alert-danger  ks-solid-light" role="alert">Все поля обязательны для заполнения</div>
                         <div class="alert alert-success  ks-solid-light" role="alert">Для смены пароля обратитесь в службу технической поддержки.</div>
                     </div>
                     <div class="col-lg-12 content-end">

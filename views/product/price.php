@@ -27,7 +27,7 @@ $this->registerJs(
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="content-end"><a href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a></div>
+                    <div class="content-end"><a class="btn btn-default" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a></div><br>
 
                     <div style="display: none;" id="help-block" class="alert alert-primary ks-solid-light" role="alert">
                         <p>Данная вкладка служит для совершения операций с прайс-листами.</p>

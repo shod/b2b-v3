@@ -316,7 +316,7 @@ AppAsset::register($this);
                         <span>Мои товары</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/product/on-sale">Товары в продаже</a>
+                        <a class="dropdown-item" href="<?= ($seller->pay_type == 'fixed') ? '/product/on-sale' : '/tariff/click' ?>">Товары в продаже</a>
                         <a class="dropdown-item" href="/product/price">Импорт/экспорт прайсов</a>
                     </div>
                 </li>
