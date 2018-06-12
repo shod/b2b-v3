@@ -381,6 +381,12 @@ class AuctionController extends Controller
 
     public function actionIndex()
     {
+        $sql = "select count(*) as cnt from bill_auction where owner_id = {$this->seller_id} and type_id = 1";
+        $cnt_auction = \Yii::$app->db->createCommand($sql)->queryOne();
+
+        if($cnt_auction['cnt'] == 0){
+           $this->redirect('auction/add');
+        }
         $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
         $vars["title"] = $res[0]["name"];
         $vars["text"] = $res[0]["text"];
