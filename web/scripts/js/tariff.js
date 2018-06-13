@@ -42,6 +42,7 @@ $('.pack-checkbox').change(function () {
     sum_recount();
 });
 pack();
+if(!$('input:checkbox#pack_261').prop("checked")){$('input:checkbox#pack_261').click();}	//выставить другие товары для всех
 
 function pack() {
     $('.pack-line').change(function () {
