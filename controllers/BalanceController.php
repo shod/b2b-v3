@@ -187,7 +187,7 @@ class BalanceController extends Controller
             "sum_all_str" => $sum_all_str,
             "contract_number" => $seller_info->contract_number,
             "contract_date" => date('d.m.Y',$seller_info->contract_date),
-            "fax" => $member_data['fax'],
+            "fax" => isset($member_data['fax']) ? $member_data['fax'] : "",
             "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов <br>
             на сайте migom.by на сумму"
         ],$vars);
@@ -292,9 +292,7 @@ class BalanceController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $f_offerta = $seller->f_offerta;
 
-        if(($f_offerta & 1) && ($f_offerta & 2)){
-            $vars['choise'] = $this->renderPartial('tmpl/nds', ['checked' => '']);
-        }
+
 
         if(!($f_offerta & 1) && ($f_offerta & 2)){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
@@ -304,7 +302,17 @@ class BalanceController extends Controller
             $nds = 1;
         }
         $vars['curs'] = $curs;
-        $vars['blanks'] = $this->getBlanks($seller, $curs, $nds);
+        $member = Member::find()->where(['id' => $seller->member_id])->one();
+        $member_data = $member->getMemberProperties();
+        if(count($member_data) < 5){
+            $vars['blanks'] = "<h3>Для выставления счета необходимо заполнить <a href='/settings'>информацию о юридическом лице!</a> </h3>";
+        } else {
+            if(($f_offerta & 1) && ($f_offerta & 2)){
+                $vars['choise'] = $this->renderPartial('tmpl/nds', ['checked' => '']);
+            }
+            $vars['blanks'] = $this->getBlanks($seller, $curs, $nds);
+        }
+
         $vars['info'] = $this->getInfo($seller);
         $vars['f_offerta'] = $seller->f_offerta;
         $vars['pay_type'] = $seller->pay_type;
