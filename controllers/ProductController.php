@@ -196,7 +196,7 @@ class ProductController extends Controller
                     unlink($filename_to);
 
                 if (move_uploaded_file($file["tmp_name"], $filename_to)) {
-                    $url = "http://b2b.migom.by/files/prices/{$filename}";
+                    $url = "https://b2bv2test.migom.by/price/{$filename}";
                 }
             }
         }
@@ -208,10 +208,9 @@ class ProductController extends Controller
         if ($url) {
             $url = rawurlencode($url);
             $check_delete = Yii::$app->request->post("check_delete");
-            file_get_contents("http://www.pit.by/rmp_migom/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
-
-            exit;
+            file_get_contents("https://up.migom.by/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
+        $this->redirect('product/price');
     }
 
     public function actionSaveProducts(){
