@@ -113,3 +113,6 @@
     cursor: inherit;
     display: block;
 }
+a.disabled {
+    pointer-events: none;
+}

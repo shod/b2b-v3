@@ -359,9 +359,21 @@ function get_blanks(type) {
 }
 
 function change_href(cl, add_name, add_value) {
+    if(!(parseInt(add_value) > 0)){
+        $.alert({
+            title: "Своя сумма должна быть больше 0!",
+            type: 'red',
+            content: "Для продолжения нажмите ОК"
+        });
+    }
     $("." + cl).each(function () {
         href = $(this).attr('href');
         $(this).attr('href', href + '&' + add_name + '=' + add_value);
+        if(parseInt(add_value) > 0){
+            $(this).removeClass('disabled');
+        } else {
+            $(this).addClass('disabled');
+        }
     });
 }
 

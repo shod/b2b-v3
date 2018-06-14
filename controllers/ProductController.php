@@ -210,7 +210,7 @@ class ProductController extends Controller
             $check_delete = Yii::$app->request->post("check_delete");
             file_get_contents("https://up.migom.by/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
-        $this->redirect('product/price');
+        $this->redirect('/product/price');
     }
 
     public function actionSaveProducts(){
