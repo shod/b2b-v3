@@ -237,13 +237,14 @@ class SiteController extends Controller
         $member_data = $member->getMemberProperties();
         $name = $seller->name;
         $email = $member_data['email'];
-        $fio = $member_data['fio'];
-        $phone = $member_data['fax'];
+        $fio = isset($member_data['fio']) ? $member_data['fio'] : "";
+        $phone = isset($member_data['fax']) ? $member_data['fax'] : "";
+        $phone2 = isset($member_data['phone']) ? $member_data['phone'] : "";
 
         $text_email = "<p><b>Продавец:</b> [{$seller_id}] {$name}</p>";
         $text_email .= "<p><b>Email:</b> {$email}</p>";
         $text_email .= "<p><b>ФИО:</b> {$fio}</p>";
-        $text_email .= "<p><b>Телефон:</b> {$phone}</p>";
+        $text_email .= "<p><b>Телефон:</b> {$phone} / {$phone2}</p>";
         $text_email .= "<p><b>Текст сообщения:</b></p><p>{$text}</p>";
         $admin_emails = ["admin@migom.by","promo@migom.by","sale@migom.by"];
         //$admin_emails = ["nk@migom.by"];
