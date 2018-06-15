@@ -246,7 +246,7 @@ class SiteController extends Controller
         $text_email .= "<p><b>ФИО:</b> {$fio}</p>";
         $text_email .= "<p><b>Телефон:</b> {$phone} / {$phone2}</p>";
         $text_email .= "<p><b>Текст сообщения:</b></p><p>{$text}</p>";
-        $admin_emails = ["admin@migom.by","promo@migom.by","sale@migom.by"];
+        $admin_emails = ["admin@migom.by","promo@migom.by","sale@migom.by","nk@migom.by"];
         //$admin_emails = ["nk@migom.by"];
         foreach ($admin_emails as $email){
             \app\helpers\SysService::sendEmail($email, 'Обратная связь', 'support@migom.by', $text_email);
