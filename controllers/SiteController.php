@@ -230,14 +230,14 @@ class SiteController extends Controller
     }
 
     public function actionSendQuestion(){
-        $text = Yii::$app->request->post("question");
+        $text = str_replace('"', "", Yii::$app->request->post("question"));
         $seller_id = Yii::$app->user->identity->getId();
         $seller = Seller::find()->where(['id' => $seller_id])->one();
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
-        $name = $seller->name;
+        $name = str_replace('"', "", $seller->name);
         $email = $member_data['email'];
-        $fio = isset($member_data['fio']) ? $member_data['fio'] : "";
+        $fio = isset($member_data['fio']) ? str_replace('"', "", $member_data['fio']) : "";
         $phone = isset($member_data['fax']) ? $member_data['fax'] : "";
         $phone2 = isset($member_data['phone']) ? $member_data['phone'] : "";
 
@@ -246,7 +246,7 @@ class SiteController extends Controller
         $text_email .= "<p><b>ФИО:</b> {$fio}</p>";
         $text_email .= "<p><b>Телефон:</b> {$phone} / {$phone2}</p>";
         $text_email .= "<p><b>Текст сообщения:</b></p><p>{$text}</p>";
-        $admin_emails = ["admin@migom.by","promo@migom.by","sale@migom.by","nk@migom.by"];
+        $admin_emails = ["admin@migom.by","promo@migom.by","sale@migom.by"];
         //$admin_emails = ["nk@migom.by"];
         foreach ($admin_emails as $email){
             \app\helpers\SysService::sendEmail($email, 'Обратная связь', 'support@migom.by', $text_email);

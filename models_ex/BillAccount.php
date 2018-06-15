@@ -2,6 +2,8 @@
 
 namespace app\models_ex;
 
+use app\models\Seller;
+
 class BillAccount extends  \app\models\BillAccount {
 
     public function getDayDown($action = 0) {
@@ -113,6 +115,79 @@ class BillAccount extends  \app\models\BillAccount {
             $baccount = 0;
         }
         return $baccount;
+    }
+
+    function get_days_left()
+    {
+
+            $balance = $this->balance;
+            $id = $this->id;
+            $seller = Seller::find()->where(['bill_account_id' => $id])->one();
+
+            if($seller->pay_type == 'clicks'){
+                $days_left = $this->get_day_down_click();
+            }else{
+                $day_down = $this->get_day_down();
+
+                if($day_down == 0){
+                    $days_left = 30;
+                }else{
+                    $days_left = $day_down ? floor($balance / $day_down) : 0;
+                }
+            }
+        return $days_left;
+    }
+
+    // суточный расход, если списания по кликам
+    private function get_day_down_click()
+    {
+            $id = $this->id;
+
+            $res =\Yii::$app->db->createCommand("
+				select ROUND(ba.balance_clicks / AVG(cnt_click+cnt_proxy)) as value
+				from seller_clicks_stat as sc, seller as s
+				, bill_account as ba
+				where ba.id = {$id} and sc.seller_id = s.id
+				and ba.id = s.bill_account_id
+				order by sc.id desc
+				limit 7;
+			")->queryAll();
+            $day_down = $res[0]["value"];
+        return $day_down;
+    }
+
+    // суточный расход
+    private function get_day_down($action=0)
+    {
+
+            $id = $this->id;
+            if ($action == 1){
+                $sql_act = "";
+            } else {
+                $sql_act = " and ifnull(bbd.date_expired,DATE_ADD(now(),INTERVAL -1 DAY)) <= DATE_ADD(now(),INTERVAL -1 DAY) ";
+            }
+            // down_catalog
+            $res = \Yii::$app->db->createCommand("
+				select sum(bc.cost)/30 as value
+				from bill_catalog_seller bcs
+				inner join bill_catalog bc on (bc.id=bcs.catalog_id)
+				left join bill_cat_sel_discount as bbd on (bbd.seller_id = bcs.seller_id and bbd.catalog_id = bcs.catalog_id)
+				where bcs.seller_id in (select id from seller where bill_account_id={$id})
+				{$sql_act}
+				group by bc.f_tarif
+				order by bc.f_tarif desc
+			")->queryAll();
+
+            $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
+            if (count($res)>1)
+            {
+                $down_catalog += $res[1]["value"];
+            }
+
+            //total + $down_other
+            $day_down = $down_catalog ;
+
+        return $day_down;
     }
 
 }

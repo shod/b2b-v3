@@ -358,10 +358,15 @@ function get_blanks(type) {
     });
 }
 
-function change_href(cl, add_name, add_value) {
-    if(!(parseInt(add_value) > 0)){
+function change_href(cl, add_name, add_value, min) {
+    if(!((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
+        if(min > 0){
+            title = "Минимальная сумма 50 ТЕ!";
+        } else {
+            title = "Своя сумма должна быть больше 0 ТЕ!";
+        }
         $.alert({
-            title: "Своя сумма должна быть больше 0!",
+            title: title,
             type: 'red',
             content: "Для продолжения нажмите ОК"
         });
@@ -369,7 +374,7 @@ function change_href(cl, add_name, add_value) {
     $("." + cl).each(function () {
         href = $(this).attr('href');
         $(this).attr('href', href + '&' + add_name + '=' + add_value);
-        if(parseInt(add_value) > 0){
+        if(((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
             $(this).removeClass('disabled');
         } else {
             $(this).addClass('disabled');

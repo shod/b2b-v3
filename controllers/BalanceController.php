@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\NumberService;
+use app\helpers\SiteService;
 use app\models\BlankTypes;
 use app\models\SellerInfo;
 use app\models_ex\Member;
@@ -290,6 +291,7 @@ class BalanceController extends Controller
     public function actionAdd()
     {
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+
         $f_offerta = $seller->f_offerta;
 
 
@@ -316,6 +318,7 @@ class BalanceController extends Controller
         $vars['info'] = $this->getInfo($seller);
         $vars['f_offerta'] = $seller->f_offerta;
         $vars['pay_type'] = $seller->pay_type;
+        $vars['seller_id'] = $this->seller_id;
 
         return $this->render('add', $vars);
     }
@@ -411,6 +414,8 @@ class BalanceController extends Controller
                 $vars["click_bill_text"] = "Баланс: ";
 
                 $html .= $this->renderPartial('tmpl/clicks_data', $vars);
+                $days_left = $bill_account->get_days_left();
+                $html .= "Прогноз отключения: <mark>" . SiteService::human_plural_form($days_left, array("сутки", "суток", "суток")) . "</mark>";
             }
         } elseif ($seller->pay_type =='clicks'){
             $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
