@@ -165,9 +165,9 @@ class SettingsController extends Controller
                             foreach((array)$phone_section[$id] as $cat_id)
                             {
                                 if ($phone_code[$id] && $phone[$id] && $phone_op[$id]){
-                                    $f_viber = $viber[$id] ? 1 : 0;
-                                    $f_telegram = $telegram[$id] ? 1 : 0;
-                                    $f_whatsapp = $whatsapp[$id] ? 1 : 0;
+                                    $f_viber = isset($viber[$id]) && $viber[$id] ? 1 : 0;
+                                    $f_telegram = isset($telegram[$id]) && $telegram[$id] ? 1 : 0;
+                                    $f_whatsapp = isset($whatsapp[$id]) && $whatsapp[$id] ? 1 : 0;
                                     $phones[$cat_id][] = array("code" => "{$phone_code[$id]}", "phone" => "{$phone[$id]}", "op" => "{$phone_op[$id]}", "type" => "{$phone_type[$id]}", "viber" => "{$f_viber}", "telegram" => "{$f_telegram}", "whatsapp" => "{$f_whatsapp}");
                                 }
                             }
@@ -175,9 +175,9 @@ class SettingsController extends Controller
                         else
                         {
                             if ($phone_code[$id] && $phone[$id] && $phone_op[$id]){
-                                $f_viber = $viber[$id] ? 1 : 0;
-                                $f_telegram = $telegram[$id] ? 1 : 0;
-                                $f_whatsapp = $whatsapp[$id] ? 1 : 0;
+                                $f_viber = isset($viber[$id]) && $viber[$id] ? 1 : 0;
+                                $f_telegram = isset($telegram[$id]) && $telegram[$id] ? 1 : 0;
+                                $f_whatsapp = isset($whatsapp[$id]) && $whatsapp[$id] ? 1 : 0;
                                 $phones[0][] = array("code" => "{$phone_code[$id]}", "phone" => "{$phone[$id]}", "op" => "{$phone_op[$id]}", "type" => "{$phone_type[$id]}", "viber" => "{$f_viber}", "telegram" => "{$f_telegram}", "whatsapp" => "{$f_whatsapp}");
                             }
                         }
