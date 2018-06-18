@@ -7,6 +7,7 @@ use app\models\Seller;
 use app\models\SellerInfo;
 use app\models\SysObjectProperty;
 use app\models_ex\Member;
+use http\Url;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -316,6 +317,11 @@ class SettingsController extends Controller
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
                                 $src[] = '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
                                 $file_name[] = $new_file_name;
+
+                                $home = \yii\helpers\Url::base(true);
+                                $path_local = $home . '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
+                                $path = "https://static.migom.by/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                file_get_contents($path, NULL, NULL, 0, 14);
                             }
 
                             $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
@@ -364,6 +370,10 @@ class SettingsController extends Controller
 
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
                                 $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
+                                $home = \yii\helpers\Url::base(true);
+                                $path_local = $home . '/seller/document/'.$this->seller_id.'/'.$new_file_name;
+                                $path = "https://static.migom.by/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
                             }
 
