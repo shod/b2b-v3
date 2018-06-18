@@ -352,7 +352,7 @@ class AuctionController extends Controller
                     $bill_auction->f_auto = 0;
                     $bill_auction->save();
                 }
-                return $this->redirect(['auction/index']);
+                return $this->redirect(['/auction/index']);
                 break;
 
             case "delete":
@@ -373,7 +373,7 @@ class AuctionController extends Controller
                 }else{
                      \Yii::$app->db->createCommand("delete from bill_auction where id={$id}")->execute();
                 }
-                return $this->redirect(['auction/index']);
+                return $this->redirect(['/auction/index']);
                 break;
         }
 
@@ -385,7 +385,7 @@ class AuctionController extends Controller
         $cnt_auction = \Yii::$app->db->createCommand($sql)->queryOne();
 
         if($cnt_auction['cnt'] == 0){
-           $this->redirect('auction/add');
+           $this->redirect('/auction/add');
         }
         $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
         $vars["title"] = $res[0]["name"];
