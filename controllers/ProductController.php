@@ -196,7 +196,8 @@ class ProductController extends Controller
                     unlink($filename_to);
 
                 if (move_uploaded_file($file["tmp_name"], $filename_to)) {
-                    $url = "https://b2bv2test.migom.by/price/{$filename}";
+                    $home = \yii\helpers\Url::base(true);
+                    $url = $home . "/price/{$filename}";
                 }
             }
         }

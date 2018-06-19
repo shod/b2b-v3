@@ -280,7 +280,8 @@ class SettingsController extends Controller
                         imagedestroy($im);
 
                         $filename = 'logo$'.$this->seller_id.'.jpg';
-                        $path_local = "http://b2b.migom.by/seller/{$filename}";
+                        $home = \yii\helpers\Url::base(true);
+                        $path_local = "{$home}/seller/{$filename}";
                         $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
 
                         file_get_contents($path, NULL, NULL, 0, 14);
