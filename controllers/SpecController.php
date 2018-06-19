@@ -22,8 +22,8 @@ class SpecController extends Controller
 
     var $flag_disabled = false;
     var $min_balance = 10; /*Min баланс участия в аукционе*/
-    var $min_stavka = 10; /*Min ставка участия в аукционе*/
-    var $min_step = 0.1; /*Min шаг ставка*/
+    var $min_stavka = 0.7; /*Min ставка участия в аукционе*/
+    var $min_step = 0.35; /*Min шаг ставка*/
     var $seller_action = "index";
 
     public function beforeAction($action) {

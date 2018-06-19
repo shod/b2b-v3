@@ -25,7 +25,7 @@ class AuctionController extends Controller
     var $min_stavka = 1; /*Min баланс участия в аукционе*/
     var $_min_start = 0.7; /*Минимальный старт в аукционе*/
     var $_min_start_fix = 0.7; /*Минимальный старт в аукционе суточном*/
-    var $_step = 0.1; /*Минимальный шаг в аукционе*/
+    var $_step = 0.35; /*Минимальный шаг в аукционе*/
     var $_step_fix = 1; /*Минимальный шаг в аукционе суточном*/
     var $auction_stop_time = array(17,40); /*Окончание аукциона время 17:40*/
     var $auction_stop_down_time = array(17,'00'); /*Запрещается снижение ставок 17:00*/
