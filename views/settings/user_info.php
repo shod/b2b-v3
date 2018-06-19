@@ -6,11 +6,16 @@ $this->registerJs(
     "
     $(function () {
 		if (!$('#datepicker').is('[readonly]')){
-			$('#datepicker').pickmeup({
+			/*$('#datepicker').pickmeup({
 				position		: 'bottom',
 				hide_on_select	: true,
 				format: 'd.m.Y'
-			});
+			});*/
+			$(\"#datepicker\").flatpickr({
+                locale: {
+                    firstDayOfWeek: 2
+                }
+            });
 		}
 	});
     "
@@ -105,7 +110,7 @@ $this->registerJs(
                                                 торговом реестре <br>
                                                 <small>(пример 28.12.2013)</small>
                                             </td>
-                                            <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
+                                            <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text" data-date-format="d.m.Y"
                                                        name="register_date" value="<?= $seller->register_date ?>" maxlength="11" data-validation="length" data-validation-length="min5"
                                                        data-validation-error-msg="Введите дату регистрации в торговом реестре"></td>
                                         </tr>
