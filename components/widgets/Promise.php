@@ -51,7 +51,7 @@ class Promise extends \yii\base\Widget {
 
             }
             $html = "<h5>Доступная сумма {$vars['day_down']} руб. </h5>";
-            $button = "<a style='width: 100%' class='btn btn-default' href='/balance/promise'><b>Ввести обещанный платеж</b></a>";
+            $button = "<a style='width: 100%' class='btn btn-default' href='/balance/promise'><b>Добавить</b></a>";
         }
 
         echo $this->render($this->viewFile, ['btn' => $button, 'html' => $html]);

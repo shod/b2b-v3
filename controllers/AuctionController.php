@@ -417,11 +417,12 @@ class AuctionController extends Controller
 
     public function actionAdd()
     {
-        $vars['data'] = $this->getDataAddHtml();
+        $is_fix = Yii::$app->request->get("fix") ? 1 : 0;
+        $vars['data'] = $this->getDataAddHtml($is_fix);
         return $this->render('add', $vars);
     }
 
-    function getDataAddHtml()
+    function getDataAddHtml($is_fix)
     {
         $html = "";
 
@@ -468,7 +469,8 @@ class AuctionController extends Controller
                                             AND ps.active = 1
                                             AND vcs.section_id = ps.prod_sec_id
                                             AND c.id = vcs.catalog_id
-											and not c.id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)	
+											and not c.id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1) 
+											and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}	
                                             GROUP BY
                                                 ps.prod_sec_id")->queryAll();
                 $r["name"] = "Доступные разделы";
@@ -492,7 +494,8 @@ class AuctionController extends Controller
 						where bcs.catalog_id={$r["id"]} and (s.type<>'price' OR s.type is null)
 					)  					
 				) and hidden=0  
-				and not id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)				
+				and not id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)	
+				and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}			
 				order by bsel.cnt desc, name
 				")->queryAll();
             }
