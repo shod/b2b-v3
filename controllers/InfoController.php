@@ -34,7 +34,8 @@ class InfoController extends Controller
 			    "billing" => 186,
 			    "order" => 187,
 			    "settings" => 188,
-                "rules_placement" => 211
+                "rules_placement" => 211,
+                "my_news_articles" => 206
 		    );
     public function behaviors()
     {

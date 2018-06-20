@@ -294,8 +294,9 @@ AppAsset::register($this);
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/auction">Аукционы</a>
                         <a class="dropdown-item" href="/spec">Спецпредложения</a>
-                        <!--a class="dropdown-item" href="/context-adv">Контекстная реклама</a-->
+                        <a class="dropdown-item" href="/context-adv">Контекстная реклама</a>
                         <a class="dropdown-item" href="/order/sms">Обратный звонок<span style="color: #e79716;margin: 10px;font-weight: 900;" id="po_notify"></span></a>
+                        <a class="dropdown-item" href="/info/?page=my_news_articles">Мои новости и обзоры</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -369,6 +370,12 @@ AppAsset::register($this);
                        data-target=".bd-example-modal-md">
                         <span class="ks-icon la la-question-circle"></span>
                         <span>Обратная связь</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://b2bmigomby.reformal.ru/" target="_blank">
+                        <span class="ks-icon la la-lightbulb-o"></span>
+                        <span>Ваши предложения</span>
                     </a>
                 </li>
             </ul>

@@ -477,7 +477,7 @@ class BalanceController extends Controller
 
             $blanks_items .= $this->renderPartial('tmpl/bill-item', $blank_array);
         }
-        $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds, 'pay_type' => $seller->pay_type]);
+        $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds, 'pay_type' => $seller->pay_type, 'curs' => $curs]);
 
         return $blanks_items;
     }

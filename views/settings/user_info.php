@@ -13,7 +13,7 @@ $this->registerJs(
 			});*/
 			$(\"#datepicker\").flatpickr({
                 locale: {
-                    firstDayOfWeek: 2
+                    firstDayOfWeek: 1
                 }
             });
 		}
