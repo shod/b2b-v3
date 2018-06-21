@@ -80,15 +80,13 @@ class TestController extends Controller {
             $this->alert('Activate : Error');
         }
         
-        
-        
         \Yii::$app->billing->transaction($seller_id, 'Deactivate');
         $seller = \app\models\Seller::findOne($seller_id);
         if($seller->active != 0 ){
             $this->alert('Deactivate : Error');
         }
         
-        \Yii::$app->billing->transaction($seller_id, 'Section_group', [["section_deactivate", "484"], ["Section_activate", "484"]]);
+        \Yii::$app->billing->transaction($seller_id, 'Section_group', [["section_deactivate", "484"], ["Section_activate", "223"]]);
         
     }
     
