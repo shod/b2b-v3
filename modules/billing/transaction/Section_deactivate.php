@@ -14,7 +14,7 @@ use app\modules\billing\models\BillCatalogSeller;
 /**
  * Description of Up
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 class Section_deactivate extends Group {
     

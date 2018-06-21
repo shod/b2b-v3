@@ -8,31 +8,28 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\transaction\Up;
+use app\modules\billing\components\Up;
 use app\modules\billing\components\TransactionException;
 
 /**
  * Description of Up
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 abstract class UpBonus extends Up {
 
     protected function processBase($value) {
-         
-        if(!is_numeric($value)){
-            throw new TransactionException('cash data is not numeric');
-        }
-        if($value < 0){
-            throw new TransactionException('value < 0');
-        }
+        $this->assertNumeric($value);
+        $this->assert(($value >= 0), 'value < 0');
+
         $this->setAccountId($this->billing->getBonusAccount()->id);
-        
+
         $this->balance_before = $this->billing->getBonusAccount()->balance;
-        
+
         $this->billing->getBonusAccount()->balance += $value;
         $this->billing->getBonusAccount()->save();
 
         $this->value = $value;
     }
+
 }

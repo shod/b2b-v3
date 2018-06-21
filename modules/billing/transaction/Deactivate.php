@@ -13,26 +13,19 @@ use app\modules\billing\components\Transaction;
 /**
  * Description of Activate
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 class Deactivate extends Transaction {
 
     protected function _process($data) {
         $this->billing->getSeller()->active = 0;
         $this->billing->getSeller()->save();
-		
+
         \app\helpers\SysService::EventAdd('seller_deactivate', [$this->billing->getSellerId()]);
-            
+
         $this->object_id = $this->billing->getSellerId();
     }
-    
+
     public function endNotify() {}
-    
-    /*
-    public function _end_notify() {
-        $time = @mktime(date("H") + 6, 0, 0, date("m"), date("d"), date("Y"));
-        $this->mail('balance_0', $this->billing->seller_id);
-        $whirl->mailer('seller')->delayed($time, 'balance_0', );
-    }
-    */
+
 }

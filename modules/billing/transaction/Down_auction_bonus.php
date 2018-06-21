@@ -13,7 +13,7 @@ use app\modules\billing\transaction\DownBonus;
 /**
  * Description of Down_auction
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 class Down_auction_bonus extends DownBonus {
 
@@ -21,12 +21,8 @@ class Down_auction_bonus extends DownBonus {
 
     protected function _process($data) {
 
-        if (!isset($data['catalog_id'])) {
-            throw new TransactionException("not set parametr catalog_id");
-        }
-        if (!isset($data['value'])) {
-            throw new TransactionException("not set parametr value");
-        }
+        $this->assert(( isset($data['catalog_id']) ), 'not set parametr catalog_id');
+        $this->assert(( isset($data['value']) ), 'not set parametr value');
         
         $this->processBase($data['value']);
 

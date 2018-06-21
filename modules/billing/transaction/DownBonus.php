@@ -8,12 +8,12 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\transaction\Down;
+use app\modules\billing\components\Down;
 
 /**
  * Description of Up
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 abstract class DownBonus extends Down {
     

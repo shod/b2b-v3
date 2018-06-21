@@ -2,7 +2,7 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\transaction\Down;
+use app\modules\billing\components\Down;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,21 +17,13 @@ class Down_posms extends Down {
 
     protected function _process($data) {
            
-        if(!isset($data['po_balance_count'])){
-            throw new TransactionException("not set parametr po_balance_count");
-        }
-        if(!isset($data['value'])){
-            throw new TransactionException("not set parametr value");
-        }
-        if(!is_numeric($data['value'])){
-            throw new TransactionException("value  is not numeric");
-        }
+        $this->assert(( isset($data['po_balance_count']) ), 'not set parametr po_balance_count');
+        $this->assert(( isset($data['value']) ), 'not set parametr value');
+        $this->assertNumeric($data['value']);
         
         $value = $data['value'];
         
-        if (($this->balance_before - $value) < 0) {
-            throw new TransactionException("Balance is empty");
-        }
+        $this->assert(( ($this->balance_before - $value) >= 0 ), 'Balance is empty');
         
         $this->processBase($value);
 

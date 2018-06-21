@@ -8,16 +8,16 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\transaction\Group;
+use app\modules\billing\components\Down;
 use app\modules\billing\models\BillCatalogSeller;
 use app\models\BillCatalog;
 
 /**
  * Description of Up
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
-class Section_activate extends Group {
+class Section_activate extends Down {
     
     protected function _process($data)
     {
@@ -33,11 +33,8 @@ class Section_activate extends Group {
         $billCatalog = BillCatalog::findOne($id);
         $value = $billCatalog->cost / 30;
         
-        $balance = $this->billing->getAccount()->balance;
-        $this->billing->getAccount()->balance = $balance - $value;
-        $this->billing->getAccount()->save();
-
-        $this->value = -$value;
+        $this->processBase($value);
+ 
         $this->object_id = $id;
     }
 }

@@ -8,7 +8,7 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\transaction\Up;
+use app\modules\billing\components\Up;
 use app\modules\billing\models\BillCard;
 use app\modules\billing\components\TransactionException;
 

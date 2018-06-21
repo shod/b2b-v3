@@ -6,33 +6,28 @@
  * and open the template in the editor.
  */
 
-namespace app\modules\billing\transaction;
+namespace app\modules\billing\components;
 
 use app\modules\billing\components\Transaction;
-use app\models_ex\BillAccount;
-use app\modules\billing\components\Billing;
 
 /**
  * Description of Up
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 abstract class Up extends Transaction {
 
-    
     protected function _process($data) {
         $this->processBase($data);
     }
-    
+
     /**
      * $this->billing->account->balance = $this->balance_before + $value;
      * @param type $value
      */
     protected function processBase($value) {
-        if (!is_numeric($value)) {
-            throw new TransactionException('cash data is not numeric');
-        }
-            
+        $this->assertNumeric($value);
+
         $this->billing->getAccount()->balance = $this->balance_before + $value;
         $this->billing->getAccount()->save();
         $this->value = $value;

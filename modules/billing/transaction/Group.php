@@ -14,7 +14,7 @@ use app\models_ex\BillAccount;
 /**
  * Description of Up
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 abstract class Group extends Transaction {
     

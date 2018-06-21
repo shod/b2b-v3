@@ -137,7 +137,13 @@ abstract class Transaction implements ITransaction {
     
     protected function assert($param, $message) {
         if(!$param){
-            throw new TransactionException($message);
+            throw new TransactionException($message . ' in class ' . get_class($this));
+        }
+    }
+    
+    protected function assertNumeric($param) {
+        if(!is_numeric($param)){
+            throw new TransactionException('is not numeric');
         }
     }
 

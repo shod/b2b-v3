@@ -32,7 +32,7 @@ class Mailer {
     private function mail($tamplate, $params, $opts=[])
     {
         $this->opts = $opts;
-        SysService::sendEmail($this->getParam('to'), $this->getParam('subject'), $this->getParam('from'), NULL , 'seller.' . $tamplate, $params);
+        SysService::sendEmail($this->getParam('to'), $this->getParam('subject'), $this->getParam('from'), NULL , 'seller/' . $tamplate, $params);
     }
     
     

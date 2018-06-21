@@ -7,11 +7,14 @@
  */
 
 namespace app\modules\billing\transaction;
-use app\modules\billing\transaction\Up;
+
+use app\modules\billing\components\Up;
 
 /**
  * Description of Up_cash
  *
  * @author Schemelev E.
  */
-class Up_promice_pay extends Up {}
+class Up_promice_pay extends Up {
+    
+}

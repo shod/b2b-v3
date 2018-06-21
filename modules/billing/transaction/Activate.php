@@ -13,7 +13,7 @@ use app\modules\billing\components\Transaction;
 /**
  * Description of Activate
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 class Activate extends Transaction {
 

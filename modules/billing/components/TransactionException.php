@@ -11,7 +11,7 @@ namespace app\modules\billing\components;
 /**
  * Description of TransactionException
  *
- * @author MIG102-ssd
+ * @author Schemelev E.
  */
 class TransactionException extends \yii\base\Exception
 {
