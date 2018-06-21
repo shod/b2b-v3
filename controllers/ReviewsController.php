@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\SiteService;
 use app\models\NotifierMessageB2b;
 use app\models\Review;
+use app\models\Seller;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -80,6 +81,8 @@ class ReviewsController extends Controller
         $page = Yii::$app->request->get("page") ? Yii::$app->request->get("page")-1 : 0;
         $vars["data"] = $this->get_data($page);
         $vars["pages"] = $this->get_pages($page);
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $vars["setemail"] = ($seller->setting_bit & 4) ? "checked" : "";
         //$vars["submit"] = $whirl->processor->process_template(null, "content_reviews", "tmpl/submit", array());
         $vars["page"] = $page;
         return $this->render('index', $vars);
@@ -102,7 +105,7 @@ class ReviewsController extends Controller
                 }
             }
         }
-        
+
         $sql = "SELECT
 								f.id,
 								f.seller_id,
@@ -142,6 +145,27 @@ class ReviewsController extends Controller
             $vars['data_complaint'] .= $this->renderPartial('/statistic/tmpl/complaint-item', $r);
         }
         return $this->render('complaint', $vars);
+    }
+
+    public function actionSaveReviewSettings(){
+        $action = Yii::$app->request->get("action");
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $setting_bit = $seller->setting_bit;
+
+        switch ($action){
+            case "active":
+                $setting_bit = SiteService::set_bitvalue($setting_bit,4,1);
+                $seller->setting_bit = $setting_bit;
+                $seller->save();
+                echo 'Активация прошла успешно!';
+                break;
+            case "deactive":
+                $setting_bit = SiteService::set_bitvalue($setting_bit,4,0);
+                $seller->setting_bit = $setting_bit;
+                $seller->save();
+                echo 'Деактивация прошла успешно!';
+                break;
+        }
     }
 
     public function actionSaveAnswers(){

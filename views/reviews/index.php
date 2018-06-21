@@ -15,8 +15,26 @@ $this->title = "Отзывы покупателей";
                     </div>
                 </div>
             </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-lg-12">
+                    <div class="card panel panel-default ks-solid ks-bg-light-gray">
+                        <div class="card-block">
+                            <label class="ks-checkbox-switch ks-success">
+                                <input onclick="saveReviewSettings(this)" type="checkbox"
+                                       value="1" <?= isset($setemail) ? $setemail : "" ?> >
+                                <span class="ks-wrapper"></span>
+                                <span class="ks-indicator"></span>
+                                <span class="ks-on">Вкл</span>
+                                <span class="ks-off">Выкл</span>
+                            </label>
+                            <span style="position: relative;top: 3px;">Отправлять отзывы на email</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <form method="post" action="/reviews/save-answers">

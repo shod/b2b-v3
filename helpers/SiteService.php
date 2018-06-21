@@ -391,4 +391,17 @@ class SiteService {
         return array($width, $height);
     }
 
+    public static function human_plural_form($number, $titles=array('комментарий','комментария','комментариев'))
+    {
+        $cases = array (2, 0, 1, 1, 1, 2);
+
+        $debt = "";
+        if ($number < 0){
+            $debt = "Долг - ";
+            $number = $number * (-1);
+        }
+
+        return $debt . $number." ".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
+    }
+
 }

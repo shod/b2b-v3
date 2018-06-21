@@ -7,7 +7,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
         <div class="ks-dashboard-tabbed-sidebar-widgets">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             Для участия в спецпредложениях баланс должен быть не
@@ -15,7 +15,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
                         </div>
                     </div>
                 </div><br><br>
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             <a href="/spec/add" class="btn btn-primary ks-light">Добавить спецпредложения</a>

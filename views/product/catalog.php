@@ -41,7 +41,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                         </select>
 
                                         <select name="catalog_id"
-                                                onchange="getAjaxData('theForm','/product/get-data-products/?', 'productTable')"
+                                                onchange="$('#brands').val(0);$('#search_name').val('');getAjaxData('theForm','/product/get-data-products/?', 'productTable')"
                                                 class="form-control">
                                             <!--option value="0">Показать все</option-->
                                             <?= isset($catalog_options) ? $catalog_options : "" ?>
@@ -53,7 +53,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                             <?= isset($brand_options) ? $brand_options : "" ?>
                                         </select>
 
-                                        <input class="form-control" type="text" name="search" placeholder="Наименование"
+                                        <input class="form-control" type="text" id="search_name" name="search" placeholder="Наименование"
                                                value="<?= isset($search) ? $search : "" ?>" style="width: 150px"/>
                                         <input class="btn btn-primary" type="button" value="Найти"
                                                onclick="getAjaxData('theForm','/product/get-data-products/?', 'productTable')"/>

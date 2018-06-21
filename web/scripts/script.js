@@ -221,37 +221,37 @@ function show_annotation() {
         position: 'right',
         content: "Основное меню",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.ks-widget-payment-total-amount:first',
         position: 'bottom',
         content: "Ваш баланс",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.ks-widget-payment-price-ratio:first',
         position: 'bottom',
         content: "Обещанный платеж",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.ks-widget-tasks-statuses-progress:first',
         position: 'bottom',
         content: "Использование возможностей продвижения на площадке migom.by",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.ks-widget-payment-total-amount:eq(1)',
         position: 'bottom',
         content: "Ваши товары в продаже и цены на ваши товары",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.ks-widget-payment-card-rate-details',
         position: 'bottom',
         content: "Участие в аукционах",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.row:eq(1)',
         position: 'bottom',
         content: "Информация о подключенных акциях, отзывах и жалобах на магазин и последняя новость для продавцов.",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    },{
+    }, {
         target: 'div.row:eq(2)',
         position: 'top',
         content: "Справочная информация.",
@@ -357,33 +357,52 @@ function get_blanks(type) {
         }
     });
 }
-
-function change_href(cl, add_name, add_value) {
+function change_href(cl, add_name, min) {
+    add_value = $('#custom_sum').val();
     $("." + cl).each(function () {
         href = $(this).attr('href');
         $(this).attr('href', href + '&' + add_name + '=' + add_value);
+        if(((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
+            $(this).removeClass('disabled');
+        } else {
+            $(this).addClass('disabled');
+        }
     });
+    if(!((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
+        if(min > 0){
+            title = "Минимальная сумма 50 ТЕ!";
+        } else {
+            title = "Своя сумма должна быть больше 0 ТЕ!";
+        }
+        $.alert({
+            title: title,
+            type: 'red',
+            content: "Для продолжения нажмите ОК"
+        });
+    }
+    return false;
+
 }
 
-function check_currency(){
+function check_currency() {
     curr_select = $('#curr_select').val();
 
-    if ((curr_select == 'br') || (curr_select == 'byn')){
+    if ((curr_select == 'br') || (curr_select == 'byn')) {
         $(".sh_tr").hide();
     } else {
         $(".sh_tr").show();
     }
 }
 
-function set_sum(obj, max){
+function set_sum(obj, max) {
     $("#sub_button").addClass("disabled");
     max_sum = typeof max !== 'undefined' ? max : $("#max_sum").text();
 
-    if (obj.value != ''){
-        if (parseFloat(obj.value) <= parseFloat(max_sum) && parseFloat(obj.value) > 0){
+    if (obj.value != '') {
+        if (parseFloat(obj.value) <= parseFloat(max_sum) && parseFloat(obj.value) > 0) {
             $("#sub_button").removeClass("disabled");
         } else {
-            alert('обещанный платеж не должен превышать '+max_sum+' сумму и должен быть больше 0!');
+            alert('обещанный платеж не должен превышать ' + max_sum + ' сумму и должен быть больше 0!');
         }
     }
 }
@@ -466,5 +485,45 @@ function add_pay() {
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function saveAktSettings(obj, type) {
+    action = $(obj).prop('checked') ? 'active' : 'deactive';
+
+    $.ajax({
+        url: "/bill-report/save-akt-settings/?action=" + action+"&type="+type,
+        type: 'get',
+        dataType: 'html',
+        success: function (html) {
+            $.alert({
+                title: html,
+                type: 'blue',
+                content: 'Для продолжения работы нажмите ОК',
+            });
+        },
+        error: function () {
+            console.log('ajax error');
+        }
+    });
+}
+
+function saveReviewSettings(obj) {
+    action = $(obj).prop('checked') ? 'active' : 'deactive';
+
+    $.ajax({
+        url: "/reviews/save-review-settings/?action=" + action,
+        type: 'get',
+        dataType: 'html',
+        success: function (html) {
+            $.alert({
+                title: html,
+                type: 'blue',
+                content: 'Для продолжения работы нажмите ОК',
+            });
+        },
+        error: function () {
+            console.log('ajax error');
+        }
+    });
 }
 

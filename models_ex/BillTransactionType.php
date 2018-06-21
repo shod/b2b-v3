@@ -11,8 +11,12 @@ class BillTransactionType extends  \app\models\BillTransactionType {
         {
             case "up_promice_pay":
             case "up_card":
-                $res = \Yii::$app->db->createCommand("select * from bill_card where id={$object_id}")->queryOne();
-                $text = "{$name} {$res["code"]} {$res["value"]}";
+                if($object_id){
+                    $res = \Yii::$app->db->createCommand("select * from bill_card where id={$object_id}")->queryOne();
+                    $text = "{$name} {$res["code"]} {$res["value"]}";
+                } else {
+                    $text = "{$name}";
+                }
                 break;
 
             case "down_catalog":

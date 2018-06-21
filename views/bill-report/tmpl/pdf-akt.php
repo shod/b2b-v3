@@ -7,6 +7,7 @@
     <meta name=ProgId content=Excel.Sheet>
     <meta name=Generator content="Microsoft Excel 12">
     <link rel=File-List href="last3.files/filelist.xml">
+    <title>Акт № <?= $docnum ?>/<?= $month ?><?= $year ?> от <?= $dat ?> 20<?= $year ?></title>
     <style id="last_8508_Styles">
         <!--table
         {mso-displayed-decimal-separator:"\,";

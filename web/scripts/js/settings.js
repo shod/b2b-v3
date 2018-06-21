@@ -190,3 +190,13 @@ function openbox(id){
         document.getElementById(id).style.display='none';
     }
 }
+
+$('.bank-card').on('change', function(event){
+    cnt = $('input.bank-card:checked').length;
+    //console.log(cnt);
+    if(cnt > 0){
+        $("#f_rassrochka_check").prop("checked",true);
+    } else {
+        $("#f_rassrochka_check").prop("checked",false);
+    }
+});

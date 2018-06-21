@@ -3,7 +3,7 @@ $this->title = "Финансовый отчет";
 $this->registerJs(
     "
     $(document).ready(function () {
-        $(function () {
+        /*$(function () {
             if (!$('.datepicker').is('[readonly]')){
                 var min_date = new Date;
                 min_date.addDays(-70); // Note that this is method that PickMeUp adds during modification of Date object
@@ -20,8 +20,12 @@ $this->registerJs(
                     }
                 });
             }
+        });*/
+        $(\".datepicker\").flatpickr({
+            locale: {
+                firstDayOfWeek: 2
+            }
         });
-		
     });
     "
 );
@@ -55,10 +59,10 @@ $this->registerJs(
                                 <div class="col-lg-6">
                                     <form class="form-inline" method="get">
                                         <input style="margin-top: 5px" id='date_from'
-                                               class="form-control yes datepicker" name='date_from' type="text"
+                                               class="form-control yes datepicker" name='date_from' type="text" data-date-format="Y-m-d"
                                                maxlength="11" value='<?= isset($date_from) ? $date_from : "" ?>'
                                                style="width:100px"/>
-                                        <input style="margin-top: 5px" id='date_to' class="form-control yes datepicker"
+                                        <input style="margin-top: 5px" id='date_to' class="form-control yes datepicker" data-date-format="Y-m-d"
                                                name='date_to' type="text" maxlength="11"
                                                value='<?= isset($date_to) ? $date_to : "" ?>' style="width:100px"/>
                                         <input style="margin-top: 5px" type='submit' value='Показать за этот период'

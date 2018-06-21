@@ -25,7 +25,7 @@ class AuctionController extends Controller
     var $min_stavka = 1; /*Min баланс участия в аукционе*/
     var $_min_start = 0.7; /*Минимальный старт в аукционе*/
     var $_min_start_fix = 0.7; /*Минимальный старт в аукционе суточном*/
-    var $_step = 0.1; /*Минимальный шаг в аукционе*/
+    var $_step = 0.35; /*Минимальный шаг в аукционе*/
     var $_step_fix = 1; /*Минимальный шаг в аукционе суточном*/
     var $auction_stop_time = array(17,40); /*Окончание аукциона время 17:40*/
     var $auction_stop_down_time = array(17,'00'); /*Запрещается снижение ставок 17:00*/
@@ -352,7 +352,7 @@ class AuctionController extends Controller
                     $bill_auction->f_auto = 0;
                     $bill_auction->save();
                 }
-                return $this->redirect(['auction/index']);
+                return $this->redirect(['/auction/index']);
                 break;
 
             case "delete":
@@ -373,7 +373,7 @@ class AuctionController extends Controller
                 }else{
                      \Yii::$app->db->createCommand("delete from bill_auction where id={$id}")->execute();
                 }
-                return $this->redirect(['auction/index']);
+                return $this->redirect(['/auction/index']);
                 break;
         }
 
@@ -381,6 +381,12 @@ class AuctionController extends Controller
 
     public function actionIndex()
     {
+        $sql = "select count(*) as cnt from bill_auction where owner_id = {$this->seller_id} and type_id = 1";
+        $cnt_auction = \Yii::$app->db->createCommand($sql)->queryOne();
+
+        if($cnt_auction['cnt'] == 0){
+           $this->redirect('/auction/add');
+        }
         $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
         $vars["title"] = $res[0]["name"];
         $vars["text"] = $res[0]["text"];
@@ -411,11 +417,12 @@ class AuctionController extends Controller
 
     public function actionAdd()
     {
-        $vars['data'] = $this->getDataAddHtml();
+        $is_fix = Yii::$app->request->get("fix") ? 1 : 0;
+        $vars['data'] = $this->getDataAddHtml($is_fix);
         return $this->render('add', $vars);
     }
 
-    function getDataAddHtml()
+    function getDataAddHtml($is_fix)
     {
         $html = "";
 
@@ -462,7 +469,8 @@ class AuctionController extends Controller
                                             AND ps.active = 1
                                             AND vcs.section_id = ps.prod_sec_id
                                             AND c.id = vcs.catalog_id
-											and not c.id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)	
+											and not c.id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1) 
+											and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}	
                                             GROUP BY
                                                 ps.prod_sec_id")->queryAll();
                 $r["name"] = "Доступные разделы";
@@ -486,7 +494,8 @@ class AuctionController extends Controller
 						where bcs.catalog_id={$r["id"]} and (s.type<>'price' OR s.type is null)
 					)  					
 				) and hidden=0  
-				and not id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)				
+				and not id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)	
+				and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}			
 				order by bsel.cnt desc, name
 				")->queryAll();
             }

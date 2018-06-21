@@ -6,11 +6,16 @@ $this->registerJs(
     "
     $(function () {
 		if (!$('#datepicker').is('[readonly]')){
-			$('#datepicker').pickmeup({
+			/*$('#datepicker').pickmeup({
 				position		: 'bottom',
 				hide_on_select	: true,
 				format: 'd.m.Y'
-			});
+			});*/
+			$(\"#datepicker\").flatpickr({
+                locale: {
+                    firstDayOfWeek: 1
+                }
+            });
 		}
 	});
     "
@@ -56,7 +61,7 @@ $this->registerJs(
                                             <td><span style="color:red;font-size:12px;">*</span> Название магазина
                                                 <small>(до 30 символов)</small>
                                             </td>
-                                            <td><input <?= (isset($seller->name) && $seller->name != "") ? "readonly" : "" ?> style="width:300px" class="form-control yes" data-validation="length" data-validation-length="min5"
+                                            <td><input <?= (isset($seller->name) && $seller->name != "") ? "readonly" : "" ?> style="width:300px" class="form-control yes" data-validation="length" data-validation-length="min3"
                                                        data-validation-error-msg="Введите название магазина"
                                                        type="text" name="name" value="<?= $seller->name; ?>" maxlength="30"></td>
                                         </tr>
@@ -69,7 +74,13 @@ $this->registerJs(
                                                     <tbody>
                                                     <tr>
                                                         <td style="margin-left:0px;"><?= $logo ?></td>
-                                                        <td><input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>></td>
+                                                        <td>
+                                                            <button class="btn btn-<?= isset($dis_logo) ? $dis_logo : "primary" ?> ks-btn-file">
+                                                                <span class="la la-cloud-upload ks-icon"></span>
+                                                                <span class="ks-text">Выберите файл</span>
+                                                                <input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>>
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -84,7 +95,7 @@ $this->registerJs(
                                                 <small>(максимальный размер 10мб, формат JPG, GIF, PNG)</small>
                                             </td>
                                             <td>
-                                                <button id="upload-doc" class="upload">Загрузить фотографии</button>
+                                                <button id="upload-doc" class="upload btn btn-sm btn-primary">Загрузить фотографии</button>
                                                 <div id="status" class="status"></div>
                                                 <div class="clear"><!-- --></div>
                                                 <br>
@@ -94,29 +105,12 @@ $this->registerJs(
                                                 <div class="procces_load_img" id="procces_load_img">&nbsp;</div>
                                             </td>
                                         </tr>
-
-                                        <tr>
-                                            <td>Импортеры <br>(указывать ссылку запрещено)</td>
-                                            <td class="importers">
-                                                <?= $cont_importers ?>
-                                                <span class="link" id="importers" style="cursor:pointer">Добавить импортера</span>
-                                                <div id="cont_importers"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Сервисные центры <br>(указывать ссылку запрещено)</td>
-                                            <td class="service_centers">
-                                                <?= $cont_service_centers ?>
-                                                <span class="link" id="service_centers" style="cursor:pointer">Добавить сервисный центр</span>
-                                                <div id="cont_service_centers"></div>
-                                            </td>
-                                        </tr>
                                         <tr>
                                             <td><span style="color:red;font-size:12px;">*</span> Дата регистрации в
                                                 торговом реестре <br>
                                                 <small>(пример 28.12.2013)</small>
                                             </td>
-                                            <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text"
+                                            <td><input id="datepicker" <?= $seller->register_date ? "readonly": "" ?> class="form-control yes" type="text" data-date-format="d.m.Y"
                                                        name="register_date" value="<?= $seller->register_date ?>" maxlength="11" data-validation="length" data-validation-length="min5"
                                                        data-validation-error-msg="Введите дату регистрации в торговом реестре"></td>
                                         </tr>
@@ -204,80 +198,102 @@ $this->registerJs(
                                             <td><input type="checkbox" name="f_description" value="1" <?= $seller_info->f_b2b_description ? "checked" : "" ?>></td>
                                         </tr>
                                         <tr>
-                                            <th colspan="2">Оплата</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Возможна оплата наличными</td>
-                                            <td><input type="checkbox" name="f_nal" value="1" <?= $seller->f_nal ? "checked" : "" ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Возможна оплата по безналу</td>
-                                            <td><input type="checkbox" name="f_beznal" value="1" <?= $seller->f_beznal ? "checked" : "" ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Возможность продажи в кредит</td>
-                                            <td><input type="checkbox" name="f_credit" value="1" <?= $seller->f_credit ? "checked" : "" ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Возможность продажи в рассрочку</td>
-                                            <td><input type="checkbox" name="f_rassrochka" value="1" <?= $seller->f_rassrochka ? "checked" : "" ?>></td>
-                                        </tr>
-                                        <tr>
                                             <th colspan="2">Способы оплаты</th>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата банковской пластиковой карточкой</td>
+                                            <td>Наличные</td>
+                                            <td><input type="checkbox" name="f_nal" value="1" <?= $seller->f_nal ? "checked" : "" ?>></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Безналичный расчет</td>
+                                            <td><input type="checkbox" name="f_beznal" value="1" <?= $seller->f_beznal ? "checked" : "" ?>></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Кредит</td>
+                                            <td><input type="checkbox" name="f_credit" value="1" <?= $seller->f_credit ? "checked" : "" ?>></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Рассрочка</td>
+                                            <td><input id="f_rassrochka_check" type="checkbox" name="f_rassrochka" value="1" <?= $seller->f_rassrochka ? "checked" : "" ?>></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Банковская пластиковая карточка</td>
                                             <td><input type="checkbox" name="bit_setting[bit_card]" value="1" <?= $bit_card ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата через ЕРИП (АИС "Расчет")</td>
+                                            <td>ЕРИП (АИС "Расчет")</td>
                                             <td><input type="checkbox" name="bit_setting[bit_erip]" value="1" <?= $bit_erip ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата через iPay</td>
+                                            <td>iPay</td>
                                             <td><input type="checkbox" name="bit_setting[bit_ipay]" value="1" <?= $bit_ipay ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата через WebMoney</td>
+                                            <td>WebMoney</td>
                                             <td><input type="checkbox" name="bit_setting[bit_webmoney]" value="1" <?= $bit_webmoney ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата через EasyPay</td>
-                                            <td><input type="checkbox" name="bit_setting[bit_easypay]" value="1" <?= $bit_easypay ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Возможна оплата через почтовый перевод</td>
+                                            <td>Почтовый перевод</td>
                                             <td><input type="checkbox" name="bit_setting[bit_post]" value="1" <?= $bit_post ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата наложным платежом</td>
+                                            <td>Наложенный платеж</td>
                                             <td><input type="checkbox" name="bit_setting[bit_nal]" value="1" <?= $bit_nal ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата банковским переводом</td>
+                                            <td>Банковский перевод</td>
                                             <td><input type="checkbox" name="bit_setting[bit_bank]" value="1" <?= $bit_bank ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата по системе Халва</td>
-                                            <td><input type="checkbox" name="bit_setting[bit_halva]" value="1" <?= $bit_halva ?>></td>
+                                            <td>"Халва" от МТБанк</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_halva]" value="1" <?= $bit_halva ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата по системе "Карта покупок" от Белгазпромбанка</td>
-                                            <td><input type="checkbox" name="bit_setting[bit_purchase]" value="1" <?= $bit_purchase ?>></td>
+                                            <td>"Карта покупок" от Белгазпромбанк</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_purchase]" value="1" <?= $bit_purchase ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата по системе "Черепаха" от Банка ВТБ</td>
-                                            <td><input type="checkbox" name="bit_setting[bit_turtle]" value="1" <?= $bit_turtle ?>></td>
+                                            <td>"Черепаха" от Банк ВТБ</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_turtle]" value="1" <?= $bit_turtle ?>></td>
                                         </tr>
                                         <tr>
-                                            <td>Возможна оплата по системе "SMART карта" от Банка Москва-Минск</td>
-                                            <td><input type="checkbox" name="bit_setting[bit_smart]" value="1" <?= $bit_smart ?> ></td>
+                                            <td>"SMART карта" от Банк Москва-Минск</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_smart]" value="1" <?= $bit_smart ?> ></td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Fun карта" от БПС-СБЕРБАНК</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_fun]" value="1" <?= $bit_fun ?> ></td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Любимая карта" от Паритетбанк</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_like]" value="1" <?= $bit_like ?> ></td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Магнит" от Беларусбанк</td>
+                                            <td><input class="bank-card" type="checkbox" name="bit_setting[bit_magnet]" value="1" <?= $bit_magnet ?> ></td>
                                         </tr>
                                         <tr>
                                             <th colspan="2">Время работы (приёма заказов)</th>
                                         </tr>
 
                                         <?= $work_time ?>
+
+                                        <tr>
+                                            <td>Импортеры <br>(указывать ссылку запрещено)</td>
+                                            <td class="importers">
+                                                <?= $cont_importers ?>
+                                                <span class="link" id="importers" style="cursor:pointer">Добавить импортера</span>
+                                                <div id="cont_importers"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Сервисные центры <br>(указывать ссылку запрещено)</td>
+                                            <td class="service_centers">
+                                                <?= $cont_service_centers ?>
+                                                <span class="link" id="service_centers" style="cursor:pointer">Добавить сервисный центр</span>
+                                                <div id="cont_service_centers"></div>
+                                            </td>
+                                        </tr>
                                         <tr class="title">
                                             <td colspan="2" style="color:red">* - поля обязательные для заполнения
                                                 (после первого сохранения меняются по запросу)

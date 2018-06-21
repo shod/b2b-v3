@@ -1,9 +1,43 @@
 <?php
 $this->title = "Выгрузка актов приемки-сдачи выполненных работ";
 ?>
+
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card" style="height: 100%">
+                        <div class="card-block">
+                            <label class="ks-checkbox-switch ks-success">
+                                <input onclick="saveAktSettings(this,'sendpost')"  type="checkbox"
+                                       value="1" <?= isset($sendpost) ? $sendpost : "" ?> >
+                                <span class="ks-wrapper"></span>
+                                <span class="ks-indicator"></span>
+                                <span class="ks-on">Вкл</span>
+                                <span class="ks-off">Выкл</span>
+                            </label>
+                            <span style="position: relative;top: 3px;">Отправлять акт по почте
+                            (Услуга платная. Стоимость 2 ТЕ в месяц)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card" style="height: 100%">
+                        <div class="card-block">
+                            <label class="ks-checkbox-switch ks-success">
+                                <input onclick="saveAktSettings(this,'esf')"  type="checkbox"
+                                       value="1" <?= isset($esf) ? $esf : "" ?> >
+                                <span class="ks-wrapper"></span>
+                                <span class="ks-indicator"></span>
+                                <span class="ks-on">Вкл</span>
+                                <span class="ks-off">Выкл</span>
+                            </label>
+                            <span style="position: relative;top: 3px;">Формировать ЭСЧФ ежемесячно</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" style="height: 100%">

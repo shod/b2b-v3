@@ -80,11 +80,14 @@ class SellerController extends Controller
                 $arr_data = array();
                 if(Yii::$app->request->post("type_id") == 4){
                     foreach((array) $cost_data as $c){
-                        if(($c['pay_until'] != "") && ($c['cost_until'] != "")){
+                        if(isset($c['pay_until'])){
+                            if(($c['pay_until'] != "") && ($c['cost_until'] != "")){
 
-                            $c["free_from"] = $c["pay_until"];
-                            $arr_data[]=$c;
+                                $c["free_from"] = $c["pay_until"];
+                                $arr_data[]=$c;
+                            }
                         }
+
                     }
                 }
                 $json_data["cost_data"] = $arr_data;
@@ -336,7 +339,7 @@ class SellerController extends Controller
                 $city_select .= "<option value=\"{$r['id']}\">{$r['name']}</option>";
             }
         }
-        $vars['delivery_select'] = "<select class='chosen' name=\"geo_id[]\" multiple style=\"width: 300px;height: 150px; margin-top: 3px;\" id=\"geo_4\">{$city_select}</select>";
+        $vars['delivery_select'] = "<select class='chosen' data-placeholder=\"Выбрать города\" name=\"geo_id[]\" multiple style=\"width: 300px;height: 150px; margin-top: 3px;\" id=\"geo_4\">{$city_select}</select>";
         $vars['display_delivery_type'] = (isset($vars['delivery_regions']) || isset($vars['delivery_minsk'])) ? "" : "display:none";
 
         $vars["checked_f_post"] = (isset($seller->f_post) && $seller->f_post) ? "checked" : "";

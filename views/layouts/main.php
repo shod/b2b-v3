@@ -112,7 +112,7 @@ AppAsset::register($this);
                 <?php if ($seller->pay_type == 'fixed'): ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> - <?= isset($bill_account) ? $bill_account->getDayDownCatalog()*30 : 0 ?>/месяц (<?= isset($bill_account) ? $bill_account->getDayDownCatalog() : 0 ?>/день) </span>
+                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> - <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
@@ -149,7 +149,7 @@ AppAsset::register($this);
                 <!-- BEGIN NAVBAR MESSAGES -->
                 <div class="nav-item dropdown ks-messages" style="background-color: #25628f">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="la la-comments ks-icon" aria-hidden="true">
+                        <span class="la la-phone la-2x ks-icon" aria-hidden="true">
                         </span>
                         <span class="ks-text">Служба поддержки</span>
                     </a>
@@ -171,10 +171,10 @@ AppAsset::register($this);
                                 <div class="ks-wrapper">
                                     <div class="ks-message" style="height: 61%;">
                                         <div class="">
-                                            <img src="http://b2b.migom.by/img/design/alena.jpg" style="margin-right: 10px;" height="130">
+                                            <img src="http://b2b.migom.by/img/design/kate_admin5.jpg" style="margin-right: 10px;" height="130">
                                         </div>
                                         <div class="ks-info">
-                                            <div class="ks-user-name"><h4>Алена</h4></div>
+                                            <div class="ks-user-name"><h4>Екатерина</h4></div>
                                             <div class="ks-text">
                                                 <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">688-45-46</span> (Velcom)<br>
                                                 <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">858-45-46</span> (МТС)<br>
@@ -294,8 +294,9 @@ AppAsset::register($this);
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/auction">Аукционы</a>
                         <a class="dropdown-item" href="/spec">Спецпредложения</a>
-                        <!--a class="dropdown-item" href="/context-adv">Контекстная реклама</a-->
+                        <a class="dropdown-item" href="/context-adv">Контекстная реклама</a>
                         <a class="dropdown-item" href="/order/sms">Обратный звонок<span style="color: #e79716;margin: 10px;font-weight: 900;" id="po_notify"></span></a>
+                        <a class="dropdown-item" href="/info/?page=my_news_articles">Мои новости и обзоры</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -316,7 +317,7 @@ AppAsset::register($this);
                         <span>Мои товары</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/product/on-sale">Товары в продаже</a>
+                        <a class="dropdown-item" href="<?= ($seller->pay_type == 'fixed') ? '/product/on-sale' : '/tariff/click' ?>">Товары в продаже</a>
                         <a class="dropdown-item" href="/product/price">Импорт/экспорт прайсов</a>
                     </div>
                 </li>
@@ -347,8 +348,12 @@ AppAsset::register($this);
                         <span>Условия работы</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
-                        <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                        <?php if ($seller->f_offerta & 1): ?>
+                            <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
+                        <?php endif; ?>
+                        <?php if ($seller->f_offerta & 2): ?>
+                            <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                        <?php endif; ?>
                         <a class="dropdown-item" href="/info/?page=rules_placement">Правила размещения</a>
                     </div>
                 </li>
@@ -361,9 +366,16 @@ AppAsset::register($this);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/help">
+                    <a class="nav-link" href="#" data-remote="/site/ask" data-toggle="ajaxModal"
+                       data-target=".bd-example-modal-md">
                         <span class="ks-icon la la-question-circle"></span>
-                        <span>Помощь</span>
+                        <span>Обратная связь</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://b2bmigomby.reformal.ru/" target="_blank">
+                        <span class="ks-icon la la-lightbulb-o"></span>
+                        <span>Ваши предложения</span>
                     </a>
                 </li>
             </ul>

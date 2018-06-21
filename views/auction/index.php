@@ -43,7 +43,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
                 <div class="col-lg-3 content-end">
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
-                            <a href="/auction/add" class="btn btn-primary ks-light">Добавить аукцион с фиксированной
+                            <a href="/auction/add/?fix=1" class="btn btn-primary ks-light">Добавить аукцион с фиксированной
                                 ставкой</a>
                         </div>
                     </div>

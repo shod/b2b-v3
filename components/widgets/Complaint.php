@@ -39,7 +39,7 @@ class Complaint extends \yii\base\Widget {
 							JOIN migomby.seller AS s ON (s.id = si.seller_id)
 							WHERE
 								f. STATUS = 0
-                            AND FROM_UNIXTIME(f.created_at) > (DATE_SUB(NOW(), INTERVAL 1 DAY ))
+                            AND FROM_UNIXTIME(f.created_at) > (DATE_SUB(NOW(), INTERVAL 3 DAY ))
 							AND f.seller_id = {$this->sid} order by f.created_at desc limit 5";
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
 

@@ -7,6 +7,7 @@ use app\models\Seller;
 use app\models\SellerInfo;
 use app\models\SysObjectProperty;
 use app\models_ex\Member;
+use http\Url;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -165,9 +166,9 @@ class SettingsController extends Controller
                             foreach((array)$phone_section[$id] as $cat_id)
                             {
                                 if ($phone_code[$id] && $phone[$id] && $phone_op[$id]){
-                                    $f_viber = $viber[$id] ? 1 : 0;
-                                    $f_telegram = $telegram[$id] ? 1 : 0;
-                                    $f_whatsapp = $whatsapp[$id] ? 1 : 0;
+                                    $f_viber = isset($viber[$id]) && $viber[$id] ? 1 : 0;
+                                    $f_telegram = isset($telegram[$id]) && $telegram[$id] ? 1 : 0;
+                                    $f_whatsapp = isset($whatsapp[$id]) && $whatsapp[$id] ? 1 : 0;
                                     $phones[$cat_id][] = array("code" => "{$phone_code[$id]}", "phone" => "{$phone[$id]}", "op" => "{$phone_op[$id]}", "type" => "{$phone_type[$id]}", "viber" => "{$f_viber}", "telegram" => "{$f_telegram}", "whatsapp" => "{$f_whatsapp}");
                                 }
                             }
@@ -175,9 +176,9 @@ class SettingsController extends Controller
                         else
                         {
                             if ($phone_code[$id] && $phone[$id] && $phone_op[$id]){
-                                $f_viber = $viber[$id] ? 1 : 0;
-                                $f_telegram = $telegram[$id] ? 1 : 0;
-                                $f_whatsapp = $whatsapp[$id] ? 1 : 0;
+                                $f_viber = isset($viber[$id]) && $viber[$id] ? 1 : 0;
+                                $f_telegram = isset($telegram[$id]) && $telegram[$id] ? 1 : 0;
+                                $f_whatsapp = isset($whatsapp[$id]) && $whatsapp[$id] ? 1 : 0;
                                 $phones[0][] = array("code" => "{$phone_code[$id]}", "phone" => "{$phone[$id]}", "op" => "{$phone_op[$id]}", "type" => "{$phone_type[$id]}", "viber" => "{$f_viber}", "telegram" => "{$f_telegram}", "whatsapp" => "{$f_whatsapp}");
                             }
                         }
@@ -279,7 +280,8 @@ class SettingsController extends Controller
                         imagedestroy($im);
 
                         $filename = 'logo$'.$this->seller_id.'.jpg';
-                        $path_local = "http://b2b.migom.by/seller/{$filename}";
+                        $home = \yii\helpers\Url::base(true);
+                        $path_local = "{$home}/seller/{$filename}";
                         $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
 
                         file_get_contents($path, NULL, NULL, 0, 14);
@@ -314,8 +316,13 @@ class SettingsController extends Controller
                             }
 
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
-                                $src[] = 'seller/registration/'.$this->seller_id.'/'.$new_file_name;
+                                $src[] = '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
                                 $file_name[] = $new_file_name;
+
+                                $home = \yii\helpers\Url::base(true);
+                                $path_local = $home . '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
+                                $path = "https://static.migom.by/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                file_get_contents($path, NULL, NULL, 0, 14);
                             }
 
                             $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
@@ -364,6 +371,10 @@ class SettingsController extends Controller
 
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
                                 $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
+                                $home = \yii\helpers\Url::base(true);
+                                $path_local = $home . '/seller/document/'.$this->seller_id.'/'.$new_file_name;
+                                $path = "https://static.migom.by/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
                             }
 
@@ -403,7 +414,9 @@ class SettingsController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
-        $img_registration = $this->get_img_registration();
+        $res = \Yii::$app->db->createCommand("select f_registration from seller_info where seller_id = {$this->seller_id}")->queryOne();
+        $none = $res['f_registration'] ? "style='display:none'" : "";
+        $img_registration = $this->get_img_registration($none);
         return $this->render('index', array_merge($member_data, ['img_registration' => $img_registration]));
     }
 
@@ -455,7 +468,7 @@ class SettingsController extends Controller
                 if($file != "." && $file != "..") {
 
                     $r['file_name'] = $file;
-                    $r['src'] = 'seller/registration/'.$this->seller_id.'/'.$file;
+                    $r['src'] = '/seller/registration/'.$this->seller_id.'/'.$file;
                     $r['none'] = $none;
                     $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
                 }

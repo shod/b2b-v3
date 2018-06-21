@@ -396,6 +396,21 @@ class BillReportController extends Controller
         echo Json::encode($json);
     }
 
+    public function actionSaveAktSettings(){
+        $action = Yii::$app->request->get("action");
+        $type = Yii::$app->request->get("type");
+        switch ($action){
+            case "active":
+                \Yii::$app->db->createCommand("update seller_info set f_{$type}=1 where seller_id={$this->seller_id}")->execute();
+                echo 'Активация прошла успешно!';
+                break;
+            case "deactive":
+                \Yii::$app->db->createCommand("update seller_info set f_{$type}=0 where seller_id={$this->seller_id}")->execute();
+                echo 'Деактивация прошла успешно!';
+                break;
+        }
+    }
+
     public function actionIndex()
     {
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
@@ -414,7 +429,10 @@ class BillReportController extends Controller
         if($f_offerta & 2){
             $akt_no_nds = $this->renderPartial('akt-no-nds');
         }
-        return $this->render('akt', ['akt_no_nds' => $akt_no_nds]);
+        $seller_info = SellerInfo::find()->where(['seller_id' => $this->seller_id])->one();
+        $sendpost = $seller_info->f_sendpost == 1 ? "checked" : "";
+        $esf = $seller_info->f_esf == 1 ? "checked" : "";
+        return $this->render('akt', ['akt_no_nds' => $akt_no_nds, 'sendpost' => $sendpost, 'esf' => $esf]);
     }
 
     private function getMoreData(){

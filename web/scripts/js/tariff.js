@@ -42,6 +42,7 @@ $('.pack-checkbox').change(function () {
     sum_recount();
 });
 pack();
+if(!$('input:checkbox#pack_261').prop("checked")){$('input:checkbox#pack_261').click();}	//выставить другие товары для всех
 
 function pack() {
     $('.pack-line').change(function () {
@@ -98,7 +99,7 @@ function sum_recount() {
     $("#sum_pack").html(sum_pack);
     $("#sum_section").html(sum_section);
     $("#sum_all").html(sum);
-    $("#sum_all_day").html(Number((sum/30).toFixed(1)));
+    $("#sum_all_day").html(Number((sum/30).toFixed(2)));
 }
 
 function search_str(str) {
