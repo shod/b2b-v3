@@ -254,7 +254,7 @@ class BalanceController extends Controller
                 $te = ($sum / $curs) * 1.0;
 
                // \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
-
+                // Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay',$te);
                 //$whirl->billing($this->seller_id)->transaction('up_promice_pay',$te); //TODO: transactions
             }
         } else {

@@ -121,13 +121,15 @@ class SysService {
      */
     public static function sendEmail($email, $subject, $from = 'noreply@migom.by', $text = false, $tamplate = 'simple', $params = []) {
         $arr_mail = (array)$params;
+        if(is_array($email)){
+            $email = implode(',', $email);
+        }
         $arr_mail['email'] = $email;
         $arr_mail['tmpl'] = $tamplate;
         $arr_mail['from'] = $from;
         $arr_mail['subject'] = $subject;
         if($text){
             $arr_mail['text'] = $text;
-
         }
         foreach ($arr_mail as &$item){
             $item = nl2br($item);
