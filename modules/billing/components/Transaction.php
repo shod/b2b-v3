@@ -13,7 +13,7 @@ use \app\modules\billing\components\Mailer;
 abstract class Transaction implements ITransaction {
 
     protected $billing;
-    protected $object_id;
+    protected $object_id = 0;
     protected $value = 0;
     private $owner_id;
     private $account_id;
@@ -133,6 +133,12 @@ abstract class Transaction implements ITransaction {
     protected function mail($method, $param) {
         $mailer = new Mailer();
         $mailer->$method($param);
+    }
+    
+    protected function assert($param, $message) {
+        if(!$param){
+            throw new TransactionException($message);
+        }
     }
 
 }

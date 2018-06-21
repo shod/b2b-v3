@@ -2,7 +2,7 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\components\Transaction;
+use app\modules\billing\transaction\Group;
 use app\modules\billing\models\BillCatalogSeller;
 
 /*
@@ -14,13 +14,13 @@ use app\modules\billing\models\BillCatalogSeller;
 /**
  * Транзакция зачисление кликов на счет продавцу
  */
-class Section_group extends Transaction {
+class Section_group extends Group {
 
     private $_notify_data;
-
+    
     private function getData() {
         $data = [];
-        $res = BillCatalogSeller::find()->where(['seller_id' => $this->billing->seller_id])->one();
+        $res = BillCatalogSeller::find()->where(['seller_id' => $this->billing->getSellerId()])->one();
         foreach ((array) $res as $r) {
             $data[] = array('id' => $r->catalog_id, 'f_tarif' => $r->f_tarif);
         }
@@ -28,9 +28,7 @@ class Section_group extends Transaction {
     }
 
     protected function beginNotify() {
-        $balance = $this->billing->account->balance;
-        if ($this->billing->bonus_account)
-            $balance += $this->billing->bonus_account->balance;
+        $balance = $this->billing->getAccount()->balance + $this->getBonusBalance();
 
         $this->_notify_data = [
             'balance' => $balance,
@@ -44,7 +42,7 @@ class Section_group extends Transaction {
 
         if ($dat_bef != $dat_after) {
             $this->mail('sections_admin', [
-                'seller_id' => $this->billing->seller_id,
+                'seller_id' => $this->billing->getSellerId(),
                 'data_before' => $this->_notify_data['data'],
                 'data_after' => $dat_after
             ]);

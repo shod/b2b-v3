@@ -88,6 +88,8 @@ class TestController extends Controller {
             $this->alert('Deactivate : Error');
         }
         
+        \Yii::$app->billing->transaction($seller_id, 'Section_group', [["section_deactivate", "484"], ["Section_activate", "484"]]);
+        
     }
     
     private function alert($message) {

@@ -3,6 +3,7 @@
 namespace app\modules\billing\models;
 
 use Yii;
+use app\models\BillCatalog;
 
 /**
  * This is the model class for table "bill_catalog_seller".
