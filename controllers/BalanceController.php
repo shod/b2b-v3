@@ -233,7 +233,6 @@ class BalanceController extends Controller
     public function actionGetPromise(){
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
-
         $f_offerta = $seller->f_offerta;
 
         if(!($f_offerta & 1) && ($f_offerta & 2)){
@@ -242,46 +241,38 @@ class BalanceController extends Controller
             $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
         }
 
-        $sum = (int)Yii::$app->request->get('sum');
-        $max = (int)Yii::$app->request->get('max');
-        $type_promice = (int)Yii::$app->request->get('type_promice');
+        $sum = (int)Yii::$app->request->post('sum');
+        $max = (int)Yii::$app->request->post('max');
+        $type_promice = Yii::$app->request->post('type_promice');
         if ($type_promice == 'fixed'){
             $res = \Yii::$app->db->createCommand("select promise_delivery from seller_info where seller_id = {$this->seller_id}")->queryAll();
             if (($sum*1 <= $max*1)&&($res[0]['promise_delivery'] == 0)){
-                //\Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
+                \Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
 
-                //$whirl->mailer('seller')->delayed(0, 'promise_delivery', array('seller_id' => $this->seller_id,'sum' => $sum)); //TODO: mailer
-
-                $te = ($sum / $curs) * 1.0;
-
-               // \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
-                // Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay',$te);
-                //$whirl->billing($this->seller_id)->transaction('up_promice_pay',$te); //TODO: transactions
+                $te = round(($sum / $curs) * 1.0,2);
+                Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
+                \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);
             }
         } else {
-            $seller_choise = Yii::$app->request->get('seller_choise');
+            $seller_choise = Yii::$app->request->post('seller_choise');
             if ($seller_choise == 'set_sum_pay'){
 
-                $sum = (float)Yii::$app->request->get('set_sum_pay');
+                $sum = (float)Yii::$app->request->post('set_sum_pay');
                 $te = ($sum / $curs) * 1.0;
                 $clicks = round($te/0.4);
 
-               // \Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
-               // \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
-
-              //  $whirl->mailer('seller')->delayed(0, 'promise_delivery', array('seller_id' => $this->seller_id,'sum' => $sum));
+                \Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
+                \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
 
                 $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
                                     where st.seller_id = {$this->seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
                 $res = \Yii::$app->db->createCommand($sql)->queryAll();
 
                 if ($res[0]['id'] == 1){
-                    //$whirl->billing($this->seller_id)->transaction('up_promice_pay',$te);
+                    \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);
                 } else {
-                    // $whirl->billing($this->seller_id)->transaction('up_click',$clicks);
+                    \Yii::$app->billing->transaction($this->seller_id, 'up_click', $clicks);
                 }
-            } else {
-                // $clicks = (int)$whirl->parms->get('transfer_clicks');
             }
         }
 

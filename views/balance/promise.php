@@ -33,12 +33,17 @@ $this->title = "Обещаный платеж";
                         <div class="card-block">
                             <?= isset($text) ? $text : ""; ?>
                             <h4>Максимальная сумма <?= $day_down; ?> руб. </h4>
-                            <form class="form-inline">
+                            <form method="post" class="form-inline" action="/balance/get-promise">
+                                <input type="hidden" name="_csrf"
+                                       value="<?= Yii::$app->request->getCsrfToken() ?>"/>
+                                <input type="hidden" name="type_promice" value="fixed">
+                                <input type="hidden" name="max" value="<?= $day_down; ?>">
                                 <div class="input-group" style="width: 100%">
-                                    <input class="form-control" type="text"
+                                    <input name="sum" class="form-control" type="text"
                                            placeholder="Максимальная сумма <?= $day_down; ?> руб.">
                                     <span class="input-group-btn">
-                           <input class="btn btn-primary" type="submit" <?= $disabled; ?> value="Получить обещанный платеж"/>
+                           <input class="btn btn-primary" type="submit" <?= $disabled; ?>
+                                  value="Получить обещанный платеж"/>
                         </span>
                                 </div>
                             </form>

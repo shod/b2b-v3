@@ -17,11 +17,17 @@ use app\models\Seller;
  */
 class Mailer {
 
-    private $to = ['sale@migom.by', 'admin@migom.by', "nk@migom.by"];
-    private $from = 'support@migom.by';
+    private $to;
+    private $from;
     private $subject = 'seller subject';
-    private $email_test = ["admin@migom.by", "shod@migom.by", "nk@migom.by"];
+    private $email_test;
     private $opts = [] ;
+
+    function __construct() {
+        $this->to = \Yii::$app->params['b2bEmails'];
+        $this->from = \Yii::$app->params['fromEmail'];
+        $this->email_test = \Yii::$app->params['testEmails'];
+    }
     
     private function mail($tamplate, $params, $opts=[])
     {
