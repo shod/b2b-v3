@@ -20,7 +20,7 @@ class Section_group extends Group {
     
     private function getData() {
         $data = [];
-        $res = BillCatalogSeller::find()->where(['seller_id' => $this->billing->getSellerId()])->one();
+        $res = BillCatalogSeller::find()->where(['seller_id' => $this->billing->getSellerId()])->all();
         foreach ((array) $res as $r) {
             $data[] = array('id' => $r->catalog_id, 'f_tarif' => $r->f_tarif);
         }
