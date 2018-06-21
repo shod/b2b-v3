@@ -131,7 +131,11 @@ class SysService {
         if($text){
             $arr_mail['text'] = $text;
         }
+        
         foreach ($arr_mail as &$item){
+            if(is_array($item)){
+                continue;
+            }
             $item = nl2br($item);
             $item = str_replace(array("\r","\n")," ",$item);
         }
