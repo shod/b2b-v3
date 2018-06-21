@@ -477,12 +477,6 @@ function get_notifications() {
         });
 }
 
-
-function add_pay() {
-    i = $(".tr_tbl").length;
-    $("#cost_data_table").append("<tr class='tr_tbl'><td><input name='cost_data[" + i + "][pay_until]' class='form-control pay_until' style='width:90%' type='text' /> руб. </td><td><input name='cost_data[" + i + "][cost_until]' style='width:90%' class='form-control cost_until' type='text' /> руб.</td></tr>");
-}
-
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
