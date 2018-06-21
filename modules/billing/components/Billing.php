@@ -30,7 +30,6 @@ class Billing {
     private function init($seller_id) {
         $this->seller_id = $seller_id;
         $this->seller = \app\models\Seller::findOne($seller_id);
-        dd('bill id:' . $this->seller->bill_account_id);
         if ($this->seller->bill_account_id) {
             $this->account = BillAccount::findOne($this->seller->bill_account_id);
             $this->setBonusAccount();

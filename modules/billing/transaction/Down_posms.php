@@ -11,7 +11,7 @@ use app\modules\billing\transaction\Down;
  */
 
 /**
- * Транзакция зачисление кликов на счет продавцу
+ * Транзакция списание за sms
  */
 class Down_posms extends Down {
 
