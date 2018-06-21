@@ -1,7 +1,6 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic-console',
@@ -9,6 +8,9 @@ $config = [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
     'components' => [
+        'billing' => [
+            'class' => 'app\modules\billing\components\Billing',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -20,7 +22,8 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'db' => require(__DIR__ . '/components/db.php'),
+        'db_event' => require(__DIR__ . '/components/db_event.php'),
     ],
     'params' => $params,
     /*

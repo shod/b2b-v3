@@ -17,6 +17,9 @@ return [
             ],
         ],
     ],
+    'billing' => [
+        'class' => 'app\modules\billing\components\Billing',
+    ],
     'assetManager' => [
         'class' => 'yii\web\AssetManager',
         'bundles' => [
