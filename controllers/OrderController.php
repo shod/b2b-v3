@@ -117,9 +117,7 @@ class OrderController extends Controller
                 $result = \Yii::$app->billing->transaction($this->seller_id, 'down_posms', ['po_balance_count' => $count, 'value' => $this->po_types[$count]]);
                 echo json_encode(array('success'=>$result));
                 break;
-            // TODO: transactions
         }
-
     }
 
     public function actionIndex()
