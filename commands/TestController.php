@@ -65,6 +65,14 @@ class TestController extends Controller {
             $this->alert('Down_auction_bonus : Error');
         }
         
+        $balance_0 = $this->getBillAccountBalance($seller_id);
+        \Yii::$app->billing->transaction($seller_id, 'Down_posms', ['value' => 1, 'po_balance_count' => 100]);
+        $balance_1 = $this->getBillAccountBalance($seller_id);
+        
+        if($balance_1 + 1 != $balance_0 ){
+            $this->alert('Down_auction_bonus : Error');
+        }
+        
         
         \Yii::$app->billing->transaction($seller_id, 'Activate');
         $seller = \app\models\Seller::findOne($seller_id);

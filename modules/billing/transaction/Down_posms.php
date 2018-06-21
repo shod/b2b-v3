@@ -16,25 +16,30 @@ use app\modules\billing\transaction\Down;
 class Down_posms extends Down {
 
     protected function _process($data) {
-        $whirl->config->read_config("bill_account");
-        $value = $whirl->config->get('posms_' . $data);
+           
+        if(!isset($data['po_balance_count'])){
+            throw new TransactionException("not set parametr po_balance_count");
+        }
+        if(!isset($data['value'])){
+            throw new TransactionException("not set parametr value");
+        }
+        if(!is_numeric($data['value'])){
+            throw new TransactionException("value  is not numeric");
+        }
+        
+        $value = $data['value'];
+        $poBalanceCount = $data['po_balance_count'];
+        
+        if (($this->balance_before - $value) > 0) {
 
-        if (is_numeric($value)>0){
-            if (($this->balance_before - $value) > 0) {
-                
-                $this->processBase($value);
-               
-                $this->object_id = $data;
-                
-                $SellerInfo = \app\models\SellerInfo::find()->where(['seller_id' => $this->billing->getSellerId()])->one();
-                $SellerInfo->updateCounters(['po_balance' => $data]);
-             
-                return "true";
-            } else {
-                throw new TransactionException("Balance is empty");
-            }
-        }else {
-            throw new TransactionException("data is not numeric");
+            $this->processBase($value);
+
+            $this->object_id = $data['po_balance_count'];
+
+            $SellerInfo = \app\models\SellerInfo::find()->where(['seller_id' => $this->billing->getSellerId()])->one();
+            $SellerInfo->updateCounters(['po_balance' => $poBalanceCount]);
+        } else {
+            throw new TransactionException("Balance is empty");
         }
     }
 
