@@ -30,6 +30,10 @@ $this->title = 'Добавление спецпредложений';
                                     <input type="hidden" name="_csrf"
                                            value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                     <input type="hidden" name="action" value="add"/>
+                                    <input class="btn btn-primary" type="button"
+                                                value="Добавить"
+                                                onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/><br><br>
+
 
                                     <table class="table table-striped table-bordered table-condenced">
                                         <tr class="active">
@@ -42,7 +46,7 @@ $this->title = 'Добавление спецпредложений';
                                         <?= isset($data) ? $data : "" ?>
 
                                     </table>
-                                    <div class="content-end"><input class="btn btn-primary" type="button"
+                                    <div><input class="btn btn-primary" type="button"
                                                                     value="Добавить"
                                                                     onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
                                     </div>

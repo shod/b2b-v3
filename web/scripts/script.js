@@ -357,8 +357,17 @@ function get_blanks(type) {
         }
     });
 }
-
-function change_href(cl, add_name, add_value, min) {
+function change_href(cl, add_name, min) {
+    add_value = $('#custom_sum').val();
+    $("." + cl).each(function () {
+        href = $(this).attr('href');
+        $(this).attr('href', href + '&' + add_name + '=' + add_value);
+        if(((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
+            $(this).removeClass('disabled');
+        } else {
+            $(this).addClass('disabled');
+        }
+    });
     if(!((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
         if(min > 0){
             title = "Минимальная сумма 50 ТЕ!";
@@ -371,15 +380,8 @@ function change_href(cl, add_name, add_value, min) {
             content: "Для продолжения нажмите ОК"
         });
     }
-    $("." + cl).each(function () {
-        href = $(this).attr('href');
-        $(this).attr('href', href + '&' + add_name + '=' + add_value);
-        if(((parseInt(add_value) >= min) && (parseInt(add_value) > 0))){
-            $(this).removeClass('disabled');
-        } else {
-            $(this).addClass('disabled');
-        }
-    });
+    return false;
+
 }
 
 function check_currency() {

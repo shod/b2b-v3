@@ -5,12 +5,10 @@
             <div>Пополнение любой суммы (стоимость клика 0.4 ТЕ)<br>
                 Минимальная сумма 50 ТЕ (<?= 50*$curs ?> руб.)
             </div>
-            <input type="text" onkeyup="change_href('my-sum','my_sum', $(this).val(), 115)" class="form-control">
+            <input id="custom_sum" type="text" onblur="change_href('my-sum','my_sum', 115)" class="form-control">
         <?php else: ?>
-            <input type="text" onkeyup="change_href('my-sum','my_sum', $(this).val(), 0)" class="form-control">
+            <input id="custom_sum" type="text" onkeyup="change_href('my-sum','my_sum', 0)" class="form-control">
         <?php endif; ?>
-
-
     </div>
     <div class="ks-body">
         <a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=html" target="_blank"
