@@ -28,19 +28,18 @@ class Down_posms extends Down {
         }
         
         $value = $data['value'];
-        $poBalanceCount = $data['po_balance_count'];
         
-        if (($this->balance_before - $value) > 0) {
-
-            $this->processBase($value);
-
-            $this->object_id = $data['po_balance_count'];
-
-            $SellerInfo = \app\models\SellerInfo::find()->where(['seller_id' => $this->billing->getSellerId()])->one();
-            $SellerInfo->updateCounters(['po_balance' => $poBalanceCount]);
-        } else {
+        if (($this->balance_before - $value) < 0) {
             throw new TransactionException("Balance is empty");
         }
+        
+        $this->processBase($value);
+
+        $this->object_id = $data['po_balance_count'];
+
+        $SellerInfo = \app\models\SellerInfo::find()->where(['seller_id' => $this->billing->getSellerId()])->one();
+        $SellerInfo->updateCounters(['po_balance' => $data['po_balance_count']]);
+            
     }
 
 }
