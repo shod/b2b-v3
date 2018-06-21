@@ -22,6 +22,10 @@ class OrderController extends Controller
     public $seller_id;
     public $kurs;
     public $offset = 20;
+    public $po_types = [
+        30 => 5,
+        100 => 10
+    ];
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
@@ -108,7 +112,11 @@ class OrderController extends Controller
                 }
                 return $this->redirect(['order/sms']);
                 break;
-
+            case "addsms":
+                $count = Yii::$app->request->get("count");
+                $result = \Yii::$app->billing->transaction($this->seller_id, 'down_posms', ['po_balance_count' => $count, 'value' => $this->po_types[$count]]);
+                echo json_encode(array('success'=>$result));
+                break;
             // TODO: transactions
         }
 

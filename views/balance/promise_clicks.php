@@ -33,7 +33,9 @@ $this->title = "Обещаный платеж";
                         <div class="card-block">
                             <?= isset($text) ? $text : ""; ?>
                             <h4>Максимальная сумма <?= $day_down; ?> руб. </h4>
-                            <form method="post">
+                            <form method="post" action="/balance/get-promise">
+                                <input type="hidden" name="_csrf"
+                                       value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                 <input type="hidden" name="max" value="<?= $day_down; ?>">
                                 <input type="hidden" name="type_promice" value="clicks">
                                 <label>

@@ -477,12 +477,6 @@ function get_notifications() {
         });
 }
 
-
-function add_pay() {
-    i = $(".tr_tbl").length;
-    $("#cost_data_table").append("<tr class='tr_tbl'><td><input name='cost_data[" + i + "][pay_until]' class='form-control pay_until' style='width:90%' type='text' /> руб. </td><td><input name='cost_data[" + i + "][cost_until]' style='width:90%' class='form-control cost_until' type='text' /> руб.</td></tr>");
-}
-
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -527,3 +521,46 @@ function saveReviewSettings(obj) {
     });
 }
 
+$('.add_sms').click(function() {
+    var $this = $(this);
+    var $p = $(this).attr('id').split('_');
+    $.confirm({
+        title: 'Внимание!',
+        content: 'Вы действительно хотите оплатить данную услугу?  С Вашего счета спишеться '+$p[2]+'ТЕ.',
+        type: 'primary',
+        buttons: {
+            confirm: {
+                text: 'ОК', // With spaces and symbols
+                btnClass: 'btn-primary',
+                action: function () {
+                    $.ajax({
+                        url: "/order/process/?action=addsms&count="+$p[1],
+                        beforeSend: function(){
+                            $val = $this.attr('value');
+                            $this.attr('disabled','disabled');
+                        },
+                        success: function(data){
+                            console.log(data);
+                            $this.attr('disabled',false);
+                            var answ = eval("(" + data + ")");
+                            console.log(answ);
+                            if(answ['success']) {
+                                document.location.reload(true);
+                            } else {
+                                $.alert({
+                                    title: "У Вас на счету не хватает средств!",
+                                    type: 'red',
+                                    content: 'Для продолжения работы нажмите ОК',
+                                });
+                            }
+                        }
+                    });
+                }
+            },
+            cancel: {
+                text: 'Отменить'
+            }
+        }
+    });
+
+});

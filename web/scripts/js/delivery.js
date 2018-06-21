@@ -205,3 +205,12 @@ function delivery_notice(id) {
 
     //$('.chosen').chosen();
 }
+function add_pay() {
+    i = $(".tr_tbl").length;
+    $("#cost_data_table").append("<tr class='tr_tbl'><td><i onclick='delete_pay(this)' style=\"color:red;\" class=\"la la-2x la-close\"></i></td><td><input name='cost_data[" + i + "][pay_until]' class='form-control pay_until' style='width:90%' type='text' /> руб. </td><td><input name='cost_data[" + i + "][cost_until]' style='width:90%' class='form-control cost_until' type='text' /> руб.</td></tr>");
+}
+
+function delete_pay(obj) {
+    el = $(obj).parent().parent();
+    el.remove();
+}

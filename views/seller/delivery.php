@@ -132,10 +132,12 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/delivery.js
                                                                 5р.</p>
                                                             <table style="width:100%" id="cost_data_table">
                                                                 <tr>
+                                                                    <td style="width: 20px;"></td>
                                                                     <td>Стоимость заказа до:<br></td>
                                                                     <td>Стоимость доставки:</td>
                                                                 </tr>
                                                                 <tr class='tr_tbl'>
+                                                                    <td></td>
                                                                     <td><input name="cost_data[0][pay_until]"
                                                                                class='form-control pay_until'
                                                                                style='width:90%' type='text'/> руб.
@@ -145,6 +147,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/delivery.js
                                                                                class='form-control cost_until'
                                                                                type='text'/> руб.
                                                                     </td>
+
                                                                 </tr>
                                                             </table>
                                                             <a onclick="add_pay()" style="cursor:pointer">Еще

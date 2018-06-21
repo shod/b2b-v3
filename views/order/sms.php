@@ -33,6 +33,13 @@ $this->title = "Обратный звонок";
                                                     <span class="ks-on">Вкл</span>
                                                     <span class="ks-off">Выкл</span>
                                                 </label>
+                                                <button id="addsms_30_5" class="btn btn-primary-outline ks-solid btn-block add_sms">Добавить 30
+                                                    заказов за 5 ТЕ
+                                                </button>
+                                                <br>
+                                                <button id="addsms_100_10" class="btn btn-primary-outline ks-solid btn-block add_sms">Добавить 100
+                                                    заказов за 10 ТЕ
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
