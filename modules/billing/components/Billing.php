@@ -68,13 +68,7 @@ class Billing {
         $this->init($seller_id);
         $class = "app\\modules\\billing\\transaction\\" . ucfirst($type);
         $tr = new $class($this);
-        $res = $tr->process($data);
-
-        if (false === $res) {
-            return 0; /* ошибка */
-        } else {
-            return 1; /* успешно */
-        }
+        return $tr->process($data);
     }
 
 }

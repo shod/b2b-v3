@@ -114,7 +114,9 @@ abstract class Transaction implements ITransaction {
             $transaction->rollBack();
             dd($e->getMessage());
             $this->abort($e->getMessage());
+            return FALSE;
         }
+        return TRUE;
     }
 
     abstract protected function _process($data);
