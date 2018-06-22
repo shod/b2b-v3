@@ -16,16 +16,16 @@ use app\modules\billing\components\Up;
 class Up_click extends Up {
 
     protected function _process($data) {
-        if ($data > 0) {
-            $balance_before = $this->billing->getAccount()->balance_clicks;
+        $this->assert(($data > 0), 'value <= 0');
 
-            $res_bval = $balance_before + $data;
-            $this->billing->getAccount()->balance_clicks = $res_bval;
-            $this->billing->getAccount()->save();
+        $balance_before = $this->billing->getAccount()->balance_clicks;
 
-            $this->object_id = $res_bval;
-            $this->value = 0;
-        }
+        $res_bval = $balance_before + $data;
+        $this->billing->getAccount()->balance_clicks = $res_bval;
+        $this->billing->getAccount()->save();
+
+        $this->object_id = $res_bval;
+        $this->value = 0;
     }
 
 }

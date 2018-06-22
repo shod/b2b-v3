@@ -47,6 +47,14 @@ class TestController extends Controller {
             $this->alert('Up_cash_bonus : Error');
         }
         
+        $balance_0 = $this->getBillAccountBalance($seller_id);
+        \Yii::$app->billing->transaction($seller_id, 'Up_click', 1);
+        $balance_1 = $this->getBillAccountBalance($seller_id);
+
+        if($balance_1 != $balance_0 + 1 ){
+            $this->alert('Up_click : Error');
+        }
+        
         // отнимаем
         
         $balance_0 = $this->getBillAccountBalance($seller_id);
@@ -80,10 +88,29 @@ class TestController extends Controller {
             $this->alert('Activate : Error');
         }
         
+        $balance_0 = $this->getBillAccountBalance($seller_id);
         \Yii::$app->billing->transaction($seller_id, 'Deactivate');
+        $balance_1 = $this->getBillAccountBalance($seller_id);
         $seller = \app\models\Seller::findOne($seller_id);
-        if($seller->active != 0 ){
+        if($seller->active != 0 || $balance_0 != $balance_1){
             $this->alert('Deactivate : Error');
+        }
+        
+        $balance_0 = $this->getBillAccountBalance($seller_id);
+        \Yii::$app->billing->transaction($seller_id, 'Activate_b2b');
+        $balance_1 = $this->getBillAccountBalance($seller_id);
+        $seller = \app\models\Seller::findOne($seller_id);
+        if($seller->active != 1 || $balance_0 != $balance_1){
+            $this->alert('Activate_b2b : Error');
+        }
+        
+        $balance_0 = $this->getBillAccountBalance($seller_id);
+        \Yii::$app->billing->transaction($seller_id, 'Deactivate_b2b');
+        $seller = \app\models\Seller::findOne($seller_id);
+        $balance_1 = $this->getBillAccountBalance($seller_id);
+
+        if($seller->active != 0 || $balance_0 - \app\modules\billing\transaction\Deactivate_b2b::COST != $balance_1){
+            $this->alert('Deactivate_b2b : Error');
         }
         
         \Yii::$app->billing->transaction($seller_id, 'Section_group', [["section_deactivate", "484"], ["Section_activate", "223"]]);
@@ -99,7 +126,7 @@ class TestController extends Controller {
         $seller = \app\models\Seller::findOne($seller_id);
         $BillAccount = \app\models_ex\BillAccount::findOne($seller->bill_account_id);
         $bonus = \app\models_ex\BillAccount::find()->where(['owner_id' => $BillAccount->id])->one();
-        return $BillAccount->balance + $bonus->balance;
+        return $BillAccount->balance + $bonus->balance + $BillAccount->balance_clicks;
     }
 
 }

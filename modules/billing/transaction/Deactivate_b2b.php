@@ -8,24 +8,22 @@
 
 namespace app\modules\billing\transaction;
 
-use app\modules\billing\components\Down;
+use app\modules\billing\transaction\Deactivate;
 
 /**
  * Description of Activate
  *
  * @author Schemelev E.
  */
-class Deactivate extends Down {
+class Deactivate_b2b extends Deactivate {
+
+    const COST = 5;
 
     protected function _process($data) {
-        $this->billing->getSeller()->active = 0;
-        $this->billing->getSeller()->save();
-
-        \app\helpers\SysService::EventAdd('seller_deactivate', [$this->billing->getSellerId()]);
+        $this->processBase(self::COST);
 
         $this->object_id = $this->billing->getSellerId();
+        parent::_process($data);
     }
-
-    public function endNotify() {}
 
 }
