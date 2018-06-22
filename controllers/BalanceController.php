@@ -413,8 +413,8 @@ class BalanceController extends Controller
                     where st.seller_id = {$this->seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
             $res = \Yii::$app->db->createCommand($sql)->queryAll();
             $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
-            if ($res[0]['id'] == 1){
-                $vars['balance_clicks'] = floor((float)$bill_account->balance / (float)$res[0]['cost_click']);
+            if (count($res) == 1){
+                $vars['balance_clicks'] = floor((float)$bill_account->balance / (float)$res['cost_click']);
                 $vars["click_bill_text"] = "Стоимость клика: <span class='badge'>0.4 ТЕ</span> ";
             } else {
                 $vars['balance_clicks'] = $bill_account->balance_clicks;
