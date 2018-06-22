@@ -213,13 +213,21 @@ class SellerController extends Controller
 
         switch ($action) {
             case "activate":
-                echo "Работа возобновлена!";
+                if(\Yii::$app->billing->transaction($this->seller_id, 'Activate_b2b')){
+                    echo "Работа возобновлена!";
+                } else {
+                    echo "Возобновление не прошло, обратитесь к администратору!";
+                }
                 break;
             case 'deactivate':
-                echo "Работа поставлена на паузу!";
+                if(\Yii::$app->billing->transaction($this->seller_id, 'Deactivate_b2b')){
+                    echo "Работа поставлена на паузу!";
+                } else {
+                    echo "Выполнить приостановку работы не удалось, обратитесь к администратору!";
+                }
+
                 break;
         }
-        //TODO: TRANSACTIONS
     }
 
     public function actionPlaceActions(){

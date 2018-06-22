@@ -405,7 +405,6 @@ class ProductController extends Controller
                 \Yii::$app->db->createCommand("call pc_product_seller_actual({$this->seller_id});")->execute();
                 return $this->redirect(['product/on-sale']);
                 break;
-            // TODO: transactions
         }
     }
 
