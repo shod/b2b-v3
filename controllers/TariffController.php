@@ -25,6 +25,7 @@ class TariffController extends Controller
     public $active_pack_sum = 0;
     public $active_sections = "";
     public $active_sections_sum = 0;
+    public $min_balance = 10;
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('site/login');
@@ -95,8 +96,51 @@ class TariffController extends Controller
             case "save":
                 $active_packs = json_decode(Yii::$app->request->get("pack"));
                 $active_sections = json_decode(Yii::$app->request->get("section"));
+                $ids = array_merge($active_sections,$active_packs);
 
+                $seller = \app\models\Seller::find()->where(['id' => $this->seller_id])->one();
+                $bill_account = \app\models_ex\BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
+                if(($bill_account->balance <= $this->min_balance) && ($this->seller_id != 4129)){
+                    echo "Для смены тарифа ваш баланс должен быть не менее " .  $this->min_balance ."!";
+                    exit;
+                }
 
+                $DATA = array();
+                $ids_done = array();
+                $res = \Yii::$app->db->createCommand("select * from bill_catalog_seller where seller_id={$this->seller_id}")->queryAll();
+
+                foreach((array)$res as $r)
+                {
+                    $id = $r['catalog_id'];
+                    if (in_array($id, $ids))
+                    {
+                        $ids_done[] = $id;
+                    }
+                    else
+                    {
+                        $DATA[] = array('section_deactivate', $id);
+                    }
+                }
+
+                foreach((array)$ids as $id)
+                {
+                    if (!in_array($id, $ids_done))
+                    {
+                        $DATA[] = array('section_activate', $id);
+                    }
+                }
+                \Yii::$app->billing->transaction($this->seller_id, 'section_group', $DATA);
+
+                /* Обновление активности товаров в зависимости от подключенных разделов*/
+                $sql = "update product_seller as ps
+                set active=0
+                where seller_id = {$this->seller_id}";
+                \Yii::$app->db->createCommand($sql)->execute();
+
+                \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id});")->execute();
+                \Yii::$app->db->createCommand("call pc_product_seller_actual({$this->seller_id});")->execute();
+                echo "Тариф успешно сохранен!";
+                exit();
                 break;
             case "save_catalogs":
                 $catalogs = Yii::$app->request->post("catalog_check");
@@ -153,13 +197,13 @@ class TariffController extends Controller
         $vars['pack_items'] = $this->get_data_bill_catalog_new_tarif();
         $vars['pack_lines'] = $this->active_pack;
         $vars['pack_sum'] = $this->active_pack_sum;
-
+        $vars['section_items'] = $this->get_data_bill_catalog_new_sections();
         $vars['section_lines'] = $this->active_sections;
         $vars['section_sum'] = $this->active_sections_sum;
 
         $vars['all_sum'] = $this->active_pack_sum + $this->active_sections_sum;
 
-        $vars['section_items'] = $this->get_data_bill_catalog_new_sections();
+
         return $this->render('index', $vars);
     }
 
@@ -243,7 +287,7 @@ class TariffController extends Controller
         foreach((array)$res as $r)
         {
             $r['count_products'] = isset($data[$r['catalog_id']]) && $data[$r['catalog_id']] > 0 ? $data[$r['catalog_id']] : "-";
-            $r['count_goods'] = isset($data_goods[$r['catalog_id']]) && $data_goods[$r['catalog_id']] > 0 ? "<a href='/?admin=products&&catalog_id={$r['catalog_id']}&goods=1' >(+{$data_goods[$r['catalog_id']]} в товарах без описания)</a>" : "";
+            $r['count_goods'] = isset($data_goods[$r['catalog_id']]) && $data_goods[$r['catalog_id']] > 0 ? "<a href='/product/catalog/?catalog_id={$r['catalog_id']}&goods=1' >(+{$data_goods[$r['catalog_id']]} в товарах без описания)</a>" : "";
             $r['checked'] = $r['cat_off'] > 0 ? "" : "checked";
             $vars['data'] .= $this->renderPartial('tmpl/click_item', $r);
 
@@ -270,17 +314,21 @@ class TariffController extends Controller
             {
                 $ID1 = $r1['id'];
                 $obj1 = new billPosition($ID1, $this->seller_id);
-
+                $cost = $obj1->get_cost_str();
                 $html .= $this->renderPartial('tmpl/item_section', array(
                     'id' => $ID1,
                     'f_tarif' => $r1['f_mode_tarif'] ? 1 : 0,
                     'f_tarif_class' => $r1['f_mode_tarif'] ? 'mode_tarif' : '',
                     'name' => $obj1->name,
-                    'cost' => $obj1->get_cost_str(),
+                    'cost' => $cost,
                     "act" => $obj1->get_act_str(),
                     "checked" => $obj1->is_active() ? "checked" : "",
                     'class_last' => ($i + 1 == count($res1)) ? 'class="last"' : ''
                 ));
+                if($obj1->is_active()){
+                    $this->active_sections .= $this->renderPartial("tmpl/section_line", ['cost' => $cost, 'name' => $obj1->name, 'id' => $obj1->id]);
+                    $this->active_sections_sum += $cost['cost'];
+                }
             }
 
         return $html;

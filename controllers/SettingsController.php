@@ -237,8 +237,9 @@ class SettingsController extends Controller
                             if (move_uploaded_file($logo["tmp_name"], $filename)) {
                                 SiteService::resize($filename, array(90, 35));
                                 $filename = 'logo$'.$this->seller_id.'.jpg';
-                                $path_local = "http://b2b.migom.by/seller/{$filename}";
-                                $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                                $home = \yii\helpers\Url::base(true);
+                                $path_local = "{$home}/seller/{$filename}";
+                                $path = "https://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
                                 $seller->setting_bit = $setting_bit;
@@ -282,7 +283,7 @@ class SettingsController extends Controller
                         $filename = 'logo$'.$this->seller_id.'.jpg';
                         $home = \yii\helpers\Url::base(true);
                         $path_local = "{$home}/seller/{$filename}";
-                        $path = "http://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                        $path = "https://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
 
                         file_get_contents($path, NULL, NULL, 0, 14);
                         $setting_bit = SiteService::set_bitvalue($setting_bit,131072,1);
@@ -434,8 +435,9 @@ class SettingsController extends Controller
         $vars['img_documents'] = $this->get_img_documents();
 
         $logo_url = "https://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg";
-        $vars["logo"] = "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>";;
         $fl_logo_exist = $this->checkRemoteFile($logo_url);
+        $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
+
         $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
         if($fl_logo_exist && ($vars['bit_logoauto'] == "")) {
             $vars['dis_logo'] = "readonly disabled";
