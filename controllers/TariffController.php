@@ -287,7 +287,7 @@ class TariffController extends Controller
         foreach((array)$res as $r)
         {
             $r['count_products'] = isset($data[$r['catalog_id']]) && $data[$r['catalog_id']] > 0 ? $data[$r['catalog_id']] : "-";
-            $r['count_goods'] = isset($data_goods[$r['catalog_id']]) && $data_goods[$r['catalog_id']] > 0 ? "<a href='/?admin=products&&catalog_id={$r['catalog_id']}&goods=1' >(+{$data_goods[$r['catalog_id']]} в товарах без описания)</a>" : "";
+            $r['count_goods'] = isset($data_goods[$r['catalog_id']]) && $data_goods[$r['catalog_id']] > 0 ? "<a href='/product/catalog/?catalog_id={$r['catalog_id']}&goods=1' >(+{$data_goods[$r['catalog_id']]} в товарах без описания)</a>" : "";
             $r['checked'] = $r['cat_off'] > 0 ? "" : "checked";
             $vars['data'] .= $this->renderPartial('tmpl/click_item', $r);
 
