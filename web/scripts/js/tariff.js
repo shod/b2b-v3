@@ -169,15 +169,21 @@ function save_tariff() {
                     text: 'Сохранить', // With spaces and symbols
                     btnClass: 'btn-primary',
                     action: function () {
-
+                        $("#tariff-page").LoadingOverlay("show", {
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            image: '',
+                            fontawesome: "la la-refresh la-spin",
+                            zIndex: 1100
+                        });
                         $.ajax({
                             method: "GET",
                             url: "/tariff/process/?action=save&pack="+JSON.stringify(active_packs)+"&section="+JSON.stringify(active_sections),
                             dataType: 'html',
                         })
                             .done(function( msg ) {
+                                $("#tariff-page").LoadingOverlay("hide");
                                 $.alert({
-                                    title: "Тариф успешно сохранен",
+                                    title: msg,
                                     type: 'blue',
                                     content: 'Для продолжения работы нажмите ОК',
                                 });

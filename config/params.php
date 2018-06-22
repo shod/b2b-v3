@@ -9,7 +9,8 @@ return [
     'questionEmails' => [
         'admin@migom.by',
         'promo@migom.by',
-        'sale@migom.by'
+        'sale@migom.by',
+        'nk@migom.by'
     ],
     'testEmails' => [
         'nk@migom.by',"admin@migom.by", "shod@migom.by"

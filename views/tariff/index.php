@@ -30,7 +30,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
     }
 </style>
 
-<div class="ks-page-content-body ks-projects-grid-board">
+<div class="ks-page-content-body ks-projects-grid-board" id="tariff-page">
 
 
     <div class="ks-projects-grid-board-projects">
