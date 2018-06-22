@@ -75,11 +75,12 @@ $this->registerJs(
                                                     <tr>
                                                         <td style="margin-left:0px;"><?= $logo ?></td>
                                                         <td>
-                                                            <button class="btn btn-<?= isset($dis_logo) ? $dis_logo : "primary" ?> ks-btn-file">
+                                                            <!--button class="btn btn-<?= isset($dis_logo) ? $dis_logo : "primary" ?> ks-btn-file">
                                                                 <span class="la la-cloud-upload ks-icon"></span>
                                                                 <span class="ks-text">Выберите файл</span>
-                                                                <input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>>
-                                                            </button>
+                                                                <input type="file" name="logo-file" <?= isset($dis_logo) ? $dis_logo : "" ?>>
+                                                            </button-->
+                                                            <input type="file" name="logo-file" <?= isset($dis_logo) ? $dis_logo : "" ?>>
                                                         </td>
                                                     </tr>
                                                     </tbody>
