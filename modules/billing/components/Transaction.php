@@ -24,7 +24,7 @@ abstract class Transaction implements ITransaction {
     
     CONST TYPE_FIXED = 'fixed';
 
-    public function __construct($billing, $owner_id = 0) {
+    public function __construct( Billing $billing, $owner_id = 0) {
         $this->owner_id = $owner_id;
 
         $this->billing = $billing;
