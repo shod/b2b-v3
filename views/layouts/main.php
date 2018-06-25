@@ -117,7 +117,7 @@ AppAsset::register($this);
                         </a>
                     </div>
                 <?php else: ?>
-                    <?
+                    <?php
 
                         $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
                         where st.seller_id = {$seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
