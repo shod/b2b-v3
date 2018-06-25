@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\SiteService;
 use app\models\SysObjectProperty;
 use app\models_ex\Member;
 use app\models\Seller;
@@ -21,7 +22,7 @@ class SiteController extends Controller
      * @inheritdoc
      */
     public function beforeAction($action) {
-        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
+        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'admin-test')&&($action->id != 'sign-up')) {
             $this->redirect('site/login');
         } else {
             return parent::beforeAction($action);
@@ -86,6 +87,11 @@ class SiteController extends Controller
         Yii::$app->view->params['customParam'] = 'B2B главная.';
         $seller_id = Yii::$app->user->identity->getId();
         return $this->render('index', ['sid' => $seller_id]);
+    }
+
+    public function actionAdminTest(){
+        $filename = $filename = "seller/logo$1500.jpg";
+        SiteService::resize($filename, array(90, 35));
     }
 
     /**
