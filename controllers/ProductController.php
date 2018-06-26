@@ -405,7 +405,6 @@ class ProductController extends Controller
                 \Yii::$app->db->createCommand("call pc_product_seller_actual({$this->seller_id});")->execute();
                 return $this->redirect(['product/on-sale']);
                 break;
-            // TODO: transactions
         }
     }
 
@@ -520,7 +519,7 @@ class ProductController extends Controller
         foreach ((array)$res as $r)
         {
             $selected = ($brand && ($r["brand"] == $brand)) ? "selected" : "";
-            $value = urlencode($r["brand"]);
+            $value = $r["brand"];
             $html .= "<option value=\"{$value}\"{$selected}>{$r["brand"]}</option>";
         }
 

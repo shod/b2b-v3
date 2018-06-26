@@ -30,7 +30,7 @@ $this->registerJs(
                 </div>
             </div>
 
-            <form method="post" action="/settings/process" id="userForm">
+            <form method="post" action="/settings/process" id="userForm" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                 <input type="hidden" name="action" value="save_user"/>
 
@@ -80,7 +80,7 @@ $this->registerJs(
                                                                 <span class="ks-text">Выберите файл</span>
                                                                 <input type="file" name="logo-file" <?= isset($dis_logo) ? $dis_logo : "" ?>>
                                                             </button-->
-                                                            <input type="file" name="logo-file" <?= isset($dis_logo) ? $dis_logo : "" ?>>
+                                                            <input type="file" name="logo" <?= isset($dis_logo) ? $dis_logo : "" ?>>
                                                         </td>
                                                     </tr>
                                                     </tbody>

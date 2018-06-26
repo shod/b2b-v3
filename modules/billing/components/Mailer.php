@@ -104,8 +104,8 @@ class Mailer {
                 $data['sections'][] = "{$d['name']}{$mode}";
         }
         
-        $data['tarifs'] = join(", ", (array) $data['tarifs']);
-        $data['sections'] = join(", ", (array) $data['sections']);
+        $data['tarifs'] = isset($data['tarifs']) ? join(", ", (array) $data['tarifs']) : "";
+        $data['sections'] = isset($data['sections']) ? join(", ", (array) $data['sections']) : "";
 
         $this->mail('sections_admin', $data, ['subject' => "Изменение тарифного плана"] );
     }

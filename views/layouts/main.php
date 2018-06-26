@@ -117,7 +117,7 @@ AppAsset::register($this);
                         </a>
                     </div>
                 <?php else: ?>
-                    <?
+                    <?php
 
                         $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
                         where st.seller_id = {$seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
@@ -134,7 +134,7 @@ AppAsset::register($this);
                     ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?>  ( <?= $balance_text ?>)</span>
+                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?>  ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
