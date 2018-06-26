@@ -345,6 +345,8 @@ class SettingsController extends Controller
                     $success = true;
                     $this->data_img_registration();
                 }
+                $path = "https://static.migom.by/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";
+                file_get_contents($path, NULL, NULL, 0, 14);
                 echo json_encode(array('success'=>$success));
                 exit;
                 break;
@@ -399,6 +401,8 @@ class SettingsController extends Controller
                     $success = true;
                     $this->data_img_document();
                 }
+                $path = "https://static.migom.by/img_delete.php?seller_document=1&fname={$file_name}&sid={$this->seller_id}";
+                file_get_contents($path, NULL, NULL, 0, 14);
                 echo json_encode(array('success'=>$success));
                 exit;
                 break;
@@ -448,33 +452,37 @@ class SettingsController extends Controller
     }
 
     private function data_img_registration() {
-		$documents_data = scandir('seller/registration/'.$this->seller_id.'/');
-		unset($documents_data[0],$documents_data[1]);
+        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}", NULL, NULL, 0, 14);
         \Yii::$app->db->createCommand("update seller_info set img_registration = '".json_encode($documents_data)."', f_registration = 0 where seller_id={$this->seller_id}")->execute();
 	}
 
     private function data_img_document() {
-        $documents_data = scandir('seller/document/'.$this->seller_id.'/');
-        unset($documents_data[0],$documents_data[1]);
+        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}", NULL, NULL, 0, 14);
         \Yii::$app->db->createCommand("update seller_info set img_documents = '".json_encode($documents_data)."' where seller_id={$this->seller_id}")->execute();
     }
 
     private function get_img_registration($none = 0) {
-
-        $dir = 'seller/registration/'.$this->seller_id.'/';
+        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
+        $imgs = json_decode($documents_data);
         $data = "";
-        if(is_dir($dir)) {
-            $documents_path = scandir('seller/registration/'.$this->seller_id.'/');
+        foreach($imgs as $file) {
+            $r['file_name'] = $file;
+            $r['src'] = 'https://static.migom.by/img/seller/registration/'.$this->seller_id.'/'.$file;
+            $r['none'] = $none;
+            $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
+        }
+        return $data;
+    }
 
-            foreach($documents_path as $file) {
-                if($file != "." && $file != "..") {
+    function get_img_documents() {
 
-                    $r['file_name'] = $file;
-                    $r['src'] = '/seller/registration/'.$this->seller_id.'/'.$file;
-                    $r['none'] = $none;
-                    $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
-                }
-            }
+        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}");
+        $imgs = json_decode($documents_data);
+        $data = "";
+        foreach($imgs as $file) {
+            $r['file_name'] = $file;
+            $r['src'] = 'https://static.migom.by/img/seller/document/'.$this->seller_id.'/'.$file;
+            $data .= $this->renderPartial("tmpl/img_document", $r);
         }
         return $data;
     }
@@ -776,24 +784,6 @@ class SettingsController extends Controller
             $data_array = '<input class="form-control" type="text" name="'.$type_field.'[]" /><br>';
         }
         return $data_array;
-    }
-
-    function get_img_documents() {
-
-        $data = "";
-        $dir = 'seller/document/'.$this->seller_id.'/';
-        if(is_dir($dir)) {
-            $documents_path = scandir('seller/document/'.$this->seller_id.'/');
-
-            foreach($documents_path as $file) {
-                if($file != "." && $file != "..") {
-                    $r['file_name'] = $file;
-                    $r['src'] = '/seller/document/'.$this->seller_id.'/'.$file;
-                    $data .= $this->renderPartial("tmpl/img_document", $r);
-                }
-            }
-        }
-        return $data;
     }
 
 
