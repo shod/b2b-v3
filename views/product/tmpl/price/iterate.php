@@ -16,9 +16,9 @@
     </td>
     <td class="product-item">
         <select name="wh_state[<?= $product_id ?>][<?= $id ?>][]" class="wh_state form-control">
-            <option value="1" $vars[selected_1]> В наличии </option>
-            <option value="2" $vars[selected_2]> Под заказ </option>
-            <option value="3" $vars[selected_3]> Отсутствует </option>
+            <option value="1" <?= isset($selected_1) ? $selected_1 : "" ?> > В наличии </option>
+            <option value="2" <?= isset($selected_2) ? $selected_2 : "" ?> > Под заказ </option>
+            <option value="3" <?= isset($selected_3) ? $selected_3 : "" ?> > Отсутствует </option>
         </select>
     </td>
     <td class="product-item">

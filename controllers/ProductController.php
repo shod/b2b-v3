@@ -519,7 +519,7 @@ class ProductController extends Controller
         foreach ((array)$res as $r)
         {
             $selected = ($brand && ($r["brand"] == $brand)) ? "selected" : "";
-            $value = urlencode($r["brand"]);
+            $value = $r["brand"];
             $html .= "<option value=\"{$value}\"{$selected}>{$r["brand"]}</option>";
         }
 
