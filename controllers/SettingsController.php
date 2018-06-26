@@ -467,12 +467,15 @@ class SettingsController extends Controller
         $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
         $imgs = json_decode($documents_data);
         $data = "";
-        foreach($imgs as $file) {
-            $r['file_name'] = $file;
-            $r['src'] = 'https://static.migom.by/img/seller/registration/'.$this->seller_id.'/'.$file;
-            $r['none'] = $none;
-            $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
+        if(count($imgs)){
+            foreach($imgs as $file) {
+                $r['file_name'] = $file;
+                $r['src'] = 'https://static.migom.by/img/seller/registration/'.$this->seller_id.'/'.$file;
+                $r['none'] = $none;
+                $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
+            }
         }
+
         return $data;
     }
 
@@ -481,11 +484,14 @@ class SettingsController extends Controller
         $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}");
         $imgs = json_decode($documents_data);
         $data = "";
-        foreach($imgs as $file) {
-            $r['file_name'] = $file;
-            $r['src'] = 'https://static.migom.by/img/seller/document/'.$this->seller_id.'/'.$file;
-            $data .= $this->renderPartial("tmpl/img_document", $r);
+        if(count($imgs)){
+            foreach($imgs as $file) {
+                $r['file_name'] = $file;
+                $r['src'] = 'https://static.migom.by/img/seller/document/'.$this->seller_id.'/'.$file;
+                $data .= $this->renderPartial("tmpl/img_document", $r);
+            }
         }
+
         return $data;
     }
 
