@@ -339,7 +339,7 @@ class SettingsController extends Controller
                 exit;
                 break;
             case "del_img_registration":
-                $success = false;
+                $success = true;
                 $file_name = Yii::$app->request->get("file_name");
                 if(file_exists('seller/registration/'.$this->seller_id.'/'.$file_name) && unlink('seller/registration/'.$this->seller_id.'/'.$file_name)) {
                     $success = true;
@@ -395,7 +395,7 @@ class SettingsController extends Controller
                 break;
 
             case "del_img_document":
-                $success = false;
+                $success = true;
                 $file_name = Yii::$app->request->get("file_name");
                 if(file_exists('seller/document/'.$this->seller_id.'/'.$file_name) && unlink('seller/document/'.$this->seller_id.'/'.$file_name)) {
                     $success = true;
