@@ -341,7 +341,7 @@ class SettingsController extends Controller
             case "del_img_registration":
                 $success = false;
                 $file_name = Yii::$app->request->get("file_name");
-                if(unlink('seller/registration/'.$this->seller_id.'/'.$file_name)) {
+                if(file_exists('seller/registration/'.$this->seller_id.'/'.$file_name) && unlink('seller/registration/'.$this->seller_id.'/'.$file_name)) {
                     $success = true;
                     $this->data_img_registration();
                 }
@@ -397,7 +397,7 @@ class SettingsController extends Controller
             case "del_img_document":
                 $success = false;
                 $file_name = Yii::$app->request->get("file_name");
-                if(unlink('seller/document/'.$this->seller_id.'/'.$file_name)) {
+                if(file_exists('seller/document/'.$this->seller_id.'/'.$file_name) && unlink('seller/document/'.$this->seller_id.'/'.$file_name)) {
                     $success = true;
                     $this->data_img_document();
                 }
@@ -452,12 +452,14 @@ class SettingsController extends Controller
     }
 
     private function data_img_registration() {
-        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}", NULL, NULL, 0, 14);
+        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
+        $documents_data = json_decode($documents_data);
         \Yii::$app->db->createCommand("update seller_info set img_registration = '".json_encode($documents_data)."', f_registration = 0 where seller_id={$this->seller_id}")->execute();
 	}
 
     private function data_img_document() {
-        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}", NULL, NULL, 0, 14);
+        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}");
+        $documents_data = json_decode($documents_data);
         \Yii::$app->db->createCommand("update seller_info set img_documents = '".json_encode($documents_data)."' where seller_id={$this->seller_id}")->execute();
     }
 
