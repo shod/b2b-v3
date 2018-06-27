@@ -482,7 +482,7 @@ class ProductController extends Controller
             {
                 $message = htmlspecialchars($res["message"]);
                 $cdate = $res["cdate"];
-                $status = "<font color=\"#ff0000\" title=\"{$message}\">Произошла ошибка ({$message}).</font> {$cdate} <br/> Проверьте корректность формата прайса и попробуйте импорт еще раз. Если это не поможет, обратитесь к администратору проекта.";
+                $status = "<font color=\"#ff0000\" title=\"{$message}\">Произошла ошибка ({$message}).</font> {$cdate} <br/> Проверьте корректность формата прайса и попробуйте импорт еще раз. Если это не поможет, обратитесь в службу технической поддержки.";
             }
 
 

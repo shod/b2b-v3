@@ -68,9 +68,9 @@ $this->registerJs(
                                 </div>
                                 <div class="col-lg-8">
                                     <a style="width: 100%"
-                                       href='http://api.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                       href='https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
-                                        http://api.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
+                                        https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
                                 </div>
                                 <div class="col-lg-2">
@@ -82,7 +82,7 @@ $this->registerJs(
                                     <b>Ссылка</b>
                                 </div>
                                 <div class="col-lg-8">
-                                    <a href='http://api.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                    <a href='https://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
                                         http://api.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
