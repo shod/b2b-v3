@@ -382,6 +382,8 @@ class ProductController extends Controller
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
         $vars['is_goods'] = Yii::$app->request->get("goods") ?  "<input type='hidden' name='goods' value=1 />" : "";
         $vars['currency'] = $curr;
+        $vars['mode'] = $mode;
+        $vars['search'] = $search;
 
         return $this->render('catalog', $vars);
     }
