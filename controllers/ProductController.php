@@ -394,6 +394,8 @@ class ProductController extends Controller
         $vars["cnt_all"] = $this->cnt_all;
         $vars["results"] = $this->getImportResultsHtml();
         $vars['seller_id'] = $this->seller_id;
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $vars["pay_type"] = $seller->pay_type;
         $vars['md5_seller'] = md5($this->seller_id . "panda");
         return $this->render('price', $vars);
     }

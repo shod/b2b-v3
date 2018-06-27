@@ -19,22 +19,24 @@ $this->title = "Товары в продаже";
                                 Процент активных:
                                 <mark><?= isset($prod_active_percent) ? $prod_active_percent : "" ?>%</mark>
                             </a></p>
-                        <p><a href="/tariff" class="btn btn-primary">Подключить еще разделы или пакеты</a></p>
-                        <p><span class="badge badge-default">Обновлены <?= isset($status) ? $status : "" ?></span></p>
+                        <p><a href="/tariff" class="btn btn-primary btn-sm">Подключить еще разделы или пакеты</a></p>
+
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
+                        <p><span class="badge badge-default">Обновлены <?= isset($status) ? $status : "" ?></span></p>
+                        <form type="get" action="/product/process/">
+                            <input type="hidden" name="action" value="refresh">
+                            <p><input type="submit" class="btn btn-primary  btn-sm"
+                                      value="Подтвердить актуальность цен">
+                            </p>
+                        </form>
+
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 content-end">
                         <button data-remote="/product/get-curs/" data-toggle="ajaxModal"
                                 data-target=".bd-example-modal-lg" class="btn btn-primary">Настройка валюты
                         </button>
 
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 content-end">
-                        <form type="get" action="/product/process/">
-                            <input type="hidden" name="action" value="refresh">
-                            <p><input type="submit" class="btn btn-primary btn-block"
-                                      value="Подтвердить актуальность цен">
-                            </p>
-                        </form>
                     </div>
                 </div>
             <?php endif; ?>
