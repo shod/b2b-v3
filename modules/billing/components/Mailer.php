@@ -32,7 +32,14 @@ class Mailer {
     private function mail($tamplate, $params, $opts=[])
     {
         $this->opts = $opts;
-        SysService::sendEmail($this->getParam('to'), $this->getParam('subject'), $this->getParam('from'), NULL , 'seller/' . $tamplate, $params);
+        $to = $this->getParam('to');
+        if(is_array($to)){
+            foreach ($to as $to_item) {
+                SysService::sendEmail($to_item, $this->getParam('subject'), $this->getParam('from'), NULL , 'seller/' . $tamplate, $params);
+            }
+            return;
+        }
+        SysService::sendEmail($to, $this->getParam('subject'), $this->getParam('from'), NULL , 'seller/' . $tamplate, $params);
     }
     
     
