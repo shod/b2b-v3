@@ -147,72 +147,87 @@ class SiteController extends Controller
     {
         $this->layout = false;
         if (Yii::$app->request->post()) {
-            $login = stripslashes(Yii::$app->request->post("login"));
-            $pass = stripslashes(Yii::$app->request->post("pass"));
+            $recaptcha = Yii::$app->request->post('g-recaptcha-response');
+            if(isset($recaptcha) && !empty($recaptcha)){
+                //your site secret key
+                $secret = '6LfNZ1gUAAAAAEvGG6FHdCX84B5wIL4aL9E7_2P3';
+                //get verify response data
+                $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$recaptcha);
+                $responseData = json_decode($verifyResponse);
+                if($responseData->success){
+                    $login = stripslashes(Yii::$app->request->post("login"));
+                    $pass = stripslashes(Yii::$app->request->post("pass"));
 
-            $f_offerta = Yii::$app->request->post("f_offerta");
+                    $f_offerta = Yii::$app->request->post("f_offerta");
 
-            $offerta = 0;
-            foreach ((array)$f_offerta as $f) {
-                $offerta = $offerta & ~(int)$f | (1 * $f);
-            }
+                    $offerta = 0;
+                    foreach ((array)$f_offerta as $f) {
+                        $offerta = $offerta & ~(int)$f | (1 * $f);
+                    }
 
-            if ($login == '' or $pass == '0') {
-                $this->redirect('site/sign-up');
-            }
-            $member = new Member();
-            $member->login = $login;
-            $member->pwd = crypt($pass);
-            $member->type_reg = 7;
-            $member->email = Yii::$app->request->post("email");
-            $member->f_reg_confirm = 0;
-            $member->save();
+                    if ($login == '' or $pass == '0') {
+                        $this->redirect('site/sign-up');
+                    }
+                    $member = new Member();
+                    $member->login = $login;
+                    $member->pwd = crypt($pass);
+                    $member->type_reg = 7;
+                    $member->email = Yii::$app->request->post("email");
+                    $member->f_reg_confirm = 0;
+                    $member->save();
 
 
-            $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
-            $currency_rate = $curs * 10000;
-            $setting_data = serialize(array("currency_base" => "byn", "currency_rate" => $currency_rate));
+                    $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
+                    $currency_rate = $curs * 10000;
+                    $setting_data = serialize(array("currency_base" => "byn", "currency_rate" => $currency_rate));
 
-            $seller = new Seller();
-            $seller->name = Yii::$app->request->post("shop");
-            $seller->member_id = $member->id;
-            $seller->active = 0;
-            $seller->setting_data = $setting_data;
-            $seller->f_offerta = $offerta;
-            $seller->work_time = 'a:7:{i:1;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:2;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:3;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:4;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:5;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:6;a:2:{i:0;s:5:"";i:1;s:5:"";}i:0;a:2:{i:0;s:0:"";i:1;s:0:"";}}';
-            $seller->save();
+                    $seller = new Seller();
+                    $seller->name = Yii::$app->request->post("shop");
+                    $seller->member_id = $member->id;
+                    $seller->active = 0;
+                    $seller->setting_data = $setting_data;
+                    $seller->f_offerta = $offerta;
+                    $seller->work_time = 'a:7:{i:1;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:2;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:3;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:4;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:5;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:6;a:2:{i:0;s:5:"";i:1;s:5:"";}i:0;a:2:{i:0;s:0:"";i:1;s:0:"";}}';
+                    $seller->save();
 
-            $property = SysObjectProperty::find()->where(["object_type_id" => 7, 'name' => ['email', 'phone', 'fio']])->all();
-            $member_ex = Member::find()->where(['id' => $seller->member_id])->one();
-            foreach ((array) $property as $name) {
-                $value = Yii::$app->request->post($name->name);
-                if($value){
-                    $member_ex->setMemberProperty($name->name,$value,$name->id);
+                    $property = SysObjectProperty::find()->where(["object_type_id" => 7, 'name' => ['email', 'phone', 'fio']])->all();
+                    $member_ex = Member::find()->where(['id' => $seller->member_id])->one();
+                    foreach ((array) $property as $name) {
+                        $value = Yii::$app->request->post($name->name);
+                        if($value){
+                            $member_ex->setMemberProperty($name->name,$value,$name->id);
+                        }
+                    }
+
+                    //Seller registration
+                    \app\helpers\SysService::EventAdd(\app\helpers\SysService::SEND_MAIL, array(
+                            'tmpl'=>'seller_registration_email',
+                            'subject'=>'Migom.by - Регистрация продавца',
+                            'time' => date("Y-m-d H:i")
+                        )
+                    );
+
+                    /* $str = "URL: " . $_SERVER['HTTP_REFERER'] . " TIME: " . date('d.m.Y H:i') . " IP: " . $_SERVER['REMOTE_ADDR'] . " QUERY_STRING: " . $_SERVER['QUERY_STRING'];
+                     foreach ((array)$_SERVER as $index => $ars) {
+                         $str .= "[" . $index . "]=" . $ars . "\n";
+                     }
+
+                     $f = fopen($_SERVER["DOCUMENT_ROOT"] . '/logs/registration.txt', 'a');
+                     fputs($f, $str . PHP_EOL);
+                     fclose($f);
+
+                     $P->data["seller_id"] = $seller_id;
+                     $P->data["f_offerta"] = $offerta;
+
+                     $whirl->mailer('seller')->delayed(0, 'registration', $P->data);*/
+                    return $this->render('splash-reg');
+                } else {
+                    return $this->render('sign-up');
                 }
+            } else {
+                return $this->render('sign-up');
             }
 
-            //Seller registration
-            \app\helpers\SysService::EventAdd(\app\helpers\SysService::SEND_MAIL, array(
-                    'tmpl'=>'seller_registration_email',
-                    'subject'=>'Migom.by - Регистрация продавца',
-                    'time' => date("Y-m-d H:i")
-                )
-            );
-
-           /* $str = "URL: " . $_SERVER['HTTP_REFERER'] . " TIME: " . date('d.m.Y H:i') . " IP: " . $_SERVER['REMOTE_ADDR'] . " QUERY_STRING: " . $_SERVER['QUERY_STRING'];
-            foreach ((array)$_SERVER as $index => $ars) {
-                $str .= "[" . $index . "]=" . $ars . "\n";
-            }
-
-            $f = fopen($_SERVER["DOCUMENT_ROOT"] . '/logs/registration.txt', 'a');
-            fputs($f, $str . PHP_EOL);
-            fclose($f);
-
-            $P->data["seller_id"] = $seller_id;
-            $P->data["f_offerta"] = $offerta;
-
-            $whirl->mailer('seller')->delayed(0, 'registration', $P->data);*/
-            return $this->render('splash-reg');
         } else {
             return $this->render('sign-up');
         }
