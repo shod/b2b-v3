@@ -206,7 +206,7 @@ class ProductController extends Controller
             $url = Yii::$app->request->post("url");
         }
 
-        if ($url) {
+        if (isset($url)) {
             $url = rawurlencode($url);
             $check_delete = Yii::$app->request->post("check_delete");
             file_get_contents("https://up.migom.by/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
