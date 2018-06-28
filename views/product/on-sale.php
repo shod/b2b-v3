@@ -33,8 +33,10 @@ $this->title = "Товары в продаже";
 
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 content-end">
-                        <button data-remote="/product/get-curs/" data-toggle="ajaxModal"
-                                data-target=".bd-example-modal-lg" class="btn btn-primary">Настройка валюты
+                        <button class="btn btn-primary" data-remote="/product/get-curs/" data-toggle="ajaxModal"
+                                data-target=".bd-example-modal-lg">
+                            <span class="la la-cog ks-icon"></span>
+                            <span class="ks-text">Настройка валюты</span>
                         </button>
 
                     </div>

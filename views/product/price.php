@@ -129,7 +129,7 @@ $this->registerJs(
                             <h4>Закачать прайс-лист</h4>
 
                             <div><b style='color:red'>Внимание!</b> Если вы используете в качестве прайс-листа выгрузку
-                                цен &nbsp;с площадки <b>Onliner.by</b>,
+                                цен с площадки <b>Onliner.by</b>,
                                 название загружаемого файла должно быть <b>onliner.csv</b></div>
                             <br>
                             <div class="alert alert-primary ks-solid-light" role="alert">
