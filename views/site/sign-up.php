@@ -14,6 +14,18 @@
     <link rel="stylesheet" type="text/css" href="/web/styles/common.min.css">
     <link rel="stylesheet" type="text/css" href="/web/styles/pages/auth.min.css">
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        function check_offerta(){
+            length = $(".offerta-check:checked").length;
+            if(length > 0){
+                $('#btn-submit').prop('disabled', false);
+                $('#btn-submit').prop('readonly', false);
+            } else{
+                $('#btn-submit').prop('disabled', true);
+                $('#btn-submit').prop('readonly', true);
+            }
+        }
+    </script>
 
 </head>
 <body>
@@ -103,14 +115,14 @@
                         <div class="form-group row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="f_offerta[]" value="1">
+                                    <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="1">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Договора оферты</span>
                                 </label>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="f_offerta[]" value="2">
+                                    <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="2">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Договора оферты без НДС</span>
                                 </label>
@@ -119,7 +131,7 @@
                         <div class="g-recaptcha" data-sitekey="6LfNZ1gUAAAAAJhGQVeavCN6V57rF0GpJYrjm6Up"></div>
                         <br>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary btn-block" value="Зарегистрироваться">
+                            <input id="btn-submit" type="submit" class="btn btn-primary btn-block" disabled readonly value="Зарегистрироваться">
                         </div>
                         <div class="ks-text-center">
                             <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="pages-signup.html">правилами размещения в каталоге Migom.by</a>

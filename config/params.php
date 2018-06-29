@@ -4,7 +4,8 @@ return [
     'adminEmail' => 'admin@migom.by ',
     'saleEmails' => [
         'sale@migom.by',
-        'sale2@migom.by'
+        'sale2@migom.by',
+        'nk@migom.by'
     ],
     'questionEmails' => [
         'admin@migom.by',

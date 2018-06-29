@@ -154,6 +154,11 @@ return [
                 'class' => 'yii\log\FileTarget',
                 'levels' => ['error', 'warning'],
             ],
+            [
+                'class' => 'yii\log\FileTarget',
+                'levels' => ['info', ], //'info'
+                'logFile' => '@runtime/logs/registration.log',
+            ],
         ],
     ],
     'db' => require(__DIR__ . '/components/db.php'),

@@ -199,27 +199,24 @@ class SiteController extends Controller
                         }
                     }
 
-                    //Seller registration
-                    \app\helpers\SysService::EventAdd(\app\helpers\SysService::SEND_MAIL, array(
-                            'tmpl'=>'seller_registration_email',
-                            'subject'=>'Migom.by - Регистрация продавца',
-                            'time' => date("Y-m-d H:i")
-                        )
-                    );
+                    $admin_emails = Yii::$app->params['saleEmails'];
+                    foreach ($admin_emails as $email){
+                        \app\helpers\SysService::sendEmail($email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL , 'seller/registration', Yii::$app->request->post());
+                    }
 
-                    /* $str = "URL: " . $_SERVER['HTTP_REFERER'] . " TIME: " . date('d.m.Y H:i') . " IP: " . $_SERVER['REMOTE_ADDR'] . " QUERY_STRING: " . $_SERVER['QUERY_STRING'];
-                     foreach ((array)$_SERVER as $index => $ars) {
-                         $str .= "[" . $index . "]=" . $ars . "\n";
-                     }
+
+
+                    $str = "URL: " . $_SERVER['HTTP_REFERER'] . " TIME: " . date('d.m.Y H:i') . " IP: " . $_SERVER['REMOTE_ADDR'] . " QUERY_STRING: " . $_SERVER['QUERY_STRING'];
+                    foreach ((array)$_SERVER as $index => $ars) {
+                        $str .= "[" . $index . "]=" . $ars . "\n";
+                    }
+
+                    /*
 
                      $f = fopen($_SERVER["DOCUMENT_ROOT"] . '/logs/registration.txt', 'a');
                      fputs($f, $str . PHP_EOL);
                      fclose($f);
-
-                     $P->data["seller_id"] = $seller_id;
-                     $P->data["f_offerta"] = $offerta;
-
-                     $whirl->mailer('seller')->delayed(0, 'registration', $P->data);*/
+                    */
                     return $this->render('splash-reg');
                 } else {
                     return $this->render('sign-up');
