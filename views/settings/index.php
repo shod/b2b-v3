@@ -23,14 +23,14 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                         <label>Ф.И.О. Полностью</label>
                         <input name="fio" type="text"
                                class="form-control" <?= (isset($fio) && $fio != "") ? "readonly" : "" ?>
-                               value="<?= $fio ?>" data-validation="length" data-validation-length="min5"
+                               value="<?= (isset($fio) && $fio != "") ? $fio : "" ?>" data-validation="length" data-validation-length="min5"
                                data-validation-error-msg="Введите Ф.И.О">
                     </div>
                     <div class="col-lg-4">
                         <label>Адрес электронной почты</label>
                         <input name="email" type="text"
                                class="form-control" <?= (isset($email) && $email != "") ? "readonly" : "" ?>
-                               placeholder="" value="<?= $email ?>" data-validation="length"
+                               placeholder="" value="<?= (isset($email) && $email != "") ? $email : "" ?>" data-validation="length"
                                data-validation-length="min5"
                                data-validation-error-msg="Введите адрес электронной почты">
                     </div>
