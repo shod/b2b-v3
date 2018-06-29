@@ -93,7 +93,7 @@
                         <div class="form-group row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="input-icon icon-left icon-lg icon-color-primary">
-                                    <input type="password" class="form-control" placeholder="Пароль" name="password">
+                                    <input type="password" class="form-control" placeholder="Пароль" name="pass">
                                     <span class="icon-addon">
                                     <span class="la la-key"></span>
                                 </span>
