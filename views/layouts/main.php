@@ -23,10 +23,10 @@ AppAsset::register($this);
     <title>B2B.migom.by <?= Html::encode($this->title) ?></title>
     <style>
         @media only screen and (max-width: 780px) {
-            a:not(.btn-danger) > .ks-action {
+            a:not(.btn-success):not(.btn-danger) > .ks-action {
                 color: #25628f;
             }
-            a:not(.btn-danger) > .ks-description{
+            a:not(.btn-success):not(.btn-danger) > .ks-description{
                 color: #8997c3;
             }
         }
@@ -98,7 +98,7 @@ AppAsset::register($this);
             <div class="ks-navbar-actions">
 
                 <div class="nav-item ks-notifications">
-                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:white">Тур по изменениям</a>
+                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Тур по изменениям</a>
                 </div>
 
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
@@ -147,7 +147,7 @@ AppAsset::register($this);
 
 
                 <!-- BEGIN NAVBAR MESSAGES -->
-                <div class="nav-item dropdown ks-messages" style="background-color: #25628f">
+                <div class="nav-item dropdown ks-messages">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="la la-phone la-2x ks-icon" aria-hidden="true">
                         </span>
