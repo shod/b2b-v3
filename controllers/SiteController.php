@@ -202,24 +202,13 @@ class SiteController extends Controller
                         }
                     }
 
-                    //$admin_emails = Yii::$app->params['saleEmails'];
-                    $admin_emails = ['nk@migom.by'];
+                    $admin_emails = Yii::$app->params['saleEmails'];
+
                     foreach ($admin_emails as $email) {
                         \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge(Yii::$app->request->post(), ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2]));
                     }
                     \app\helpers\SysService::sendEmail($seller_email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', Yii::$app->request->post());
 
-
-                    /*
-                     * $str = "URL: " . $_SERVER['HTTP_REFERER'] . " TIME: " . date('d.m.Y H:i') . " IP: " . $_SERVER['REMOTE_ADDR'] . " QUERY_STRING: " . $_SERVER['QUERY_STRING'];
-                    foreach ((array)$_SERVER as $index => $ars) {
-                        $str .= "[" . $index . "]=" . $ars . "\n";
-                    }
-
-                     $f = fopen($_SERVER["DOCUMENT_ROOT"] . '/logs/registration.txt', 'a');
-                     fputs($f, $str . PHP_EOL);
-                     fclose($f);
-                    */
                     return $this->render('splash-reg');
                 } else {
                     return $this->render('sign-up');
