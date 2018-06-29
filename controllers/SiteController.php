@@ -170,7 +170,7 @@ class SiteController extends Controller
                     }
                     $member = new Member();
                     $member->login = $login;
-                    $member->pwd = crypt($pass);
+                    $member->pwd = crypt($pass,"");
                     $member->type_reg = 7;
                     $member->email = Yii::$app->request->post("email");
                     $member->f_reg_confirm = 0;
