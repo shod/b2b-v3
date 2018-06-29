@@ -181,11 +181,16 @@ class BillAccount extends  \app\models\BillAccount {
 				order by bc.f_tarif desc
 			")->queryAll();
 
-            $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
-            if (count($res)>1)
-            {
-                $down_catalog += $res[1]["value"];
+            if(count($res)){
+                $down_catalog = $res[0]["value"] * (100 - $this->skidka()) * 0.01;
+                if (count($res)>1)
+                {
+                    $down_catalog += $res[1]["value"];
+                }
+            } else {
+                $down_catalog = 30;
             }
+
 
             //total + $down_other
             $day_down = $down_catalog ;
