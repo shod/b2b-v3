@@ -5,6 +5,7 @@ $('.pack-checkbox').change(function () {
     id = $(this).attr('id').split("_");
     type = id[0];
     id = id[1];
+    old_id = id;
 
     if ($(this).is(':checked')) {
         $(this).parents('.card').css('background', 'rgba(0,0,0,.05)');
@@ -30,18 +31,30 @@ $('.pack-checkbox').change(function () {
                 pack();
             }
         }
+        sum_recount();
     } else {
         $(this).parents('.card').css('background', 'transparent');
         $(this).parents('tr').css('background', 'transparent');
         if(type == 'pack'){
-            //$("#calc_pack_"+id).prop('checked', false);
+            console.log('---||');
+            console.log(id);
+            $("#calc_pack_"+id).prop('checked', false);
+        } else {
+            $("#calc_section_"+id).prop('checked', false);
+        }
+        console.log('recount');
+        sum_recount();
+        if(type == 'pack'){
+            console.log('---');
+            console.log(id);
             $("#calc_pack_"+id).parents('label').remove();
         } else {
-            //$("#calc_section_"+id).prop('checked', false);
-            $("#calc_pack_"+id).parents('label').remove();
+            console.log('----');
+            console.log(id);
+            $("#calc_section_"+id).parents('label').remove();
         }
     }
-    sum_recount();
+
 });
 pack();
 if(!$('input:checkbox#pack_261').prop("checked")){$('input:checkbox#pack_261').click();}	//выставить другие товары для всех
@@ -73,9 +86,13 @@ function pack() {
                 $("#section_"+id).prop('checked', false);
                 $("#section_"+id).parents('tr').css('background', 'transparent');
             }
-            $(this).parents('label').remove();
         }
         sum_recount();
+
+        if(!$(this).is(':checked')){
+            $(this).parents('label').remove();
+        }
+
     });
 
 }
@@ -85,13 +102,13 @@ function sum_recount() {
     sum_section = 0;
     sum_pack = 0;
     $( ".pack-line" ).each(function() {
-        id = $(this).attr('id').split("_");
-        type = id[1];
-        id = id[2];
+        pack_id = $(this).attr('id').split("_");
+        row_type = pack_id[1];
+        row_id = pack_id[2];
         if ($(this).is(':checked')) {
             s = parseInt($(this).parents('label').children(".custom-control-cost").html());
             console.log(s);
-            if(type == 'pack'){
+            if(row_type == 'pack'){
                 sum_pack += s;
             } else {
                 sum_section += s;
