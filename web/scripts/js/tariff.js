@@ -34,9 +34,11 @@ $('.pack-checkbox').change(function () {
         $(this).parents('.card').css('background', 'transparent');
         $(this).parents('tr').css('background', 'transparent');
         if(type == 'pack'){
-            $("#calc_pack_"+id).prop('checked', false);
+            //$("#calc_pack_"+id).prop('checked', false);
+            $("#calc_pack_"+id).parents('label').remove();
         } else {
-            $("#calc_section_"+id).prop('checked', false);
+            //$("#calc_section_"+id).prop('checked', false);
+            $("#calc_pack_"+id).parents('label').remove();
         }
     }
     sum_recount();
@@ -71,6 +73,7 @@ function pack() {
                 $("#section_"+id).prop('checked', false);
                 $("#section_"+id).parents('tr').css('background', 'transparent');
             }
+            $(this).parents('label').remove();
         }
         sum_recount();
     });
