@@ -58,7 +58,7 @@ $this->title = "Пополнение баланса";
                 </div>
                 <div class="ks-subscriptions" id="subscriptions">
 
-                    <?= isset($choise) ? $choise : ""; ?>
+                    <?//= isset($choise) ? $choise : ""; ?>
 
                     <?= $blanks; ?>
 
@@ -88,7 +88,7 @@ $this->title = "Пополнение баланса";
                         </div>
                     <?php endif; ?>
                     <br><br>
-                    <?php if (isset($f_offerta) && ((int)$f_offerta & 2)): ?>
+                    <?php if (false && (isset($f_offerta) && ((int)$f_offerta & 2))): ?>
                         <div id="text_no_nds">
                             <h4>Оплата  по реквизитам без НДС</h4>
 
