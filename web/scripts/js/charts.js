@@ -505,3 +505,83 @@ function get_chart_ctr_all(date){
         }
     });
 }
+
+function get_sms_chart(){
+    $.ajax({
+        type: "GET",
+        url: "/order/get-chart-sms/",
+        success: function(json){
+
+            if (json != 'null'){
+                $(function () {
+                    var jsonStr = JSON.parse(json);
+                    chart_data_all = new Array;
+                    for (var i = 0; i < jsonStr.length; i++) {
+                        date_arr = jsonStr[i].date_view.split("-");
+                        year = parseInt(date_arr[0]);
+                        month = parseInt(date_arr[1]);
+                        //day = parseInt(date_arr[2]);
+                        date = Date.UTC(year,  month);
+                        view_all = jsonStr[i].cnt;
+
+                        chart_data_all.push([parseInt(date), parseFloat(view_all)]);
+                    }
+
+                    Highcharts.setOptions({
+                        lang: {
+                            loading: 'Загрузка...',
+                            months: ['Декабрь','Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь'],
+                            weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                            shortMonths: ['Дек','Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'],
+                            exportButtonTitle: "Экспорт",
+                            printButtonTitle: "Печать",
+                            rangeSelectorFrom: "С",
+                            rangeSelectorTo: "По",
+                            rangeSelectorZoom: "Период",
+                            downloadPNG: 'Скачать PNG',
+                            downloadJPEG: 'Скачать JPEG',
+                            downloadPDF: 'Скачать PDF',
+                            downloadSVG: 'Скачать SVG',
+                            printChart: 'Напечатать график'
+                        }
+                    });
+
+                    $('#chart').highcharts({
+                        chart: {
+                            type: 'areaspline'
+                        },
+                        title: {
+                            text: 'Количество заказов по месяцам'
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            dateTimeLabelFormats: { // don't display the dummy year
+                                month: '%b %Y',
+                                year: '%b'
+                            },
+                            title: {
+                                text: 'Дата'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Значение'
+                            },
+                            min: 0
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{series.name}</b><br>',
+                            pointFormat: '{point.x:%b %Y}: {point.y}'
+                        },
+
+                        series: [{
+                            name: 'Количество заказов',
+                            data: chart_data_all
+                        },]
+                    });
+                });
+            }
+
+        }
+    });
+}

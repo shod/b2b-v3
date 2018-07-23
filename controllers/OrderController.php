@@ -8,6 +8,7 @@ use app\models\Seller;
 use app\models\SellerInfo;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -73,6 +74,25 @@ class OrderController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionGetChartSms(){
+        $sql = "select *, concat(SUBSTR(mdate,1,4),'-',SUBSTR(mdate,5)) as sms_date from po_history
+                            WHERE
+                                seller_id = {$this->seller_id}
+                            ORDER BY
+                                id DESC";
+        $data = \Yii::$app->db->createCommand($sql)->queryAll();
+        $array_data = array();
+        foreach((array)$data as $r)
+        {
+            $a['date_view'] = date($r['sms_date']);
+            $a['cnt'] = $r['cnt'];
+            $array_data[]= $a;
+        }
+        $json = Json::encode($array_data);
+        echo $json;
+        exit;
     }
 
     public function actionProcess(){

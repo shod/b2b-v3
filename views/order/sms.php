@@ -1,5 +1,13 @@
 <?php
 $this->title = "Обратный звонок";
+$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJs(
+    "
+    $(document).ready(function () {
+        get_sms_chart();
+    });
+    "
+);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
@@ -137,6 +145,10 @@ $this->title = "Обратный звонок";
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12" id="chart"></div>
             </div>
         </div>
     </div>
