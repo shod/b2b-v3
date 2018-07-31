@@ -13,7 +13,7 @@ $this->registerJs(
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card ks-panel" style="height: 100%">
                         <h5 class="card-header">
                             Подключение услуги
@@ -21,15 +21,8 @@ $this->registerJs(
                         <div class="card-block">
                             <div class="ks-text-block">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-2 col-xs-2">
-                                        <div class=" ks-card-widget ks-widget-payment-earnings">
-                                            <div class="ks-payment-earnings-amount"><?= isset($po_balance) ? $po_balance : "" ?></div>
-                                            <div class="ks-payment-earnings-amount-description">
-                                                Осталось заказов
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10  col-xs-10">
+
+                                    <div class="col-lg-10 col-md-12  col-xs-12">
                                         <div class="ks-text-block">
                                             <div class="gray-name">Статус услуги</div>
                                             <div>
@@ -41,13 +34,19 @@ $this->registerJs(
                                                     <span class="ks-on">Вкл</span>
                                                     <span class="ks-off">Выкл</span>
                                                 </label>
-                                                <button id="addsms_30_5" class="btn btn-primary-outline ks-solid btn-block add_sms">Добавить 30
-                                                    заказов за 5 ТЕ
-                                                </button>
-                                                <br>
-                                                <button id="addsms_100_10" class="btn btn-primary-outline ks-solid btn-block add_sms">Добавить 100
-                                                    заказов за 10 ТЕ
-                                                </button>
+                                                <br><br>
+                                                <div class="ks-text-block">
+                                                    <div class="ks-name">Email для заказов</div>
+
+                                                    <div class="input-group">
+                                                        <input id="email-value" type="text" class="form-control" placeholder="Email"
+                                                               value="<?= isset($notice_email) ? $notice_email : "" ?>">
+                                                        <span class="input-group-btn">
+                        <button id="email" class="btn btn-primary notify-button" type="button">Сохранить</button>
+                        </span>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -56,42 +55,72 @@ $this->registerJs(
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card ks-panel">
                         <h5 class="card-header">
-                            Настрока уведомлений о заказе
+                            Настройка СМС о заказе
                         </h5>
                         <div class="card-block">
                             <div class="ks-text-block">
-                                <div class="ks-name">Номер телефона для заказов</div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-xs-2">
+                                        <div class=" ks-card-widget ks-widget-payment-earnings">
+                                            <div class="ks-payment-earnings-amount"><?= isset($po_balance) ? $po_balance : "" ?></div>
+                                            <div class="ks-payment-earnings-amount-description">
+                                                Осталось СМС
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-xs-10">
+                                        <div class="ks-name">Номер телефона для СМС</div>
 
-                                <div class="input-icon icon-left icon-lg icon-color-primary input-group">
-                                    <input id="phone-value" style="padding-left: 50px" type="text" class="form-control"
-                                           placeholder="Номер" value="<?= isset($notice_phone) ? $notice_phone : "" ?>">
-                                    <span class="icon-addon">
+                                        <div class="input-icon icon-left icon-lg icon-color-primary input-group">
+                                            <input id="phone-value" style="padding-left: 50px" type="text" class="form-control"
+                                                   placeholder="Номер" value="<?= isset($notice_phone) ? $notice_phone : "" ?>">
+                                            <span class="icon-addon">
                              <span>+375</span>
                         </span>
-                                    <span class="input-group-btn">
+                                            <span class="input-group-btn">
                                 <button id="phone" class="btn btn-primary notify-button"
                                         type="button">Сохранить</button>
                         </span>
+                                        </div>
+                                        <br>
+
+                                        <button id="addsms_30_5"
+                                                class="btn btn-primary-outline ks-solid btn-block add_sms">
+                                            Добавить 30
+                                            СМС за 5 ТЕ
+                                        </button>
+                                        <br>
+                                        <button id="addsms_100_10"
+                                                class="btn btn-primary-outline ks-solid btn-block add_sms">
+                                            Добавить 100
+                                            СМС за 10 ТЕ
+                                        </button>
+
+                                    </div>
+
                                 </div>
 
                             </div>
-                            <div class="ks-text-block">
-                                <div class="ks-name">Email для заказов</div>
 
-                                <div class="input-group">
-                                    <input id="email-value" type="text" class="form-control" placeholder="Email"
-                                           value="<?= isset($notice_email) ? $notice_email : "" ?>">
-                                    <span class="input-group-btn">
-                        <button id="email" class="btn btn-primary notify-button" type="button">Сохранить</button>
-                        </span>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-xs-12">
+                    <div class="card ks-panel">
+                        <h5 class="card-header">
+                            Как это работает
+                        </h5>
+                        <div class="card-block">
+                            Покупатель нажимает на кнопку «Купить», расположенную рядом с вашими ценовыми предложениями.
+                            Заполняет данные для покупки, и заявка от покупателя приходит на указанный вами email. <b>Не забудьте добавить email для заказов!</b>
+                            Мы рекомендуем Вам оперативно реагировать на заявки от покупателей. Все заявки дублируются на странице Мои заказы в личном кабинете. Отмечайте те, которые уже обработаны. Функционал бесплатный!
+                            За дополнительную плату Вы можете подключить услугу SMS-заказы. В таком случае, заявки будут дублироваться через СМС на номер мобильного телефона, указанного в настройках.
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
