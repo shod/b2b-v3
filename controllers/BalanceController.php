@@ -109,13 +109,13 @@ class BalanceController extends Controller
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
             $nds = 0;
             $official_data = array(
-                "official_name" => "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ГРЕЧКО АРТЁМ ГЕННАДЬЕВИЧ",
-                "official_unp" => "УНП 101541947 ОКПО 37526626",
-                "official_address" => "220024,г.Минск, ул. Асаналиева, 24-6",
-                "official_rs" => "BY71 ALFA 3013 2293 0400 2027 0000 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;АЛЬФА-БАНК&quot; Ул. Сурганова, 43-47, 220013 Минск, Республика Беларусь",
+                "official_name" => "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ШМЫК ОЛЕГ ДМИТРИЕВИЧ",
+                "official_unp" => "УНП 191182046",
+                "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
+                "official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь",
                 "official_phone" => "тел.: +375 (29) 111 45 45, 777 45 45",
-                "official_faximille" => "http://b2b.migom.by/img/design/faximille_ip.jpg",
-                "official_owner" => "Гречко А. Г.",
+                "official_faximille" => "http://b2b.migom.by/img/design/faximille_od.jpg",
+                "official_owner" => "Шмык О. Д.",
                 "official_percent" => "",
                 "official_nds" => "",
             );

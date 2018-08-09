@@ -103,22 +103,41 @@ class BillReportController extends Controller
         );
 //exit;
         $no_nds = Yii::$app->request->post('no_nds');
-
+        $month = Yii::$app->request->post('month');
+        $dat = $month_data[$month];
+        $year = Yii::$app->request->post('year');
         if($no_nds == 2){
             $pay_source = 2;
-            $official_data = array(
-                "official_name" => "ИНДИВИДУАЛЬНЫЙ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ПРЕДПРИНИМАТЕЛЬ <br>ГРЕЧКО АРТЁМ ГЕННАДЬЕВИЧ<br>",
-                "official_unp" => "101541947",
-                "official_okpo" => "37526626",
-                "official_address" => "220024,г.Минск, ул. Асаналиева, 24-6",
-                "official_rs" => "BY71 ALFA 3013 2293 0400 2027 0000 <br>БИК ALFABY2X",
-                "official_bank" => "ЗАО &quot;АЛЬФА-БАНК&quot; Ул. Сурганова, 43-47, 220013 Минск, Республика Беларусь",
-                "official_phone" => "тел.: +375(29)1114545, 7774545",
-                "official_faximille" => "http://b2b.migom.by/img/design/faximille_ip.jpg",
-                "official_owner" => "Гречко А. Г.",
-                "official_percent" => "",
-                "official_nds" => "",
-            );
+            if(($year == 18) && ($month < 8)){
+                $official_data = array(
+                    "official_name" => "ИНДИВИДУАЛЬНЫЙ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ПРЕДПРИНИМАТЕЛЬ <br>ГРЕЧКО АРТЁМ ГЕННАДЬЕВИЧ<br>",
+                    "official_unp" => "101541947",
+                    "official_okpo" => "37526626",
+                    "official_address" => "220024,г.Минск, ул. Асаналиева, 24-6",
+                    "official_rs" => "BY71 ALFA 3013 2293 0400 2027 0000 <br>БИК ALFABY2X",
+                    "official_bank" => "ЗАО &quot;АЛЬФА-БАНК&quot; Ул. Сурганова, 43-47, 220013 Минск, Республика Беларусь",
+                    "official_phone" => "тел.: +375(29)1114545, 7774545",
+                    "official_faximille" => "http://b2b.migom.by/img/design/faximille_ip.jpg",
+                    "official_owner" => "Гречко А. Г.",
+                    "official_percent" => "",
+                    "official_nds" => "",
+                );
+            } else {
+                $official_data = array(
+                    "official_name" => "ИНДИВИДУАЛЬНЫЙ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ПРЕДПРИНИМАТЕЛЬ <br>ШМЫК ОЛЕГ ДМИТРИЕВИЧ<br>",
+                    "official_unp" => "191182046",
+                    "official_okpo" => "",
+                    "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
+                    "official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933",
+                    "official_bank" => "ЗАО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь",
+                    "official_phone" => "тел.: +375(29)1114545, 7774545",
+                    "official_faximille" => "http://b2b.migom.by/img/design/faximille_od.jpg",
+                    "official_owner" => "Шмык О. Д.",
+                    "official_percent" => "",
+                    "official_nds" => "",
+                );
+            }
+
             $nds = "";
         } else {
             $pay_source = 1;
@@ -137,9 +156,7 @@ class BillReportController extends Controller
             );
         }
 
-        $month = Yii::$app->request->post('month');
-        $dat = $month_data[$month];
-        $year = Yii::$app->request->post('year');
+
         if ($month == 12){
             $year_2 = $year+1;
             $month_2 = 1;
