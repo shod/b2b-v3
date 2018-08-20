@@ -378,6 +378,12 @@ AppAsset::register($this);
                         <span>Ваши предложения</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/site/logout">
+                        <span class="la la-sign-out ks-icon"></span>
+                        <span>Выйти</span>
+                    </a>
+                </li>
             </ul>
             <div class="ks-sidebar-extras-block">
                 <div class="ks-extras-block-item"><?= isset($this->params['customParam']) ? $this->params['customParam'] : ""; ?></div>
