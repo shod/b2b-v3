@@ -49,83 +49,6 @@ $this->registerJs(
                 <div class="col-lg-12">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
-                            <h4>Мой прайс</h4>
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <b>Файл</b>
-                                </div>
-                                <div class="col-lg-8">
-                                    <input class="btn btn-primary" type="button" value="Скачать мой прайс-лист"
-                                           id="btn_download_price"/>
-                                </div>
-                                <div class="col-lg-2">
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <b>Ссылка</b>
-                                </div>
-                                <div class="col-lg-8">
-                                    <a style="width: 100%"
-                                       href='https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
-                                       target='_blank'>
-                                        https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
-                                    </a>
-                                </div>
-                                <div class="col-lg-2">
-                                    (csv формат)
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <b>Ссылка</b>
-                                </div>
-                                <div class="col-lg-8">
-                                    <a href='https://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
-                                       target='_blank'>
-                                        http://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
-                                    </a>
-                                </div>
-                                <div class="col-lg-2">
-                                    (xml формат Яндекс Маркета)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" style="height: 100%">
-                        <div class="card-block">
-                            <h4>Шаблон прайса для обновления</h4>
-                            <p>Прайс-лист должен удовлетворять шаблону (<a
-                                        href="http://files.migom.by/files/template-price-new.xlsx"
-                                        type='application/excel'>скачать</a>)</p>
-
-
-                            <form class="form-inline" method="get" action="/product/price-template"
-                                  id="frm_download_tmpl">
-                                <input class="btn btn-primary" type="button" value="Скачать шаблон прайса"
-                                       id="btn_download_tmpl"/>
-                                <span style="margin: 0px 10px">для</span>
-                                <select class="form-control" name="catalog_id">
-                                    <option value="0">всех товаров (<?= $cnt_all ?>)</option>
-                                    <?= $catalog_options ?>
-                                </select>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" style="height: 100%">
-                        <div class="card-block">
                             <h4>Закачать прайс-лист</h4>
 
                             <div><b style='color:red'>Внимание!</b> Если вы используете в качестве прайс-листа выгрузку
@@ -196,6 +119,85 @@ $this->registerJs(
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card" style="height: 100%">
+                        <div class="card-block">
+                            <h4>Шаблон прайса для обновления</h4>
+                            <p>Прайс-лист должен удовлетворять шаблону (<a
+                                        href="http://files.migom.by/files/template-price-new.xlsx"
+                                        type='application/excel'>скачать</a>)</p>
+
+
+                            <form class="form-inline" method="get" action="/product/price-template"
+                                  id="frm_download_tmpl">
+                                <input class="btn btn-primary" type="button" value="Скачать шаблон прайса"
+                                       id="btn_download_tmpl"/>
+                                <span style="margin: 0px 10px">для</span>
+                                <select class="form-control" name="catalog_id">
+                                    <option value="0">всех товаров (<?= $cnt_all ?>)</option>
+                                    <?= $catalog_options ?>
+                                </select>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card" style="height: 100%">
+                        <div class="card-block">
+                            <h4>Мой прайс</h4>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <b>Файл</b>
+                                </div>
+                                <div class="col-lg-8">
+                                    <input class="btn btn-primary" type="button" value="Скачать мой прайс-лист"
+                                           id="btn_download_price"/>
+                                </div>
+                                <div class="col-lg-2">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <b>Ссылка</b>
+                                </div>
+                                <div class="col-lg-8">
+                                    <a style="width: 100%"
+                                       href='https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                       target='_blank'>
+                                        https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
+                                    </a>
+                                </div>
+                                <div class="col-lg-2">
+                                    (csv формат)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <b>Ссылка</b>
+                                </div>
+                                <div class="col-lg-8">
+                                    <a href='https://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                       target='_blank'>
+                                        http://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
+                                    </a>
+                                </div>
+                                <div class="col-lg-2">
+                                    (xml формат Яндекс Маркета)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

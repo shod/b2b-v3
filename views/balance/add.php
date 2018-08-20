@@ -13,7 +13,7 @@ $this->title = "Пополнение баланса";
                                     без учета НДС 20%
                                 </span>
                             </h3>
-                            <h3 class="ks-payment-earnings-amount">1ТЕ = <span id="te"><?= $curs * 1, 2; ?></span> руб.
+                            <h3 class="ks-payment-earnings-amount">1ТЕ = <span id="te"><?= $curs * 1.2; ?></span> руб.
                                 <span class="ks-description small">
                                 с учетом НДС 20%
                                 </span>
@@ -69,7 +69,7 @@ $this->title = "Пополнение баланса";
                 <div class="col-lg-12">
                     <?php if (isset($f_offerta) && ((int)$f_offerta & 1)): ?>
                         <div id="text_nds">
-                            <h4>Оплата  по реквизитам</h4>
+                            <h4>Оплата  по реквизитам с НДС</h4>
 
                             <p>Вы можете произвести оплату:</p>
 
