@@ -177,7 +177,7 @@ class StatisticController extends Controller
             if (($res['po_active'] == 0) || ((int)$res['po_balance'] < 1)){
                 if($res['po_active'] == 0) {
                     $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Услуга отключена</a>";
-                    $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Обратный звонок\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
+                    $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Мои заказы\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
                 } else {
                     $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Предоплаченные СМС закончились</a>";
                     $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Предоплаченные СМС уведомления закончились</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";

@@ -18,7 +18,7 @@
                 <td style="padding-bottom: 0px" width="1" class="ks-text-light ks-text-right"><?= $vars['spec'] ?>%</td>
             </tr>
             <tr>
-                <td style="padding-bottom: 0px" class="ks-progress-status"><a href="/order/sms">Обратный звонок</a></td>
+                <td style="padding-bottom: 0px" class="ks-progress-status"><a href="/order/sms">Мои заказы</a></td>
                 <td style="padding-bottom: 0px" width="1" class="ks-text-light ks-text-right"><?= $vars['posms'] ?>%</td>
             </tr>
             <tr>

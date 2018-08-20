@@ -1,5 +1,5 @@
 <?php
-$this->title = "Обратный звонок";
+$this->title = "Мои заказы";
 $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "
