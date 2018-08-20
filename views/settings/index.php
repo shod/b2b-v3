@@ -57,7 +57,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                 <td><span><small>город</small><br><input class="form-control" type="text"
                                                                          name="city" value="<?= (isset($city) && $city != "") ? $city : "" ?>" <?= (isset($city) && $city != "") ? "readonly" : "" ?> data-validation="length"
                                                                          data-validation-length="min5" data-validation-error-msg="Введите город"></span></td>
-                                <td><span><small>улица, дом, корпус, офис</small><br><input class="form-control"
+                                <td><span><small>улица, дом/офис</small><br><input class="form-control"
                                                                                             type="text" name="address"
                                                                                             value="<?= (isset($address) && $address != "") ? $address : "" ?>" <?= (isset($address) && $address != "") ? "readonly" : "" ?> data-validation="length"
                                                                                             data-validation-length="min5" data-validation-error-msg="Введите улица, дом, корпус, офис"></span></td>
@@ -77,7 +77,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                 <td><span><small>город</small><br><input class="form-control red" type="text"
                                                                          name="city_law" value="<?= (isset($city_law) && $city_law != "") ? $city_law : "" ?>" <?= (isset($city_law) && $city_law != "") ? "readonly" : "" ?> data-validation="length"
                                                                          data-validation-length="min5" data-validation-error-msg="Введите улица, дом, корпус, офис"></span></td>
-                                <td><span><small>улица, дом, корпус, офис</small><br><input class="form-control red"
+                                <td><span><small>улица, дом/офис</small><br><input class="form-control red"
                                                                                             type="text"
                                                                                             name="address_law"
                                                                                             value="<?= (isset($address_law) && $address_law != "") ? $address_law : "" ?>" <?= (isset($address_law) && $address_law != "") ? "readonly" : "" ?> data-validation="length"
