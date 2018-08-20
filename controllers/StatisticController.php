@@ -364,7 +364,7 @@ class StatisticController extends Controller
         $date = Yii::$app->request->get("date");
         $sql = "SELECT *, DATE_FORMAT(FROM_UNIXTIME(created_at), '%H:%i') as datetime from migombyha.stat_popup WHERE seller_id = {$this->seller_id} and DATE_FORMAT(FROM_UNIXTIME(created_at),'%Y-%m-%d') = '{$date}' and f_uniq = 1 ORDER BY created_at asc";
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
-        $data = "<h4>Дата: {$date}</h4><table class='table table-bordered table-condensed table-striped' style='word-wrap: break-word; table-layout:fixed;'>";
+        $data = "<h4>Дата: {$date}</h4><div style='overflow: auto'><table class='table table-bordered table-condensed table-striped' style='word-wrap: break-word;'>";
         $data .= "<tr><th colspan=4>Статистика кликов</th></tr>";
         foreach((array)$res as $r)
         {
@@ -389,7 +389,7 @@ class StatisticController extends Controller
             $r['context'] = isset($r['context']) && ($r['context'] > 0) ? "Контекст" : "";
             $data .= $this->renderPartial('tmpl/month-data-item-report', $r);
         }
-        $data .= "</table>";
+        $data .= "</table></div>";
         echo $data;
         exit;
     }
