@@ -27,7 +27,7 @@ $this->registerJs(
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="content-end"><a class="btn btn-default" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a></div><br>
+                    <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a></div><br>
 
                     <div style="display: none;" id="help-block" class="alert alert-primary ks-solid-light" role="alert">
                         <p>Данная вкладка служит для совершения операций с прайс-листами.</p>
@@ -168,7 +168,7 @@ $this->registerJs(
                                     <b>Ссылка</b>
                                 </div>
                                 <div class="col-lg-8">
-                                    <a style="width: 100%"
+                                    <a style="width: 100%; word-wrap: break-word;"
                                        href='https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
                                         https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
@@ -183,7 +183,7 @@ $this->registerJs(
                                     <b>Ссылка</b>
                                 </div>
                                 <div class="col-lg-8">
-                                    <a href='https://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                    <a style="word-wrap: break-word;" href='https://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
                                         http://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
