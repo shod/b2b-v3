@@ -49,7 +49,7 @@ $this->title = "Контекстная реклама";
                 </div><br><br><br>
                 <div class="col-lg-12">
                     <div class="card ks-card-widget ks-widget-payment-table-invoicing">
-                        <div class="card-header">
+                        <div class="card-header" style="line-height: 23px;">
                             Подключение контекстной рекламы товаров в Яндекс.Директ и Google AdWords
                         </div>
                         <div class="card-block">
@@ -102,7 +102,7 @@ $this->title = "Контекстная реклама";
             <div class="row" data-dashboard-widget>
                 <div class="col-lg-12">
                     <div class="card ks-card-widget ks-widget-payment-table-invoicing">
-                        <div class="card-header">
+                        <div class="card-header" style="line-height: 23px;">
                             <a href="/context-adv/blacklist" style="margin-bottom: 15px;">Управление разделами для
                                 Яндекс.Директ и Google AdWords</a>
 

@@ -42,7 +42,7 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                 <div class="col-lg-12">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
-                            <h4>Акт приемки-сдачи выполненных работ</h4>
+                            <h4>Акт приемки-сдачи выполненных работ с НДС</h4>
                             <p>Выберите дату:</p>
                             <form class="form-inline" action="/bill-report/get-akt" id="frm_blankop"
                                   target="_blank" method="post">

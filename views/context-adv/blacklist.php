@@ -14,6 +14,7 @@ $this->title = "Управление разделами для Яндекс.Ди
                 <div class="col-lg-12">
 
                     <form method="post" action="/context-adv/process">
+                        <input style="margin-bottom: 10px;" type='submit' value='Сохранить' class='btn btn-primary'/>
                         <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                         <input type="hidden" name="action" value="save_blacklist"/>
                         <div class='mydiv'>
