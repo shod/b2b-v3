@@ -63,7 +63,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                     <h3>Размещение по разделам</h3>
                 </div>
                 <div class="row" style="padding-left: 15px;">
-                    <h5>Выбор тдельных разделов каталога для подключения</h5>
+                    <h5>Выбор отдельных разделов каталога для подключения</h5>
                 </div>
                 <div class="row">
                     <table class="table table-condensed">
