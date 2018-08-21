@@ -2,7 +2,7 @@
 $this->title = 'Калькулятор тарифов';
 $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
-
+<meta name="viewport" content="initial-scale=0.1">
 <style>
     ::-webkit-scrollbar {
         width: 5px;
