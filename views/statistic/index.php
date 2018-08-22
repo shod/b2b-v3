@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
 
-            <div class="row">
+            <!--div class="row">
                 <div class="col-lg-12">
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
         </div>
     </div>
 </div>

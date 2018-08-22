@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header">
+    <div class="card-header" style="line-height: 1.3;">
         <?= $news->title ?>
     </div>
     <div class="card-block">
