@@ -11,13 +11,13 @@ $this->title = "Товары в продаже";
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <p>Всего товаров:
-                            <mark><?= isset($prod_stat_cnt_all) ? $prod_stat_cnt_all : "" ?></mark>
+                            <mark style="margin-bottom: 5px;"><?= isset($prod_stat_cnt_all) ? $prod_stat_cnt_all : "" ?></mark>
                             ,
                             из них активных
-                            <mark><?= isset($prod_stat_cnt_bill) ? $prod_stat_cnt_bill : "" ?></mark>
+                            <mark style="margin-bottom: 5px;"><?= isset($prod_stat_cnt_bill) ? $prod_stat_cnt_bill : "" ?></mark>
                             .<br><a href="/tariff">
                                 Процент активных:
-                                <mark><?= isset($prod_active_percent) ? $prod_active_percent : "" ?>%</mark>
+                                <mark style="margin-bottom: 5px;"><?= isset($prod_active_percent) ? $prod_active_percent : "" ?>%</mark>
                             </a></p>
                         <p><a href="/tariff" class="btn btn-primary btn-sm">Подключить дополнительно разделы или пакеты</a></p>
 

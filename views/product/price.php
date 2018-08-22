@@ -126,7 +126,7 @@ $this->registerJs(
                         <div class="card-block">
                             <h4>Шаблон прайса для обновления</h4>
                             <p>Прайс-лист должен удовлетворять шаблону (<a
-                                        href="http://files.migom.by/files/template-price-new.xlsx"
+                                        href="http://static.migom.by/files/template-price-new.xlsx"
                                         type='application/excel'>скачать</a>)</p>
 
 
