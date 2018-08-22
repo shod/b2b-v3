@@ -26,7 +26,7 @@ $this->registerJs(
                                         <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                         <input type="hidden" name="action" value="refresh" />
                                         Обновлены <?= $status ?>
-                                        <input class="btn btn-primary btn-sm" type="submit" value="Подтвердить актуальность цен"  onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+                                        <input style="margin-bottom: 5px;" class="btn btn-primary btn-sm" type="submit" value="Подтвердить актуальность цен"  onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
                                     </form>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3 content-end">
@@ -40,7 +40,7 @@ $this->registerJs(
                             </div>
 
                         </div>
-                        <div class="card-block">
+                        <div class="card-block" style="overflow: auto">
                             <form method="post" action="/tariff/process">
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                 <input type="hidden" name="action" value="save_catalogs" />

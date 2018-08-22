@@ -59,8 +59,12 @@ $this->registerJs(
                                 <span class="la la-warning la-2x"></span>
                                 Перед закачкой прайса проверьте <b>соответствие</b>
                                 валюты в прайсе и в
-                                <a class="alert-link" href="<?= ($pay_type == 'fixed') ? '/product/on-sale' : '/tariff/click' ?>"
-                                   target="_blank">настройках валюты</a> для вашего аккаунта.
+                                <button class="btn btn-primary" data-remote="/product/get-curs/" data-toggle="ajaxModal"
+                                        data-target=".bd-example-modal-lg">
+                                    <span class="la la-cog ks-icon"></span>
+                                    <span class="ks-text">настройках валюты</span>
+                                </button> для вашего аккаунта.<br>
+
                             </div>
 
                             <form method="post" action="/product/price-import" id="frm_import"
