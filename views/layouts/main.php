@@ -112,7 +112,7 @@ AppAsset::register($this);
                 <?php if ($seller->pay_type == 'fixed'): ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> - <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
+                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
@@ -124,17 +124,17 @@ AppAsset::register($this);
                             $res = \Yii::$app->db->createCommand($sql)->queryOne();
                             if ($res['id'] == 1){
                                 $balance_clicks = "";
-                                $balance_text = "Стоимость клика: <span class='badge'>0.4 ТЕ</span> ";
+                                $balance_text = "Стоимость клика: 0.4 ТЕ";
                             } else {
                                 $balance_clicks = $bill_account->balance_clicks;
-                                $balance_text = "Баланс показов/переходов: <span class='badge'>{$balance_clicks}</span>";
+                                $balance_text = "Баланс показов: {$balance_clicks}";
                             }
 
 
                     ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?>  ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
+                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
