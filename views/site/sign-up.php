@@ -41,7 +41,8 @@
                         <h4 class="ks-header">Регистрация магазина</h4>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Имя" name="name">
+                                <input type="text" class="form-control" placeholder="Имя" name="name" data-validation="length" data-validation-length="min5"
+                                       data-validation-error-msg="Введите имя (минимум 5 символов)">
                                 <span class="icon-addon">
                                 <span class="la la-user"></span>
                             </span>
@@ -49,15 +50,15 @@
                         </div>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Телефон" name="phone">
+                                <input type="text" class="form-control" placeholder="Телефон" name="phone" value="+375" data-validation="length" data-validation-length="min11"
+                                       data-validation-error-msg="Введите телефон">
                                 <span class="icon-addon">
                                 <span class="la la-phone"></span>
-                            </span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Email" name="email">
+                                <input type="text" class="form-control" placeholder="Email" name="email" data-validation="email" data-validation-error-msg="Введите email">
                                 <span class="icon-addon">
                                 <span class="la la-at"></span>
                             </span>
@@ -66,7 +67,8 @@
 
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Город" name="city">
+                                <input type="text" class="form-control" placeholder="Город" name="city" data-validation="length" data-validation-length="min5"
+                                       data-validation-error-msg="Введите город">
                                 <span class="icon-addon">
                                 <span class="la la-map-marker"></span>
                             </span>
@@ -75,15 +77,18 @@
 
                         <div class="form-group row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Название магазина" name="shop">
+                                <input type="text" class="form-control" placeholder="Название магазина" name="shop" data-validation="length" data-validation-length="min4"
+                                       data-validation-error-msg="Введите название магазина">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Название организации" name="org">
+                                <input type="text" class="form-control" placeholder="Название организации" name="org" data-validation="length" data-validation-length="min4"
+                                       data-validation-error-msg="Введите название организации">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Логин" name="login">
+                                <input type="text" class="form-control" placeholder="Логин" name="login" data-validation="length alphanumeric" data-validation-length="min3"
+                                       data-validation-error-msg="Введите название логин (минимум 3 символа)">
                                 <span class="icon-addon">
                                 <span class="la la-at"></span>
                             </span>
@@ -93,7 +98,8 @@
                         <div class="form-group row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="input-icon icon-left icon-lg icon-color-primary">
-                                    <input type="password" class="form-control" placeholder="Пароль" name="pass">
+                                    <input type="password" class="form-control" placeholder="Пароль" name="pass" data-validation="length alphanumeric" data-validation-length="min6"
+                                           data-validation-error-msg="Введите название пароль (минимум 6 символов)">
                                     <span class="icon-addon">
                                     <span class="la la-key"></span>
                                 </span>
@@ -101,7 +107,8 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="input-icon icon-left icon-lg icon-color-primary">
-                                    <input type="password" class="form-control" placeholder="Еще раз" name="pass1">
+                                    <input type="password" class="form-control" placeholder="Еще раз" name="pass1" data-validation="length alphanumeric" data-validation-length="min6"
+                                           data-validation-error-msg="Повторите пароль (минимум 6 символов)">
                                     <span class="icon-addon">
                                     <span class="la la-key"></span>
                                 </span>
@@ -142,7 +149,7 @@
                         <br>
                         <div class="ks-text-center">
                             По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
-                            или звоните по телефонам <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom, <a href="tel:+375297774545">+375 (29) 777-45-45</a> мтс
+                            или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                         </div>
                     </form>
                     <br>
@@ -174,9 +181,11 @@
         </div>
     </div>
 
+    <script src="/web/libs/jquery/jquery.min.js"></script>
+    <script src="/web/libs/jquery-form-validator/jquery.form-validator.min.js"></script>
+    <script>
+        $.validate();
+    </script>
 
-<script src="/web/libs/jquery/jquery.min.js"></script>
-<script src="/web/tether/js/tether.min.js"></script>
-<script src="/web/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
