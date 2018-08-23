@@ -46,8 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </table>
                                 <?php else: ?>
                                     Для возобновления свяжитесь с Вашим менеджером по тел.  <a
-                                            href="tel:+375 29 111-45-45">+375 29 111-45-45 (Velcom)</a>  <a
-                                            href="tel:+375 29 777-45-45">+375 29 777-45-45 (МТС)</a> и еmail: <a
+                                            href="tel:+375 29 111-45-45">+375 29 111-45-45 (Velcom)</a>   и еmail: <a
                                             href="mailto:sale@migom.by">sale@migom.by</a>
                                 <?php endif; ?>
                             </div>

@@ -112,7 +112,7 @@ abstract class Transaction implements ITransaction {
             
         } catch (TransactionException $e) {
             $transaction->rollBack();
-            dd($e->getMessage());
+            //dd($e->getMessage());
             $this->abort($e->getMessage());
             return FALSE;
         }

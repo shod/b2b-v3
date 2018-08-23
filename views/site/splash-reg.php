@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br>
                 <p>
                     По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
-                    или звоните по телефонам <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom, <a href="tel:+375297774545">+375 (29) 777-45-45</a> мтс
+                    или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                 </p>
             </div>
         </div>
