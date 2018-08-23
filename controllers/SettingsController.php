@@ -104,6 +104,7 @@ class SettingsController extends Controller
                 $phone_section = Yii::$app->request->post("phone_section");
                 $email = Yii::$app->request->post("email");
                 $site = Yii::$app->request->post("site");
+                $site_alias = Yii::$app->request->post("site_alias");
                 $address = Yii::$app->request->post("address");
                 $work_time = Yii::$app->request->post("work_time");
                 $delivery = Yii::$app->request->post("delivery");
@@ -201,6 +202,7 @@ class SettingsController extends Controller
                 $seller->phone = $phones;
                 $seller->email = $email;
                 $seller->site = $site;
+                $seller->site_alias = $site_alias;
                 $seller->address = $address;
                 $seller->work_time = serialize($work_time);
                 $seller->delivery = $delivery;
