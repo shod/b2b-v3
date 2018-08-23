@@ -38,43 +38,47 @@ $(document).ready(function () {
         var btnUpload=$('#upload');
         var count = 0;
         var content = '';
-        new AjaxUpload(btnUpload, {
-            action: '/settings/process/?action=add_img_registration',
-            name: 'img[]',
-            multiple: true,
-            data: {_csrf : csrfToken},
-            onSubmit: function(file, ext) {
-                /*|JPG|PNG|JPEG|GIF*/
-                if (! (ext && /^(jpg|png|jpeg|gif|JPG|PNG|JPEG|GIF)$/.test(ext))){
-                    $('#status').text('Только jpg, png, gif файлы');
-                    $('#status').show();
-                    return false;
-                }
-                ++count;
-                $('#procces_load_img').show();
 
-            },
-            onComplete: function(file, response) {
-
-                var data = JSON.parse(response);
-
-                if(data.status) {
-                    --count;
-                    if(count == 0) {
-                        $('#procces_load_img').hide();
+        if(btnUpload.length > 0){
+            new AjaxUpload(btnUpload, {
+                action: '/settings/process/?action=add_img_registration',
+                name: 'img[]',
+                multiple: true,
+                data: {_csrf : csrfToken},
+                onSubmit: function(file, ext) {
+                    /*|JPG|PNG|JPEG|GIF*/
+                    if (! (ext && /^(jpg|png|jpeg|gif|JPG|PNG|JPEG|GIF)$/.test(ext))){
+                        $('#status').text('Только jpg, png, gif файлы');
+                        $('#status').show();
+                        return false;
                     }
-                    var content = '';
-                    for (var i in data.src) {
-                        content += '<div class="item-info-file"><div class="del-img" id="'+data.file_name[i]+'"></div><img src="'+data.src[i]+'" width="50" /></div>';
+                    ++count;
+                    $('#procces_load_img').show();
+
+                },
+                onComplete: function(file, response) {
+
+                    var data = JSON.parse(response);
+
+                    if(data.status) {
+                        --count;
+                        if(count == 0) {
+                            $('#procces_load_img').hide();
+                        }
+                        var content = '';
+                        for (var i in data.src) {
+                            content += '<div class="item-info-file"><div class="del-img" id="'+data.file_name[i]+'"></div><img src="'+data.src[i]+'" width="50" /></div>';
+                        }
+
+                        $(content).appendTo('#files');
+
+                    } else {
+                        alert(data.text);
                     }
-
-                    $(content).appendTo('#files');
-
-                } else {
-                    alert(data.text);
                 }
-            }
-        });
+            });
+        }
+
     });
 
     $('.del-img-doc').on('click', function(event){
@@ -96,47 +100,51 @@ $(document).ready(function () {
 
     $(function(){
         var imgs = new Array();
-        var btnUpload=$('#upload-doc');
+        var btnUpload=$('#upload-documents');
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         var count = 0;
         var content = '';
-        new AjaxUpload(btnUpload, {
-            action: '/settings/process/?action=add_img_document',
-            name: 'img[]',
-            multiple: true,
-            data: {_csrf : csrfToken},
-            onSubmit: function(file, ext) {
 
-                if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
-                    $('#status').text('Только JPG, PNG, GIF файлы');
-                    $('#status').show();
-                    return false;
-                }
-                ++count;
-                $('#procces_load_img').show();
+        if(btnUpload.length > 0){
+            new AjaxUpload(btnUpload, {
+                action: '/settings/process/?action=add_img_document',
+                name: 'img[]',
+                multiple: true,
+                data: {_csrf : csrfToken},
+                onSubmit: function(file, ext) {
 
-            },
-            onComplete: function(file, response) {
-
-                var data = JSON.parse(response);
-
-                if(data.status) {
-                    --count;
-                    if(count == 0) {
-                        $('#procces_load_img').hide();
+                    if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+                        $('#status').text('Только JPG, PNG, GIF файлы');
+                        $('#status').show();
+                        return false;
                     }
-                    var content = '';
-                    for (var i in data.src) {
-                        content += '<div class="item-info-file"><div class="del-img-doc" id="'+data.file_name[i]+'" style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div><img src="'+data.src[i]+'" width="50" /></div>';
+                    ++count;
+                    $('#procces_load_img').show();
+
+                },
+                onComplete: function(file, response) {
+
+                    var data = JSON.parse(response);
+
+                    if(data.status) {
+                        --count;
+                        if(count == 0) {
+                            $('#procces_load_img').hide();
+                        }
+                        var content = '';
+                        for (var i in data.src) {
+                            content += '<div class="item-info-file"><div class="del-img-doc" id="'+data.file_name[i]+'" style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div><img src="'+data.src[i]+'" width="50" /></div>';
+                        }
+
+                        $(content).appendTo('#files');
+
+                    } else {
+                        alert(data.text);
                     }
-
-                    $(content).appendTo('#files');
-
-                } else {
-                    alert(data.text);
                 }
-            }
-        });
+            });
+        }
+
     });
 
 });

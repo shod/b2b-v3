@@ -1,6 +1,6 @@
 <?php
 $this->title = 'Информация для покупателей';
-$this->registerJsFile('https://b2b.migom.by/js/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('/web/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "
@@ -88,7 +88,7 @@ $this->registerJs(
 
                 <div class="row" style="margin-top: 0px; padding-bottom: 15px;">
                     <div class="col-lg-4">
-                        <label style="font-weight: 650;"><span style="color:red;font-size:12px;">*</span> Образцы
+                        <label style="font-weight: 600;"><span style="color:red;font-size:12px;">*</span> Образцы
                             документов,
                             подтверждающих оплату <br>
                             <small>(максимальный размер 10мб, формат JPG, GIF, PNG)</small>
@@ -96,7 +96,7 @@ $this->registerJs(
 
                     </div>
                     <div class="col-lg-8" style="">
-                        <button id="upload-doc" class="upload btn btn-sm btn-primary">Загрузить фотографии</button>
+                        <button type="button" id="upload-documents" class="upload btn btn-sm btn-primary">Загрузить фотографии</button>
                         <div id="status" class="status"></div>
                         <div class="clear"><!-- --></div>
                         <br>
@@ -145,7 +145,7 @@ $this->registerJs(
                         </label>
 
                     </div>
-                    <div class="col-lg-8" style="overflow-x: auto">
+                    <div class="col-lg-8" style="overflow-x: auto;overflow-y: hidden;">
                         <table id="tablePhones">
                             <?= $phones ?>
                         </table>
