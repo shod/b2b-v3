@@ -14,7 +14,7 @@ use app\models_ex\BillAccount;
 
 class Billing {
 
-    private $seller_id;
+    public $seller_id;
     private $seller;
     private $account;
     private $bonus_account;

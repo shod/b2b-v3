@@ -544,7 +544,7 @@ $('.add_sms').click(function() {
                             $this.attr('disabled',false);
                             var answ = eval("(" + data + ")");
                             console.log(answ);
-                            if(parseInt(answ['success'])==1) {
+                            if(answ['success']==true) {
                                 document.location.reload(true);
                             } else {
                                 $.alert({
