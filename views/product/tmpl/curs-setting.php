@@ -1,7 +1,7 @@
 <div class="col-lg-12">
     <div class="card" style="height: 100%">
         <div class="card-block">
-            <form method="post" action="/product/save-curs">
+            <form id="curs_form" method="post" action="/product/save-curs">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                 <div class="row">
                     <div class="col-lg-6">Валюта прайса</div>
@@ -30,12 +30,12 @@
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn btn-primary">Сохранить</button>
-                    </div>
-                </div>
             </form>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary" onclick="ajaxSubmit(this,'curs_form')">Сохранить</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

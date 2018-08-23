@@ -150,8 +150,9 @@ class ProductController extends Controller
         $seller_info->cost_round_num = $cost_round_num;
         $seller_info->save();
         \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
-
-        $this->redirect('/product/on-sale');
+        echo "Курс успешно изменен!";
+        exit();
+        //$this->redirect('/product/on-sale');
     }
 
     public function actionGetDataProducts(){

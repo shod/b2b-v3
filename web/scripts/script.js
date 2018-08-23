@@ -280,13 +280,13 @@ function verify_chboxes() {
     }
 }
 
-function ajaxSubmit(obj) {
+function ajaxSubmit(button,obj) {
     var frm = $('#' + obj);
 
     frm.submit(function (e) {
 
         e.preventDefault();
-
+        $(button).html('Подождите...');
         $.ajax({
             type: frm.attr('method'),
             url: frm.attr('action'),
