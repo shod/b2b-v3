@@ -25,9 +25,9 @@
             <option value="credit" <?= isset($selected_credit) ? $selected_credit : "" ?> >Кредит</option>
             <option value="beznal" <?= isset($selected_beznal) ? $selected_beznal : "" ?> >Безнал</option>
         </select>
-        &nbsp;&nbsp; Доступен в <label>viber <input type='checkbox' name="viber[<?= isset($checked_viber) ? $checked_viber : "" ?>]" /></label>
-        &nbsp;&nbsp; <label>telegram <input type='checkbox' name="telegram[<?= isset($checked_telegram) ? $checked_telegram : "" ?>]" /></label>
-        &nbsp;&nbsp; <label>whats app <input type='checkbox' name="whatsapp[<?= isset($checked_whatsapp) ? $checked_whatsapp : "" ?>]" /></label>
+        &nbsp;&nbsp; Доступен в <label>viber <input type='checkbox' name="viber[<?= $id ?>]" <?= isset($checked_viber) ? $checked_viber : "" ?> /></label>
+        &nbsp;&nbsp; <label>telegram <input type='checkbox' name="telegram[<?= $id ?>]" <?= isset($checked_telegram) ? $checked_telegram : "" ?> /></label>
+        &nbsp;&nbsp; <label>whats app <input type='checkbox' name="whatsapp[<?= $id ?>]"  <?= isset($checked_whatsapp) ? $checked_whatsapp : "" ?> /></label>
         <br />
         <div style="padding:0 0 10px 5px">
             <select data-placeholder="для всех разделов" class="chosen-select" name="phone_section[<?= $id ?>][]" tabindex="4" style="width:750px" multiple>

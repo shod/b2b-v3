@@ -601,6 +601,7 @@ class SettingsController extends Controller
                 $checked_viber = isset($phone["viber"]) && $phone["viber"] ? "checked" : "";
                 $checked_telegram = isset($phone["telegram"]) && $phone["telegram"] ? "checked" : "";
                 $checked_whatsapp = isset($phone["whatsapp"]) && $phone["whatsapp"] ? "checked" : "";
+
                 $html .= $this->renderPartial("tmpl/phone", array(
                     "id" => $i,
                     "phone" => $phone["phone"],
