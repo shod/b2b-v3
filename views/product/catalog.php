@@ -54,7 +54,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                         </select>
 
                                         <input class="form-control" type="text" id="search_name" name="search" placeholder="Наименование"
-                                               value="<?= isset($search) ? $search : "" ?>" style="width: 150px"/>
+                                               value="<?= isset($search) && $search != 0 ? $search : "" ?>" style="width: 150px"/>
                                         <input class="btn btn-primary" type="button" value="Найти"
                                                onclick="getAjaxData('theForm','/product/get-data-products/?', 'productTable')"/>
 

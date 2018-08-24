@@ -15,7 +15,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                         <div class="alert alert-danger  ks-solid-light" role="alert">Все поля обязательны для заполнения</div>
                     </div>
                     <div class="col-lg-12">
-                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь в службу технической поддержки <a href="mailto:admin@migom.by">admin@migom.by</a> или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .</div>
+                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь к вашему менеджеру <a href="sale:admin@migom.by">sale@migom.by</a> или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .</div>
                     </div>
                     <h4 class="col-lg-12">Контактная информация</h4>
 
@@ -40,6 +40,40 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                                class="form-control" <?= (isset($phone) && $phone != "") ? "readonly" : "" ?> placeholder=""
                                value="<?= (isset($phone) && $phone != "") ? $phone : "" ?>" data-validation="length" data-validation-length="min5"
                                data-validation-error-msg="Введите телефон, факс">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <br>
+                    <h4 class="col-lg-12">Информация о компании</h4>
+
+                    <div class="col-lg-3">
+                        <label>Название организации</label>
+                        <input name="company_name" type="text"
+                               class="form-control" <?= (isset($company_name) && $company_name != "") ? "readonly" : "" ?>
+                               placeholder="" value="<?= (isset($company_name) && $company_name != "") ? $company_name : "" ?>" data-validation="length"
+                               data-validation-length="min5" data-validation-error-msg="Введите название организации">
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Ф.И.О. Директора</label>
+                        <input name="fio_director" type="text"
+                               class="form-control" <?= (isset($fio_director) && $fio_director != "") ? "readonly" : "" ?>
+                               placeholder="" value="<?= (isset($fio_director) && $fio_director != "") ? $fio_director : "" ?>" data-validation="length"
+                               data-validation-length="min5" data-validation-error-msg="Введите Ф.И.О. Директора">
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Действует на основании</label>
+                        <input name="basis" type="text" class="form-control"
+                               placeholder="" <?= (isset($basis) && $basis != "") ? "readonly" : "" ?>
+                               value="<?= (isset($basis) && $basis != "") ? $basis : "" ?>" data-validation="length" data-validation-length="min5"
+                               data-validation-error-msg="Введите информацию">
+                    </div>
+                    <div class="col-lg-3">
+                        <label>УНП</label>
+                        <input name="unn" type="text"
+                               class="form-control" <?= (isset($unn) && $unn != "") ? "readonly" : "" ?> placeholder=""
+                               value="<?= (isset($unn) && $unn != "") ? $unn : "" ?>" data-validation="length" data-validation-length="min5"
+                               data-validation-error-msg="Введите УНП">
                     </div>
                 </div>
 
@@ -85,40 +119,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                             </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <br>
-                    <h4 class="col-lg-12">Информация о компании</h4>
-
-                    <div class="col-lg-3">
-                        <label>Название организации</label>
-                        <input name="company_name" type="text"
-                               class="form-control" <?= (isset($company_name) && $company_name != "") ? "readonly" : "" ?>
-                               placeholder="" value="<?= (isset($company_name) && $company_name != "") ? $company_name : "" ?>" data-validation="length"
-                               data-validation-length="min5" data-validation-error-msg="Введите название организации">
-                    </div>
-                    <div class="col-lg-3">
-                        <label>Ф.И.О. Директора</label>
-                        <input name="fio_director" type="text"
-                               class="form-control" <?= (isset($fio_director) && $fio_director != "") ? "readonly" : "" ?>
-                               placeholder="" value="<?= (isset($fio_director) && $fio_director != "") ? $fio_director : "" ?>" data-validation="length"
-                               data-validation-length="min5" data-validation-error-msg="Введите Ф.И.О. Директора">
-                    </div>
-                    <div class="col-lg-3">
-                        <label>Действует на основании</label>
-                        <input name="basis" type="text" class="form-control"
-                               placeholder="" <?= (isset($basis) && $basis != "") ? "readonly" : "" ?>
-                               value="<?= (isset($basis) && $basis != "") ? $basis : "" ?>" data-validation="length" data-validation-length="min5"
-                               data-validation-error-msg="Введите информацию">
-                    </div>
-                    <div class="col-lg-3">
-                        <label>УНП</label>
-                        <input name="unn" type="text"
-                               class="form-control" <?= (isset($unn) && $unn != "") ? "readonly" : "" ?> placeholder=""
-                               value="<?= (isset($unn) && $unn != "") ? $unn : "" ?>" data-validation="length" data-validation-length="min5"
-                               data-validation-error-msg="Введите УНП">
                     </div>
                 </div>
 

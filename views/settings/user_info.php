@@ -37,7 +37,7 @@ $this->registerJs(
                 <div class="row" style="padding-top: 10px; margin-top: 0px;">
                     <div class="col-lg-12">
                         <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации
-                            обратитесь в службу технической поддержки <a href="mailto:admin@migom.by">admin@migom.by</a>
+                            обратитесь к вашему менеджеру <a href="mailto:sale@migom.by">sale@migom.by</a>
                             или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .
                         </div>
                     </div>
