@@ -192,7 +192,7 @@ AppAsset::register($this);
                                 <div class="ks-wrapper">
                                     <div class="ks-message" style="height: 61%;">
                                         <div class="">
-                                            <img src="http://b2b.migom.by/img/design/kate_admin5.jpg" style="margin-right: 10px;" height="130">
+                                            <img src="http://b2b.migom.by/img/design/kate_admin6.jpg" style="margin-right: 10px;" height="130">
                                         </div>
                                         <div class="ks-info">
                                             <div class="ks-user-name"><h4>Екатерина</h4></div>
