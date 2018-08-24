@@ -91,8 +91,8 @@ class Mailer {
                 $data['tarifs_before'][] = "{$d['name']}{$mode}";
         }
         
-        $data['tarifs_before']  = join(", ", (array) $data['tarifs_before']);
-        $data['sections_before'] = join(", ", (array) $data['tarifs_before']);
+        $data['tarifs_before']  = isset($data['tarifs_before']) ? join(", ", (array) $data['tarifs_before']) : "Ранее пакеты не были подключены";
+        $data['sections_before'] = isset($data['tarifs_before']) ? join(", ", (array) $data['tarifs_before']) : "Ранее разделы не были подключены";
 
         foreach ((array) $data['data_after'] as $r) {
             $id = $r['id'];

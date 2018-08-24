@@ -332,10 +332,10 @@ class ProductController extends Controller
         \Yii::$app->db->createCommand('commit;')->execute();
         \Yii::$app->db->createCommand("update product_seller set start_date=UNIX_TIMESTAMP(NOW()) where seller_id={$this->seller_id}")->execute();
         \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
-        \Yii::$app->db->createCommand("call pc_product_sel_cost_filter({$this->seller_id})")->execute();
-        \Yii::$app->db->createCommand("call pc_product_seller_actual_limit({$this->seller_id})")->execute();
-        \Yii::$app->db->createCommand("call ps_seller_export_info_update({$this->seller_id})")->execute();
-        \Yii::$app->db->createCommand("call pc_stop_word_mark({$this->seller_id})")->execute();
+        \Yii::$app->db->createCommand("call pc_product_sel_cost_filter({$this->seller_id})")->execute(); //10 sec
+        \Yii::$app->db->createCommand("call pc_product_seller_actual_limit({$this->seller_id})")->execute(); //5 sec
+        \Yii::$app->db->createCommand("call ps_seller_export_info_update({$this->seller_id})")->execute(); //10 sec
+        \Yii::$app->db->createCommand("call pc_stop_word_mark({$this->seller_id})")->execute(); // 5 sec
         exit;
     }
 
