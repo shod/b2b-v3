@@ -17,7 +17,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                 <div class="col-xl-12 ks-draggable-column">
                     <div class="card panel panel-table" data-dashboard-widget>
                         <h5 class="card-header">
-                            Раздел <?= $catalog_name ?>
+                             <span id="catalog_name_header">Раздел <?= $catalog_name ?></span>
                             <div class="ks-controls">
                                 <a href="#" class="ks-control" data-control-fullscreen>
                                     <span class="ks-icon la la-expand" data-control-icon></span>
@@ -40,7 +40,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                             </option>
                                         </select>
 
-                                        <select name="catalog_id"
+                                        <select name="catalog_id" id="product_catalog_name"
                                                 onchange="$('#brands').val(0);$('#search_name').val('');getAjaxData('theForm','/product/get-data-products/?', 'productTable')"
                                                 class="form-control">
                                             <!--option value="0">Показать все</option-->
