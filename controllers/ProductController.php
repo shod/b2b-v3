@@ -169,6 +169,7 @@ class ProductController extends Controller
         $vars['data'] = $this->getDataCatalogProducts($catalog_id,$page,$brand,$search,$mode,$curr);
         $vars['brands'] = $this->getBrandOptions($catalog_id, $brand);
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
+        $vars['catalog_id'] = $catalog_id;
         $json = json_encode($vars);
         echo $json;
     }
@@ -227,6 +228,8 @@ class ProductController extends Controller
         $service = Yii::$app->request->post("service");
         $delivery_day = Yii::$app->request->post("delivery_day");
         $term_use = Yii::$app->request->post("term_use");
+        $catalog_id = Yii::$app->request->post("catalog_id");
+
         $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $setting_data = $obj_seller->setting_data;
         $curr_data = unserialize($setting_data);
@@ -332,10 +335,10 @@ class ProductController extends Controller
         \Yii::$app->db->createCommand('commit;')->execute();
         \Yii::$app->db->createCommand("update product_seller set start_date=UNIX_TIMESTAMP(NOW()) where seller_id={$this->seller_id}")->execute();
         \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
-        \Yii::$app->db->createCommand("call pc_product_sel_cost_filter({$this->seller_id})")->execute(); //10 sec
+        \Yii::$app->db->createCommand("call pc_product_sel_cost_filter_catalog({$this->seller_id},{$catalog_id})")->execute(); //10 sec
         \Yii::$app->db->createCommand("call pc_product_seller_actual_limit({$this->seller_id})")->execute(); //5 sec
         \Yii::$app->db->createCommand("call ps_seller_export_info_update({$this->seller_id})")->execute(); //10 sec
-        \Yii::$app->db->createCommand("call pc_stop_word_mark({$this->seller_id})")->execute(); // 5 sec
+        \Yii::$app->db->createCommand("call pc_stop_word_mark_catalog({$this->seller_id},{$catalog_id})")->execute(); // 5 sec
         exit;
     }
 

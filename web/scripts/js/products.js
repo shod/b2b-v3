@@ -47,6 +47,7 @@ function getAjaxData(form_id,url,table_id){
         page_addition();
         $('ul a.page-link').click(function() { getAjaxData('theForm',$(this).prop('href'), 'productTable');return false;});
         $('#catalog_name_header').html("Раздел " + $( "#product_catalog_name option:selected" ).text());
+        $('#catalog_id_form').val(json.catalog_id);
         $("[data-dashboard-widget]").LoadingOverlay("hide");
     } );
 }

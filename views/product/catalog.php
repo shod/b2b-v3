@@ -86,7 +86,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                             </div>
                             <form type="post" id="saveForm">
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
-
+                                <input type="hidden" id="catalog_id_form" name="catalog_id" value="<?= $catalog_id ?>"/>
 
                                 <table class="table table-bordered table-striped">
                                     <thead>
