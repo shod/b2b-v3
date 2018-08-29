@@ -137,7 +137,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                     </td>
                 </tr>
             </table>
-            <table class="ks-projects-grid-board-tasks-statistics">
+            <table class="ks-projects-grid-board-tasks-statistics" style="height: 80px">
                 <tr>
                     <td class="ks-statistic-item">
                         <span class="ks-text">При добавлении пакетов и/или разделов происходит списание за суточное размещение следующего дня.</span>

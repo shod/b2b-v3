@@ -25,7 +25,7 @@ class TariffController extends Controller
     public $active_pack_sum = 0;
     public $active_sections = "";
     public $active_sections_sum = 0;
-    public $min_balance = 10;
+    public $min_balance = -10;
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('site/login');
