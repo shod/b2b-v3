@@ -122,7 +122,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
             </div>
 
 
-            <table class="ks-projects-grid-board-tasks-statistics">
+            <table class="ks-projects-grid-board-tasks-statistics" style="height: 150px">
                 <tr>
                     <td class="ks-statistic-item">
                         <span class="ks-amount" style="color: rgb(37, 98, 143)"><span
