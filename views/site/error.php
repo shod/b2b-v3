@@ -7,21 +7,16 @@
 
 use yii\helpers\Html;
 
-$this->title = $name;
+if(isset(Yii::$app->response->statusCode) && Yii::$app->response->statusCode == 404){
+    $this->title = 'Ошибка 404';
+    echo $this->render('errors/default');
+}elseif(isset(Yii::$app->response->statusCode) && Yii::$app->response->statusCode == 503){
+    $this->title = 'Что-то пошло не так :(';
+    echo $this->render('errors/default');
+}else{
+    $this->title = 'Что-то пошло не так :(';
+    echo $this->render('errors/default');
+}
+
 ?>
-<div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
-</div>
