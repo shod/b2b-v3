@@ -15,7 +15,7 @@
         </div>
     </div-->
     <div class="row">
-        <div class="col-lg-2"><img src="/img/anounce/settings.png" style="height: 70px;"/> </div>
+        <div class="col-lg-2" style="text-align: center"><img src="/img/anounce/settings.png" style="height: 70px; padding-bottom: 10px"/> </div>
         <div class="col-lg-10">
             <!--h5>Поэтому мы запустили процесс обновления B2B</h5-->
             - мы обновили дизайн и улучшили юзабилити проекта;<br>
@@ -24,12 +24,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2"><img src="/img/anounce/data.png" style="height: 70px;"/> </div>
+        <div class="col-lg-2" style="text-align: center"><img src="/img/anounce/data.png" style="height: 70px;  padding-bottom: 10px"/> </div>
         <div class="col-lg-10">Для комфортного перехода на новую версию B2B, мы оставили возможность работать в старой версии еще 3 месяца. Для того чтобы перейти к старой версии нажмите кнопку в шапке панели управления.
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2"><img src="/img/anounce/web-optimization.png" style="height: 70px;"/> </div>
+        <div class="col-lg-2" style="text-align: center"><img src="/img/anounce/web-optimization.png" style="height: 70px;  padding-bottom: 10px"/> </div>
         <div class="col-lg-10">
             <h5>Несколько советов для комфортной работы в новой версии B2B: </h5>
             - в верхней панели кнопка "Тур по изменениям" – инструкция по навигации новой версии; <br>
@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2"><img src="/img/anounce/consulting.png" style="height: 70px;"/> </div>
+        <div class="col-lg-2" style="text-align: center"><img src="/img/anounce/consulting.png" style="height: 70px;  padding-bottom: 10px"/> </div>
         <div class="col-lg-10">
             <p>Будем рады получить от Вас обратную связь и ответим на любые вопросы <br> по тел. <a href="tel:+375291114545">+375 29 111-45-45 (Velcom)</a> и еmail: <a href="mailto:sale@migom.by">sale@migom.by</a></p>
         </div>
