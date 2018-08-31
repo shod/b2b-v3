@@ -51,6 +51,12 @@ AppAsset::register($this);
 			$bonus_account_id = \app\models_ex\BillAccount::find()->where(['owner_id' => $seller->bill_account_id])->one();
 		}
 	}
+
+    $this->registerJs(
+        "if ($seller->setting_bit & 33554432){
+            getModalByurl('Добро пожаловать в обновленную B2B панель Migom.by!','features');
+        }"
+    );
     
     
 
@@ -96,6 +102,10 @@ AppAsset::register($this);
 
             <!-- BEGIN NAVBAR ACTIONS -->
             <div class="ks-navbar-actions">
+
+                <div class="nav-item ks-notifications">
+                    <a class="nav-link " role="button" href="https://b2b.migom.by/" target="_blank">Назад к старой версии</a>
+                </div>
 
                 <div class="nav-item ks-notifications">
                     <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Тур по изменениям</a>
@@ -419,6 +429,21 @@ AppAsset::register($this);
 
 <div class="ks-mobile-overlay"></div>
 
+<div id="defaultModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalHeader"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="la la-close"></span>
+                </button>
+            </div>
+            <div class="modal-body" id="defaultModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>

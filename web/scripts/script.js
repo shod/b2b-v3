@@ -521,6 +521,40 @@ function saveReviewSettings(obj) {
     });
 }
 
+function getModalByurl(name,type,button){
+    $modal = $("#defaultModal");
+    $.ajax({
+        url: '/site/get-info-modal/?name='+name+'&type='+type+'&button='+button,
+        type: 'get',
+        dataType: 'html',
+        success: function (html) {
+            json = JSON.parse(html);
+            $modal.find('#defaultModalBody').html(json.body);
+            $modal.find('#defaultModalHeader').html(json.header);
+            $("[data-dashboard-widget]").LoadingOverlay("hide");
+            $modal.modal('show');
+        },
+        error: function () {
+            $("[data-dashboard-widget]").LoadingOverlay("hide");
+            console.log('modal ajax error');
+        }
+    });
+}
+
+function saveAjaxFeturePopup(){
+    $.ajax({
+        url: '/site/save-feature',
+        type: 'get',
+        dataType: 'html',
+        success: function (html) {
+            $modal.modal('hide');
+        },
+        error: function () {
+            $modal.modal('hide');
+        }
+    });
+}
+
 $('.add_sms').click(function() {
     var $this = $(this);
     var $p = $(this).attr('id').split('_');

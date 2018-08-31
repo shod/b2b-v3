@@ -96,6 +96,24 @@ class SiteController extends Controller
         SiteService::resize($filename, array(90, 35));
     }
 
+    public function actionGetInfoModal(){
+        $name = Yii::$app->request->get('name');
+        $type = Yii::$app->request->get('type');
+        $json["header"] = $name;
+        $json["body"] = $this->renderPartial('modals/'.$type);
+        echo Json::encode($json);
+    }
+
+    public function actionSaveFeature(){
+        $seller_id = Yii::$app->user->identity->getId();
+        $seller = Seller::find()->where(['id' => $seller_id])->one();
+        $setting_bit = $seller->setting_bit;
+        $setting_bit =  SiteService::set_bitvalue($setting_bit,33554432,0);
+        $seller->setting_bit = $setting_bit;
+        $seller->save();
+        echo 'success';
+    }
+
     /**
      * Login action.
      *
