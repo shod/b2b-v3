@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             предложений, представленных в каталоге товаров MIGOM.by.</h5>
                         <div style="text-align:center; overflow: auto; margin-bottom: 20px">
                             <img style="border: 1px solid black;"
-                                 src="http://b2b.migom.by/img/design/example_analysis_1.jpg">
+                                 src="/img/design/example_analysis_1.jpg">
                         </div>
 
                         <h5 class="panel-title">В режиме online проводится анализ прайса вашего магазина в сравнении с
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <div style="text-align:center;overflow: auto; margin-bottom: 20px">
                             <img style="border: 1px solid black;"
-                                 src="http://b2b.migom.by/img/design/example_analysis_2.jpg">
+                                 src="/img/design/example_analysis_2.jpg">
                         </div>
 
                     </div>

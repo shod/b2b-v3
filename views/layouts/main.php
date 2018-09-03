@@ -183,12 +183,12 @@ AppAsset::register($this);
                                 <div class="ks-wrapper">
                                     <div class="ks-message" style="height: 61%;">
                                         <div class="">
-                                            <img src="http://b2b.migom.by/img/design/janna_admin.jpg" style="margin-right: 10px;" height="130">
+                                            <img src="/img/design/janna_admin.jpg" style="margin-right: 10px;" height="130">
                                         </div>
                                         <div class="ks-info">
                                             <div class="ks-user-name"><h4>Жанна</h4></div>
                                             <div class="ks-text">
-                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">111-45-45</span> &nbsp; <img src="https://b2b.migom.by/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.migom.by/img/design/viber.png" style="height: 20px;"><br>
+                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">111-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.migom.by/img/design/viber.png" style="height: 20px;"><br>
                                                 <b>Skype:</b> sale.migom <br>
                                                 <b>E-mail:</b> <a href="mailto:sale@migom.by">sale@migom.by</a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00
@@ -202,7 +202,7 @@ AppAsset::register($this);
                                 <div class="ks-wrapper">
                                     <div class="ks-message" style="height: 61%;">
                                         <div class="">
-                                            <img src="http://b2b.migom.by/img/design/kate_admin6.jpg" style="margin-right: 10px;" height="130">
+                                            <img src="/img/design/kate_admin6.jpg" style="margin-right: 10px;" height="130">
                                         </div>
                                         <div class="ks-info">
                                             <div class="ks-user-name"><h4>Екатерина</h4></div>

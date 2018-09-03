@@ -1,6 +1,6 @@
 <?php
 $this->title = "Реквизиты магазина";
-$this->registerJsFile('https://b2b.migom.by/js/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('/web/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <form method="post" action="/settings/process">
