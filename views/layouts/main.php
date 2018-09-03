@@ -104,7 +104,7 @@ AppAsset::register($this);
             <div class="ks-navbar-actions">
 
                 <div class="nav-item ks-notifications">
-                    <a class="nav-link " role="button" href="https://b2b.migom.by/" target="_blank">Назад к старой версии</a>
+                    <a class="nav-link " role="button" href="https://b2bv2.migom.by/" target="_blank">Назад к старой версии</a>
                 </div>
 
                 <div class="nav-item ks-notifications">
