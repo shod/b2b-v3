@@ -521,10 +521,15 @@ function saveReviewSettings(obj) {
     });
 }
 
-function getModalByurl(name,type,button){
+function getModalByurl(name,type,button, url = ''){
     $modal = $("#defaultModal");
+    if(url != ''){
+        get_url = url;
+    } else {
+        get_url = '/site/get-info-modal/?name='+name+'&type='+type+'&button='+button;
+    }
     $.ajax({
-        url: '/site/get-info-modal/?name='+name+'&type='+type+'&button='+button,
+        url: get_url,
         type: 'get',
         dataType: 'html',
         success: function (html) {

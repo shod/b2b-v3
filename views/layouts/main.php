@@ -438,7 +438,7 @@ AppAsset::register($this);
                     <span aria-hidden="true" class="la la-close"></span>
                 </button>
             </div>
-            <div class="modal-body" id="defaultModalBody">
+            <div class="modal-body" id="defaultModalBody" style="overflow: auto">
 
             </div>
         </div>

@@ -7,6 +7,7 @@ use app\models\Seller;
 use app\models_ex\BillAccount;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -296,13 +297,19 @@ class SpecController extends Controller
     public function actionIndex()
     {
         $vars["data"] = $this->getDataHtml();
+        $vars["min_balance"] = $this->min_balance;
+
+        return $this->render($this->seller_action, $vars);
+    }
+
+    public function actionGetHelp(){
         $res = \Yii::$app->db->createCommand("select * from texts where id=203")->queryOne();
         $vars["title"] = $res["name"];
         $vars["text"] = $res["text"];
         $vars["text"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->min_step,$this->min_balance),$res["text"]);
-        $vars["min_balance"] = $this->min_balance;
-
-        return $this->render($this->seller_action, $vars);
+        $json["header"] = $vars["title"];
+        $json["body"] =$vars["text"];
+        echo Json::encode($json);
     }
 
     public function actionAdd()

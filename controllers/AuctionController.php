@@ -387,15 +387,6 @@ class AuctionController extends Controller
         if($cnt_auction['cnt'] == 0){
            $this->redirect('/auction/add');
         }
-        $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
-        $vars["title"] = $res[0]["name"];
-        $vars["text"] = $res[0]["text"];
-        $vars["text"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->_step,$this->min_balance),$res[0]["text"]);
-
-        $res = \Yii::$app->db->createCommand("select * from texts where id=191")->queryAll();
-        $vars["title_online"] = $res[0]["name"];
-        $vars["text_online"] = $res[0]["text"];
-        $vars["text_online"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->_step,$this->min_balance),$res[0]["text"]);
 
         $vars["hour_stop"] = $this->auction_stop_time[0];
         $vars["minute_stop"] = $this->auction_stop_time[1];
@@ -413,6 +404,28 @@ class AuctionController extends Controller
         }
 
         return $this->render('index', $vars);
+    }
+
+    public function actionGetHelp(){
+        $is_fix = Yii::$app->request->get("fix") ? 1 : 0;
+        if($is_fix){
+            $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
+            $vars["title"] = $res[0]["name"];
+            $vars["text"] = $res[0]["text"];
+            $vars["text"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->_step,$this->min_balance),$res[0]["text"]);
+            $json["header"] = $vars["title"];
+            $json["body"] =$vars["text"];
+        } else {
+            $res = \Yii::$app->db->createCommand("select * from texts where id=191")->queryAll();
+            $vars["title_online"] = $res[0]["name"];
+            $vars["text_online"] = $res[0]["text"];
+            $vars["text_online"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->_step,$this->min_balance),$res[0]["text"]);
+
+            $json["header"] = $vars["title_online"];
+            $json["body"] = $vars["text_online"];
+        }
+
+        echo Json::encode($json);
     }
 
     public function actionAdd()

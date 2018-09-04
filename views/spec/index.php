@@ -23,13 +23,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a>
+                    <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="getModalByurl('Спецпредложение','simple','button','/spec/get-help')">ПОМОЩЬ</a>
                     </div>
-                    <div id="help-block" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
-                        <h4><?= $title ?></h4>
-                        <br>
-                        <?= stripcslashes($text) ?>
-                    </div>
+
                 </div>
             </div>
             <div class="row">

@@ -33,11 +33,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
 
             <div class="row" style="padding-top: 10px; margin-top: 0px;">
                 <div class="col-lg-9" style="margin-bottom: 10px;">
-                    <div><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a>
-                    </div>
-                    <div id="help-block" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
-                        <h3><?= isset($title) ? $title : "" ?></h3>
-                        <p><?= isset($text) ? $text : "" ?></p>
+                    <div><a class="btn btn-primary ks-light" href="#" onclick="getModalByurl('Фиксированный аукцион','simple','button','/auction/get-help/?fix=1=')">ПОМОЩЬ</a>
                     </div>
                 </div>
                 <div class="col-lg-3 content-end">
@@ -116,12 +112,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/auction.js'
 
             <div class="row" style="padding-top: 10px; margin-top: 0px;">
                 <div class="col-lg-9" style="margin-bottom: 10px;">
-                    <div><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block-online').toggle(500)">ПОМОЩЬ</a>
-                    </div>
-                    <div id="help-block-online" style="display: none;" class="alert alert-primary ks-solid-light"
-                         role="alert">
-                        <h3><?= isset($title_online) ? $title_online : "" ?></h3>
-                        <p><?= isset($text_online) ? $text_online : "" ?></p>
+                    <div><a class="btn btn-primary ks-light" href="#" onclick="getModalByurl('Онлайн аукцион','simple','button','/auction/get-help')">ПОМОЩЬ</a>
                     </div>
                 </div>
                 <div class="col-lg-3 content-end">
