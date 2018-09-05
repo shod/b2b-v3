@@ -273,12 +273,12 @@ class ProductController extends Controller
                             "description" => $_desc,
                             "wh_state" => $_wh_state,
                             "garant" => $garant_month ? $garant_month : "",
-                            "link" => $link[$product_id][$ps_id][$i],
+                            "link" => isset($link[$product_id][$ps_id][$i]) ? $link[$product_id][$ps_id][$i] : "",
                             "manufacturer" => $this->clear_text($manufacturer[$product_id][$ps_id][$i]),
                             "importer" => $this->clear_text($importer[$product_id][$ps_id][$i]),
                             "service" => $this->clear_text($service[$product_id][$ps_id][$i]),
                             "delivery_day" => $delivery_day[$product_id][$ps_id][$i],
-                            "term_use" => $term_use[$product_id][$ps_id][$i]
+                            "term_use" => isset($term_use[$product_id][$ps_id][$i]) ? $term_use[$product_id][$ps_id][$i] : ""
                         );
 
 
