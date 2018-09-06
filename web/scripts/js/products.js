@@ -62,7 +62,8 @@ function saveAjaxProducts(form_id,url,table_id) {
     });
     $.post( url, $('#'+form_id).serialize(), function (data) {
         $("[data-dashboard-widget]").LoadingOverlay("hide");
-        getAjaxData('theForm','/product/get-data-products/?','productTable');
+        url_data = $("#pages").find("li.active").find("a").attr('href');
+        getAjaxData('theForm',url_data,'productTable');
     } );
 }
 
