@@ -41,7 +41,7 @@
                         <h4 class="ks-header">Регистрация магазина</h4>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Имя" name="name" data-validation="length" data-validation-length="min5"
+                                <input type="text" class="form-control" placeholder="Имя" name="fio" data-validation="length" data-validation-length="min5"
                                        data-validation-error-msg="Введите имя (минимум 5 символов)">
                                 <span class="icon-addon">
                                 <span class="la la-user"></span>
@@ -81,7 +81,7 @@
                                        data-validation-error-msg="Введите название магазина">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Название организации" name="org" data-validation="length" data-validation-length="min4"
+                                <input type="text" class="form-control" placeholder="Название организации" name="company_name" data-validation="length" data-validation-length="min4"
                                        data-validation-error-msg="Введите название организации">
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                         <div class="form-group row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="input-icon icon-left icon-lg icon-color-primary">
-                                    <input type="password" class="form-control" placeholder="Пароль" name="pass" data-validation="length alphanumeric" data-validation-length="min6"
+                                    <input type="password" class="form-control" placeholder="Пароль" name="pass" data-validation="length" data-validation-length="min6"
                                            data-validation-error-msg="Введите название пароль (минимум 6 символов)">
                                     <span class="icon-addon">
                                     <span class="la la-key"></span>
@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="input-icon icon-left icon-lg icon-color-primary">
-                                    <input type="password" class="form-control" placeholder="Еще раз" name="pass1" data-validation="length alphanumeric" data-validation-length="min6"
+                                    <input type="password" class="form-control" placeholder="Еще раз" name="pass1" data-validation="length" data-validation-length="min6"
                                            data-validation-error-msg="Повторите пароль (минимум 6 символов)">
                                     <span class="icon-addon">
                                     <span class="la la-key"></span>

@@ -211,7 +211,7 @@ class SiteController extends Controller
                     $seller->work_time = 'a:7:{i:1;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:2;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:3;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:4;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:5;a:2:{i:0;s:5:"09:00";i:1;s:5:"18:00";}i:6;a:2:{i:0;s:5:"";i:1;s:5:"";}i:0;a:2:{i:0;s:0:"";i:1;s:0:"";}}';
                     $seller->save();
 
-                    $property = SysObjectProperty::find()->where(["object_type_id" => 7, 'name' => ['email', 'phone', 'fio']])->all();
+                    $property = SysObjectProperty::find()->where(["object_type_id" => 7, 'name' => ['email', 'phone', 'fio', 'company_name']])->all();
                     $member_ex = Member::find()->where(['id' => $seller->member_id])->one();
                     foreach ((array)$property as $name) {
                         $value = Yii::$app->request->post($name->name);
