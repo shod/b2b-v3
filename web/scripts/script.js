@@ -280,24 +280,29 @@ function verify_chboxes() {
     }
 }
 
-function ajaxSubmit(button,obj) {
+function ajaxSubmit(button,obj,is_alert=true) {
     var frm = $('#' + obj);
 
     frm.submit(function (e) {
 
         e.preventDefault();
-        $(button).html('Подождите...');
+        $(button).html('<i class="la la-refresh"></i>');
         $.ajax({
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
             success: function (data) {
                 $('#myDefaultModal').modal('hide');
-                $.alert({
-                    title: data,
-                    type: 'blue',
-                    content: 'Для продолжения работы нажмите ОК',
-                });
+                if(is_alert){
+                    $.alert({
+                        title: data,
+                        type: 'blue',
+                        content: 'Для продолжения работы нажмите ОК',
+                    });
+                } else {
+                    $(button).html('ОК');
+                }
+
                 console.log('Submission was successful.');
                 console.log(data);
             },

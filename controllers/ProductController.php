@@ -6,6 +6,7 @@ use app\helpers\PriceService;
 use app\helpers\ProductService;
 use app\helpers\SiteService;
 use app\helpers\SysService;
+use app\models\ProductSeller;
 use app\models\Seller;
 use app\models\SellerInfo;
 use PHPUnit\Util\Xml;
@@ -834,6 +835,24 @@ class ProductController extends Controller
         }
 
         return $html;
+    }
+
+    public function actionChangeCost(){
+        $ps_id = Yii::$app->request->post("ps_id");
+        $cost_by = Yii::$app->request->post("cost");
+
+
+        $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $rate_by = $this->get_curs($obj_seller);
+
+        $c = $cost_by * 10000;
+        $cost_us = round($c / $rate_by,2);
+        $cost_by = $c;
+
+        $product_seller = ProductSeller::find()->where(['id' => $ps_id])->one();
+        $product_seller->cost_us = $cost_us;
+        $product_seller->cost_by = $cost_by;
+        $product_seller->save();
     }
 
     private /*Получение курса валют*/

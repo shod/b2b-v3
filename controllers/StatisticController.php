@@ -465,7 +465,7 @@ class StatisticController extends Controller
 
             $data = \Yii::$app->db->createCommand("select ip.product_id, ip.basic_name, ROUND(ps.cost_by/10000,2) as seller_cost_by
 									, ROUND(min(min_cost_by)/10000,2) as min_cost, ROUND(max(max_cost_by)/10000,2) as max_cost
-									, sum(idx.cnt) as cnt_cost, ip.catalog_name, vcs.catalog_id
+									, sum(idx.cnt) as cnt_cost, ip.catalog_name, vcs.catalog_id, ps.id as ps_id
 									from index_product_cost_data as idx, product_seller as ps, index_product as ip, v_catalog_sections as vcs
 									where ps.seller_id = {$this->seller_id}
 									and idx.product_id = ps.product_id
