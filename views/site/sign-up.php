@@ -87,7 +87,7 @@
                         </div>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Логин" name="login" data-validation="length alphanumeric" data-validation-length="min3"
+                                <input type="text" class="form-control" placeholder="Логин" name="login" data-validation="length" data-validation-length="min3"
                                        data-validation-error-msg="Введите название логин (минимум 3 символа)">
                                 <span class="icon-addon">
                                 <span class="la la-at"></span>
