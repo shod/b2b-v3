@@ -51,7 +51,7 @@ $this->registerJs(
                                         </select>
 
                                         <select name="cost_type" class="form-control">
-                                            <option value=''>Все</option>
+                                            <option value=''>Цена</option>
                                             <option value="min" <?= isset($cost_min_select) ? $cost_min_select : "" ?> >Мин. цена
                                             </option>
                                             <option value="max" <?= isset($cost_max_select) ? $cost_max_select : "" ?> >Макс. цена
