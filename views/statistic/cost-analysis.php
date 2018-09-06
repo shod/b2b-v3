@@ -50,6 +50,14 @@ $this->registerJs(
                                             </option>
                                         </select>
 
+                                        <select name="cost_type" class="form-control">
+                                            <option value=''>Все</option>
+                                            <option value="min" <?= isset($cost_min_select) ? $cost_min_select : "" ?> >Мин. цена
+                                            </option>
+                                            <option value="max" <?= isset($cost_max_select) ? $cost_max_select : "" ?> >Макс. цена
+                                            </option>
+                                        </select>
+
                                         <input class="form-control" type="text" name="basic_name"
                                                value="<?= isset($basic_name) ? $basic_name : "" ?>"
                                                placeholder="Название товара">
@@ -92,7 +100,7 @@ $this->registerJs(
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             <div class="container-fluid" style="overflow: auto">
-                                <table id="ks-datatable" class="table table-striped table-bordered" width="100%"
+                                <table id="ks-datatable" class="table table-bordered" width="100%"
                                        data-height="500">
                                     <thead>
                                     <tr>

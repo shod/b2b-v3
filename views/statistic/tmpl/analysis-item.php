@@ -18,7 +18,7 @@
             <input type="hidden" name="ps_id" value="<?= $ps_id ?>">
 
             <div class="input-group">
-                <input type="text" class="form-control" name="cost"
+                <input type="text" class="form-control" name="cost" style="min-width: 90px;"
                        value="<?= isset($seller_cost_by) ? $seller_cost_by : "" ?>">
                 <span class="input-group-btn">
                                                     <button onclick="ajaxSubmit(this,'form_<?= $ps_id ?>',false)" class="btn btn-default" type="button">ОК</button>

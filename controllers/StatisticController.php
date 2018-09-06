@@ -463,21 +463,40 @@ class StatisticController extends Controller
             $vars['wh_state_'.$wh_state] = "selected";
             $vars['sids'] = $sids;
 
-            $data = \Yii::$app->db->createCommand("select ip.product_id, ip.basic_name, ROUND(ps.cost_by/10000,2) as seller_cost_by
+            $cost_type = Yii::$app->request->get("cost_type");
+            $vars["cost_".$cost_type."_select"] = "selected";
+            if($cost_type == 'min'){
+                $sql_cost = " and ps.cost_by <= min_cost_by";
+            } elseif ($cost_type == 'max') {
+                $sql_cost = " and ps.cost_by >= max_cost_by";
+            } else {
+                $sql_cost = "";
+            }
+
+            /*$data = \Yii::$app->db->createCommand("select ip.product_id, ip.basic_name, ROUND(ps.cost_by/10000,2) as seller_cost_by
 									, ROUND(min(min_cost_by)/10000,2) as min_cost, ROUND(max(max_cost_by)/10000,2) as max_cost
 									, sum(idx.cnt) as cnt_cost, ip.catalog_name, vcs.catalog_id, ps.id as ps_id
 									from index_product_cost_data as idx, product_seller as ps, index_product as ip, v_catalog_sections as vcs
 									where ps.seller_id = {$this->seller_id}
 									and idx.product_id = ps.product_id
-									and ip.product_id = ps.product_id and vcs.section_id = ip.index_section_id and idx.flag = 0  {$sql_section} {$sql_brand} {$sql_name} {$sql_wh_state} {$sql_sids}
-									GROUP BY idx.product_id limit {$offset}, 250")->queryAll();
+									and ip.product_id = ps.product_id and vcs.section_id = ip.index_section_id and idx.flag = 0 {$sql_section} {$sql_brand} {$sql_name} {$sql_wh_state} {$sql_sids}
+									GROUP BY idx.product_id limit {$offset}, 250")->queryAll();*/
+
+            $data = \Yii::$app->db->createCommand("select ip.product_id, ip.basic_name, ROUND(ps.cost_by/10000,2) as seller_cost_by
+									, ROUND(min_cost_by/10000,2) as min_cost, ROUND(max_cost_by/10000,2) as max_cost
+									, idx.cnt_seller as cnt_cost, ip.catalog_name, vcs.catalog_id, ps.id as ps_id
+									from index_product_cost_one as idx, product_seller as ps, index_product as ip, v_catalog_sections as vcs
+									where ps.seller_id = {$this->seller_id}
+									and idx.product_id = ps.product_id
+									and ip.product_id = ps.product_id and vcs.section_id = ip.index_section_id and idx.flag = 0 {$sql_cost} {$sql_section} {$sql_brand} {$sql_name} {$sql_wh_state} {$sql_sids}
+									limit {$offset}, 250")->queryAll();
             $cnt = 0;
             $cnt_min = 0;
             $cnt_max = 0;
             $vars['data'] = "";
             foreach ((array)$data as $r) {
                 $cnt++;
-                if (floatval($r['min_cost']) != floatval($r['max_cost'])) {
+                if ((floatval($r['min_cost']) != floatval($r['max_cost'])) || ($r['seller_cost_by'] != $r['min_cost'])) {
                     if (floatval($r['min_cost']) >= floatval($r['seller_cost_by'])) {
                         $r['class_success'] = "tr_success";
                         $cnt_min++;
@@ -500,7 +519,7 @@ class StatisticController extends Controller
                 $vars['max'] = 0;
             }
 
-            $vars['pages'] = $this->get_pages($section_id, $brand, $basic_name, $wh_state, $page);
+            $vars['pages'] = $this->get_pages($section_id, $brand, $basic_name, $wh_state, $cost_type, $page);
 
 
             $sections = \Yii::$app->db->createCommand("SELECT ip.index_section_id as id, ip.catalog_name as name from index_product as ip
@@ -527,22 +546,33 @@ class StatisticController extends Controller
         return $this->render($template, $vars);
     }
 
-    private function get_pages($section_id, $brand, $basic_name, $wh_state, $page=0){
+    private function get_pages($section_id, $brand, $basic_name, $wh_state, $cost_type, $page=0){
         $sql_section = $section_id ? " and ip.index_section_id = {$section_id}" : "";
         $sql_brand = $brand ? " and ip.brand_value = '{$brand}'" : "";
         $sql_name = $basic_name ? " and ip.basic_name like '%{$basic_name}%'" : "";
         $sql_wh_state = $wh_state ? " and ps.wh_state = {$wh_state}" : "";
-        $cnt =  \Yii::$app->db->createCommand("select count(DISTINCT idx.product_id) as cnt
-									from index_product_cost_data as idx, product_seller as ps, index_product as ip, v_catalog_sections as vcs
+        if($cost_type == 'min'){
+            $sql_cost = " and ps.cost_by <= min_cost_by";
+        } elseif ($cost_type == 'max') {
+            $sql_cost = " and ps.cost_by >= max_cost_by";
+        } else {
+            $sql_cost = "";
+        }
+        $cnt =  \Yii::$app->db->createCommand("select count(idx.product_id) as cnt
+									from index_product_cost_one as idx, product_seller as ps, index_product as ip, v_catalog_sections as vcs
 									where ps.seller_id = {$this->seller_id}
 									and idx.product_id = ps.product_id
-									and ip.product_id = ps.product_id and vcs.section_id = ip.index_section_id {$sql_section} {$sql_brand} {$sql_name} {$sql_wh_state}")->queryOne();
+									and ip.product_id = ps.product_id and vcs.section_id = ip.index_section_id {$sql_cost} {$sql_section} {$sql_brand} {$sql_name} {$sql_wh_state}")->queryOne();
         $count = $cnt['cnt'];
         $page_all = ceil($count / $this->offset);
         $first = 1;
         $last = $page_all;
-        $url = "/statistic/cost-analysis/?";
-
+        $url_section = $section_id ? "&section_id={$section_id}" : "";
+        $url_brand = $brand ? "&brand={$brand}" : "";
+        $url_basic_name = $basic_name ? "&basic_name={$basic_name}" : "";
+        $url_wh_state = $wh_state ? "&wh_state={$wh_state}" : "";
+        $url_cost_type = $cost_type ? "&cost_type={$cost_type}" : "";
+        $url = "/statistic/cost-analysis/?" . $url_section . $url_brand . $url_basic_name . $url_wh_state . $url_cost_type;
         $pages = SiteService::get_pages($page, $first, $last, $url);
         return $pages;
     }
