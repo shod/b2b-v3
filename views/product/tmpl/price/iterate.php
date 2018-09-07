@@ -1,4 +1,4 @@
-<tr>
+<tr id="product_tr_<?= $id ?>_<?= $product_id ?>">
     <td  align="center">
             <span style="font-size: 20px; cursor:pointer" class="la la-trash-o icon-bad do_delete"></span>
     </td>

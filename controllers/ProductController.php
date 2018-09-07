@@ -6,6 +6,7 @@ use app\helpers\PriceService;
 use app\helpers\ProductService;
 use app\helpers\SiteService;
 use app\helpers\SysService;
+use app\models\IndexProduct;
 use app\models\ProductSeller;
 use app\models\Seller;
 use app\models\SellerInfo;
@@ -853,6 +854,97 @@ class ProductController extends Controller
         $product_seller->cost_us = $cost_us;
         $product_seller->cost_by = $cost_by;
         $product_seller->save();
+    }
+
+    public function actionSaveOneProd(){
+       // dd(Yii::$app->request->post());
+        $type = Yii::$app->request->post('type');
+
+        $id = Yii::$app->request->post('id');
+        $cost = Yii::$app->request->post('cost');
+        $desc = Yii::$app->request->post('desc');
+        $wh_state = Yii::$app->request->post('wh_state');
+        $delivery = Yii::$app->request->post('delivery');
+        $garant = Yii::$app->request->post('garant');
+        $manufacturer = Yii::$app->request->post('manufacturer');
+        $importer = Yii::$app->request->post('importer');
+        $service = Yii::$app->request->post('service');
+        $term = Yii::$app->request->post('term');
+        $link = Yii::$app->request->post('link');
+        $product_id = Yii::$app->request->post('product_id');
+
+        $desc = str_replace(array("<br>", "<br />", "<br >", "<br/>"), " ", $desc);
+        $desc = strip_tags($desc);
+        $garant = preg_replace("/[^0-9]/","",$garant);
+
+        $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $setting_data = $obj_seller->setting_data;
+        $curr_data = unserialize($setting_data);
+
+        $curr = $curr_data["currency_base"];
+        $rate_by = $this->get_curs($obj_seller);
+
+        if ($curr == 'byn'){
+            $cost = $cost * 10000;
+            $cost_us = $cost / $rate_by;
+            $cost_by = $cost;
+        } else {
+            $cost_us = $curr == "br" ? $cost / $rate_by : $cost;
+            $cost_by = $curr == "br" ? $cost : $cost * $rate_by;
+        }
+
+
+
+        if($type == 'update'){
+            $ps = ProductSeller::find()->where(['id' => $id])->one();
+            $ps->cost_us = $cost_us;
+            $ps->cost_by = $cost_by;
+            $ps->description = $desc;
+            $ps->wh_state = $wh_state;
+            $ps->delivery_day = $delivery;
+            $ps->garant = $garant;
+            $ps->manufacturer = $manufacturer;
+            $ps->importer = $importer;
+            $ps->service = $service;
+            $ps->term_use = $term;
+            $ps->link = $link;
+            $ps->save();
+            \Yii::$app->db->createCommand("update product_seller set start_date=UNIX_TIMESTAMP(NOW()) where seller_id={$this->seller_id} and product_id={$product_id}")->execute();
+            echo $ps->id;
+        }
+
+        if($type == 'create'){
+
+            $product = IndexProduct::find()->where(['product_id' => $product_id])->one();
+            $ps = new ProductSeller();
+            $ps->seller_id = $this->seller_id;
+            $ps->product_id = $product_id;
+            $ps->active = 1;
+            $ps->cost_us = $cost_us;
+            $ps->cost_by = $cost_by;
+            $ps->description = $desc;
+            $ps->wh_state = $wh_state;
+            $ps->delivery_day = $delivery;
+            $ps->garant = $garant;
+            $ps->manufacturer = $manufacturer;
+            $ps->importer = $importer;
+            $ps->service = $service;
+            $ps->term_use = $term;
+            $ps->link = $link;
+            $ps->setting_bit = 0;
+            $ps->prod_sec_id = $product->index_section_id;
+            $ps->save();
+            echo $ps->id;
+        }
+
+        if($type == 'delete'){
+            $ps = ProductSeller::find()->where(['id' => $id])->one();
+            if($ps){
+                $ps->delete();
+            }
+            echo $id;
+        }
+
     }
 
     private /*Получение курса валют*/

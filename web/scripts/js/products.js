@@ -6,6 +6,64 @@ $( document ).ready(function() {
     page_addition();
 });
 
+$(document).keypress(function (e) {
+    if (e.which == 13) {
+        tr = $(document.activeElement).closest('tr');
+        bg = tr.css('background-color');
+        if(bg=='rgb(238, 238, 238)'){
+            type = 'delete';
+        } else if(bg=='rgb(255, 255, 187)'){
+            type = 'create';
+        } else {
+             type = 'update';
+        }
+
+        tr.css( "background-color", "rgb(210, 210, 210)" );
+        id = tr.attr('id').split("_")[2];
+        product_id = tr.attr('id').split("_")[3];
+        console.log(product_id);
+
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+
+        cost = tr.find("[name*='cost']").val();
+        desc = tr.find("[name*='desc']").val();
+        wh = tr.find("[name*='wh_state']").val();
+        delivery = tr.find("[name*='delivery_day']").val();
+        garant = tr.find("[name*='garant']").val();
+        manufacturer = tr.find("[name*='manufacturer']").val();
+        importer = tr.find("[name*='importer']").val();
+        service = tr.find("[name*='service']").val();
+        term = tr.find("[name*='term_use']").val();
+        link = tr.find("[name*='link']").val();
+
+
+        $.ajax({
+            method: "POST",
+            url: "/product/save-one-prod",
+            data: { _csrf : csrfToken, id: id, product_id: product_id, type: type, cost: cost, desc: desc, wh_state: wh,  delivery: delivery, garant:garant, manufacturer: manufacturer, importer:importer, service:service, term:term, link:link},
+            success: function (html) {
+                console.log( "Data Saved: " + html );
+                if(type == 'create'){
+                    id = 'product_tr_'+html+"_"+product_id;
+                    tr.attr('id',id);
+                    tr.css( "background-color","#f5f6fa" );
+                } else {
+                    tr.css( "background-color",bg );
+                }
+
+            },
+            error: function () {
+                $.alert({
+                    title: 'Что-то пошло не так :( попробуйте еще раз!',
+                    type: 'red',
+                    content: 'Для продолжения работы нажмите ОК',
+                });
+            }
+        });
+
+    }
+});
+
 function work_type(flag) {
 
     if(flag){
@@ -149,6 +207,7 @@ function page_addition(){
         $("select.wh_state", tr).val(3)
         $("input.del_input", tr).val(-1)
         $(this).hide(0)
+        $("select.wh_state", tr).focus();
     })
 }
 
