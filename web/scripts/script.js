@@ -33,6 +33,12 @@ $(document).ready(function () {
             $remoteUrl = $this.data('remote') || $this.attr('href'),
             $modal = $('<div id="myDefaultModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="modal-title"></h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="la la-close"></span></button></div><div class="modal-body" id="modal-body" style="overflow: auto"></div></div></div></div>');
         $('#modal-div').append($modal);
+        if($remoteUrl == '/bill-report/all-report'){
+            $month = $('#select_m').val();
+            $date_from = $('#date_from').val();
+            $date_to = $('#date_to').val();
+            $remoteUrl = $remoteUrl + "/?m="+$month+"&date_from="+$date_from+"&date_to="+$date_to;
+        }
         $.ajax({
             url: $remoteUrl,
             type: 'get',
