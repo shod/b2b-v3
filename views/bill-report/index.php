@@ -35,6 +35,7 @@ $this->registerJs(
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row" data-dashboard-widget>
                 <div class="col-lg-12">
+                    <div style="padding-bottom: 20px;" data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'actions', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
                     <div>
                         <div>
 

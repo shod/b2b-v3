@@ -435,6 +435,7 @@ class BillReportController extends Controller
         $vars["data"] = $this->getTransactionsHtml($seller);
         $vars["date_from"] = Yii::$app->request->get("date_from");
         $vars["date_to"] = Yii::$app->request->get("date_to");
+        $vars['sid'] = $seller->id;
         return $this->render('index', $vars);
     }
 
