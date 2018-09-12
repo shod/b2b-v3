@@ -12,7 +12,7 @@
                         <input type="hidden" name="no_nds" value="2"/>
                         <select class="form-control" name="year" onchange="showMonthNoNds(this)" style="margin-right: 10px;">
                             <option value="0">Год</option>
-                            <option value="17">2018</option>
+                            <option value="18">2018</option>
                             <option value="17">2017</option>
                             <option value="16">2016</option>
                             <option value="15">2015</option>
@@ -56,7 +56,7 @@
                     "</select>";
             } else {
                 month = today.getMonth() + 1;
-                html = "<select name='month' onchange='getReport_no_nds()'><option value='0'>Месяц</option>";
+                html = "<select class='form-control' name='month' onchange='getReport_no_nds()'><option value='0'>Месяц</option>";
                 for (i = 0; i <= month - 2; i++) {
                     html += "<option value='" + (i + 1) + "'>" + month_list[i] + "</option>";
                 }
