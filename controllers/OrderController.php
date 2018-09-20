@@ -196,7 +196,7 @@ class OrderController extends Controller
 
     private function orders(){
         $orders = \Yii::$app->db->createCommand("
-            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, p.section_id, vcs.name as section_name
+            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, p.section_id, vcs.name as section_name, o.product_title
             from po_order as o
             left join po_contact as c on (o.po_contact_id = c.id)
             left join products as p on (p.id = o.product_id)
@@ -211,7 +211,7 @@ class OrderController extends Controller
                     "order_id" => $ar['order_id'],
                     "phone" => substr($ar['phone'],0,3)." ".substr($ar['phone'],3,2).htmlspecialchars_decode(" <b>".substr($ar['phone'],5,7)."</b>"),
                     "user_name" => $ar['name'],
-                    "product_name" => IndexProduct::find()->where(["product_id" => $ar['product_id']])->one()->basic_name,
+                    "product_name" => $ar['product_title'] ? $ar['product_title'] : IndexProduct::find()->where(["product_id" => $ar['product_id']])->one()->basic_name,
                     "cost_us" => $this->parseCostBy(round($ar['cost_us'])*10000),
                     "cost_by" => $this->parseCostBy($ar['cost_us']),
                     "cost_byn" => $ar['cost_us'],
@@ -230,7 +230,7 @@ class OrderController extends Controller
     private function history($page=0) {
         $start = $page*$this->offset;
         $history = \Yii::$app->db->createCommand("
-            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status,
+            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, o.product_title,
 			(select count(*) from po_order where seller_id = {$this->seller_id} and (status = 1 or status = -1)) as all_count, p.section_id, vcs.name as section_name
             from po_order as o
             left join po_contact as c on (o.po_contact_id = c.id)
@@ -249,7 +249,7 @@ class OrderController extends Controller
                     "order_id" => $ar['order_id'],
                     "phone" => substr($ar['phone'],0,3)." ".substr($ar['phone'],3,2).htmlspecialchars_decode(" <b>".substr($ar['phone'],5,7)."</b>"),
                     "user_name" => $ar['name'],
-                    "product_name" => IndexProduct::find()->where(["product_id" => $ar['product_id']])->one()->basic_name,
+                    "product_name" => $ar['product_title'] ? $ar['product_title'] : IndexProduct::find()->where(["product_id" => $ar['product_id']])->one()->basic_name,
                     "cost_us" => $this->parseCostBy($ar['cost_us']*10000),
                     "cost_by" => $this->parseCostBy($ar['cost_us'] * $this->kurs),
                     "cost_byn" => $ar['cost_us'],
