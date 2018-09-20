@@ -7,6 +7,11 @@
         <a href="<?= isset($href_product) ? $href_product : "" ?>" target="_blank"><?= isset($name) ? $name : "" ?></a>
         <input type="hidden" name="del[<?= $product_id ?>][<?= $id ?>]" value="0" class="form-control del_input">
     </td>
+    <td  align="center">
+        <label>
+            <input type="checkbox" name="no_auto[<?= $product_id ?>][<?= $id ?>][]" <?= isset($checked_no_auto) ? $checked_no_auto : "" ?> >
+        </label>
+    </td>
     <td >
         <input type="text" name="cost[<?= $product_id ?>][<?= $id ?>][]" value="<?= isset($cost) ? $cost : "" ?>" class="form-control cost_input" style="width: 110px">
         <br><?= isset($cost_filter) ? $cost_filter : "" ?>

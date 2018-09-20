@@ -35,12 +35,18 @@ $(document).keypress(function (e) {
         service = tr.find("[name*='service']").val();
         term = tr.find("[name*='term_use']").val();
         link = tr.find("[name*='link']").val();
+        no_auto = tr.find("[name*='no_auto']").prop('checked');
+        if(no_auto){
+            no_auto = 1;
+        } else {
+            no_auto = 0;
+        }
 
 
         $.ajax({
             method: "POST",
             url: "/product/save-one-prod",
-            data: { _csrf : csrfToken, id: id, product_id: product_id, type: type, cost: cost, desc: desc, wh_state: wh,  delivery: delivery, garant:garant, manufacturer: manufacturer, importer:importer, service:service, term:term, link:link},
+            data: { _csrf : csrfToken, id: id, product_id: product_id, type: type, cost: cost, desc: desc, wh_state: wh,  delivery: delivery, garant:garant, manufacturer: manufacturer, importer:importer, service:service, term:term, link:link, no_auto: no_auto},
             success: function (html) {
                 console.log( "Data Saved: " + html );
                 if(type == 'create'){

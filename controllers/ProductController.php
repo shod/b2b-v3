@@ -231,6 +231,7 @@ class ProductController extends Controller
         $delivery_day = Yii::$app->request->post("delivery_day");
         $term_use = Yii::$app->request->post("term_use");
         $catalog_id = Yii::$app->request->post("catalog_id");
+        $no_auto = Yii::$app->request->post("no_auto");
 
         $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $setting_data = $obj_seller->setting_data;
@@ -280,6 +281,7 @@ class ProductController extends Controller
                             "importer" => $this->clear_text($importer[$product_id][$ps_id][$i]),
                             "service" => $this->clear_text($service[$product_id][$ps_id][$i]),
                             "delivery_day" => $delivery_day[$product_id][$ps_id][$i],
+                            "no_auto" => isset($no_auto[$product_id][$ps_id][$i]) ? 1 : 0,
                             "term_use" => isset($term_use[$product_id][$ps_id][$i]) ? $term_use[$product_id][$ps_id][$i] : ""
                         );
 
@@ -298,6 +300,7 @@ class ProductController extends Controller
                                                     importer = '{$r["importer"]}',
                                                     service = '{$r["service"]}',
                                                     term_use = '{$r["term_use"]}',
+                                                    setting_bit = f_setting_bit_set(ps.setting_bit, 8, {$r['no_auto']}),
 													title = if(ps.title = '', (SELECT basic_name from index_product WHERE product_id = ps.product_id), ps.title)
 													where id = {$ps_id}
 											";
@@ -314,10 +317,10 @@ class ProductController extends Controller
                             else
                             {
                                 $sql = "insert into product_seller (product_id, seller_id, title, cost_us, cost_by, description, wh_state, garant, start_date, delivery_day, 
-                                                link, manufacturer, importer, service, term_use ) values 
+                                                link, manufacturer, importer, service, term_use, setting_bit ) values 
 											({$product_id}, {$this->seller_id}, (SELECT basic_name from index_product WHERE product_id = {$product_id}), '{$r["cost_us"]}', '{$r["cost_by"]}', 
 											f_clear_prod_desc('{$r["description"]}'), '{$r["wh_state"]}', '{$r["garant"]}',  UNIX_TIMESTAMP(NOW()), '{$r["delivery_day"]}',
-											'{$r["link"]}','{$r["manufacturer"]}','{$r["importer"]}','{$r["service"]}','{$r["term_use"]}')";
+											'{$r["link"]}','{$r["manufacturer"]}','{$r["importer"]}','{$r["service"]}','{$r["term_use"]}',f_setting_bit_set(0, 8, {$r['no_auto']}))";
 
                                 \Yii::$app->db->createCommand($sql)->execute();
                             }
@@ -675,7 +678,7 @@ class ProductController extends Controller
               select qba.*
                 from (
                     SELECT '' AS brand, pp2.basic_name AS model, ps.id, ps.owner_id, ps.seller_id, ps.cost_us, ps.cost_by, ps.description, ps.wh_state, ps.count, ps.link, ps.garant, ps.product_id AS prodsel_id, ps.manufacturer, ps.importer, ps.service, p.is_owner, p.id AS product_id
-						, ps.delivery_day, ps.term_use, if(ps.product_id is not null, f_prod_avgcost_check (ps.product_id, ps.cost_us), 1) AS cost_filter
+						, ps.delivery_day, ps.term_use, if(ps.product_id is not null, f_prod_avgcost_check (ps.product_id, ps.cost_us), 1) AS cost_filter, f_is_setting_bit_set(ps.setting_bit, 'product_seller', 'no_auto') as no_auto
 						FROM			
 						products AS p 
 						INNER JOIN index_product pp2 ON (
@@ -709,7 +712,7 @@ class ProductController extends Controller
                 $no_sect = "";
             }
 
-            $str_sql = "select '' as brand, pp2.basic_name as model, ps.*, f_prod_avgcost_check(ps.product_id,ps.cost_us) as cost_filter
+            $str_sql = "select '' as brand, pp2.basic_name as model, ps.*, f_prod_avgcost_check(ps.product_id,ps.cost_us) as cost_filter, f_is_setting_bit_set(ps.setting_bit, 'product_seller', 'no_auto') as no_auto
 				from product_seller ps				
 				inner JOIN index_product pp2 ON (pp2.product_id = ps.product_id)
 				JOIN products as p on (pp2.product_id = p.id)
@@ -746,6 +749,7 @@ class ProductController extends Controller
             $r["delivery_day"] = ($r["delivery_day"] == 0) ? '' : $r["delivery_day"];
             $r["term_use"] = ($r["term_use"]) ? $r["term_use"] : '';
             $r["cost_filter"] = ($r["cost_filter"] == 1) ? '' : '<span style="font-size:10px;color:#9f0000;">Подозрительная цена</span>';
+            $r['checked_no_auto'] = ($r['no_auto'] == 1) ? 'checked' : '';
             $html .= $this->renderPartial('tmpl/price/iterate', $r);
         }
         return $html;
@@ -872,6 +876,7 @@ class ProductController extends Controller
         $term = Yii::$app->request->post('term');
         $link = Yii::$app->request->post('link');
         $product_id = Yii::$app->request->post('product_id');
+        $no_auto = Yii::$app->request->post('no_auto');
 
         $desc = str_replace(array("<br>", "<br />", "<br >", "<br/>"), " ", $desc);
         $desc = strip_tags($desc);
@@ -908,6 +913,7 @@ class ProductController extends Controller
             $ps->service = $service;
             $ps->term_use = $term;
             $ps->link = $link;
+            $ps->setting_bit = SiteService::set_bitvalue($ps->setting_bit,8,$no_auto);
             $ps->save();
             \Yii::$app->db->createCommand("update product_seller set start_date=UNIX_TIMESTAMP(NOW()) where seller_id={$this->seller_id} and product_id={$product_id}")->execute();
             echo $ps->id;
@@ -931,7 +937,7 @@ class ProductController extends Controller
             $ps->service = $service;
             $ps->term_use = $term;
             $ps->link = $link;
-            $ps->setting_bit = 0;
+            $ps->setting_bit = SiteService::set_bitvalue(0,8,$no_auto);
             $ps->prod_sec_id = $product->index_section_id;
             $ps->save();
             echo $ps->id;

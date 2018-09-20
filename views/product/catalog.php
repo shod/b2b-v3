@@ -93,6 +93,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                     <tr>
                                         <th style="width: 10px"></th>
                                         <th style="width: 200px">Наименование товара</th>
+                                        <th style="width: 10px">Не обн.</th>
                                         <th style="width: 70px">Цена <br/> <?= isset($currency) ? $currency : "" ?></th>
                                         <th class="product-item" style="width: 350px">
                                             Особенности (цвет, комплектация, гарантия) <br/>
