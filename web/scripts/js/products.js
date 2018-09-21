@@ -113,6 +113,7 @@ function getAjaxData(form_id,url,table_id){
         $('#catalog_name_header').html("Раздел " + $( "#product_catalog_name option:selected" ).text());
         $('#catalog_id_form').val(json.catalog_id);
         $("[data-dashboard-widget]").LoadingOverlay("hide");
+        $('.card-block').animate({scrollTop: 0},200);
     } );
 }
 

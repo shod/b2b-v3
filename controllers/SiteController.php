@@ -23,7 +23,7 @@ class SiteController extends Controller
      */
     public function beforeAction($action)
     {
-        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'admin-test') && ($action->id != 'sign-up')) {
+        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')) {
             $this->redirect('site/login');
         } else {
             return parent::beforeAction($action);
@@ -131,6 +131,28 @@ class SiteController extends Controller
             return $this->goBack();
         }
         return $this->render('login', ['model' => $model]);
+    }
+
+    public function actionLoginAds()
+    {
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->user->logout();
+        }
+
+        $model = new LoginForm();
+        $model->username = Yii::$app->request->get('username');
+        $model->password = Yii::$app->request->get('password');
+
+        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222'));
+        if($is_ads){
+            if ($model->login()) {
+                return $this->goBack();
+            } else {
+                return 'Неверные данные для входа!';
+            }
+        }
+
+        return 'Ошибка доступа!';
     }
 
     /**

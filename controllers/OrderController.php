@@ -81,7 +81,7 @@ class OrderController extends Controller
                             WHERE
                                 seller_id = {$this->seller_id}
                             ORDER BY
-                                id DESC";
+                                id DESC limit 20";
         $data = \Yii::$app->db->createCommand($sql)->queryAll();
         $array_data = array();
         foreach((array)$data as $r)
