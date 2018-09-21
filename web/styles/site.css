@@ -117,5 +117,5 @@ a.disabled {
     pointer-events: none;
 }
 .table-products tr:hover {
-    border: 2px solid #9092b7;
+    border: 2px solid #c5c5c5;
 }
