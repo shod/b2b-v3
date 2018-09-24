@@ -122,7 +122,7 @@ AppAsset::register($this);
                 <?php if ($seller->pay_type == 'fixed'): ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
+                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
@@ -144,7 +144,7 @@ AppAsset::register($this);
                     ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
+                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>

