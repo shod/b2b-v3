@@ -260,7 +260,7 @@ class SiteController extends Controller
                     $admin_emails = Yii::$app->params['saleEmails'];
 
                     foreach ($admin_emails as $email) {
-                        \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge(Yii::$app->request->post(), ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2]));
+                        \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge(Yii::$app->request->post(), ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
                     }
                     \app\helpers\SysService::sendEmail($seller_email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', Yii::$app->request->post());
 
