@@ -61,7 +61,7 @@ use Yii;
  * @property int $payment_mode_bit
  * @property string $pay_type
  */
-class Seller extends \yii\db\ActiveRecord
+class Seller extends \app\models_ex\Seller
 {
     /**
      * @inheritdoc
