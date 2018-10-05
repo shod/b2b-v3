@@ -2,7 +2,6 @@
 
 namespace app\models_ex;
 
-use app\models\Seller;
 
 class BillAccount extends  \app\models\BillAccount {
 

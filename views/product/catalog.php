@@ -80,7 +80,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/products.js
                                     </div>
                                 </div>
 
-                                <div class="content-end"><input class="btn btn-primary" type="button" value="Сохранить"
+                                <div class="content-end"><span>*для сохранения <mark>отдельных</mark> строк можно использовать клавишу <mark>Enter</mark></span>   &nbsp;&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="Сохранить"
                                                                 onclick="saveAjaxProducts('saveForm','/product/save-products/?', 'productTable')"/>
                                 </div>
                             </div>
