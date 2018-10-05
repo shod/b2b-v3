@@ -240,7 +240,7 @@ class SiteController extends Controller
                     $setting_data = serialize(array("currency_base" => "byn", "currency_rate" => $currency_rate));
 
                     $seller = new Seller();
-                    $seller->name = Yii::$app->request->post("shop");
+                    $seller->name = addslashes(Yii::$app->request->post("shop"));
                     $seller->member_id = $member->id;
                     $seller->active = 0;
                     $seller->setting_data = $setting_data;
@@ -251,7 +251,7 @@ class SiteController extends Controller
                     $property = SysObjectProperty::find()->where(["object_type_id" => 7, 'name' => ['email', 'phone', 'fio', 'company_name']])->all();
                     $member_ex = Member::find()->where(['id' => $seller->member_id])->one();
                     foreach ((array)$property as $name) {
-                        $value = Yii::$app->request->post($name->name);
+                        $value = addslashes(Yii::$app->request->post($name->name));
                         if ($value) {
                             $member_ex->setMemberProperty($name->name, $value, $name->id);
                         }
