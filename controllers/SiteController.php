@@ -160,8 +160,14 @@ class SiteController extends Controller
                 \Yii::$app->db->createCommand($sql)->execute();
                 $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
                 \Yii::$app->db->createCommand("insert into b2b_login_log (seller_id,ip,date_login,is_admin,version) values ({$seller_id}, '{$ip}',NOW(),1,1)")->execute();
+                $action = Yii::$app->request->get('action');
 
-                return $this->goBack();
+                if($action){
+                    $this->redirect($action);
+                } else {
+                    return $this->goBack();
+                }
+
             } else {
                 return 'Неверные данные для входа!';
             }

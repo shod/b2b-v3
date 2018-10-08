@@ -449,6 +449,9 @@ class SettingsController extends Controller
             $vars['dis_logo'] = "readonly disabled";
             $vars['dis_logo_text'] = "<p>Для замены логотипа пришлите запрос на смену и новый логотип на <a href='mailto:admin@migom.by'>admin@migom.by</a> с указанием ID магазина</p>";
         }
+        if(Yii::$app->request->get('is_admin') && Yii::$app->request->get('is_admin') == 1){
+            $vars['dis_logo'] = "";
+        }
 
         return $this->render('user_info', array_merge($vars, ['seller' => $seller, 'work_time' => $work_time, 'phones' => $phones, 'seller_info' => $seller_info]));
     }
