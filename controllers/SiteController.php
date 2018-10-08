@@ -163,7 +163,7 @@ class SiteController extends Controller
                 $action = Yii::$app->request->get('action');
 
                 if($action){
-                    $this->redirect($action);
+                    $this->redirect($action.'/?is_admin=1');
                 } else {
                     return $this->goBack();
                 }
