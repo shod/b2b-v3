@@ -204,6 +204,7 @@ class SiteController extends Controller
     {
         $this->layout = false;
         if (Yii::$app->request->post()) {
+            \Yii::info(Yii::$app->request->post(), 'registration');
             $recaptcha = Yii::$app->request->post('g-recaptcha-response');
             if (isset($recaptcha) && !empty($recaptcha)) {
                 //your site secret key

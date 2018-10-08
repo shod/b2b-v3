@@ -152,12 +152,24 @@ return [
         'targets' => [
             [
                 'class' => 'yii\log\FileTarget',
-                'levels' => ['error', 'warning'],
+                'levels' => ['info', ],
+                'categories' => ['registration'],
+                'logFile' => '@runtime/logs/registration.log',
             ],
             [
                 'class' => 'yii\log\FileTarget',
-                'levels' => ['info', ], //'info'
-                'logFile' => '@runtime/logs/registration.log',
+                'levels' => ['info', ],
+                'logFile' => '@runtime/logs/info.log',
+            ],
+            [
+                'class' => 'yii\log\FileTarget',
+                'levels' => ['warning', ],
+                'logFile' => '@runtime/logs/warning.log',
+            ],
+            [
+                'class' => 'yii\log\FileTarget',
+                'levels' => ['error', ],
+                'logFile' => '@runtime/logs/error.log',
             ],
         ],
     ],
