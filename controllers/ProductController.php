@@ -219,6 +219,10 @@ class ProductController extends Controller
     }
 
     public function actionSaveProducts(){
+        if($this->seller_id == 1082){
+            \Yii::info('START SAVE ALL PRODUCTS ' . $this->seller_id, 'debug');
+            $time_start = time();
+        }
         $del =Yii::$app->request->post("del");
         $cost = Yii::$app->request->post("cost");
         $desc = Yii::$app->request->post("desc");
@@ -344,6 +348,10 @@ class ProductController extends Controller
         \Yii::$app->db->createCommand("call pc_product_seller_actual_limit({$this->seller_id})")->execute(); //5 sec
         \Yii::$app->db->createCommand("call ps_seller_export_info_update({$this->seller_id})")->execute(); //10 sec
         \Yii::$app->db->createCommand("call pc_stop_word_mark_catalog({$this->seller_id},{$catalog_id})")->execute(); // 5 sec
+        if($this->seller_id == 1082){
+            $time = time() - $time_start;
+            \Yii::info('END SAVE ALL PRODUCTS ' . $this->seller_id . " TIME: " . $time, 'debug');
+        }
         exit;
     }
 
