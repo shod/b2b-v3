@@ -130,7 +130,7 @@ $this->registerJs(
                         <div class="card-block">
                             <h4>Шаблон прайса для обновления</h4>
                             <p>Прайс-лист должен удовлетворять шаблону (<a
-                                        href="http://static.migom.by/files/template-price-new.xlsx"
+                                        href="http://static.<?= Yii::$app->params['migom_domain'] ?>/files/template-price-new.xlsx"
                                         type='application/excel'>скачать</a>)</p>
 
 
@@ -173,9 +173,9 @@ $this->registerJs(
                                 </div>
                                 <div class="col-lg-8">
                                     <a style="width: 100%; word-wrap: break-word;"
-                                       href='https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                       href='https://crab.<?= Yii::$app->params['migom_domain'] ?>/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
-                                        https://crab.migom.by/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
+                                        https://crab.<?= Yii::$app->params['migom_domain'] ?>/api/price/csv/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
                                 </div>
                                 <div class="col-lg-2">
@@ -187,9 +187,9 @@ $this->registerJs(
                                     <b>Ссылка</b>
                                 </div>
                                 <div class="col-lg-8">
-                                    <a style="word-wrap: break-word;" href='https://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
+                                    <a style="word-wrap: break-word;" href='https://crab.<?= Yii::$app->params['migom_domain'] ?>/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>'
                                        target='_blank'>
-                                        http://crab.migom.by/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
+                                        http://crab.<?= Yii::$app->params['migom_domain'] ?>/api/price/yml/?seller_id=<?= $seller_id ?>&key_str=<?= $md5_seller ?>
                                     </a>
                                 </div>
                                 <div class="col-lg-2">

@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php else: ?>
                                     Для возобновления свяжитесь с Вашим менеджером по тел.  <a
                                             href="tel:+375 29 111-45-45">+375 29 111-45-45 (Velcom)</a>   и еmail: <a
-                                            href="mailto:sale@migom.by">sale@migom.by</a>
+                                            href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>

@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <br>
                     <div class="ks-text-center">
-                        По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
+                        По вопросам работы Migom.by пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                         или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                     </div>
 

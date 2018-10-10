@@ -447,7 +447,8 @@ class SettingsController extends Controller
         $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
         if($fl_logo_exist && ($vars['bit_logoauto'] == "")) {
             $vars['dis_logo'] = "readonly disabled";
-            $vars['dis_logo_text'] = "<p>Для замены логотипа пришлите запрос на смену и новый логотип на <a href='mailto:admin@migom.by'>admin@migom.by</a> с указанием ID магазина</p>";
+            $email = Yii::$app->params['adminEmail'];
+            $vars['dis_logo_text'] = "<p>Для замены логотипа пришлите запрос на смену и новый логотип на <a href='mailto:{$email}'>{$email}</a> с указанием ID магазина</p>";
         }
         if(Yii::$app->request->get('is_admin') && Yii::$app->request->get('is_admin') == 1){
             $vars['dis_logo'] = "";

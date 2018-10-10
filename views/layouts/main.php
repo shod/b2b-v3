@@ -190,7 +190,7 @@ AppAsset::register($this);
                                             <div class="ks-text">
                                                 <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">111-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.migom.by/img/design/viber.png" style="height: 20px;"><br>
                                                 <b>Skype:</b> sale.migom <br>
-                                                <b>E-mail:</b> <a href="mailto:sale@migom.by">sale@migom.by</a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
                                         </div>
@@ -209,7 +209,7 @@ AppAsset::register($this);
                                             <div class="ks-text">
                                                 <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">688-45-46</span> <br>
                                                 <b>Skype:</b> admin.migom <br>
-                                                <b>E-mail:</b> <a href="mailto:admin@migom.by">admin@migom.by</a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['adminEmail'] ?>"><?= Yii::$app->params['adminEmail'] ?></a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
                                         </div>
@@ -223,7 +223,7 @@ AppAsset::register($this);
                                         <div class="ks-info">
                                             <div class="ks-user-name"></div>
                                             <div class="ks-text">
-                                                <b>E-mail:</b> <a href="mailto:report@migom.by">report@migom.by</a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['reportEmail'] ?>"><?= Yii::$app->params['reportEmail'] ?></a> <br>
                                                 <!--b>Контактное лицо:</b> Ольга<br /-->
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
