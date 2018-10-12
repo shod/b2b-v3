@@ -61,9 +61,14 @@ $(document).ready(function () {
     $('.button-sms').click(function () {
         var $this = $(this);
         var $p = $(this).attr('id').split('_');
+        if($p[0] != 'processorder'){
+            confirm_text = 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.";
+        } else {
+            confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> будет выделен цветом, как находящийся в обработке.";
+        }
         $.confirm({
             title: 'Внимание!',
-            content: 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.",
+            content: confirm_text,
             type: 'primary',
             buttons: {
                 confirm: {
@@ -76,8 +81,12 @@ $(document).ready(function () {
                             type: 'get',
                             dataType: 'html',
                             success: function (html) {
-                                document.getElementById("tr_" + $p[1]).style.display = 'none';
-                                $(html).hide().prependTo("#history-body").fadeIn();
+                                if($p[0] != 'processorder'){
+                                    document.getElementById("tr_" + $p[1]).style.display = 'none';
+                                    $(html).hide().prependTo("#history-body").fadeIn();
+                                } else {
+                                    $("#tr_" + $p[1]).addClass('row-checked');
+                                }
                             },
                             error: function () {
                                 console.log('ajax error');

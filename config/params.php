@@ -13,7 +13,6 @@ return [
     ],
     'questionEmails' => [
         'admin@migom.by',
-        'promo@migom.by',
         'sale@migom.by',
         'nk@migom.by'
     ],

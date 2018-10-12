@@ -107,6 +107,10 @@ class OrderController extends Controller
                 \Yii::$app->db->createCommand("update po_order set status=-1, done_at='".date("Y-m-d H:i:s")."' where id={$order_id}")->execute();
                 echo $this->getHistoryRow($order_id);
                 break;
+            case "processorder":
+                \Yii::$app->db->createCommand("update po_order set status=2, done_at='".date("Y-m-d H:i:s")."' where id={$order_id}")->execute();
+                echo $this->getHistoryRow($order_id);
+                break;
             case "active":
                 \Yii::$app->db->createCommand("update seller_info set po_active=1 where seller_id={$this->seller_id}")->execute();
                 echo 'Активация прошла успешно!';
@@ -201,7 +205,7 @@ class OrderController extends Controller
             left join po_contact as c on (o.po_contact_id = c.id)
             left join products as p on (p.id = o.product_id)
             left join v_catalog_sections as vcs on (vcs.section_id = p.section_id)
-            where o.seller_id = {$this->seller_id} and o.status = 0
+            where o.seller_id = {$this->seller_id} and (o.status = 0 or o.status = 2)
 			order by o.created_at desc
 		")->queryAll();
         $data_orders = "";
@@ -217,7 +221,8 @@ class OrderController extends Controller
                     "cost_byn" => $ar['cost_us'],
                     "time_at" => date("H:i",strtotime($ar['created_at'])),
                     "date_at" => date("d.m.Y",strtotime($ar['created_at'])),
-                    "section_name" => $ar['section_name']
+                    "section_name" => $ar['section_name'],
+                    "status" => $ar['status']
                 ];
                 $data_orders .= $this->renderPartial('tmpl/sms-order-row', $r);
             }
@@ -243,8 +248,9 @@ class OrderController extends Controller
         $data_history = "";
         if(!empty($history)) {
             foreach($history as $ar) {
-                if($ar['status'] == '1') {$status_order = "success";}
-                if($ar['status'] == '-1') {$status_order = "danger";}
+                if($ar['status'] == '1') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Доставлен</span>";}
+                if($ar['status'] == '-1') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отклонен</span>";}
+                if($ar['status'] == '2') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Обработан</span>";}
                 $r = [
                     "order_id" => $ar['order_id'],
                     "phone" => substr($ar['phone'],0,3)." ".substr($ar['phone'],3,2).htmlspecialchars_decode(" <b>".substr($ar['phone'],5,7)."</b>"),
@@ -290,8 +296,9 @@ class OrderController extends Controller
             left join v_catalog_sections as vcs on (vcs.section_id = p.section_id)
             where o.seller_id = {$this->seller_id} and o.id = {$order_id}
 		")->queryOne();
-        if($order['status'] == '1') {$status_order = "success";}
-        if($order['status'] == '-1') {$status_order = "danger";}
+        if($order['status'] == '1') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Доставлен</span>";}
+        if($order['status'] == '-1') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отклонен</span>";}
+        if($order['status'] == '2') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Обработан</span>";}
         if($order['status'] == '0') {$status_order = "";}
         $r = [
             "order_id" => $order['order_id'],
