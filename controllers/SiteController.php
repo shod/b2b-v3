@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\helpers\SiteService;
 use app\models\SysObjectProperty;
+use app\models_ex\BillAccount;
 use app\models_ex\Member;
 use app\models\Seller;
 use app\models\SysStatus;

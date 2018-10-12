@@ -10,6 +10,8 @@ namespace app\modules\billing\components;
 
 use app\helpers\SysService;
 use app\models\Seller;
+use app\models_ex\BillAccount;
+
 /**
  * Description of Mailer
  *
@@ -66,7 +68,7 @@ class Mailer {
         $emails = $this->email_test;
         $emails[] = $seller->email;
 
-        return $this->mail('balance_30', ['name' => $seller->name], ['subject' => "Migom.by Отключены дополнительные услуги", 'to' => $emails]);
+        return $this->mail('balance_30', ['name' => $seller->name, 'min_balance' => BillAccount::MIN_BALANCE], ['subject' => "Migom.by Отключены дополнительные услуги", 'to' => $emails]);
     }
 
     public function balance_day_1($seller_id) {
