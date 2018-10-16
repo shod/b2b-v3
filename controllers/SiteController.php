@@ -24,7 +24,7 @@ class SiteController extends Controller
      */
     public function beforeAction($action)
     {
-        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')) {
+        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')&& ($action->id != 'rules')) {
             $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
@@ -89,6 +89,15 @@ class SiteController extends Controller
         Yii::$app->view->params['customParam'] = 'B2B главная.';
         $seller_id = Yii::$app->user->identity->getId();
         return $this->render('index', ['sid' => $seller_id]);
+    }
+
+    public function actionRules(){
+        $this->layout = false;
+        $res =  \Yii::$app->db->createCommand("select * from texts where id=211")->queryOne();
+
+        $vars["title"] = $res["name"];
+        $vars["text"] = $res["text"];
+        return $this->render('rules',$vars);
     }
 
     public function actionAdminTest()

@@ -141,7 +141,7 @@
                             <input id="btn-submit" type="submit" class="btn btn-primary btn-block" disabled readonly value="Зарегистрироваться">
                         </div>
                         <div class="ks-text-center">
-                            <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="pages-signup.html">правилами размещения в каталоге Migom.by</a>
+                            <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="/site/rules">правилами размещения в каталоге Migom.by</a>
                         </div>
                         <div class="ks-text-center">
                             Уже есть аккаунт? <a href="/site/login">Войти</a>
