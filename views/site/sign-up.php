@@ -127,13 +127,13 @@
                                     <span class="custom-control-description">Договора оферты</span>
                                 </label>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <!--div class="col-lg-6 col-md-6 col-sm-6">
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="2">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Договора оферты без НДС</span>
                                 </label>
-                            </div>
+                            </div-->
                         </div>
                         <div class="g-recaptcha" data-sitekey="6LfNZ1gUAAAAAJhGQVeavCN6V57rF0GpJYrjm6Up"></div>
                         <br>
