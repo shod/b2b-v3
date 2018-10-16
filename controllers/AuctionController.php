@@ -431,11 +431,14 @@ class AuctionController extends Controller
     public function actionAdd()
     {
         $is_fix = Yii::$app->request->get("fix") ? 1 : 0;
-        $vars['data'] = $this->getDataAddHtml($is_fix);
+        $sql = "select count(*) as cnt from bill_auction where owner_id = {$this->seller_id} and type_id = 1";
+        $cnt_auction = \Yii::$app->db->createCommand($sql)->queryOne();
+        $all = ($cnt_auction['cnt'] == 0) ? 1 : 0;
+        $vars['data'] = $this->getDataAddHtml($is_fix,$all);
         return $this->render('add', $vars);
     }
 
-    function getDataAddHtml($is_fix)
+    function getDataAddHtml($is_fix,$all = 0)
     {
         $html = "";
 
@@ -464,6 +467,12 @@ class AuctionController extends Controller
             $res = \Yii::$app->db->createCommand("select * from bill_catalog where id in (select catalog_id from bill_catalog_seller where seller_id={$this->seller_id}) order by position")->queryAll();
         }
 
+        if($all){
+            $sql_fix = "";
+        } else {
+            $sql_fix = "and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}";
+        }
+
         foreach((array)$res as $r)
         {
             $html_row = "";
@@ -483,7 +492,7 @@ class AuctionController extends Controller
                                             AND vcs.section_id = ps.prod_sec_id
                                             AND c.id = vcs.catalog_id
 											and not c.id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1) 
-											and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}	
+										    {$sql_fix}		
                                             GROUP BY
                                                 ps.prod_sec_id")->queryAll();
                 $r["name"] = "Доступные разделы";
@@ -508,7 +517,7 @@ class AuctionController extends Controller
 					)  					
 				) and hidden=0  
 				and not id in (select object_id from bill_auction where owner_id={$this->seller_id} and type_id=1)	
-				and f_is_setting_bit_set(c.setting_bit, 'catalog', 'auction_day') = {$is_fix}			
+				{$sql_fix}			
 				order by bsel.cnt desc, name
 				")->queryAll();
             }
