@@ -33,7 +33,7 @@ class AuctionController extends Controller
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
