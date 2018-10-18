@@ -751,7 +751,7 @@ class ProductController extends Controller
             }
 
             $r["name"] = "<b>{$r["brand"]}</b> {$r["model"]}";
-            $r["href_product"] = "http://www.migom.by/-{$r["product_id"]}/info_seller/";
+            $r["href_product"] = "http://www." . Yii::$app->params['redirect_domain'] . "/-{$r["product_id"]}/info_seller/";
             $r["selected_{$r["wh_state"]}"] = "selected";
             $r["garant"] = preg_replace("/[^0-9]/","",$r["garant"]);
             $r["delivery_day"] = ($r["delivery_day"] == 0) ? '' : $r["delivery_day"];

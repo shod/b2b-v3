@@ -26,5 +26,6 @@ return [
     ],
     'fromEmail' => 'support@migom.by',
     'migom_url' => 'https://migom.by/',
-    'migom_domain' => 'migom.by'
+    'migom_domain' => 'migom.by',
+    'redirect_domain' => 'migomby.by'
 ];
