@@ -76,8 +76,9 @@ class PriceService
 					from properties p, properties p1, v_catalog_sections cs
 					where cs.catalog_id={$r1["id"]} and cs.f_main=1 and p.section_id=cs.section_id and p.type=2 and p1.section_id=p.section_id and p1.type=4
 				")->queryAll();
-                $prop = $res[0];
-                $res2 = \Yii::$app->db->createCommand("
+                if(count($res) > 0){
+                    $prop = $res[0];
+                    $res2 = \Yii::$app->db->createCommand("
 					select SQL_BUFFER_RESULT 
                             ip.basic_name as name, 
                             ps.*
@@ -97,40 +98,41 @@ class PriceService
 				")->queryAll();
 
 
-                //$data2 = array();
-                $wh_state_list = array('Уточнить', 'В наличии', 'Под заказ', "Отсутствует");
-                $bool_list = array('', 'да','нет');
-                $pay_list = array('', 'платная','бесплатная');
-                foreach ((array)$res2 as $r2)
-                {
-                    if ($curr == 'byn'){
-                        $cost_price = $r2["cost_by"]/10000;
-                    } else {
-                        $cost_price = ($curr == "br") ? $r2["cost_by"] : $r2["cost_us"];
+                    //$data2 = array();
+                    $wh_state_list = array('Уточнить', 'В наличии', 'Под заказ', "Отсутствует");
+                    $bool_list = array('', 'да','нет');
+                    $pay_list = array('', 'платная','бесплатная');
+                    foreach ((array)$res2 as $r2)
+                    {
+                        if ($curr == 'byn'){
+                            $cost_price = $r2["cost_by"]/10000;
+                        } else {
+                            $cost_price = ($curr == "br") ? $r2["cost_by"] : $r2["cost_us"];
+                        }
+                        //$r2["id"] = $r2["product_id"];
+                        $rd["catalog_name"] = $prop["name"];
+                        $rd["name"] = addslashes("{$r2["name"]}");
+                        $rd["cost"] = $cost_price;
+                        $rd["description"] = addslashes($r2["description"]);
+                        $rd["link"] = $r2["link"];
+                        $rd["img"] = $r2["img_url"];
+                        $rd["wh_state"] = $wh_state_list[$r2["wh_state"]];
+                        $rd["delivery_day"] = ($r2["delivery_day"] == 0 ) ? '' : $r2["delivery_day"];
+                        $rd["garant"] = $r2["garant"];
+                        $rd["term_use"] = ($r2["term_use"] == 0) ? '' : $r2["term_use"];
+                        $rd["beznal"] = isset($r2["beznal"]) ? $bool_list[$r2["beznal"]] : "";
+                        $rd["credit"] = isset($bool_list[$r2["credit"]]) ? $bool_list[$r2["credit"]] : "";
+                        $rd["rassrochka"] = isset($bool_list[$r2["rassrochka"]]) ? $bool_list[$r2["rassrochka"]] : "";
+                        $rd["delivery_m"] = isset($pay_list[$r2["delivery_m"]]) ? $pay_list[$r2["delivery_m"]] : "";
+                        $rd["delivery_rb"] = isset($pay_list[$r2["delivery_rb"]]) ? $pay_list[$r2["delivery_rb"]] : "";
+                        $rd["manufacturer"] = $r2["manufacturer"];
+                        $rd["importer"] = $r2["importer"];
+                        $rd["service"] = $r2["service"];
+                        $data2[] = $rd;
                     }
-                    //$r2["id"] = $r2["product_id"];
-                    $rd["catalog_name"] = $prop["name"];
-                    $rd["name"] = addslashes("{$r2["name"]}");
-                    $rd["cost"] = $cost_price;
-                    $rd["description"] = addslashes($r2["description"]);
-                    $rd["link"] = $r2["link"];
-                    $rd["img"] = $r2["img_url"];
-                    $rd["wh_state"] = $wh_state_list[$r2["wh_state"]];
-                    $rd["delivery_day"] = ($r2["delivery_day"] == 0 ) ? '' : $r2["delivery_day"];
-                    $rd["garant"] = $r2["garant"];
-                    $rd["term_use"] = ($r2["term_use"] == 0) ? '' : $r2["term_use"];
-                    $rd["beznal"] = isset($r2["beznal"]) ? $bool_list[$r2["beznal"]] : "";
-                    $rd["credit"] = isset($bool_list[$r2["credit"]]) ? $bool_list[$r2["credit"]] : "";
-                    $rd["rassrochka"] = isset($bool_list[$r2["rassrochka"]]) ? $bool_list[$r2["rassrochka"]] : "";
-                    $rd["delivery_m"] = isset($pay_list[$r2["delivery_m"]]) ? $pay_list[$r2["delivery_m"]] : "";
-                    $rd["delivery_rb"] = isset($pay_list[$r2["delivery_rb"]]) ? $pay_list[$r2["delivery_rb"]] : "";
-                    $rd["manufacturer"] = $r2["manufacturer"];
-                    $rd["importer"] = $r2["importer"];
-                    $rd["service"] = $r2["service"];
-                    $data2[] = $rd;
-                }
-                if (isset($data2) && count($data2)) {
-                    $data1[] = array("id" => $r1["id"], "name" => $r1["name"], "data" => $data2);
+                    if (isset($data2) && count($data2)) {
+                        $data1[] = array("id" => $r1["id"], "name" => $r1["name"], "data" => $data2);
+                    }
                 }
             }
             if (isset($data1) && count($data1)) {
