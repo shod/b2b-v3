@@ -158,10 +158,10 @@
                             <span class="ks-copyright" >&copy; 2018 migom.by</span>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <a href="https://www.migom.by/page/about/" >О проекте</a>
+                            <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" >О проекте</a>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <a href="https://www.migom.by/page/adv/" >Реклама на сайте</a>
+                            <a href="<?= \Yii::$app->params['migom_url'] ?>/page/adv/" >Реклама на сайте</a>
                         </div>
                     </div>
                 </div>
@@ -172,10 +172,10 @@
             <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> migom.by</span>
             <ul>
                 <li>
-                    <a href="https://www.migom.by/page/about/" style="color: white">О проекте</a>
+                    <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" style="color: white">О проекте</a>
                 </li>
                 <li>
-                    <a href="https://www.migom.by/page/adv/" style="color: white">Реклама на сайте</a>
+                    <a href="<?= \Yii::$app->params['migom_url'] ?>/page/adv/" style="color: white">Реклама на сайте</a>
                 </li>
             </ul>
         </div>

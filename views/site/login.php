@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </head>
 <body>
 
-<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.migom.by/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png);">
+<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png);">
     <div class="ks-page-content">
         <div class="ks-logo" style="color: white">B2B.MIGOM.BY</div>
 
@@ -79,10 +79,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> migom.by</span>
         <ul>
             <li>
-                <a href="https://www.migom.by/page/about/" style="color: white">О проекте</a>
+                <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" style="color: white">О проекте</a>
             </li>
             <li>
-                <a href="https://www.migom.by/page/adv/" style="color: white">Реклама на сайте</a>
+                <a href="<?= \Yii::$app->params['migom_url'] ?>/page/adv/" style="color: white">Реклама на сайте</a>
             </li>
         </ul>
     </div>
