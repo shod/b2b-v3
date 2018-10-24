@@ -161,6 +161,7 @@ return [
                 'levels' => ['info', ],
                 'categories' => ['debug'],
                 'logFile' => '@runtime/logs/debug.log',
+                'logVars' => []
             ],
             [
                 'class' => 'yii\log\FileTarget',
