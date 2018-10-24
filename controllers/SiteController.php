@@ -275,11 +275,15 @@ class SiteController extends Controller
                     }
 
                     $admin_emails = Yii::$app->params['saleEmails'];
+                    $seller_data = Yii::$app->request->post();
+                    foreach ($seller_data as $key => $value){
+                        $seller_data[$key] = is_string($value) ? addslashes($value) : $value;
+                    }
 
                     foreach ($admin_emails as $email) {
-                        \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge(Yii::$app->request->post(), ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
+                        \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge($seller_data, ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
                     }
-                    \app\helpers\SysService::sendEmail($seller_email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', Yii::$app->request->post());
+                    \app\helpers\SysService::sendEmail($seller_email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', $seller_data);
 
                     return $this->render('splash-reg');
                 } else {

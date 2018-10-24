@@ -365,6 +365,7 @@ AppAsset::register($this);
                             <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
                         <?php endif; ?>
                         <a class="dropdown-item" href="/info/?page=rules_placement">Правила размещения</a>
+                        <a class="dropdown-item" href="https://static.migom.by/files/assignmet_contract.docx">Договор передачи <br>прав магазина</a>
                     </div>
                 </li>
 
