@@ -221,7 +221,7 @@ class SettingsController extends Controller
                     \Yii::$app->db->createCommand("update seller_info set offer_default_desc=f_clear_prod_desc('{$offer_default_desc}'), importers='{$importers}', service_centers='{$service_centers}', f_b2b_description={$f_description}, f_allow_download={$f_download} where seller_id=".$this->seller_id)->execute();
                 }
 
-                $fl_logo_exist = $this->checkRemoteFile("https://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg");
+                $fl_logo_exist = $this->checkRemoteFile(\Yii::$app->params['STATIC_URL_FULL'] . "/img/seller/logo$" . $this->seller_id . ".jpg");
                 $bit_logoauto = $seller->setting_bit & 131072;
                 $fl_auto_logo = (($fl_logo_exist && $bit_logoauto) || !$fl_logo_exist);
                 if(isset($_FILES["logo"])){
@@ -241,7 +241,7 @@ class SettingsController extends Controller
                                 $filename = 'logo$'.$this->seller_id.'.jpg';
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = "{$home}/seller/{$filename}";
-                                $path = "https://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
                                 $seller->setting_bit = $setting_bit;
@@ -285,7 +285,7 @@ class SettingsController extends Controller
                         $filename = 'logo$'.$this->seller_id.'.jpg';
                         $home = \yii\helpers\Url::base(true);
                         $path_local = "{$home}/seller/{$filename}";
-                        $path = "https://static.migom.by/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                        $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
 
                         file_get_contents($path, NULL, NULL, 0, 14);
                         $setting_bit = SiteService::set_bitvalue($setting_bit,131072,1);
@@ -324,7 +324,7 @@ class SettingsController extends Controller
 
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
-                                $path = "https://static.migom.by/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
                                 file_get_contents($path, NULL, NULL, 0, 14);
                             }
 
@@ -347,7 +347,7 @@ class SettingsController extends Controller
                     $success = true;
                     $this->data_img_registration();
                 }
-                $path = "https://static.migom.by/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";
+                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";
                 file_get_contents($path, NULL, NULL, 0, 14);
                 echo json_encode(array('success'=>$success));
                 exit;
@@ -378,7 +378,7 @@ class SettingsController extends Controller
                                 $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/document/'.$this->seller_id.'/'.$new_file_name;
-                                $path = "https://static.migom.by/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
                             }
@@ -403,7 +403,7 @@ class SettingsController extends Controller
                     $success = true;
                     $this->data_img_document();
                 }
-                $path = "https://static.migom.by/img_delete.php?seller_document=1&fname={$file_name}&sid={$this->seller_id}";
+                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_document=1&fname={$file_name}&sid={$this->seller_id}";
                 file_get_contents($path, NULL, NULL, 0, 14);
                 echo json_encode(array('success'=>$success));
                 exit;
@@ -440,7 +440,7 @@ class SettingsController extends Controller
         $vars["cont_service_centers"] = $this->deserilize('service_centers',$seller_info->service_centers);
         $vars['img_documents'] = $this->get_img_documents();
 
-        $logo_url = "https://static.migom.by/img/seller/logo$" . $this->seller_id . ".jpg";
+        $logo_url = \Yii::$app->params['STATIC_URL_FULL'] .  "/img/seller/logo$" . $this->seller_id . ".jpg";
         $fl_logo_exist = $this->checkRemoteFile($logo_url);
         $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
 
@@ -458,25 +458,25 @@ class SettingsController extends Controller
     }
 
     private function data_img_registration() {
-        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
         $documents_data = json_decode($documents_data);
         \Yii::$app->db->createCommand("update seller_info set img_registration = '".json_encode($documents_data)."', f_registration = 0 where seller_id={$this->seller_id}")->execute();
 	}
 
     private function data_img_document() {
-        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}");
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}");
         $documents_data = json_decode($documents_data);
         \Yii::$app->db->createCommand("update seller_info set img_documents = '".json_encode($documents_data)."' where seller_id={$this->seller_id}")->execute();
     }
 
     private function get_img_registration($none = 0) {
-        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
         $imgs = json_decode($documents_data);
         $data = "";
         if(count($imgs)){
             foreach($imgs as $file) {
                 $r['file_name'] = $file;
-                $r['src'] = 'https://static.migom.by/img/seller/registration/'.$this->seller_id.'/'.$file;
+                $r['src'] = \Yii::$app->params['STATIC_URL_FULL'] . '/img/seller/registration/'.$this->seller_id.'/'.$file;
                 $r['none'] = $none;
                 $data .= $this->renderPartial("tmpl/img_registration", ['vars' => $r]);
             }
@@ -487,13 +487,13 @@ class SettingsController extends Controller
 
     function get_img_documents() {
 
-        $documents_data = file_get_contents("https://static.migom.by/img_info.php?act=seller_document&seller_id={$this->seller_id}");
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}");
         $imgs = json_decode($documents_data);
         $data = "";
         if(count($imgs)){
             foreach($imgs as $file) {
                 $r['file_name'] = $file;
-                $r['src'] = 'https://static.migom.by/img/seller/document/'.$this->seller_id.'/'.$file;
+                $r['src'] = \Yii::$app->params['STATIC_URL_FULL'] . '/img/seller/document/'.$this->seller_id.'/'.$file;
                 $data .= $this->renderPartial("tmpl/img_document", $r);
             }
         }
