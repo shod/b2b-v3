@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>B2B.migom.by <?= Html::encode($this->title) ?></title>
+    <title>B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?> <?= Html::encode($this->title) ?></title>
     <style>
         @media only screen and (max-width: 780px) {
             a:not(.btn-success):not(.btn-danger) > .ks-action {
@@ -84,7 +84,7 @@ AppAsset::register($this);
         <!-- END RESPONSIVE SIDEBAR TOGGLER -->
 
         <div class="ks-navbar-logo">
-            <a href="/" class="ks-logo">B2B.MIGOM.BY</a>
+            <a href="/" class="ks-logo">B2B<?= strtoupper(\Yii::$app->params['migom_name']) ?></a>
         </div>
     </div>
     <!-- END LOGO -->
@@ -398,7 +398,7 @@ AppAsset::register($this);
             </ul>
             <div class="ks-sidebar-extras-block">
                 <div class="ks-extras-block-item"><?= isset($this->params['customParam']) ? $this->params['customParam'] : ""; ?></div>
-                <div class="ks-sidebar-copyright">© <?= date("Y"); ?> migom.by</div>
+                <div class="ks-sidebar-copyright">© <?= date("Y"); ?> <?= strtolower(\Yii::$app->params['migom_name']) ?></div>
             </div>
         </div>
     </div>

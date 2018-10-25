@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png);">
     <div class="ks-page-content">
-        <div class="ks-logo" style="color: white">B2B.MIGOM.BY</div>
+        <div class="ks-logo" style="color: white">B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></div>
 
         <div class="card panel panel-default ks-light ks-panel ks-login" style="max-width: 364px;">
             <div class="card-block">
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="ks-footer">
-        <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> migom.by</span>
+        <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> <?= strtolower(\Yii::$app->params['migom_name']) ?></span>
         <ul>
             <li>
                 <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" style="color: white">О проекте</a>

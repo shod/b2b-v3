@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация магазина. B2B.migom.by</title>
+    <title>Регистрация магазина. B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></title>
 
     <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@
 
 <div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
     <div class="ks-page-content">
-        <div class="ks-logo" style="color: white">B2B.migom.by</div>
+        <div class="ks-logo" style="color: white">B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></div>
 
         <div class="card panel panel-default ks-light ks-panel ks-signup" style="width: 1000px;">
             <div class="card-block" style="width: 1000px;">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-group row hidden-lg-up hidden-md-up">
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <span class="ks-copyright" >&copy; 2018 migom.by</span>
+                        <span class="ks-copyright" >&copy; 2018 <?= strtolower(\Yii::$app->params['migom_name']) ?></span>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" >О проекте</a>
@@ -65,7 +65,7 @@
 
     </div>
     <div class="ks-footer hidden-xs-down">
-        <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> migom.by</span>
+        <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> <?= strtolower(\Yii::$app->params['migom_name']) ?></span>
         <ul>
             <li>
                 <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" style="color: white">О проекте</a>
