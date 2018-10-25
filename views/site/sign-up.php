@@ -124,14 +124,14 @@
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="1">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Договора оферты</span>
+                                    <span class="custom-control-description"><a href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf" target="_blank" >Договора оферты</a></span>
                                 </label>
                             </div>
                             <!--div class="col-lg-6 col-md-6 col-sm-6">
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="2">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Договора оферты без НДС</span>
+                                    <span class="custom-control-description"><a href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty-bez-nds.pdf" target="_blank" >Договора оферты без НДС</a></span>
                                 </label>
                             </div-->
                         </div>
