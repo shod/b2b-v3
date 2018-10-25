@@ -84,7 +84,7 @@ AppAsset::register($this);
         <!-- END RESPONSIVE SIDEBAR TOGGLER -->
 
         <div class="ks-navbar-logo">
-            <a href="/" class="ks-logo">B2B<?= strtoupper(\Yii::$app->params['migom_name']) ?></a>
+            <a href="/" class="ks-logo">B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></a>
         </div>
     </div>
     <!-- END LOGO -->
