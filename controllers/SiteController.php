@@ -281,9 +281,9 @@ class SiteController extends Controller
                     }
 
                     foreach ($admin_emails as $email) {
-                        \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge($seller_data, ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
+                        \app\helpers\SysService::sendEmail($email, \Yii::$app->params['migom_name']." - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge($seller_data, ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
                     }
-                    \app\helpers\SysService::sendEmail($seller_email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', $seller_data);
+                    \app\helpers\SysService::sendEmail($seller_email, \Yii::$app->params['migom_name'].' - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', $seller_data);
 
                     return $this->render('splash-reg');
                 } else {

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h4>Мы рады сообщить Вам о запуске новой версии панели управления магазина на MIGOM.by! </h4>
+            <h4>Мы рады сообщить Вам о запуске новой версии панели управления магазина на <?= \Yii::$app->params['migom_name'] ?>! </h4>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
             <img src="/img/anounce/team.png" style="height: 100px;"/>
         </div>
         <div class="col-lg-12" style="text-align: center">
-            <p>Ваша команда Migom.by</p>
+            <p>Ваша команда <?= \Yii::$app->params['migom_name'] ?></p>
         </div>
     </div>
 

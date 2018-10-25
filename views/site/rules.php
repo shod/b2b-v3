@@ -30,7 +30,7 @@
 </head>
 <body>
 
-<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.migom.by/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
+<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
     <div class="ks-page-content">
         <div class="ks-logo" style="color: white">B2B.migom.by</div>
 
@@ -46,7 +46,7 @@
                 </div>
                 <br>
                 <div class="ks-text-center">
-                    По вопросам работы Migom.by пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                    По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                     или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                 </div>
                 <div class="form-group row hidden-lg-up hidden-md-up">

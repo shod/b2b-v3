@@ -27,6 +27,7 @@ return [
     'fromEmail' => 'support@migom.by',
     'migom_url' => 'https://migom.by',
     'migom_domain' => 'migom.by',
+    'migom_name' => 'Migom.by',
     'redirect_domain' => 'migomby.by',
     'STATIC_URL' => '//static.migom.by',
     'STATIC_URL_FULL' => 'https://static.migom.by',

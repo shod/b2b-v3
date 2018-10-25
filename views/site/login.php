@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>B2B Migom.by</title>
+    <title>B2B <?= \Yii::$app->params['migom_name'] ?></title>
 
     <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <br>
                     <div class="ks-text-center">
-                        По вопросам работы Migom.by пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                        По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                         или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                     </div>
 

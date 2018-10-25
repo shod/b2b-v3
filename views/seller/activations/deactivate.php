@@ -3,7 +3,7 @@
     <form method="get" id="ajaxForm" action="/seller/activate-process">
         <input type="hidden" name="action" value="deactivate"/>
         <p style="margin-bottom: 10px">Ценовые предложения и контактная информация вашего магазина будут недоступны для
-            посетителей Migom.by. </p>
+            посетителей <?= \Yii::$app->params['migom_name'] ?>. </p>
         <p style="margin-bottom: 10px"><span style="color: red; font-weight: bold;">ВНИМАНИЕ!</span> За услугу "Пауза"
             взимается плата – <b>5 ТЕ</b>.</p>
         <p style="margin-bottom: 40px">Поставить аккаунт на паузу? </p>

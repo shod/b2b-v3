@@ -59,7 +59,7 @@ class Mailer {
 
         $this->mail('balance_0_admin', array('seller_id' => $seller_id, 'name' => $seller->name), array('subject' => "Отключение продавца"));
 
-        return $this->mail('balance_0', array('name' => $seller->name), array('subject' => "Migom.by Ваш аккаунт заблокирован", 'to' => $email));
+        return $this->mail('balance_0', array('name' => $seller->name), array('subject' => \Yii::$app->params['migom_name']." Ваш аккаунт заблокирован", 'to' => $email));
     }
 
     public function balance_30($seller_id) {
@@ -68,13 +68,13 @@ class Mailer {
         $emails = $this->email_test;
         $emails[] = $seller->email;
 
-        return $this->mail('balance_30', ['name' => $seller->name, 'min_balance' => BillAccount::MIN_BALANCE], ['subject' => "Migom.by Отключены дополнительные услуги", 'to' => $emails]);
+        return $this->mail('balance_30', ['name' => $seller->name, 'min_balance' => BillAccount::MIN_BALANCE], ['subject' => \Yii::$app->params['migom_name']." Отключены дополнительные услуги", 'to' => $emails]);
     }
 
     public function balance_day_1($seller_id) {
 
         $seller = $this->getSeller($seller_id);
-        return $this->mail('balance_day_1', ['name' => $seller->name], ['subject' => "Migom.by ”Уведомление о минимальном балансе", 'to' => $this->email_test]);
+        return $this->mail('balance_day_1', ['name' => $seller->name], ['subject' => \Yii::$app->params['migom_name']." ”Уведомление о минимальном балансе", 'to' => $this->email_test]);
     }
     
     public function sections_admin($data) {
@@ -117,7 +117,7 @@ class Mailer {
      * */
     public function activate($seller_id) {
         $seller = $this->getSeller($seller_id);
-        return $this->mail('activate', array('name' => $seller->name), array('subject' => "Migom.by Ваш аккаунт активирован", 'to' => $this->email_test));
+        return $this->mail('activate', array('name' => $seller->name), array('subject' => \Yii::$app->params['migom_name']." Ваш аккаунт активирован", 'to' => $this->email_test));
     }
 
 }

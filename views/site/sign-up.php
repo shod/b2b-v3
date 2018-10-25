@@ -30,7 +30,7 @@
 </head>
 <body>
 
-    <div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.migom.by/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
+    <div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
         <div class="ks-page-content">
             <div class="ks-logo" style="color: white">B2B.migom.by</div>
 
@@ -141,14 +141,14 @@
                             <input id="btn-submit" type="submit" class="btn btn-primary btn-block" disabled readonly value="Зарегистрироваться">
                         </div>
                         <div class="ks-text-center">
-                            <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="/site/rules">правилами размещения в каталоге Migom.by</a>
+                            <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="/site/rules">правилами размещения в каталоге <?= \Yii::$app->params['migom_name'] ?></a>
                         </div>
                         <div class="ks-text-center">
                             Уже есть аккаунт? <a href="/site/login">Войти</a>
                         </div>
                         <br>
                         <div class="ks-text-center">
-                            По вопросам работы Migom.by пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                            По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                             или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                         </div>
                     </form>

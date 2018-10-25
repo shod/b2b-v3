@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <p><b>Внимание!</b> Магазин и указанный логин будут активированы только после проверки корректности данных администратором проекта. </p>
                 <br>
                 <p>
-                    По вопросам работы Migom.by пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                    По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                     или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
                 </p>
             </div>

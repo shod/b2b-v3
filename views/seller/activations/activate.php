@@ -2,7 +2,7 @@
 <div class="wcontent">
     <form method="get" id="ajaxForm" action="/seller/activate-process">
         <input type="hidden" name="action" value="activate" />
-        <p style="margin-bottom: 10px">Ценовые предложения и контактная информация вашего магазина станут доступны для посетителей Migom.by. </p>
+        <p style="margin-bottom: 10px">Ценовые предложения и контактная информация вашего магазина станут доступны для посетителей <?= \Yii::$app->params['migom_name'] ?>. </p>
         <p style="margin-bottom: 10px">За возобновление аккаунта плата не взимается.</p>
         <p style="margin-bottom: 30px">Возобновить аккаунт? </p>
         <div style="text-align: center">

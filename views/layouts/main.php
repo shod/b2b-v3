@@ -54,7 +54,7 @@ AppAsset::register($this);
 
     $this->registerJs(
         "if ($seller->setting_bit & 33554432){
-            getModalByurl('Добро пожаловать в обновленную B2B панель Migom.by!','features');
+            getModalByurl('Добро пожаловать в обновленную B2B панель ".\Yii::$app->params['migom_domain']."!','features');
         }"
     );
     
@@ -104,7 +104,7 @@ AppAsset::register($this);
             <div class="ks-navbar-actions">
 
                 <div class="nav-item ks-notifications">
-                    <a class="nav-link " role="button" href="https://b2bv2.migom.by/" target="_blank">Назад к старой версии</a>
+                    <a class="nav-link " role="button" href="https://b2bv2.<?= \Yii::$app->params['migom_domain'] ?>/" target="_blank">Назад к старой версии</a>
                 </div>
 
                 <div class="nav-item ks-notifications">
@@ -188,7 +188,7 @@ AppAsset::register($this);
                                         <div class="ks-info">
                                             <div class="ks-user-name"><h4>Жанна</h4></div>
                                             <div class="ks-text">
-                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">111-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.migom.by/img/design/viber.png" style="height: 20px;"><br>
+                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">111-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.<?= \Yii::$app->params['migom_domain'] ?>/img/design/viber.png" style="height: 20px;"><br>
                                                 <b>Skype:</b> sale.migom <br>
                                                 <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00

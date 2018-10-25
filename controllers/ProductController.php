@@ -213,7 +213,7 @@ class ProductController extends Controller
         if (isset($url)) {
             $url = rawurlencode($url);
             $check_delete = Yii::$app->request->post("check_delete");
-            file_get_contents("https://up.migom.by/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
+            file_get_contents("https://up.".\Yii::$app->params['migom_domain']."/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
         $this->redirect('/product/price');
     }
@@ -482,7 +482,7 @@ class ProductController extends Controller
     }
 
     private function getImportResultsHtml(){
-        $res_data = file_get_contents("https://up.migom.by/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
+        $res_data = file_get_contents("https://up.".\Yii::$app->params['migom_domain']."/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
         $res_data = unserialize($res_data);
 
         $res = isset($res_data[$this->seller_id]) ? $res_data[$this->seller_id] : "";
@@ -512,7 +512,7 @@ class ProductController extends Controller
 
 
             if ($res["url"]){
-                if (strpos($res["url"], "b2b.migom.by/files/prices") === false) {
+                if (strpos($res["url"], "b2b.".\Yii::$app->params['migom_domain']."/files/prices") === false) {
                     $url = "<b>URL:</b> {$res["url"]}";
                 }
                 else
