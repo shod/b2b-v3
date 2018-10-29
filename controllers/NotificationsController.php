@@ -90,6 +90,10 @@ class NotificationsController extends Controller
                 $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'id' => $id])->one();
                 $notification->status = 1;
                 $notification->save();
+                $params = $notification->param;
+                $params = json_decode($params, true);
+                $href = $params['href'];
+                $this->redirect($href);
                 break;
             case "get_notify_reviews":
                 $notifications = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'notify', 'status'=>'0'])->all();

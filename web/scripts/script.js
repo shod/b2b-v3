@@ -435,6 +435,8 @@ function get_notifications() {
         .done(function (msg) {
             if (msg) {
                 data = JSON.parse(msg);
+                id = data.id;
+                href = data.href;
                 $.confirm({
                     title: 'Обратите внимание',
                     content: data.tmpl,
@@ -443,7 +445,6 @@ function get_notifications() {
                         confirm: {
                             text: data.button_name,
                             action: function () {
-                                id = data.id;
                                 $.ajax({
                                     method: "GET",
                                     url: "/notifications/process/?action=set_notify&id=" + id
@@ -453,7 +454,7 @@ function get_notifications() {
                                             //alert(msg);
                                         }
                                     });
-                                location.href = data.href;
+                               window.location.href = href;
                             }
                         },
                         cancel: {
