@@ -244,7 +244,7 @@ $this->registerJs(
                     <div class="col-lg-8" style="">
                         <textarea class="form-control" style="width: 100%"
                                   name="offer_default_desc"
-                                  id="offer_default_desc"> <?= $seller_info->offer_default_desc ?> </textarea>
+                                  id="offer_default_desc"><?= $seller_info->offer_default_desc ?></textarea>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 0px; padding-bottom: 15px;">
