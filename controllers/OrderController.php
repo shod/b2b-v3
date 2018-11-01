@@ -131,8 +131,7 @@ class OrderController extends Controller
                 break;
             case "delete-history":
                 if($this->seller_id){
-                    \Yii::$app->db->createCommand("delete from po_order where seller_id = {$this->seller_id} and status != 0")->execute();
-                    //print_r("delete from po_order where seller_id = {$this->seller_id} and status != 0");
+                    \Yii::$app->db->createCommand("update po_order set seller_id = 0 where seller_id = {$this->seller_id} and status != 0 and status != 2")->execute();
                 }
                 return $this->redirect(['order/sms']);
                 break;
