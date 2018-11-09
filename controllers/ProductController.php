@@ -25,7 +25,7 @@ class ProductController extends Controller
      * @inheritdoc
      */
     public $seller_id;
-    public $offset = 100;
+    public $offset = 50;
     public $seller_curs;
     public $cnt_all = 0;
     public $curr_do_percent = 300;
