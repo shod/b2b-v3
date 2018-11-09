@@ -1,34 +1,34 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@migom.by',
-    'saleManager' => 'sale@migom.by',
-    'noreplyEmail' => 'noreply@migom.by',
-    'supportEmail' => 'support@migom.by',
-    'reportEmail' => 'report@migom.by',
+    'adminEmail' => 'admin@migomby.by',
+    'saleManager' => 'sale@migomby.by',
+    'noreplyEmail' => 'noreply@migomby.by',
+    'supportEmail' => 'support@migomby.by',
+    'reportEmail' => 'report@migomby.by',
     'saleEmails' => [
-        'sale@migom.by',
-        'sale2@migom.by',
-        'nk@migom.by'
+        'sale@migomby.by',
+        'sale2@migomby.by',
+        'nk@migomby.by'
     ],
     'questionEmails' => [
-        'admin@migom.by',
-        'sale@migom.by',
-        'nk@migom.by'
+        'admin@migomby.by',
+        'sale@migomby.by',
+        'nk@migomby.by'
     ],
     'testEmails' => [
-        'nk@migom.by',"admin@migom.by", "shod@migom.by"
+        'nk@migomby.by',"admin@migomby.by", "shod@migomby.by"
     ],
     'b2bEmails' => [
-        'sale@migom.by',
-        'admin@migom.by',
-        "nk@migom.by"
+        'sale@migomby.by',
+        'admin@migomby.by',
+        "nk@migomby.by"
     ],
-    'fromEmail' => 'support@migom.by',
+    'fromEmail' => 'support@migomby.by',
     'migom_url' => 'https://migom.by',
     'migom_domain' => 'migom.by',
-    'migom_name' => 'Migom.by',
+    'migom_name' => 'Мигом бай', //'Migom.by'
     'redirect_domain' => 'migomby.by',
-    'STATIC_URL' => '//static.migom.by',
-    'STATIC_URL_FULL' => 'https://static.migom.by',
+    'STATIC_URL' => '//static.migomby.by',
+    'STATIC_URL_FULL' => 'https://static.migomby.by',
 ];
