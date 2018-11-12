@@ -25,8 +25,8 @@ return [
         "nk@migomby.by"
     ],
     'fromEmail' => 'support@migomby.by',
-    'migom_url' => 'https://migom.by',
-    'migom_domain' => 'migom.by',
+    'migom_url' => 'https://migomby.by',
+    'migom_domain' => 'migomby.by',
     'migom_name' => 'Мигом бай', //'Migom.by'
     'redirect_domain' => 'migomby.by',
     'STATIC_URL' => '//static.migomby.by',
