@@ -40,7 +40,7 @@
     <div class="row">
         <div class="col-lg-2" style="text-align: center"><img src="/img/anounce/consulting.png" style="height: 70px;  padding-bottom: 10px"/> </div>
         <div class="col-lg-10">
-            <p>Будем рады получить от Вас обратную связь и ответим на любые вопросы <br> по тел. <a href="tel:+375291114545">+375 29 111-45-45 (Velcom)</a> и еmail: <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a></p>
+            <p>Будем рады получить от Вас обратную связь и ответим на любые вопросы <br> по тел. <a href="tel:+375291124545">+375 29 112-45-45 (Velcom)</a> и еmail: <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a></p>
         </div>
     </div>
     <div class="row">

@@ -38,7 +38,7 @@ $this->registerJs(
                     <div class="col-lg-12">
                         <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации
                             обратитесь к вашему менеджеру <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
-                            или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .
+                            или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> .
                         </div>
                     </div>
                 </div>
