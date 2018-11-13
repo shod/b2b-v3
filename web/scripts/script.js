@@ -249,7 +249,7 @@ function show_annotation() {
     }, {
         target: 'div.ks-widget-tasks-statuses-progress:first',
         position: 'bottom',
-        content: "Использование возможностей продвижения на площадке migom.by",
+        content: "Использование возможностей продвижения на площадке Мигомбай",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
         target: 'div.ks-widget-payment-total-amount:eq(1)',

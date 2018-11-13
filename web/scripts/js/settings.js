@@ -133,7 +133,7 @@ $(document).ready(function () {
                         }
                         var content = '';
                         for (var i in data.src) {
-                            content += '<div class="item-info-file"><div class="del-img-doc" id="'+data.file_name[i]+'" style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div><img src="'+data.src[i]+'" width="50" /></div>';
+                            content += '<div class="item-info-file"><div class="del-img-doc" id="'+data.file_name[i]+'" style="display:block;position:relative;top:15px;right:5px;width:20px;height:20px;background: url(http://static.migomby.by/img/design/strelka_close.png) -2px -2px no-repeat;cursor:pointer;z-index:1"></div><img src="'+data.src[i]+'" width="50" /></div>';
                         }
 
                         $(content).appendTo('#files');
