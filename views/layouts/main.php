@@ -103,9 +103,9 @@ AppAsset::register($this);
             <!-- BEGIN NAVBAR ACTIONS -->
             <div class="ks-navbar-actions">
 
-                <div class="nav-item ks-notifications">
+                <!--div class="nav-item ks-notifications">
                     <a class="nav-link " role="button" href="https://b2bv2.<?= \Yii::$app->params['migom_domain'] ?>/" target="_blank">Назад к старой версии</a>
-                </div>
+                </div-->
 
                 <div class="nav-item ks-notifications">
                     <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Тур по изменениям</a>
