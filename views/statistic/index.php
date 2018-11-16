@@ -12,10 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="container-fluid" style="overflow: auto">
                                 <?php if (isset($data) && $data != ""): ?>
                                     <div><h5>Статистика по месяцам</h5></div>
-                                    <div class="alert alert-danger ks-solid-light" role="alert">Внимание! В период
-                                        1.02.2018 - 1.06.2018 произошел сбой в системе сбора статистики. Статистика
-                                        выводится не в полном объеме.
-                                    </div>
+                                    <!--div class="alert alert-danger ks-solid-light" role="alert">
+                                    </div-->
                                     <table id="ks-datatable" class="table table-striped table-bordered table-condenced"
                                            width="100%">
                                         <thead>
