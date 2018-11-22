@@ -41,8 +41,8 @@
                         <h4 class="ks-header">Регистрация магазина</h4>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Имя" name="fio" data-validation="length" data-validation-length="min5"
-                                       data-validation-error-msg="Введите имя (минимум 5 символов)">
+                                <input type="text" class="form-control" placeholder="Имя" name="fio" data-validation="length" data-validation-length="min4"
+                                       data-validation-error-msg="Введите имя (минимум 4 символов)">
                                 <span class="icon-addon">
                                 <span class="la la-user"></span>
                             </span>
