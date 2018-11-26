@@ -133,6 +133,17 @@ class BalanceController extends Controller
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );
+            $official_data = array(
+                "official_name" => "ООО &quot;Марталь&quot;",
+                "official_unp" => "УНП 192583317",
+                "official_address" => "г.Минск, ул.Могилевская, д.2, корп.2, пом.18",
+                "official_rs" => "р/с BY54ALFA30122122470010270000, в банке ЗАО &quot;Альфа-Банк&quot;.  Центральный офис ул.Советская, 12, 220030, г.Минск, БИК ALFABY2X",
+                "official_phone" => "тел.: +375 (29) 112 45 45",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_martal.jpg",
+                "official_owner" => "Шмык О.Д.",
+                "official_percent" => "20",
+                "official_nds" => "Сумма НДС:",
+            );
         }
 
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
@@ -284,8 +295,6 @@ class BalanceController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
 
         $f_offerta = $seller->f_offerta;
-
-
 
         if(!($f_offerta & 1) && ($f_offerta & 2)){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
