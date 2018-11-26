@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use app\helpers\SiteService;
 use app\models\NotifierMessageB2b;
 use app\models\PoOrder;
+use app\models\Seller;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -92,6 +94,12 @@ class NotificationsController extends Controller
                 $notification->save();
                 $params = $notification->param;
                 $params = json_decode($params, true);
+                if(isset($params['is_offerta']) && ($params['is_offerta'] == 1)){
+                    $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+                    $setting_bit =  SiteService::set_bitvalue($obj_seller->f_offerta,1,1);
+                    $obj_seller->f_offerta = $setting_bit;
+                    $obj_seller->save();
+                }
                 $href = $params['href'];
                 $this->redirect($href);
                 break;
