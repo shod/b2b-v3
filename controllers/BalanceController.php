@@ -133,7 +133,7 @@ class BalanceController extends Controller
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );
-            $official_data = array(
+            /*$official_data = array(
                 "official_name" => "ООО &quot;Марталь&quot;",
                 "official_unp" => "УНП 192583317",
                 "official_address" => "г.Минск, ул.Могилевская, д.2, корп.2, пом.18",
@@ -143,7 +143,7 @@ class BalanceController extends Controller
                 "official_owner" => "Шмык О.Д.",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
-            );
+            );*/
         }
 
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
