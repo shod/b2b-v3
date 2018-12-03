@@ -200,8 +200,7 @@ class BalanceController extends Controller
             "contract_number" => $seller_info->contract_number,
             "contract_date" => date('d.m.Y',$seller_info->contract_date),
             "fax" => isset($member_data['fax']) ? $member_data['fax'] : "",
-            "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов <br>
-            на сайте ".\Yii::$app->params['migom_name']." на сумму"
+            "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов"
         ],$vars);
         if($render_type == 'html'){
             return $this->render('tmpl/blankop/html-type', $vars);

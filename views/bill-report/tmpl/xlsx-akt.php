@@ -1195,8 +1195,7 @@ DIV будут заменены.--><!-----------------------------><!--НАЧА�
         <tr height=84 style='mso-height-source:userset;height:63.0pt'>
             <td height=84 class=xl7227918 style='height:63.0pt;border-top:none'>1</td>
             <td colspan=2 class=xl8727918 width=138 style='border-right:1.0pt solid black;
-  border-left:none;width:103pt'>Услуги по размещению рекламных материалов на
-                сайте <?= \Yii::$app->params['migom_name'] ?> на сумму</td>
+  border-left:none;width:103pt'>Услуги по размещению рекламных материалов</td>
             <td class=xl7327918 style='border-top:none;border-left:none'>шт</td>
             <td colspan=2 class=xl8927918 style='border-right:1.0pt solid black;
   border-left:none'>1</td>
