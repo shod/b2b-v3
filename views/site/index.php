@@ -1,5 +1,5 @@
 <?php
-$this->title = "Добро пожаловать в b2b.migom.by!";
+$this->title = "Добро пожаловать в b2b.".\Yii::$app->params['migom_domain']."!";
 $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "

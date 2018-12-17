@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация магазина. B2B.migom.by</title>
+    <title>Регистрация магазина. B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></title>
 
     <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +30,9 @@
 </head>
 <body>
 
-    <div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.migom.by/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
+    <div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png); min-height: 1100px">
         <div class="ks-page-content">
-            <div class="ks-logo" style="color: white">B2B.migom.by</div>
+            <div class="ks-logo" style="color: white">B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></div>
 
             <div class="card panel panel-default ks-light ks-panel ks-signup" style="max-width: 364px;">
                 <div class="card-block">
@@ -41,8 +41,8 @@
                         <h4 class="ks-header">Регистрация магазина</h4>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Имя" name="fio" data-validation="length" data-validation-length="min5"
-                                       data-validation-error-msg="Введите имя (минимум 5 символов)">
+                                <input type="text" class="form-control" placeholder="Имя" name="fio" data-validation="length" data-validation-length="min4"
+                                       data-validation-error-msg="Введите имя (минимум 4 символов)">
                                 <span class="icon-addon">
                                 <span class="la la-user"></span>
                             </span>
@@ -124,16 +124,16 @@
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="1">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Договора оферты</span>
+                                    <span class="custom-control-description"><a href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf" target="_blank" >Договора оферты</a></span>
                                 </label>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <!--div class="col-lg-6 col-md-6 col-sm-6">
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="2">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Договора оферты без НДС</span>
+                                    <span class="custom-control-description"><a href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty-bez-nds.pdf" target="_blank" >Договора оферты без НДС</a></span>
                                 </label>
-                            </div>
+                            </div-->
                         </div>
                         <div class="g-recaptcha" data-sitekey="6LfNZ1gUAAAAAJhGQVeavCN6V57rF0GpJYrjm6Up"></div>
                         <br>
@@ -141,27 +141,27 @@
                             <input id="btn-submit" type="submit" class="btn btn-primary btn-block" disabled readonly value="Зарегистрироваться">
                         </div>
                         <div class="ks-text-center">
-                            <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="pages-signup.html">правилами размещения в каталоге Migom.by</a>
+                            <span class="text-muted">Нажимая "Зарегистрироваться" я соглащаюсь с </span> <a href="/site/rules">правилами размещения в каталоге <?= \Yii::$app->params['migom_name'] ?></a>
                         </div>
                         <div class="ks-text-center">
                             Уже есть аккаунт? <a href="/site/login">Войти</a>
                         </div>
                         <br>
                         <div class="ks-text-center">
-                            По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
-                            или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
+                            По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                            или звоните по телефону <a href="tel:+375291124545">+375 (29) 112-45-45</a> velcom
                         </div>
                     </form>
                     <br>
                     <div class="form-group row hidden-lg-up hidden-md-up">
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <span class="ks-copyright" >&copy; 2018 migom.by</span>
+                            <span class="ks-copyright" >&copy; 2018 <?= strtolower(\Yii::$app->params['migom_name']) ?></span>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <a href="https://www.migom.by/page/about/" >О проекте</a>
+                            <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" >О проекте</a>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <a href="https://www.migom.by/page/adv/" >Реклама на сайте</a>
+                            <a href="<?= \Yii::$app->params['migom_url'] ?>/page/adv/" >Реклама на сайте</a>
                         </div>
                     </div>
                 </div>
@@ -169,13 +169,13 @@
 
         </div>
         <div class="ks-footer hidden-xs-down">
-            <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> migom.by</span>
+            <span class="ks-copyright" style="color: white">&copy; <?= date("Y"); ?> <?= strtolower(\Yii::$app->params['migom_name']) ?></span>
             <ul>
                 <li>
-                    <a href="https://www.migom.by/page/about/" style="color: white">О проекте</a>
+                    <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" style="color: white">О проекте</a>
                 </li>
                 <li>
-                    <a href="https://www.migom.by/page/adv/" style="color: white">Реклама на сайте</a>
+                    <a href="<?= \Yii::$app->params['migom_url'] ?>/page/adv/" style="color: white">Реклама на сайте</a>
                 </li>
             </ul>
         </div>

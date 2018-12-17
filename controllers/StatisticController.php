@@ -24,7 +24,7 @@ class StatisticController extends Controller
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -377,7 +377,7 @@ class StatisticController extends Controller
                 } else {
                     $name = $r['product_id'];
                 }
-                $r['ref_url'] = "Товар: <a href='http://www.migom.by/{$r['product_id']}/' target='_blank'>{$name}</a>";
+                $r['ref_url'] = "Товар: <a href='http://www." . Yii::$app->params['redirect_domain'] . "/{$r['product_id']}/' target='_blank'>{$name}</a>";
             }
             $data .= $this->renderPartial('tmpl/month-data-item-report', $r);
         }

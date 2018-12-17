@@ -1,6 +1,6 @@
 <tr class="<?= isset($class_success) ? $class_success : "" ?> <?= isset($class_danger) ? $class_danger : "" ?>">
 
-    <td><a class="ks-color-primary" href="http://www.migom.by/<?= isset($product_id) ? $product_id : "" ?>"
+    <td><a class="ks-color-primary" href="<?= \Yii::$app->params['migom_url'] ?>/<?= isset($product_id) ? $product_id : "" ?>"
            target="_blank"><?= isset($basic_name) ? $basic_name : "" ?></a></td>
     <td><a class="ks-color-primary"
            href="/?admin=products&mode=0&catalog_id=<?= isset($catalog_id) ? $catalog_id : "" ?>&brand=0&search=<?= isset($basic_name) ? $basic_name : "" ?>"

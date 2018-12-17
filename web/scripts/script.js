@@ -61,9 +61,14 @@ $(document).ready(function () {
     $('.button-sms').click(function () {
         var $this = $(this);
         var $p = $(this).attr('id').split('_');
+        if($p[0] != 'processorder'){
+            confirm_text = 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.";
+        } else {
+            confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> будет выделен цветом, как находящийся в обработке.";
+        }
         $.confirm({
             title: 'Внимание!',
-            content: 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.",
+            content: confirm_text,
             type: 'primary',
             buttons: {
                 confirm: {
@@ -76,8 +81,12 @@ $(document).ready(function () {
                             type: 'get',
                             dataType: 'html',
                             success: function (html) {
-                                document.getElementById("tr_" + $p[1]).style.display = 'none';
-                                $(html).hide().prependTo("#history-body").fadeIn();
+                                if($p[0] != 'processorder'){
+                                    document.getElementById("tr_" + $p[1]).style.display = 'none';
+                                    $(html).hide().prependTo("#history-body").fadeIn();
+                                } else {
+                                    $("#tr_" + $p[1]).addClass('row-checked');
+                                }
                             },
                             error: function () {
                                 console.log('ajax error');
@@ -240,7 +249,7 @@ function show_annotation() {
     }, {
         target: 'div.ks-widget-tasks-statuses-progress:first',
         position: 'bottom',
-        content: "Использование возможностей продвижения на площадке migom.by",
+        content: "Использование возможностей продвижения на площадке Мигомбай",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
         target: 'div.ks-widget-payment-total-amount:eq(1)',
@@ -426,6 +435,8 @@ function get_notifications() {
         .done(function (msg) {
             if (msg) {
                 data = JSON.parse(msg);
+                id = data.id;
+                href = data.href;
                 $.confirm({
                     title: 'Обратите внимание',
                     content: data.tmpl,
@@ -434,7 +445,6 @@ function get_notifications() {
                         confirm: {
                             text: data.button_name,
                             action: function () {
-                                id = data.id;
                                 $.ajax({
                                     method: "GET",
                                     url: "/notifications/process/?action=set_notify&id=" + id
@@ -444,7 +454,7 @@ function get_notifications() {
                                             //alert(msg);
                                         }
                                     });
-                                location.href = data.href;
+                               window.location.href = href;
                             }
                         },
                         cancel: {

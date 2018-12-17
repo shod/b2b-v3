@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 data-target=".bd-example-modal-lg" class="btn btn-primary">Получить доступ
                         </button><br><br>
                         <h5 class="panel-title">Аналитика цен конкурентов – оперативный и точный мониторинг ценовых
-                            предложений, представленных в каталоге товаров MIGOM.by.</h5>
+                            предложений, представленных в каталоге товаров <?= \Yii::$app->params['migom_name'] ?>.</h5>
                         <div style="text-align:center; overflow: auto; margin-bottom: 20px">
                             <img style="border: 1px solid black;"
                                  src="/img/design/example_analysis_1.jpg">

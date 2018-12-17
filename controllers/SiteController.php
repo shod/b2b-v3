@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\helpers\SiteService;
 use app\models\SysObjectProperty;
+use app\models_ex\BillAccount;
 use app\models_ex\Member;
 use app\models\Seller;
 use app\models\SysStatus;
@@ -23,8 +24,8 @@ class SiteController extends Controller
      */
     public function beforeAction($action)
     {
-        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')&& ($action->id != 'rules')) {
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -90,6 +91,15 @@ class SiteController extends Controller
         return $this->render('index', ['sid' => $seller_id]);
     }
 
+    public function actionRules(){
+        $this->layout = false;
+        $res =  \Yii::$app->db->createCommand("select * from texts where id=211")->queryOne();
+
+        $vars["title"] = $res["name"];
+        $vars["text"] = $res["text"];
+        return $this->render('rules',$vars);
+    }
+
     public function actionAdminTest()
     {
         $filename = $filename = "seller/logo$1500.jpg";
@@ -153,15 +163,21 @@ class SiteController extends Controller
 
         $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222'));
         if($is_ads){
-            $model->password = 'admin_lhe;,f78';
+            $model->password = 'pbvf_,kbprj18';
             if ($model->login()) {
                 $seller_id = Yii::$app->user->identity->getId();
                 $sql = "call pc_recovery_product_seller_data({$seller_id});";
                 \Yii::$app->db->createCommand($sql)->execute();
                 $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
                 \Yii::$app->db->createCommand("insert into b2b_login_log (seller_id,ip,date_login,is_admin,version) values ({$seller_id}, '{$ip}',NOW(),1,1)")->execute();
+                $action = Yii::$app->request->get('action');
 
-                return $this->goBack();
+                if($action){
+                    $this->redirect($action.'/?is_admin=1');
+                } else {
+                    return $this->goBack();
+                }
+
             } else {
                 return 'Неверные данные для входа!';
             }
@@ -204,6 +220,7 @@ class SiteController extends Controller
     {
         $this->layout = false;
         if (Yii::$app->request->post()) {
+            \Yii::info(Yii::$app->request->post(), 'registration');
             $recaptcha = Yii::$app->request->post('g-recaptcha-response');
             if (isset($recaptcha) && !empty($recaptcha)) {
                 //your site secret key
@@ -240,7 +257,7 @@ class SiteController extends Controller
                     $setting_data = serialize(array("currency_base" => "byn", "currency_rate" => $currency_rate));
 
                     $seller = new Seller();
-                    $seller->name = Yii::$app->request->post("shop");
+                    $seller->name = addslashes(Yii::$app->request->post("shop"));
                     $seller->member_id = $member->id;
                     $seller->active = 0;
                     $seller->setting_data = $setting_data;
@@ -251,18 +268,22 @@ class SiteController extends Controller
                     $property = SysObjectProperty::find()->where(["object_type_id" => 7, 'name' => ['email', 'phone', 'fio', 'company_name']])->all();
                     $member_ex = Member::find()->where(['id' => $seller->member_id])->one();
                     foreach ((array)$property as $name) {
-                        $value = Yii::$app->request->post($name->name);
+                        $value = addslashes(Yii::$app->request->post($name->name));
                         if ($value) {
                             $member_ex->setMemberProperty($name->name, $value, $name->id);
                         }
                     }
 
                     $admin_emails = Yii::$app->params['saleEmails'];
+                    $seller_data = Yii::$app->request->post();
+                    foreach ($seller_data as $key => $value){
+                        $seller_data[$key] = is_string($value) ? addslashes($value) : $value;
+                    }
 
                     foreach ($admin_emails as $email) {
-                        \app\helpers\SysService::sendEmail($email, "Migom.by - Регистрация продавца ID {$seller->id}", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge(Yii::$app->request->post(), ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
+                        \app\helpers\SysService::sendEmail($email, \Yii::$app->params['migom_name']." - Регистрация продавца ID [ {$seller->id} ]", Yii::$app->params['fromEmail'], NULL, 'seller/registration_admin', array_merge($seller_data, ['seller_id' => $seller->id, 'offerta' => $seller->f_offerta & 1, 'offerta_no_nds' => $seller->f_offerta & 2, 'seller_email' => $seller_email]));
                     }
-                    \app\helpers\SysService::sendEmail($seller_email, 'Migom.by - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', Yii::$app->request->post());
+                    \app\helpers\SysService::sendEmail($seller_email, \Yii::$app->params['migom_name'].' - Регистрация продавца', Yii::$app->params['fromEmail'], NULL, 'seller/registration', $seller_data);
 
                     return $this->render('splash-reg');
                 } else {

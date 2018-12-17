@@ -143,7 +143,7 @@ return [
         'messageConfig' => [
             'charset' => 'UTF-8',
             //'from' => ['noreply@migom.by' => 'Migom.by'],
-            'from' => 'noreply@migom.by',
+            'from' => 'noreply@migomby.by',
         ],
         'useFileTransport' => true,
     ],
@@ -152,12 +152,31 @@ return [
         'targets' => [
             [
                 'class' => 'yii\log\FileTarget',
-                'levels' => ['error', 'warning'],
+                'levels' => ['info', ],
+                'categories' => ['registration'],
+                'logFile' => '@runtime/logs/registration.log',
             ],
             [
                 'class' => 'yii\log\FileTarget',
-                'levels' => ['info', ], //'info'
-                'logFile' => '@runtime/logs/registration.log',
+                'levels' => ['info', ],
+                'categories' => ['debug'],
+                'logFile' => '@runtime/logs/debug.log',
+                'logVars' => []
+            ],
+            [
+                'class' => 'yii\log\FileTarget',
+                'levels' => ['info', ],
+                'logFile' => '@runtime/logs/info.log',
+            ],
+            [
+                'class' => 'yii\log\FileTarget',
+                'levels' => ['warning', ],
+                'logFile' => '@runtime/logs/warning.log',
+            ],
+            [
+                'class' => 'yii\log\FileTarget',
+                'levels' => ['error', ],
+                'logFile' => '@runtime/logs/error.log',
             ],
         ],
     ],

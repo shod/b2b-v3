@@ -29,7 +29,7 @@ class BillReportController extends Controller
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -116,8 +116,8 @@ class BillReportController extends Controller
                     "official_address" => "220024,г.Минск, ул. Асаналиева, 24-6",
                     "official_rs" => "BY71 ALFA 3013 2293 0400 2027 0000 <br>БИК ALFABY2X",
                     "official_bank" => "ЗАО &quot;АЛЬФА-БАНК&quot; Ул. Сурганова, 43-47, 220013 Минск, Республика Беларусь",
-                    "official_phone" => "тел.: +375(29)1114545, 7774545",
-                    "official_faximille" => "/img/design/faximille_ip.jpg",
+                    "official_phone" => "тел.: +375(29)1124545",
+                    "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_ip.jpg",
                     "official_owner" => "Гречко А. Г.",
                     "official_percent" => "",
                     "official_nds" => "",
@@ -129,9 +129,9 @@ class BillReportController extends Controller
                     "official_okpo" => "",
                     "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
                     "official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933",
-                    "official_bank" => "ЗАО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь",
-                    "official_phone" => "тел.: +375(29)1114545, 7774545",
-                    "official_faximille" => "/img/design/faximille_od.jpg",
+                    "official_bank" => "ЗАО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь, БИК: REDJBY22",
+                    "official_phone" => "тел.: +375(29)1124545",
+                    "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_od.jpg",
                     "official_owner" => "Шмык О. Д.",
                     "official_percent" => "",
                     "official_nds" => "",
@@ -147,9 +147,9 @@ class BillReportController extends Controller
                 "official_okpo" => "381393215000",
                 "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
                 "official_rs" => "р/с BY43ALFA30122078930080270000 <br> БИК ALFABY2X",
-                "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, 220030, г. Минск, ул. Мясникова, 70",
-                "official_phone" => "тел.: +375(29)1114545, 7774545",
-                "official_faximille" => "/img/design/faximille.jpg",
+                "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, ул. Сурганова, 43-47, 220013, Минск",
+                "official_phone" => "тел.: +375(29)1124545",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
                 "official_owner" => "Кладухина О.Н.",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",

@@ -25,14 +25,29 @@ class OrderController extends Controller {
 
         foreach ($task_row as $task) {
             $id = $task['id'];
+           // dd($task);
             $params = $task['params'];
 
-            $params = str_replace("\n", "", $params);
+            $params = str_replace(["\n\r", "\n", "\r", '&'], "", $params);
+           
             $params = json_decode($params, JSON_UNESCAPED_UNICODE);
 
-            $seller_id = $params['seller_id'];
+            switch (json_last_error()) {
+                case JSON_ERROR_NONE:
+                    echo ' - Ошибок нет';
+                break;
+                default:
+                    echo ' - Неизвестная ошибка';
+                    \Yii::$app->db_event->createCommand('update sys_job_commands set is_error = 1 where id = '.$id)->execute();
+                    continue;
+                break;
+            }
 
+
+            $seller_id = $params['seller_id'];
+            
             $seller = \app\models\Seller::findOne($seller_id);
+       
             if ($seller->getFlag('type_order')) {
                 
                 $curs_te = \app\helpers\SysService::get('curs_te');
@@ -44,6 +59,7 @@ class OrderController extends Controller {
         }
 
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '1')")->execute();
+        \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "_ok', 'ok')")->execute();
     }
 
     private function getPrcSetting($seller) {

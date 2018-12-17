@@ -20,7 +20,7 @@ class Reviews extends \yii\base\Widget {
 			")->queryOne();
         if(!$review){
             $review['title'] = "К сожалению отзывов на ваш магазин нет.";
-            $review['review'] = "Напоминайте покупателям оставлять отзывы на migom.by.";
+            $review['review'] = "Напоминайте покупателям оставлять отзывы на ".\Yii::$app->params['migom_domain'].".";
         }
         echo $this->render($this->viewFile, ['review' => $review]);
     }

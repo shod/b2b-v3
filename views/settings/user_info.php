@@ -37,8 +37,8 @@ $this->registerJs(
                 <div class="row" style="padding-top: 10px; margin-top: 0px;">
                     <div class="col-lg-12">
                         <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации
-                            обратитесь к вашему менеджеру <a href="mailto:sale@migom.by">sale@migom.by</a>
-                            или по телефону <a href="tel:+375291114545">+375(29)111-45-45</a> .
+                            обратитесь к вашему менеджеру <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                            или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> .
                         </div>
                     </div>
                 </div>
@@ -207,7 +207,7 @@ $this->registerJs(
 							<br>
 							Header always append X-Frame-Options DENY<br>
 							Header always append X-Frame-Options: SAMEORIGIN<br>
-							Header always append X-Frame-Options: ALLOW-FROM http://migom.by/<br>
+							Header always append X-Frame-Options: ALLOW-FROM <?= Yii::$app->params['migom_url'] ?><br>
 
 							Nginx<br>
 
@@ -215,7 +215,7 @@ $this->registerJs(
 
 							add_header X-Frame-Options “DENY”;<br>
 							add_header X-Frame-Options “SAMEORIGIN”;<br>
-							add_header X-Frame-Options “ALLOW-FROM http://migom.by/”;<br>
+							add_header X-Frame-Options “ALLOW-FROM <?= Yii::$app->params['migom_url'] ?>”;<br>
 
 							Для проверки результатов необходима перезагрузка.
 						</span>
@@ -244,7 +244,7 @@ $this->registerJs(
                     <div class="col-lg-8" style="">
                         <textarea class="form-control" style="width: 100%"
                                   name="offer_default_desc"
-                                  id="offer_default_desc"> <?= $seller_info->offer_default_desc ?> </textarea>
+                                  id="offer_default_desc"><?= $seller_info->offer_default_desc ?></textarea>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 0px; padding-bottom: 15px;">

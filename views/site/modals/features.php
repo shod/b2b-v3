@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h4>Мы рады сообщить Вам о запуске новой версии панели управления магазина на MIGOM.by! </h4>
+            <h4>Мы рады сообщить Вам о запуске новой версии панели управления магазина на <?= \Yii::$app->params['migom_name'] ?>! </h4>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
     <div class="row">
         <div class="col-lg-2" style="text-align: center"><img src="/img/anounce/consulting.png" style="height: 70px;  padding-bottom: 10px"/> </div>
         <div class="col-lg-10">
-            <p>Будем рады получить от Вас обратную связь и ответим на любые вопросы <br> по тел. <a href="tel:+375291114545">+375 29 111-45-45 (Velcom)</a> и еmail: <a href="mailto:sale@migom.by">sale@migom.by</a></p>
+            <p>Будем рады получить от Вас обратную связь и ответим на любые вопросы <br> по тел. <a href="tel:+375291124545">+375 29 112-45-45 (Velcom)</a> и еmail: <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a></p>
         </div>
     </div>
     <div class="row">
@@ -51,7 +51,7 @@
             <img src="/img/anounce/team.png" style="height: 100px;"/>
         </div>
         <div class="col-lg-12" style="text-align: center">
-            <p>Ваша команда Migom.by</p>
+            <p>Ваша команда <?= \Yii::$app->params['migom_name'] ?></p>
         </div>
     </div>
 

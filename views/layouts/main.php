@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>B2B.migom.by <?= Html::encode($this->title) ?></title>
+    <title>B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?> <?= Html::encode($this->title) ?></title>
     <style>
         @media only screen and (max-width: 780px) {
             a:not(.btn-success):not(.btn-danger) > .ks-action {
@@ -54,7 +54,7 @@ AppAsset::register($this);
 
     $this->registerJs(
         "if ($seller->setting_bit & 33554432){
-            getModalByurl('Добро пожаловать в обновленную B2B панель Migom.by!','features');
+            getModalByurl('Добро пожаловать в обновленную B2B панель ".\Yii::$app->params['migom_domain']."!','features');
         }"
     );
     
@@ -84,7 +84,7 @@ AppAsset::register($this);
         <!-- END RESPONSIVE SIDEBAR TOGGLER -->
 
         <div class="ks-navbar-logo">
-            <a href="/" class="ks-logo">B2B.MIGOM.BY</a>
+            <a href="/" class="ks-logo">B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></a>
         </div>
     </div>
     <!-- END LOGO -->
@@ -103,9 +103,9 @@ AppAsset::register($this);
             <!-- BEGIN NAVBAR ACTIONS -->
             <div class="ks-navbar-actions">
 
-                <div class="nav-item ks-notifications">
-                    <a class="nav-link " role="button" href="https://b2bv2.migom.by/" target="_blank">Назад к старой версии</a>
-                </div>
+                <!--div class="nav-item ks-notifications">
+                    <a class="nav-link " role="button" href="https://b2bv2.<?= \Yii::$app->params['migom_domain'] ?>/" target="_blank">Назад к старой версии</a>
+                </div-->
 
                 <div class="nav-item ks-notifications">
                     <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Тур по изменениям</a>
@@ -188,9 +188,9 @@ AppAsset::register($this);
                                         <div class="ks-info">
                                             <div class="ks-user-name"><h4>Жанна</h4></div>
                                             <div class="ks-text">
-                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">111-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.migom.by/img/design/viber.png" style="height: 20px;"><br>
+                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">112-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.<?= \Yii::$app->params['migom_domain'] ?>/img/design/viber.png" style="height: 20px;"><br>
                                                 <b>Skype:</b> sale.migom <br>
-                                                <b>E-mail:</b> <a href="mailto:sale@migom.by">sale@migom.by</a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
                                         </div>
@@ -207,9 +207,9 @@ AppAsset::register($this);
                                         <div class="ks-info">
                                             <div class="ks-user-name"><h4>Екатерина</h4></div>
                                             <div class="ks-text">
-                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">688-45-46</span> <br>
+                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">688-45-45</span> <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.<?= \Yii::$app->params['migom_domain'] ?>/img/design/viber.png" style="height: 20px;"><br>
                                                 <b>Skype:</b> admin.migom <br>
-                                                <b>E-mail:</b> <a href="mailto:admin@migom.by">admin@migom.by</a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['adminEmail'] ?>"><?= Yii::$app->params['adminEmail'] ?></a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
                                         </div>
@@ -223,7 +223,7 @@ AppAsset::register($this);
                                         <div class="ks-info">
                                             <div class="ks-user-name"></div>
                                             <div class="ks-text">
-                                                <b>E-mail:</b> <a href="mailto:report@migom.by">report@migom.by</a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['reportEmail'] ?>"><?= Yii::$app->params['reportEmail'] ?></a> <br>
                                                 <!--b>Контактное лицо:</b> Ольга<br /-->
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
@@ -359,12 +359,13 @@ AppAsset::register($this);
                     </a>
                     <div class="dropdown-menu">
                         <?php if ($seller->f_offerta & 1): ?>
-                            <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
+                            <a class="dropdown-item" target="_blank" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
                         <?php endif; ?>
                         <?php if ($seller->f_offerta & 2): ?>
-                            <a class="dropdown-item" target="_blank" href="https://static.migom.by/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                            <a class="dropdown-item" target="_blank" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
                         <?php endif; ?>
                         <a class="dropdown-item" href="/info/?page=rules_placement">Правила размещения</a>
+                        <a class="dropdown-item" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/assignmet_contract.docx">Договор передачи <br>прав магазина</a>
                     </div>
                 </li>
 
@@ -397,7 +398,7 @@ AppAsset::register($this);
             </ul>
             <div class="ks-sidebar-extras-block">
                 <div class="ks-extras-block-item"><?= isset($this->params['customParam']) ? $this->params['customParam'] : ""; ?></div>
-                <div class="ks-sidebar-copyright">© <?= date("Y"); ?> migom.by</div>
+                <div class="ks-sidebar-copyright">© <?= date("Y"); ?> <?= strtolower(\Yii::$app->params['migom_name']) ?></div>
             </div>
         </div>
     </div>

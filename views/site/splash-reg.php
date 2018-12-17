@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>B2B Migom.by</title>
+    <title>B2B <?= strtoupper(\Yii::$app->params['migom_name']) ?></title>
 
     <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,32 +28,32 @@ $this->params['breadcrumbs'][] = $this->title;
 </head>
 <body>
 
-<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.migom.by/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png);">
+<div class="ks-page" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(<?= \Yii::$app->params['migom_url'] ?>/images/landing_files/ad4bcc61ffaa86d1d0e724caf0cc7fc0.png);">
     <div class="ks-page-content">
-        <div class="ks-logo" style="color: white">B2B.MIGOM.BY</div>
+        <div class="ks-logo" style="color: white">B2B.<?= strtoupper(\Yii::$app->params['migom_name']) ?></div>
 
         <div class="card panel panel-default ks-light ks-panel ks-login" style="max-width: 364px;">
             <div class="card-block">
-                <h3>Спасибо за регистрацию на b2b.migom.by</h3>
+                <h3>Спасибо за регистрацию на b2b.<?= strtolower(\Yii::$app->params['migom_name']) ?></h3>
                 <p>В ближайшее время администратор проекта свяжется с Вами по указанным контактным данным</p>
                 <br/>
                 <p><b>Внимание!</b> Магазин и указанный логин будут активированы только после проверки корректности данных администратором проекта. </p>
                 <br>
                 <p>
-                    По вопросам работы Migom.by пишите на почту <a href="mailto:sale@migom.by">sale@migom.by</a>
-                    или звоните по телефону <a href="tel:+375291114545">+375 (29) 111-45-45</a> velcom
+                    По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
+                    или звоните по телефону <a href="tel:+375291124545">+375 (29) 112-45-45</a> velcom
                 </p>
             </div>
         </div>
     </div>
     <div class="ks-footer">
-        <span class="ks-copyright" style="color: white">&copy; 2018 migom.by</span>
+        <span class="ks-copyright" style="color: white">&copy; 2018 <?= strtolower(\Yii::$app->params['migom_name']) ?></span>
         <ul>
             <li>
-                <a href="https://www.migom.by/page/about/" style="color: white">О проекте</a>
+                <a href="<?= \Yii::$app->params['migom_url'] ?>/page/about/" style="color: white">О проекте</a>
             </li>
             <li>
-                <a href="https://www.migom.by/page/adv/" style="color: white">Реклама на сайте</a>
+                <a href="<?= \Yii::$app->params['migom_url'] ?>/page/adv/" style="color: white">Реклама на сайте</a>
             </li>
         </ul>
     </div>

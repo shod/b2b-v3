@@ -12,10 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="container-fluid" style="overflow: auto">
                                 <?php if (isset($data) && $data != ""): ?>
                                     <div><h5>Статистика по месяцам</h5></div>
-                                    <div class="alert alert-danger ks-solid-light" role="alert">Внимание! В период
-                                        1.02.2018 - 1.06.2018 произошел сбой в системе сбора статистики. Статистика
-                                        выводится не в полном объеме.
-                                    </div>
+                                    <!--div class="alert alert-danger ks-solid-light" role="alert">
+                                    </div-->
                                     <table id="ks-datatable" class="table table-striped table-bordered table-condenced"
                                            width="100%">
                                         <thead>
@@ -46,8 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </table>
                                 <?php else: ?>
                                     Для возобновления свяжитесь с Вашим менеджером по тел.  <a
-                                            href="tel:+375 29 111-45-45">+375 29 111-45-45 (Velcom)</a>   и еmail: <a
-                                            href="mailto:sale@migom.by">sale@migom.by</a>
+                                            href="tel:+375 29 112-45-45">+375 29 112-45-45 (Velcom)</a>   и еmail: <a
+                                            href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>

@@ -28,7 +28,7 @@ class BalanceController extends Controller
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -112,9 +112,9 @@ class BalanceController extends Controller
                 "official_name" => "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ШМЫК ОЛЕГ ДМИТРИЕВИЧ",
                 "official_unp" => "УНП 191182046",
                 "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
-                "official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь",
-                "official_phone" => "тел.: +375 (29) 111 45 45, 777 45 45",
-                "official_faximille" => "/img/design/faximille_od.jpg",
+                "official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь, БИК: REDJBY22",
+                "official_phone" => "тел.: +375 (29) 112 45 45",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_od.jpg",
                 "official_owner" => "Шмык О. Д.",
                 "official_percent" => "",
                 "official_nds" => "",
@@ -126,10 +126,21 @@ class BalanceController extends Controller
                 "official_name" => "ООО &quot;Альметра&quot;",
                 "official_unp" => "УНП 192147793 ОКПО 381393215000",
                 "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
-                "official_rs" => "р/с BY43ALFA30122078930080270000, в банке ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, 220030, г. Минск, ул. Мясникова, 70, БИК ALFABY2X",
-                "official_phone" => "тел.: +375 (29) 111 45 45, 777 45 45",
-                "official_faximille" => "/img/design/faximille.jpg",
+                "official_rs" => "р/с BY43ALFA30122078930080270000, в банке ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, ул. Сурганова, 43-47, 220013 Минск, БИК ALFABY2X",
+                "official_phone" => "тел.: +375 (29) 112 45 45",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
                 "official_owner" => "Кладухина О.Н.",
+                "official_percent" => "20",
+                "official_nds" => "Сумма НДС:",
+            );
+            $official_data = array(
+                "official_name" => "ООО &quot;Марталь&quot;",
+                "official_unp" => "УНП 192583317",
+                "official_address" => "г.Минск, ул.Могилевская, д.2, корп.2, пом.18",
+                "official_rs" => "р/с BY54ALFA30122122470010270000, в банке ЗАО &quot;Альфа-Банк&quot;.  Центральный офис ул.Советская, 12, 220030, г.Минск, БИК ALFABY2X",
+                "official_phone" => "тел.: +375 (29) 112 45 45",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_martal.jpg",
+                "official_owner" => "Шмык О.Д.",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );
@@ -189,8 +200,7 @@ class BalanceController extends Controller
             "contract_number" => $seller_info->contract_number,
             "contract_date" => date('d.m.Y',$seller_info->contract_date),
             "fax" => isset($member_data['fax']) ? $member_data['fax'] : "",
-            "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов <br>
-            на сайте migom.by на сумму"
+            "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов"
         ],$vars);
         if($render_type == 'html'){
             return $this->render('tmpl/blankop/html-type', $vars);
@@ -285,8 +295,6 @@ class BalanceController extends Controller
 
         $f_offerta = $seller->f_offerta;
 
-
-
         if(!($f_offerta & 1) && ($f_offerta & 2)){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
             $nds = 0;
@@ -307,11 +315,15 @@ class BalanceController extends Controller
         }
 
         $vars['info'] = $this->getInfo($seller);
-        $vars['f_offerta'] = $seller->f_offerta;
-        $vars['pay_type'] = $seller->pay_type;
         $vars['seller_id'] = $this->seller_id;
 
-        return $this->render('add', $vars);
+		if(true || isset($_GET['dmg_id'])){
+			$vars['f_offerta'] = $seller->f_offerta;
+			$vars['pay_type'] = $seller->pay_type;
+			
+			return $this->render('add', $vars);
+		}
+		return $this->render('1_add', $vars);
     }
 
     public function actionPromise()

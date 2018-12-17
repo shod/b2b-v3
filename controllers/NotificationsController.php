@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use app\helpers\SiteService;
 use app\models\NotifierMessageB2b;
 use app\models\PoOrder;
+use app\models\Seller;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -21,7 +23,7 @@ class NotificationsController extends Controller
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -90,6 +92,16 @@ class NotificationsController extends Controller
                 $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'id' => $id])->one();
                 $notification->status = 1;
                 $notification->save();
+                $params = $notification->param;
+                $params = json_decode($params, true);
+                if(isset($params['is_offerta']) && ($params['is_offerta'] == 1)){
+                    $obj_seller = Seller::find()->where(['id' => $this->seller_id])->one();
+                    $setting_bit =  SiteService::set_bitvalue($obj_seller->f_offerta,1,1);
+                    $obj_seller->f_offerta = $setting_bit;
+                    $obj_seller->save();
+                }
+                $href = $params['href'];
+                $this->redirect($href);
                 break;
             case "get_notify_reviews":
                 $notifications = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'notify', 'status'=>'0'])->all();

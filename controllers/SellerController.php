@@ -24,7 +24,7 @@ class SellerController extends Controller
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -220,6 +220,10 @@ class SellerController extends Controller
                 }
                 break;
             case 'deactivate':
+                if($this->seller_id == 1913){
+                    $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                    \Yii::info('START DEACTIVATION ' . $this->seller_id . "[".$ip."]", 'debug');
+                }
                 if(\Yii::$app->billing->transaction($this->seller_id, 'Deactivate_b2b')){
                     echo "Работа поставлена на паузу!";
                 } else {

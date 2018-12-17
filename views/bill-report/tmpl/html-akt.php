@@ -830,7 +830,7 @@ DIV будут заменены.-->
         <tr class=xl658508 height=49 style='mso-height-source:userset;height:36.75pt'>
             <td height=49 class=xl728508 style='height:36.75pt;;border: 1px solid;'>1</td>
             <td colspan=2 class=xl858508 width=202 style=';border: 1px solid;width:152pt;text-align: center'>Услуги
-                по размещению рекламных материалов на сайте migom.by на сумму</td>
+                по размещению рекламных материалов</td>
             <td class=xl738508 style='border: 1px solid;text-align: center'>шт</td>
             <td colspan=2 class=xl868508 style='border: 1px solid;text-align: center'>1</td>
             <td colspan=2 class=xl748508 style='border: 1px solid;text-align: center'><?= $sum; ?></td>

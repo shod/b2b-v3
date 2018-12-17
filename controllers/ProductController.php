@@ -25,14 +25,14 @@ class ProductController extends Controller
      * @inheritdoc
      */
     public $seller_id;
-    public $offset = 100;
+    public $offset = 50;
     public $seller_curs;
     public $cnt_all = 0;
     public $curr_do_percent = 300;
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
-            $this->redirect('site/login');
+            $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -213,12 +213,16 @@ class ProductController extends Controller
         if (isset($url)) {
             $url = rawurlencode($url);
             $check_delete = Yii::$app->request->post("check_delete");
-            file_get_contents("https://up.migom.by/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
+            file_get_contents("https://up.".\Yii::$app->params['migom_domain']."/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
         $this->redirect('/product/price');
     }
 
     public function actionSaveProducts(){
+        if($this->seller_id == 1082){
+            \Yii::info('START SAVE ALL PRODUCTS ' . $this->seller_id, 'debug');
+            $time_start = time();
+        }
         $del =Yii::$app->request->post("del");
         $cost = Yii::$app->request->post("cost");
         $desc = Yii::$app->request->post("desc");
@@ -338,12 +342,22 @@ class ProductController extends Controller
             }
         }
         \Yii::$app->db->createCommand('commit;')->execute();
+        if($this->seller_id == 1082){
+            \Yii::info('SAVE PRODUCT_SELLER ' . $this->seller_id, 'debug');
+        }
         \Yii::$app->db->createCommand("update product_seller set start_date=UNIX_TIMESTAMP(NOW()) where seller_id={$this->seller_id}")->execute();
         \Yii::$app->db->createCommand("call pc_cost_round({$this->seller_id})")->execute();
         \Yii::$app->db->createCommand("call pc_product_sel_cost_filter_catalog({$this->seller_id},{$catalog_id})")->execute(); //10 sec
         \Yii::$app->db->createCommand("call pc_product_seller_actual_limit({$this->seller_id})")->execute(); //5 sec
         \Yii::$app->db->createCommand("call ps_seller_export_info_update({$this->seller_id})")->execute(); //10 sec
         \Yii::$app->db->createCommand("call pc_stop_word_mark_catalog({$this->seller_id},{$catalog_id})")->execute(); // 5 sec
+        if($this->seller_id == 1082){
+            $time = time() - $time_start;
+            \Yii::info('END SAVE ALL PRODUCTS ' . $this->seller_id . " TIME: " . $time, 'debug');
+        }
+        if($this->seller_id == 1082){
+            \Yii::info('', 'debug');
+        }
         exit;
     }
 
@@ -468,7 +482,7 @@ class ProductController extends Controller
     }
 
     private function getImportResultsHtml(){
-        $res_data = file_get_contents("https://up.migom.by/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
+        $res_data = file_get_contents("https://up.".\Yii::$app->params['migom_domain']."/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
         $res_data = unserialize($res_data);
 
         $res = isset($res_data[$this->seller_id]) ? $res_data[$this->seller_id] : "";
@@ -498,7 +512,7 @@ class ProductController extends Controller
 
 
             if ($res["url"]){
-                if (strpos($res["url"], "b2b.migom.by/files/prices") === false) {
+                if (strpos($res["url"], "b2b.".\Yii::$app->params['migom_domain']."/files/prices") === false) {
                     $url = "<b>URL:</b> {$res["url"]}";
                 }
                 else
@@ -743,7 +757,7 @@ class ProductController extends Controller
             }
 
             $r["name"] = "<b>{$r["brand"]}</b> {$r["model"]}";
-            $r["href_product"] = "http://www.migom.by/-{$r["product_id"]}/info_seller/";
+            $r["href_product"] = "http://www." . Yii::$app->params['redirect_domain'] . "/-{$r["product_id"]}/info_seller/";
             $r["selected_{$r["wh_state"]}"] = "selected";
             $r["garant"] = preg_replace("/[^0-9]/","",$r["garant"]);
             $r["delivery_day"] = ($r["delivery_day"] == 0) ? '' : $r["delivery_day"];

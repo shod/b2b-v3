@@ -26,9 +26,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
                     <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a>
                     </div>
                     <div id="help-block" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
-                        <h4><?= $title ?></h4>
+                        <h4><?= isset($title) ? $title : "" ?></h4>
                         <br>
-                        <?= stripcslashes($text) ?>
+                        <?= isset($text) ? stripcslashes($text) : ""?>
                     </div>
                 </div>
             </div>
