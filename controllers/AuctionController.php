@@ -622,6 +622,9 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 
     private function getDataHtmlFix()
     {
+		
+		
+		
         $html = "";
         $res = \Yii::$app->db->createCommand("select ba.* from bill_auction as ba, catalog as ss
                 where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 1 and ss.id = ba.object_id and type_id=1 and ba.owner_id={$this->seller_id}")->queryAll();
@@ -704,6 +707,18 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 
     function getPositionDataHtml($catalog_id, $show_name = true)
     {
+		/*@TODO Shod*/
+		$d = getdate(); // использовано текущее время
+		$now = time();
+
+		/*ставки вслепую*/
+		$auction_blind = mktime($this->auction_blind_time[0],$this->auction_blind_time[1],0,$d['mon'],$d['mday'],$d['year']);
+
+		if(($auction_blind-$now)<0){
+			return '<ol></ol>';
+		}
+
+		
         $html = "";
         $res = \Yii::$app->db->createCommand("
 			select id, owner_id, type_id, object_id, cost, cost_auto, date, place_old, place, f_notify, f_show, f_auto, name, balance, seller_action from (

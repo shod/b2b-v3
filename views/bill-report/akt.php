@@ -18,7 +18,7 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                                 <span class="ks-off">Выкл</span>
                             </label>
                             <span style="position: relative;top: 3px;">Отправлять акт по почте
-                            (Услуга платная. Стоимость 2 ТЕ в месяц)</span>
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -133,7 +133,7 @@ class BalanceController extends Controller
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );
-            /*$official_data = array(
+            $official_data = array(
                 "official_name" => "ООО &quot;Марталь&quot;",
                 "official_unp" => "УНП 192583317",
                 "official_address" => "г.Минск, ул.Могилевская, д.2, корп.2, пом.18",
@@ -143,7 +143,7 @@ class BalanceController extends Controller
                 "official_owner" => "Шмык О.Д.",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
-            );*/
+            );
         }
 
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
@@ -315,11 +315,15 @@ class BalanceController extends Controller
         }
 
         $vars['info'] = $this->getInfo($seller);
-        $vars['f_offerta'] = $seller->f_offerta;
-        $vars['pay_type'] = $seller->pay_type;
         $vars['seller_id'] = $this->seller_id;
 
-        return $this->render('add', $vars);
+		if(true || isset($_GET['dmg_id'])){
+			$vars['f_offerta'] = $seller->f_offerta;
+			$vars['pay_type'] = $seller->pay_type;
+			
+			return $this->render('add', $vars);
+		}
+		return $this->render('1_add', $vars);
     }
 
     public function actionPromise()
