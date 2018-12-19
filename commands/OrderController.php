@@ -49,11 +49,10 @@ class OrderController extends Controller {
             $seller = \app\models\Seller::findOne($seller_id);
        
             if ($seller->getFlag('type_order')) {
+                
                 $curs_te = \app\helpers\SysService::get('curs_te');
-                $prc_setting = \app\helpers\SysService::get('seller_order_prc');
-                $cost = (isset($params['cost_us_total']))?$params['cost_us_total']:$params['cost_us'];
-
-                $prc = ($cost / $curs_te) * $prc_setting;
+                
+                $prc = ($params['cost_us'] / $curs_te) * $this->getPrcSetting($seller);
                 \Yii::$app->billing->transaction($seller_id, 'down_order', $prc);
             }
             \Yii::$app->db_event->createCommand('delete from sys_job_commands where id = ' . $id)->execute();
@@ -61,6 +60,15 @@ class OrderController extends Controller {
 
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '1')")->execute();
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "_ok', 'ok')")->execute();
+    }
+
+    private function getPrcSetting($seller) {
+        $seller_prc = $seller->sellerInfo->po_prc;
+        if($seller_prc){
+            return $seller_prc;
+        }else{
+            return \app\helpers\SysService::get('seller_order_prc');
+        }
     }
 
 }

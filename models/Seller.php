@@ -152,4 +152,12 @@ class Seller extends \app\models_ex\Seller
             'pay_type' => 'Pay Type',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSellerInfo()
+    {
+        return $this->hasOne(SellerInfo::className(), ['seller_id' => 'id']);
+    }
 }
