@@ -85,7 +85,8 @@ abstract class Transaction implements ITransaction {
             $this->bill_transaction->account_id = $this->account_id;
             $this->bill_transaction->value = $this->value;
             $this->bill_transaction->object_id = $this->object_id;
-            if(!$this->bill_transaction->save()){
+            
+            if(!$this->bill_transaction->save()){                
                 throw new TransactionException(print_r($this->bill_transaction->getErrors(), 1));
             }
         }
