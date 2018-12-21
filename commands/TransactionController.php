@@ -34,10 +34,10 @@ class TransactionController extends Controller {
 
             switch (json_last_error()) {
                 case JSON_ERROR_NONE:
-                    echo ' - Ошибок нет';
+                    echo ' - No error';
                 break;
                 default:
-                    echo ' - Неизвестная ошибка';
+                    echo ' - Unknown error';
                     \Yii::$app->db_event->createCommand('update sys_job_commands set is_error = 1 where id = '.$id)->execute();
                     continue;
                 break;
@@ -48,15 +48,15 @@ class TransactionController extends Controller {
             
             $seller = \app\models\Seller::findOne($seller_id);            
        
-            if ($seller->getFlag('type_order') && $seller_id = 3984) {
+            if ($seller->getFlag('type_order')) {
                 $curs_te = \app\helpers\SysService::get('curs_te');
                 $seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ 
                 $prc_setting = $seller_info->po_prc; // Процент за заказ у продавца    
                 $cost = (isset($params['cost_us_total']))?$params['cost_us_total']:$params['cost_us'];
                 
                 $seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
-                    
-                $value = ($cost / $curs_te) * $seller_order_prc;
+                echo $seller_id;    
+                echo $value = ($cost / $curs_te) * $seller_order_prc;
                 \Yii::$app->billing->transaction($seller_id, 'down_order', $value);
             }
             //\Yii::$app->db_event->createCommand('delete from sys_job_commands where id = ' . $id)->execute();
@@ -149,5 +149,15 @@ HAVING sum_cost > 0";
         }
         
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '1')")->execute();
+    }
+    
+    /*Данные по базовой процентной ставке*/
+    private function getPrcSetting($seller) {
+        $seller_prc = $seller->sellerInfo->po_prc;
+        if($seller_prc){
+            return $seller_prc;
+        }else{
+            return \app\helpers\SysService::get('seller_order_prc');
+        }
     }
 }
