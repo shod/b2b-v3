@@ -410,7 +410,7 @@ class TariffController extends Controller
     /*Данные по базовой процентной ставке*/
     private function getPrcSetting($seller) {
         $seller_prc = $seller->sellerInfo->po_prc;
-        if($seller_prc){
+        if($seller_prc > 0){
             return $seller_prc;
         }else{
             return \app\helpers\SysService::get('seller_order_prc');
