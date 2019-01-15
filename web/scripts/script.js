@@ -624,3 +624,23 @@ $('.add_sms').click(function() {
     });
 
 });
+
+function saveOrderSettings(obj) {
+    ordertype = $(obj).prop('name')
+    action = $(obj).prop('checked') ? 'active' : 'deactive';    
+    $.ajax({
+        url: "/tariff/save-order-settings/?ordertype="+ordertype+"&action=" + action,
+        type: 'get',
+        dataType: 'html',
+        success: function (html) {
+            $.alert({
+                title: html,
+                type: 'blue',
+                content: 'Для продолжения работы нажмите ОК',
+            });
+        },
+        error: function () {
+            console.log('ajax error');
+        }
+    });
+}

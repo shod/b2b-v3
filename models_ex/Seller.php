@@ -8,7 +8,8 @@ class Seller extends \app\components\db\TSFlaggedActiveRecord {
     
     public function flags() {
 		return [
-            
+            'is_order' => '268435456',
+            'is_phone' => '134217728',        
             'type_order' =>  '67108864',
             // ...
             'analyze' => '262144',

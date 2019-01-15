@@ -201,13 +201,14 @@ class TariffController extends Controller
         $vars['section_lines'] = $this->active_sections;
         $vars['section_sum'] = $this->active_sections_sum;
 
-        $vars['all_sum'] = $this->active_pack_sum + $this->active_sections_sum;
-
-
+        $vars['all_sum'] = $this->active_pack_sum + $this->active_sections_sum;        
+               
         return $this->render('index', $vars);
     }
 
-    public function actionClick(){
+    public function actionClick(){       
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();        
+        
         $vars = [];
         $sql = "SELECT DISTINCT
                             vb.catalog_id,
@@ -292,7 +293,18 @@ class TariffController extends Controller
             $vars['data'] .= $this->renderPartial('tmpl/click_item', $r);
 
         }
+        /*Настройки контактов*/
+        $vorder["is_order"] = ($seller->getFlag('is_order')) ? "checked" : "";        
+        $vorder["is_phone"] = ($seller->getFlag('is_phone')) ? "checked" : "";        
+        $vorder["proxysite"] = ($seller->getFlag('proxysite')) ? "checked" : ""; 
+        $vorder["prc_order"] = $this->getPrcSetting($seller)*100;
+        $vorder["prc_phone"] = ($vorder["prc_order"]/10);
+        $vorder["prc_proxy"] = ($vorder["prc_order"]/10*2);
+        
+        $vars['order_setting'] = $this->renderPartial('tmpl/order_setting',$vorder);
+        
         $vars["status"] = ProductService::getDateUpdate($this->seller_id);
+                
         return $this->render('click', $vars);
     }
 
@@ -376,4 +388,32 @@ class TariffController extends Controller
         return $html;
     }
 
+     public function actionSaveOrderSettings(){
+        $ordertype = Yii::$app->request->get("ordertype");
+        $action = Yii::$app->request->get("action");
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();        
+
+        switch ($action){
+            case "active":                
+                $seller->setFlag($ordertype, 'true');
+                $seller->save();                
+                echo 'Активация прошла успешно!';
+                break;
+            case "deactive":                
+                $seller->setFlag($ordertype, 'false');
+                $seller->save();                
+                echo 'Деактивация прошла успешно!';
+                break;
+        }
+    }
+    
+    /*Данные по базовой процентной ставке*/
+    private function getPrcSetting($seller) {
+        $seller_prc = $seller->sellerInfo->po_prc;
+        if($seller_prc > 0){
+            return $seller_prc;
+        }else{
+            return \app\helpers\SysService::get('seller_order_prc');
+        }
+    }
 }
