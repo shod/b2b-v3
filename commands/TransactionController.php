@@ -61,6 +61,7 @@ class TransactionController extends Controller {
                 \Yii::$app->billing->transaction($seller_id, 'down_order', $value);
             }
             //\Yii::$app->db_event->createCommand('delete from sys_job_commands where id = ' . $id)->execute();
+            \Yii::$app->db_event->createCommand('update sys_job_commands set is_error = 2 where id = '.$id)->execute();
         }
 
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '1')")->execute();
@@ -80,7 +81,6 @@ class TransactionController extends Controller {
 from migombyha.stat_popup as pop
 where created_at > UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(now(),INTERVAL -1 DAY),'%Y-%m-%d'))
 and created_at < UNIX_TIMESTAMP(DATE_FORMAT(now(),'%Y-%m-%d'))
-and seller_id = 3984
 group by seller_id";
         $task_row = \Yii::$app->db->createCommand($sql)->queryAll();
      
@@ -121,7 +121,6 @@ group by seller_id";
 from migombyha.stat_proxy as pop
 where created_at > UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(now(),INTERVAL -1 DAY),'%Y-%m-%d'))
 and created_at < UNIX_TIMESTAMP(DATE_FORMAT(now(),'%Y-%m-%d'))
-and seller_id = 3984
 group by seller_id 
 HAVING sum_cost > 0";
         
