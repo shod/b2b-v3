@@ -50,16 +50,18 @@ class TransactionController extends Controller {
        
             if ($seller->getFlag('type_order')) {
                 $curs_te = \app\helpers\SysService::get('curs_te');
-                $seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ 
-                $prc_setting = $seller_info->po_prc; // Процент за заказ у продавца    
+                //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ 
+                //$prc_setting = $seller_info->po_prc; // Процент за заказ у продавца    
+                $seller_order_prc = $this->getPrcSetting($seller_id);
                 $cost = (isset($params['cost_us_total']))?$params['cost_us_total']:$params['cost_us'];
                 
-                $seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
-                echo $seller_id;    
-                echo $value = ($cost / $curs_te) * $seller_order_prc;
+                //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
+                                
+                $value = ($cost / $curs_te) * $seller_order_prc;
                 \Yii::$app->billing->transaction($seller_id, 'down_order', $value);
             }
             //\Yii::$app->db_event->createCommand('delete from sys_job_commands where id = ' . $id)->execute();
+            \Yii::$app->db_event->createCommand('update sys_job_commands set is_error = 2 where id = '.$id)->execute();
         }
 
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '1')")->execute();
@@ -79,7 +81,6 @@ class TransactionController extends Controller {
 from migombyha.stat_popup as pop
 where created_at > UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(now(),INTERVAL -1 DAY),'%Y-%m-%d'))
 and created_at < UNIX_TIMESTAMP(DATE_FORMAT(now(),'%Y-%m-%d'))
-and seller_id = 3984
 group by seller_id";
         $task_row = \Yii::$app->db->createCommand($sql)->queryAll();
      
@@ -91,10 +92,11 @@ group by seller_id";
             
             if ($seller->getFlag('type_order')) {
                 $curs_te = \app\helpers\SysService::get('curs_te');
-                $seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
-                $prc_setting = $seller_info->po_prc; // Процент за заказ                
+                //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
+                //$prc_setting = $seller_info->po_prc; // Процент за заказ                
+                $seller_order_prc = $this->getPrcSetting($seller_id);
                 
-                $seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
+                //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
                 $value = ($cost_us / $curs_te) * ($seller_order_prc/10);
                 $value = round($value, 4);
                 //echo "seller={$seller_id}-{$cost_us}-prc={$prc_setting},TE={$curs_te}-{$seller_order_prc}-{$value}";
@@ -119,7 +121,6 @@ group by seller_id";
 from migombyha.stat_proxy as pop
 where created_at > UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(now(),INTERVAL -1 DAY),'%Y-%m-%d'))
 and created_at < UNIX_TIMESTAMP(DATE_FORMAT(now(),'%Y-%m-%d'))
-and seller_id = 3984
 group by seller_id 
 HAVING sum_cost > 0";
         
@@ -133,10 +134,11 @@ HAVING sum_cost > 0";
             
             if ($seller->getFlag('type_order')) {
                 $curs_te = \app\helpers\SysService::get('curs_te');
-                $seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
-                $prc_setting = $seller_info->po_prc; // Процент за заказ                
+                $seller_order_prc = $this->getPrcSetting($seller_id);
+                //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
+                //$prc_setting = $seller_info->po_prc; // Процент за заказ                
                 
-                $seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
+                //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
                 $value = ($cost_us / $curs_te) * ($seller_order_prc/10);
                 $value = round($value, 4);
                 echo "seller={$seller_id}-{$cost_us}-prc={$prc_setting},TE={$curs_te}-{$seller_order_prc}-value={$value}";
