@@ -141,7 +141,7 @@ HAVING sum_cost > 0";
                 //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
                 $value = ($cost_us / $curs_te) * ($seller_order_prc/10);
                 $value = round($value, 4);
-                echo "seller={$seller_id}-{$cost_us}-prc={$prc_setting},TE={$curs_te}-{$seller_order_prc}-value={$value}";
+                //echo "seller={$seller_id}-{$cost_us}-prc={$prc_setting},TE={$curs_te}-{$seller_order_prc}-value={$value}";
                 try{
                     \Yii::$app->billing->transaction($seller_id, 'down_proxy', $value);                    
                 } catch (TransactionException $e){
