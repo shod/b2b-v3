@@ -117,8 +117,6 @@ class BillAccount extends  \app\models\BillAccount {
     }
 
     
-
-
     function get_days_left()
     {
 
@@ -144,17 +142,23 @@ class BillAccount extends  \app\models\BillAccount {
     private function get_day_down_click()
     {
             $id = $this->id;
+            
+            /*По проценту*/
+            if($seller->getFlag('type_order') != TRUE){
+               $day_down = 10;
+            }else{
 
-            $res =\Yii::$app->db->createCommand("
-				select ROUND(ba.balance_clicks / AVG(cnt_click+cnt_proxy)) as value
-				from seller_clicks_stat as sc, seller as s
-				, bill_account as ba
-				where ba.id = {$id} and sc.seller_id = s.id
-				and ba.id = s.bill_account_id
-				order by sc.id desc
-				limit 7;
-			")->queryAll();
-            $day_down = $res[0]["value"];
+                $res =\Yii::$app->db->createCommand("
+                                    select ROUND(ba.balance_clicks / AVG(cnt_click+cnt_proxy)) as value
+                                    from seller_clicks_stat as sc, seller as s
+                                    , bill_account as ba
+                                    where ba.id = {$id} and sc.seller_id = s.id
+                                    and ba.id = s.bill_account_id
+                                    order by sc.id desc
+                                    limit 7;
+                            ")->queryAll();
+                $day_down = $res[0]["value"];
+            }
         return $day_down;
     }
 
