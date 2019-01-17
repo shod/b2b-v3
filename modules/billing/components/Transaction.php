@@ -70,6 +70,7 @@ abstract class Transaction implements ITransaction {
         $this->bill_transaction->account_id = $this->account_id;
         $this->bill_transaction->date_begin = date('Y-m-d H:i:s');
         $this->bill_transaction->owner_id = $this->owner_id;
+        $this->bill_transaction->comment = $this->value;
         if(!$this->bill_transaction->save()){
             throw new TransactionException(print_r($this->bill_transaction->getErrors(), 1));
         }

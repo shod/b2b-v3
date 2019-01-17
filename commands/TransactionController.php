@@ -65,7 +65,7 @@ class TransactionController extends Controller {
         }
 
         \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '1')")->execute();
-        \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "_ok', 'ok')")->execute();
+        \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', 'ok')")->execute();
     }
     
     /*
