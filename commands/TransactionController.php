@@ -52,7 +52,7 @@ class TransactionController extends Controller {
                 $curs_te = \app\helpers\SysService::get('curs_te');
                 //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ 
                 //$prc_setting = $seller_info->po_prc; // Процент за заказ у продавца    
-                $seller_order_prc = $this->getPrcSetting($seller_id);
+                $seller_order_prc = $this->getPrcSetting($seller);
                 $cost = (isset($params['cost_us_total']))?$params['cost_us_total']:$params['cost_us'];
                 
                 //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
@@ -94,7 +94,7 @@ group by seller_id";
                 $curs_te = \app\helpers\SysService::get('curs_te');
                 //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
                 //$prc_setting = $seller_info->po_prc; // Процент за заказ                
-                $seller_order_prc = $this->getPrcSetting($seller_id);
+                $seller_order_prc = $this->getPrcSetting($seller);
                 
                 //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
                 $value = ($cost_us / $curs_te) * ($seller_order_prc/10);
@@ -134,7 +134,7 @@ HAVING sum_cost > 0";
             
             if ($seller->getFlag('type_order')) {
                 $curs_te = \app\helpers\SysService::get('curs_te');
-                $seller_order_prc = $this->getPrcSetting($seller_id);
+                $seller_order_prc = $this->getPrcSetting($seller);
                 //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
                 //$prc_setting = $seller_info->po_prc; // Процент за заказ                
                 
