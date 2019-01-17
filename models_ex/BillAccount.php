@@ -125,7 +125,11 @@ class BillAccount extends  \app\models\BillAccount {
             $seller = Seller::find()->where(['bill_account_id' => $id])->one();
 
             if($seller->pay_type == 'clicks'){
-                $days_left = $this->get_day_down_click();
+                if($seller->getFlag('type_order') != TRUE){
+                    $day_down = 10;
+                }else{
+                    $days_left = $this->get_day_down_click();
+                }
             }else{
                 $day_down = $this->get_day_down();
 
@@ -142,23 +146,18 @@ class BillAccount extends  \app\models\BillAccount {
     private function get_day_down_click()
     {
             $id = $this->id;
-            
-            /*По проценту*/
-            if($seller->getFlag('type_order') != TRUE){
-               $day_down = 10;
-            }else{
 
-                $res =\Yii::$app->db->createCommand("
-                                    select ROUND(ba.balance_clicks / AVG(cnt_click+cnt_proxy)) as value
-                                    from seller_clicks_stat as sc, seller as s
-                                    , bill_account as ba
-                                    where ba.id = {$id} and sc.seller_id = s.id
-                                    and ba.id = s.bill_account_id
-                                    order by sc.id desc
-                                    limit 7;
-                            ")->queryAll();
-                $day_down = $res[0]["value"];
-            }
+            $res =\Yii::$app->db->createCommand("
+                                select ROUND(ba.balance_clicks / AVG(cnt_click+cnt_proxy)) as value
+                                from seller_clicks_stat as sc, seller as s
+                                , bill_account as ba
+                                where ba.id = {$id} and sc.seller_id = s.id
+                                and ba.id = s.bill_account_id
+                                order by sc.id desc
+                                limit 7;
+                        ")->queryAll();
+            $day_down = $res[0]["value"];
+            
         return $day_down;
     }
 
