@@ -119,14 +119,14 @@ class BillAccount extends  \app\models\BillAccount {
     
     function get_days_left()
     {
-
+            $days_left = 10;
             $balance = $this->balance;
             $id = $this->id;
             $seller = Seller::find()->where(['bill_account_id' => $id])->one();
 
             if($seller->pay_type == 'clicks'){
-                if($seller->getFlag('type_order') != TRUE){
-                    $day_down = 10;
+                if($seller->getFlag('type_order') == TRUE){
+                    $days_left = 10;
                 }else{
                     $days_left = $this->get_day_down_click();
                 }
