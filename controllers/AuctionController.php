@@ -712,7 +712,8 @@ where f_is_setting_bit_set(ss.setting_bit, 'catalog', 'auction_day') = 0 and ss.
 		$now = time();
 
 		/*ставки вслепую*/
-		$auction_blind = mktime($this->auction_blind_time[0],$this->auction_blind_time[1],0,$d['mon'],$d['mday'],$d['year']);
+		$auction_blind = mktime($this->auction_blind_time[0],$this->auction_blind_time[1],0,$d['mon'],$d['mday'],$d['year']);		
+        $auction_stop_time = mktime($this->auction_stop_time[0],$this->auction_stop_time[1],0,$d['mon'],$d['mday'],$d['year']);
 
 		if(($auction_blind-$now)<0 && ($auction_stop_time-$now)>0){
 			return '<ol></ol>';

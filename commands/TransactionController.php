@@ -19,7 +19,8 @@ class TransactionController extends Controller {
      */
     public function actionSellerOrderDown() {
 
-       \Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '0')")->execute();
+		\Yii::info('actionSellerOrderDown', 'debug');
+		\Yii::$app->db->createCommand("call prc_sys_status_insert('" . __FUNCTION__ . "', '0')")->execute();
         $sql = "select * from sys_job_commands where name = 'order_seller_pay' and is_error=0 ORDER BY priority DESC limit 1000 ;";
         $task_row = \Yii::$app->db_event->createCommand($sql)->queryAll();
 
@@ -34,10 +35,10 @@ class TransactionController extends Controller {
 
             switch (json_last_error()) {
                 case JSON_ERROR_NONE:
-                    echo ' - No error';
+                    echo 'JSON - No error';
                 break;
                 default:
-                    echo ' - Unknown error';
+                    echo 'JSON - Unknown error';
                     \Yii::$app->db_event->createCommand('update sys_job_commands set is_error = 1 where id = '.$id)->execute();
                     continue;
                 break;
@@ -58,6 +59,8 @@ class TransactionController extends Controller {
                 //$seller_order_prc = (100-$prc_setting)*$seller_order_prc/100; // С учетом скидки
                                 
                 $value = ($cost / $curs_te) * $seller_order_prc;
+				echo "{$seller_id}, 'down_order', {$value}";
+				\Yii::info("{$seller_id}, 'down_order', {$value}", 'debug');
                 \Yii::$app->billing->transaction($seller_id, 'down_order', $value);
             }
             //\Yii::$app->db_event->createCommand('delete from sys_job_commands where id = ' . $id)->execute();
