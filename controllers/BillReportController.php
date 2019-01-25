@@ -300,7 +300,7 @@ class BillReportController extends Controller
             try {
 
                 $html_data = $this->render('tmpl/pdf-akt', $vars);
-                $mpdf = new \mPDF('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
+                $mpdf = new \mPDF('utf-8', 'A4', '8', 'dejavusans', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
                 $mpdf->charset_in = 'cp1251';
                 $mpdf->WriteHTML($html_data);
                 $mpdf->Output("act-{$this->seller_id}-{$month}-{$year}.pdf", 'I');
