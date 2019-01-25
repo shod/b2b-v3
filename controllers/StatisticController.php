@@ -432,7 +432,7 @@ class StatisticController extends Controller
 					where seller_id = {$this->seller_id}
 					GROUP BY seller_id
 			")->queryAll();
-        if(count($data_cost > 0)){
+        if(count($data_cost) > 0){
             $vars['cost_min'] = $data_cost[0]["perc_min"];
             $vars['cost_max'] = $data_cost[0]["perc_max"];
         } else {
