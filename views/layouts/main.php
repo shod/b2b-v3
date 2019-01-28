@@ -72,12 +72,13 @@ AppAsset::register($this);
                         <span class=\"ks-description\"> аккаунт </span>
                     </a>";
 ?>
-
 <!-- BEGIN HEADER -->
-<nav class="navbar ks-navbar">
+<nav class="navbar ks-navbar" >
     <!-- BEGIN HEADER INNER -->
     <!-- BEGIN LOGO -->
+    
     <div href="index.html" class="navbar-brand">
+        
         <!-- BEGIN RESPONSIVE SIDEBAR TOGGLER -->
         <a href="#" class="ks-sidebar-toggle"><i class="ks-icon la la-bars" aria-hidden="true"></i></a>
         <a href="#" class="ks-sidebar-mobile-toggle"><i class="ks-icon la la-bars" aria-hidden="true"></i></a>
@@ -417,8 +418,14 @@ AppAsset::register($this);
         </div>
 
         <div class="ks-page-content" >
-
-
+<!--Баннер -->
+<div class="" >
+<div id="adfox_152472827846162019" class="" style="margin: 70px auto;"><div style="width: 100%; height: 200px;">
+        <iframe src="http://b2b-v3.loc/adv/index.html" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="min-height: 100%; height: 1px; min-width: 100%; width: 1px;">
+            
+        </iframe>
+    </div></div>
+</div>
                         <?= $content;?>
 
 
