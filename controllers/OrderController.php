@@ -199,7 +199,7 @@ class OrderController extends Controller
 
     private function orders(){
         $orders = \Yii::$app->db->createCommand("
-            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, p.section_id, vcs.name as section_name, o.product_title
+            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, p.section_id, vcs.name as section_name, o.product_title, o.description
             from po_order as o
             left join po_contact as c on (o.po_contact_id = c.id)
             left join products as p on (p.id = o.product_id)
@@ -221,7 +221,10 @@ class OrderController extends Controller
                     "time_at" => date("H:i",strtotime($ar['created_at'])),
                     "date_at" => date("d.m.Y",strtotime($ar['created_at'])),
                     "section_name" => $ar['section_name'],
-                    "status" => $ar['status']
+                    "status" => $ar['status'],
+                    "description" => $ar['description'],
+                    "product_id" => $ar['product_id'],
+                    "product_href" => "http://www." . Yii::$app->params['redirect_domain'] . "/-{$ar["product_id"]}/info_seller/"
                 ];
                 $data_orders .= $this->renderPartial('tmpl/sms-order-row', $r);
             }
