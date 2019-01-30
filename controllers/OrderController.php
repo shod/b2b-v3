@@ -213,6 +213,7 @@ class OrderController extends Controller
                 $r = [
                     "order_id" => $ar['order_id'],
                     "phone" => substr($ar['phone'],0,3)." ".substr($ar['phone'],3,2).htmlspecialchars_decode(" <b>".substr($ar['phone'],5,7)."</b>"),
+                    "phone_tel" => $ar['phone'],
                     "user_name" => $ar['name'],
                     "product_name" => $ar['product_title'] ? $ar['product_title'] : IndexProduct::find()->where(["product_id" => $ar['product_id']])->one()->basic_name,
                     "cost_us" => $this->parseCostBy(round($ar['cost_us'])*10000),
