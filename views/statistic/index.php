@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <th>Количество переходов<br> на сайт в месяц</th>
                                             <th>Количество <br>SMS-заказов <?= isset($po_active) ? $po_active : "" ?>
                                             </th>
-                                            <th>Контекстная реклама</th>
+                                            <!--<th>Контекстная реклама</th>-->
                                         </tr>
                                         </thead>
                                         <tfoot>
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <th>Количество переходов<br> на сайт в месяц</th>
                                             <th>Количество <br>SMS-заказов <?= isset($po_active) ? $po_active : "" ?>
                                             </th>
-                                            <th>Контекстная реклама</th>
+                                            <!--<th>Контекстная реклама</th>-->
                                         </tr>
                                         </tfoot>
                                         <tbody>

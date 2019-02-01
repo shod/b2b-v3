@@ -4,5 +4,5 @@
     <td><?= $count_contact ?></td>
     <td><?= $cnt ?></td>
     <td><?= $count_sms ?></td>
-    <td><?= $context ?></td>
+    <!--<td $context /td>-->
 </tr>

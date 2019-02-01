@@ -2,6 +2,15 @@
  * Created by Миг-к101 on 26.04.2018.
  */
 
+months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь','Декабрь'];
+weekdays = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+shortMonths = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'];
+                            
+function zeroPad(num, places) {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
 function get_chart(date, type = 'spline'){
     date_chart = date;
     $.ajax({
@@ -11,32 +20,33 @@ function get_chart(date, type = 'spline'){
 
             if ((json != 'null') && (json != "[]")){
                 $(function () {
-                    var jsonStr = JSON.parse(json);
+                    var jsonStr = JSON.parse(json);                    
                     chart_data = new Array;
                     chart_data_proxy = new Array;
                     chart_data_context = new Array;
                     chart_data_sum = new Array;
                     for (var i = 0; i < jsonStr.length; i++) {
-                        date_arr = jsonStr[i].date_view.split(", ");
+                        date_arr = jsonStr[i].date_view.split(", ");                        
                         year = parseInt(date_arr[0]);
-                        month = parseInt(date_arr[1]);
-                        day = parseInt(date_arr[2]);
-                        date = Date.UTC(year,  month, day);
+                        month = parseInt(date_arr[1])-1;
+                        day = parseInt(date_arr[2]);                        
+                        date = Date.UTC(year, month, day);                                                
                         view = jsonStr[i].view;
                         view_proxy = jsonStr[i].view_proxy;
                         view_context = jsonStr[i].view_context;
-                        chart_data.push([parseInt(date), parseInt(view)]);
+                        chart_data.push([parseInt(date), parseInt(view)]);                        
                         chart_data_proxy.push([parseInt(date), parseInt(view_proxy)]);
                         chart_data_context.push([parseInt(date), parseInt(view_context)]);
                         chart_data_sum.push([parseInt(date), parseInt(view)+parseInt(view_proxy)+parseInt(view_context)]);
 
                     }
+                    
                     Highcharts.setOptions({
                         lang: {
                             loading: 'Загрузка...',
-                            months: ['Декабрь','Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь'],
-                            weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-                            shortMonths: ['Дек','Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'],
+                            months: months,
+                            weekdays: weekdays,
+                            shortMonths: shortMonths,
                             exportButtonTitle: "Экспорт",
                             printButtonTitle: "Печать",
                             rangeSelectorFrom: "С",
@@ -87,10 +97,10 @@ function get_chart(date, type = 'spline'){
                         },{
                             name: 'Количество переходов',
                             data: chart_data_proxy
-                        },{
+                        }/*,{
                             name: 'Количество по контекстной рекламе',
                             data: chart_data_context
-                        }]
+                        }*/]
                     });
                 });
             } else {
@@ -117,7 +127,7 @@ function get_chart_ctr(date){
                     for (var i = 0; i < jsonStr.length; i++) {
                         date_arr = jsonStr[i].date_view.split(", ");
                         year = parseInt(date_arr[0]);
-                        month = parseInt(date_arr[1]);
+                        month = parseInt(date_arr[1])-1;
                         day = parseInt(date_arr[2]);
                         date = Date.UTC(year,  month, day);
                         view = jsonStr[i].view;
@@ -130,9 +140,9 @@ function get_chart_ctr(date){
                     Highcharts.setOptions({
                         lang: {
                             loading: 'Загрузка...',
-                            months: ['Декабрь','Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь'],
-                            weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-                            shortMonths: ['Дек','Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'],
+                            months: months,
+                            weekdays: weekdays,
+                            shortMonths: shortMonths,
                             exportButtonTitle: "Экспорт",
                             printButtonTitle: "Печать",
                             rangeSelectorFrom: "С",
@@ -439,7 +449,7 @@ function get_chart_ctr_all(date){
                     for (var i = 0; i < jsonStr.length; i++) {
                         date_arr = jsonStr[i].date_view.split(", ");
                         year = parseInt(date_arr[0]);
-                        month = parseInt(date_arr[1]);
+                        month = parseInt(date_arr[1])-1;
                         day = parseInt(date_arr[2]);
                         date = Date.UTC(year,  month, day);
                         view_all = jsonStr[i].view_all;
@@ -450,9 +460,9 @@ function get_chart_ctr_all(date){
                     Highcharts.setOptions({
                         lang: {
                             loading: 'Загрузка...',
-                            months: ['Декабрь','Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь'],
-                            weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-                            shortMonths: ['Дек','Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'],
+                            months: months,
+                            weekdays: weekdays,
+                            shortMonths: shortMonths,
                             exportButtonTitle: "Экспорт",
                             printButtonTitle: "Печать",
                             rangeSelectorFrom: "С",
@@ -519,7 +529,7 @@ function get_sms_chart(){
                     for (var i = 0; i < jsonStr.length; i++) {
                         date_arr = jsonStr[i].date_view.split("-");
                         year = parseInt(date_arr[0]);
-                        month = parseInt(date_arr[1]);
+                        month = parseInt(date_arr[1])-1;
                         //day = parseInt(date_arr[2]);
                         date = Date.UTC(year,  month);
                         view_all = jsonStr[i].cnt;

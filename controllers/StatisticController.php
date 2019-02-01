@@ -120,7 +120,7 @@ class StatisticController extends Controller
         $array_data = array();
         foreach((array)$data as $r)
         {
-            $a['date_view'] = str_replace("-", ", ",$r['date_stat']);
+            $a['date_view'] = str_replace("-", ", ",$r['date_stat']);            
             $a['view'] = $r['cnt_click'];
             $a['view_proxy'] = $r['cnt_proxy'];
             $a['view_context'] = $r['cnt_click_context'];
