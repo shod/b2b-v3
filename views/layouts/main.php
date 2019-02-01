@@ -418,14 +418,7 @@ AppAsset::register($this);
         </div>
 
         <div class="ks-page-content" >
-<!--Баннер -->
-<div class="" >
-<div id="adfox_152472827846162019" class="" style="margin: 70px auto;"><div style="width: 100%; height: 200px;">
-        <iframe src="/adv/index.html" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="min-height: 100%; height: 1px; min-width: 100%; width: 1px;">
-            
-        </iframe>
-    </div></div>
-</div>
+
                         <?= $content;?>
 
 
