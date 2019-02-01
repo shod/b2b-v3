@@ -49,10 +49,8 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                 <select class="form-control" name="year" onchange="showMonth(this)" style="margin-right: 10px;">
                                     <option value="0">Год</option>
-                                    <option value="18">2018</option>
-                                    <option value="17">2017</option>
-                                    <option value="16">2016</option>
-                                    <option value="15">2015</option>
+                                    <option value="19">2019</option>
+                                    <option value="18">2018</option>                                    
                                 </select>
                                 <span id="month_select"></span><br><br>
                                 <div id='type_report'></div>

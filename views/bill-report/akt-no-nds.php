@@ -12,6 +12,7 @@
                         <input type="hidden" name="no_nds" value="2"/>
                         <select class="form-control" name="year" onchange="showMonthNoNds(this)" style="margin-right: 10px;">
                             <option value="0">Год</option>
+                            <option value="19">2019</option>
                             <option value="18">2018</option>
                         </select>
                         <span id="month_select_no_nds"></span><br><br>
