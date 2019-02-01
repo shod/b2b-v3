@@ -140,7 +140,7 @@ class BalanceController extends Controller
                 "official_rs" => "р/с BY54ALFA30122122470010270000, в банке ЗАО &quot;Альфа-Банк&quot;.  Центральный офис ул.Советская, 12, 220030, г.Минск, БИК ALFABY2X",
                 "official_phone" => "тел.: +375 (29) 112 45 45",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_martal.jpg",
-                "official_owner" => "Шмык О.Д.",
+                "official_owner" => "Кладухина О.Н.",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );
