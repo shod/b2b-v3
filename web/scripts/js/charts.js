@@ -540,9 +540,9 @@ function get_sms_chart(){
                     Highcharts.setOptions({
                         lang: {
                             loading: 'Загрузка...',
-                            months: ['Декабрь','Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь'],
-                            weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-                            shortMonths: ['Дек','Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'],
+                            months: months,
+                            weekdays: weekdays,
+                            shortMonths: shortMonths,
                             exportButtonTitle: "Экспорт",
                             printButtonTitle: "Печать",
                             rangeSelectorFrom: "С",
