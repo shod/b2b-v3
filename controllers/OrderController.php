@@ -80,6 +80,7 @@ class OrderController extends Controller
         $sql = "select *, concat(SUBSTR(mdate,1,4),'-',SUBSTR(mdate,5)) as sms_date from po_history
                             WHERE
                                 seller_id = {$this->seller_id}
+                                and  mdate > DATE_FORMAT(DATE_ADD(NOW(),INTERVAL -15 MONTH),'%Y%m')
                             ORDER BY
                                 id DESC limit 20";
         $data = \Yii::$app->db->createCommand($sql)->queryAll();
