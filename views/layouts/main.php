@@ -338,7 +338,9 @@ AppAsset::register($this);
                         <span>Аналитика</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/statistic">Статистика магазина</a>
+                        <?php if ($seller->getFlag('stat')): ?>
+                            <a class="dropdown-item" href="/statistic">Статистика магазина</a>
+                        <?php endif; ?>
                         <a class="dropdown-item" href="/statistic/cost-analysis">Анализ цен конкурентов</a>
                     </div>
                 </li>

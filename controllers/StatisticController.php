@@ -23,7 +23,11 @@ class StatisticController extends Controller
      */
 
     public function beforeAction($action) {
-        if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
+        $this->seller_id = Yii::$app->user->identity->getId();        
+        $seller = \app\models\Seller::find()
+		->where(['id' => $this->seller_id])
+		->one();
+        if (((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) || !$seller->getFlag('stat')) {
             $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
