@@ -142,11 +142,11 @@ class BillReportController extends Controller
         } else {
             $pay_source = 1;
             $official_data = array(
-                "official_name" => "ООО &quot;Альметра&quot;",
-                "official_unp" => "192147793",
-                "official_okpo" => "381393215000",
-                "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
-                "official_rs" => "р/с BY43ALFA30122078930080270000 <br> БИК ALFABY2X",
+                "official_name" => "ООО &quot;Марталь&quot;",
+                "official_unp" => "192583317",
+                "official_okpo" => "",
+                "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 18",
+                "official_rs" => "р/с BY39ALFA30122122470020270000 <br> БИК ALFABY2X",
                 "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, ул. Сурганова, 43-47, 220013, Минск",
                 "official_phone" => "тел.: +375(29)1124545",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",

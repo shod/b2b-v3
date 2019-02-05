@@ -625,7 +625,7 @@ DIV будут заменены.-->
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl678508 style='height:15.75pt'></td>
             <td class=xl688508>Исполнитель:</td>
-            <td colspan=5 rowspan=2 class=xl828508 width=275 style='width:207pt'>&nbsp;<?= $official_name ?></td>
+            <td colspan=5 rowspan=2 class=xl828508 width=275 style='width:207pt'>&nbsp;&nbsp;<?= $official_name ?></td>
             <td class=xl688508>Заказчик:</td>
             <td class=xl688508></td>
             <td colspan=7 rowspan=2 class=xl828508 width=252 style='width:191pt'><?= $company_name ?><span style='mso-spacerun:yes'> </span></td>
@@ -695,9 +695,7 @@ DIV будут заменены.-->
             <td class=xl678508></td>
         </tr>
         <tr class=xl678508 height=21 style='mso-height-source:userset;height:16.35pt'>
-            <td height=21 class=xl678508 style='height:16.35pt'></td>
-            <td class=xl688508>ОКПО :</td>
-            <td colspan=5 class=xl848508 width=275 style='width:207pt'><?= $official_okpo ?></td>
+            <td height=21 class=xl678508 style='height:16.35pt'></td>            
             <td class=xl688508></td>
             <td class=xl688508></td>
             <td colspan=5 class=xl848508 width=252 style='width:191pt'></td>
