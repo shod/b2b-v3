@@ -93,7 +93,7 @@ group by seller_id";
             $seller = \app\models\Seller::findOne($seller_id);
             $seller_info = \app\models\SellerInfo::findOne($seller_id);
             
-            if ($seller->getFlag('type_order')) {
+            if ($seller->getFlag('type_order') && $seller->getFlag('is_phone')) {
                 $curs_te = \app\helpers\SysService::get('curs_te');
                 //$seller_order_prc = \app\helpers\SysService::get('seller_order_prc'); // Процент за заказ                
                 //$prc_setting = $seller_info->po_prc; // Процент за заказ                
