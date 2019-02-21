@@ -61,10 +61,14 @@ $(document).ready(function () {
     $('.button-sms').click(function () {
         var $this = $(this);
         var $p = $(this).attr('id').split('_');
-        if($p[0] != 'processorder'){
+        
+        confirm_text = 'Выполнено!';
+        if($p[0] == 'complete' || $p[0] == 'rejected'){
             confirm_text = 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.";
-        } else {
+        } else if($p[0] == 'processorder') {
             confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> будет выделен цветом, как находящийся в обработке.";
+        }else if($p[0] == 'challenge') {
+            confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> принят для проверки.";
         }
         $.confirm({
             title: 'Внимание!',

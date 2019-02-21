@@ -8,4 +8,11 @@
     </td>
     <td class="ks-text-bold"><?= $cost_byn ?> руб.</td>
     <td class="ks-text-light" style="width: 10px;"><?= $class_order ?></td>
+    <td class="ks-text-light">
+        <?php if ($status == -1): ?>
+            <button class="btn btn-primary-outline btn-sm ks-solid ks-no-text button-sms" id="challenge_<?= $order_id ?>" title="Оспорить">
+                <span style="font-size: 20px;" class="la la-houzz"></span>
+            </button>
+        <?php endif; ?>        
+    </td>    
 </tr>

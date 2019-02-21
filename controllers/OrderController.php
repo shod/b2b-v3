@@ -141,6 +141,11 @@ class OrderController extends Controller
                 $result = \Yii::$app->billing->transaction($this->seller_id, 'down_posms', ['po_balance_count' => $count, 'value' => $this->po_types[$count]]);
                 echo json_encode(array('success'=>$result));
                 break;
+            case "challenge":
+                \Yii::$app->db->createCommand("update po_order set status=3, done_at='".date("Y-m-d H:i:s")."' where id={$order_id}")->execute();                
+                \app\helpers\SysService::sendEmail('shod@migomby.by', \Yii::$app->params['migom_name'].' - Оспорить заказ #'.$order_id, Yii::$app->params['fromEmail'], $text = "Продавец {$this->seller_id} Order_id #".$order_id, NULL, NULL);
+                echo $this->getHistoryRow($order_id);                
+                break;            
         }
     }
 
@@ -245,7 +250,7 @@ class OrderController extends Controller
             left join po_contact as c on (o.po_contact_id = c.id)
             left join products as p on (p.id = o.product_id)
             left join v_catalog_sections as vcs on (vcs.section_id = p.section_id)
-            where o.seller_id = {$this->seller_id} and (o.status = 1 or o.status = -1)
+            where o.seller_id = {$this->seller_id} and (o.status = 1 or o.status = -1 or o.status > 2)
 			order by o.created_at desc
             limit {$start},{$this->offset}
 		")->queryAll();
@@ -255,6 +260,10 @@ class OrderController extends Controller
                 if($ar['status'] == '1') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Доставлен</span>";}
                 if($ar['status'] == '-1') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отклонен</span>";}
                 if($ar['status'] == '2') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Обработан</span>";}
+                if($ar['status'] == '3') {$status_order = "<span style='color:#ffb300'>Проверка</span>";}
+                if($ar['status'] == '4') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отмена</span>";}
+                if($ar['status'] == '5') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Проверен</span>";}
+                if($ar['status'] == '0') {$status_order = "";}
                 $r = [
                     "order_id" => $ar['order_id'],
                     "phone" => substr($ar['phone'],0,3)." ".substr($ar['phone'],3,2).htmlspecialchars_decode(" <b>".substr($ar['phone'],5,7)."</b>"),
@@ -266,7 +275,8 @@ class OrderController extends Controller
                     "time_at" => date("H:i",strtotime($ar['created_at'])),
                     "date_at" => date("d.m.Y",strtotime($ar['created_at'])),
                     "class_order" => $status_order,
-                    "section_name" => $ar['section_name']
+                    "section_name" => $ar['section_name'],
+                    "status" => $ar['status']
                 ];
 
                 $data_history .= $this->renderPartial('tmpl/sms-history-row', $r);
@@ -303,6 +313,9 @@ class OrderController extends Controller
         if($order['status'] == '1') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Доставлен</span>";}
         if($order['status'] == '-1') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отклонен</span>";}
         if($order['status'] == '2') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Обработан</span>";}
+        if($order['status'] == '3') {$status_order = "<span style='color:#ffb300'>Проверка</span>";}
+        if($order['status'] == '4') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Отмена</span>";}
+        if($order['status'] == '5') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Проверен</span>";}
         if($order['status'] == '0') {$status_order = "";}
         $r = [
             "order_id" => $order['order_id'],
