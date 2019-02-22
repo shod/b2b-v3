@@ -143,7 +143,7 @@ class OrderController extends Controller
                 break;
             case "challenge":
                 \Yii::$app->db->createCommand("update po_order set status=3, done_at='".date("Y-m-d H:i:s")."' where id={$order_id}")->execute();                
-                \app\helpers\SysService::sendEmail('shod@migomby.by', \Yii::$app->params['migom_name'].' - Оспорить заказ #'.$order_id, Yii::$app->params['fromEmail'], $text = "Продавец {$this->seller_id} Order_id #".$order_id, NULL, NULL);
+                \app\helpers\SysService::sendEmail('shod@migomby.by', \Yii::$app->params['migom_name'].' - Оспорить заказ #'.$order_id, Yii::$app->params['fromEmail'], $text = "Продавец {$this->seller_id} Order_id #".$order_id);
                 echo $this->getHistoryRow($order_id);                
                 break;            
         }
@@ -244,7 +244,7 @@ class OrderController extends Controller
     private function history($page=0) {
         $start = $page*$this->offset;
         $history = \Yii::$app->db->createCommand("
-            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, o.product_title,
+            select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status, o.product_title, DATEDIFF(NOW(),o.created_at) as day_order,
 			(select count(*) from po_order where seller_id = {$this->seller_id} and (status = 1 or status = -1)) as all_count, p.section_id, vcs.name as section_name
             from po_order as o
             left join po_contact as c on (o.po_contact_id = c.id)
@@ -260,10 +260,16 @@ class OrderController extends Controller
                 if($ar['status'] == '1') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Доставлен</span>";}
                 if($ar['status'] == '-1') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отклонен</span>";}
                 if($ar['status'] == '2') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Обработан</span>";}
-                if($ar['status'] == '3') {$status_order = "<span style='color:#ffb300'>Проверка</span>";}
-                if($ar['status'] == '4') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отмена</span>";}
-                if($ar['status'] == '5') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Проверен</span>";}
+                if($ar['status'] == '3') {$status_order = "<span style='color:#ffb300'>Спор</span>";}
+                if($ar['status'] == '4') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Возврат средств</span>";}
+                if($ar['status'] == '5') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Спор отклонен</span>";}
                 if($ar['status'] == '0') {$status_order = "";}
+                
+                $is_btn_challenge = FALSE;
+                if($ar['status'] == -1 && $ar['day_order'] <=3){
+                    $is_btn_challenge = TRUE;
+                }
+                
                 $r = [
                     "order_id" => $ar['order_id'],
                     "phone" => substr($ar['phone'],0,3)." ".substr($ar['phone'],3,2).htmlspecialchars_decode(" <b>".substr($ar['phone'],5,7)."</b>"),
@@ -276,7 +282,8 @@ class OrderController extends Controller
                     "date_at" => date("d.m.Y",strtotime($ar['created_at'])),
                     "class_order" => $status_order,
                     "section_name" => $ar['section_name'],
-                    "status" => $ar['status']
+                    "status" => $ar['status'],
+                    "is_btn_challenge" => $is_btn_challenge
                 ];
 
                 $data_history .= $this->renderPartial('tmpl/sms-history-row', $r);
@@ -303,7 +310,7 @@ class OrderController extends Controller
     private function getHistoryRow($order_id){
         $order = \Yii::$app->db->createCommand("
             select c.phone, c.name, o.product_id, o.id as order_id, o.cost_us, o.created_at, o.status,
-			 p.section_id, vcs.name as section_name
+			 p.section_id, vcs.name as section_name, DATEDIFF(NOW(),o.created_at) as day_order
             from po_order as o
             left join po_contact as c on (o.po_contact_id = c.id)
             left join products as p on (p.id = o.product_id)
@@ -313,10 +320,16 @@ class OrderController extends Controller
         if($order['status'] == '1') {$status_order = "<span style='color:rgba(17,188,16,0.93)'>Доставлен</span>";}
         if($order['status'] == '-1') {$status_order = "<span style='color:rgba(214,0,38,0.9)'>Отклонен</span>";}
         if($order['status'] == '2') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Обработан</span>";}
-        if($order['status'] == '3') {$status_order = "<span style='color:#ffb300'>Проверка</span>";}
-        if($order['status'] == '4') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Отмена</span>";}
-        if($order['status'] == '5') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Проверен</span>";}
+        if($order['status'] == '3') {$status_order = "<span style='color:#ffb300'>Спор</span>";}
+        if($order['status'] == '4') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Возврат средств</span>";}
+        if($order['status'] == '5') {$status_order = "<span style='color:rgba(47,0,185,0.91)'>Спор отклонен</span>";}
         if($order['status'] == '0') {$status_order = "";}
+        
+        $is_btn_challenge = FALSE;
+        if($order['status'] == -1 && $order['day_order'] <=3){
+            $is_btn_challenge = TRUE;
+        }
+        
         $r = [
             "order_id" => $order['order_id'],
             "phone" => substr($order['phone'],0,3)." ".substr($order['phone'],3,2).htmlspecialchars_decode(" <b>".substr($order['phone'],5,7)."</b>"),
@@ -327,8 +340,10 @@ class OrderController extends Controller
             "cost_byn" => $order['cost_us']/10000,
             "time_at" => date("H:i",strtotime($order['created_at'])),
             "date_at" => date("d.m.Y",strtotime($order['created_at'])),
-            "class_order" => $status_order,
-            "section_name" => $order['section_name']
+            "class_order" => $status_order,            
+            "section_name" => $order['section_name'],
+            "status" => $order['status'],
+            "is_btn_challenge" => $is_btn_challenge
         ];
 
         $tr = $this->renderPartial('tmpl/sms-history-row', $r);
