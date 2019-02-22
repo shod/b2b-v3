@@ -56,54 +56,58 @@ $(document).ready(function () {
             }
         });
     });
+    
+    ButtonSmsSet();
+    
+    function ButtonSmsSet(){
+        $('.button-sms').unbind( "click" ).click(function () {
+            var $this = $(this);
+            var $p = $(this).attr('id').split('_');
 
-
-    $('.button-sms').click(function () {
-        var $this = $(this);
-        var $p = $(this).attr('id').split('_');
-        
-        confirm_text = 'Выполнено!';
-        if($p[0] == 'complete' || $p[0] == 'rejected'){
-            confirm_text = 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.";
-        } else if($p[0] == 'processorder') {
-            confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> будет выделен цветом, как находящийся в обработке.";
-        }else if($p[0] == 'challenge') {
-            confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> принят для проверки.";
-        }
-        $.confirm({
-            title: 'Внимание!',
-            content: confirm_text,
-            type: 'primary',
-            buttons: {
-                confirm: {
-                    text: 'ОК', // With spaces and symbols
-                    btnClass: 'btn-primary',
-                    action: function () {
-                        $this.attr('disabled', 'disabled');
-                        $.ajax({
-                            url: "/order/process/?order_id=" + $p[1] + "&action=" + $p[0],
-                            type: 'get',
-                            dataType: 'html',
-                            success: function (html) {
-                                if($p[0] != 'processorder'){
-                                    document.getElementById("tr_" + $p[1]).style.display = 'none';
-                                    $(html).hide().prependTo("#history-body").fadeIn();
-                                } else {
-                                    $("#tr_" + $p[1]).addClass('row-checked');
-                                }
-                            },
-                            error: function () {
-                                console.log('ajax error');
-                            }
-                        });
-                    }
-                },
-                cancel: {
-                    text: 'Отменить'
-                }
+            confirm_text = 'Выполнено!';
+            if($p[0] == 'complete' || $p[0] == 'rejected'){
+                confirm_text = 'После обработки заказ <span class="badge badge-mantis">#' + $p[1] + " </span> Будет перемещен в историю заказов.";
+            } else if($p[0] == 'processorder') {
+                confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> будет выделен цветом, как находящийся в обработке.";
+            }else if($p[0] == 'challenge') {
+                confirm_text = 'Заказ <span class="badge badge-mantis">#' + $p[1] + " </span> принят для проверки.";
             }
+            $.confirm({
+                title: 'Внимание!',
+                content: confirm_text,
+                type: 'primary',
+                buttons: {
+                    confirm: {
+                        text: 'ОК', // With spaces and symbols
+                        btnClass: 'btn-primary',                
+                        action: function () {
+                            $this.attr('disabled', 'disabled');
+                            $.ajax({
+                                url: "/order/process/?order_id=" + $p[1] + "&action=" + $p[0],
+                                type: 'get',
+                                dataType: 'html',
+                                success: function (html) {
+                                    if($p[0] == 'complete' || $p[0] == 'rejected'){
+                                        document.getElementById("tr_" + $p[1]).style.display = 'none';
+                                        $(html).hide().prependTo("#history-body").fadeIn();                                        
+                                        ButtonSmsSet();
+                                    } else {
+                                        $("#tr_" + $p[1]).addClass('row-checked');
+                                    }
+                                },
+                                error: function () {
+                                    console.log('ajax error');
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'Отменить'
+                    }
+                }
+            });
         });
-    });
+    };
 
     $('#active-sms').click(function () {
         var $this = $(this);
