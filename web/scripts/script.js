@@ -75,11 +75,11 @@ $(document).ready(function () {
             $.confirm({
                 title: 'Внимание!',
                 content: confirm_text,
-                type: 'primary',                                
+                type: 'primary',
                 buttons: {
                     confirm: {
                         text: 'ОК', // With spaces and symbols
-                        btnClass: 'btn-primary',                        
+                        btnClass: 'btn-primary',
                         action: function () {
                             $this.attr('disabled', 'disabled');
                             $.ajax({
