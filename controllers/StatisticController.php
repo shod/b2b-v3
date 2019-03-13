@@ -166,7 +166,7 @@ class StatisticController extends Controller
 
     public function actionCostAnalysisCsv(){
         $sids = Yii::$app->request->get('sids');
-        $sql_sids = $sids ? " and idx.seller_id not in ({$sids})" : "";
+        $sql_sids = $sids ? " and ps.seller_id not in ({$sids})" : "";
         $this->export_csv($sql_sids);
         exit;
     }
@@ -462,7 +462,7 @@ class StatisticController extends Controller
             $sql_brand = $brand ? " and ip.brand_value = '{$brand}'" : "";
             $sql_name = $basic_name ? " and ip.basic_name like '%{$basic_name}%'" : "";
             $sql_wh_state = $wh_state ? " and ps.wh_state = {$wh_state}" : "";
-            $sql_sids = $sids ? " and idx.seller_id not in ({$sids})" : "";
+            $sql_sids = $sids ? " and ps.seller_id not in ({$sids})" : "";
 
             $vars['wh_state_'.$wh_state] = "selected";
             $vars['sids'] = $sids;
