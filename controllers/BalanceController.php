@@ -126,7 +126,7 @@ class BalanceController extends Controller
                 "official_name" => "ООО &quot;Альметра&quot;",
                 "official_unp" => "УНП 192147793 ОКПО 381393215000",
                 "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
-                "official_rs" => "р/с BY43ALFA30122078930080270000, в банке ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, ул. Сурганова, 43-47, 220013 Минск, БИК ALFABY2X",
+                "official_rs" => "р/с BY43ALFA30122078930080270000, в банке ЗАО &quot;Альфа-Банк&quot;. Головной офис, код 270, ул. Сурганова, 43, 220013 Минск, БИК ALFABY2X",
                 "official_phone" => "тел.: +375 (29) 112 45 45",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
                 "official_owner" => "Кладухина О.Н.",
