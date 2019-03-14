@@ -147,7 +147,7 @@ class BillReportController extends Controller
                 "official_okpo" => "",
                 "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 18",
                 "official_rs" => "р/с BY39ALFA30122122470020270000 <br> БИК ALFABY2X",
-                "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Центральный офис, код 270, ул. Сурганова, 43-47, 220013, Минск",
+                "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Головной офис, код 270, ул. Сурганова, 43, 220013, Минск",
                 "official_phone" => "тел.: +375(29)1124545",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
                 "official_owner" => "Кладухина О.Н.",
