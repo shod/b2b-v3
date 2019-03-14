@@ -166,7 +166,7 @@ class StatisticController extends Controller
 
     public function actionCostAnalysisCsv(){
         $sids = Yii::$app->request->get('sids');
-        $sql_sids = $sids ? " and ps.seller_id not in ({$sids})" : "";
+        $sql_sids = $sids ? " and idx.seller_id not in ({$sids})" : "";
         $this->export_csv($sql_sids);
         exit;
     }
@@ -484,7 +484,7 @@ class StatisticController extends Controller
 									where ps.seller_id = {$this->seller_id}
 									and idx.product_id = ps.product_id
 									and ip.product_id = ps.product_id and vcs.section_id = ip.index_section_id and idx.flag = 0 {$sql_section} {$sql_brand} {$sql_name} {$sql_wh_state} {$sql_sids}
-									GROUP BY idx.product_id limit {$offset}, 250")->queryAll();*/
+									GROUP BY idx.product_id limit {$offset}, 250")->queryAll();*/                      
 
             $data = \Yii::$app->db->createCommand("select ip.product_id, ip.basic_name, ROUND(ps.cost_by/10000,2) as seller_cost_by
 									, ROUND(min_cost_by/10000,2) as min_cost, ROUND(max_cost_by/10000,2) as max_cost
@@ -590,6 +590,7 @@ class StatisticController extends Controller
             }
             fclose($output);
         }
+            
         $data_header[] = array('Наименование товарa','Цена в прайсе','Минимальная цена','Максимальная цена','Всего предложений','Категория');
         $data = \Yii::$app->db->createCommand("select ip.product_id, ip.basic_name, ROUND(ps.cost_by/10000,2) as seller_cost_by
 									, ROUND(min(min_cost_by)/10000,2) as min_cost, ROUND(max(max_cost_by)/10000,2) as max_cost
@@ -609,6 +610,8 @@ class StatisticController extends Controller
             $rd['catalog_name']=$r['catalog_name'];
             $data2[] = $rd;
         }
+        
+        unset($data);
 
         $filename = "cost_analysis_{$this->seller_id}";
 
