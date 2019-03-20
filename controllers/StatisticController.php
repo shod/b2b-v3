@@ -27,7 +27,8 @@ class StatisticController extends Controller
         $seller = \app\models\Seller::find()
 		->where(['id' => $this->seller_id])
 		->one();
-        if (((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) || !$seller->getFlag('stat')) {
+//        || !$seller->getFlag('stat')
+        if (((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up'))) {
             $this->redirect('/site/login');
         } else {
             return parent::beforeAction($action);
@@ -174,6 +175,13 @@ class StatisticController extends Controller
 
     public function actionIndex()
     {
+        $seller = \app\models\Seller::find()
+		->where(['id' => $this->seller_id])
+		->one();
+        if(!$seller->getFlag('stat')){
+            $this->redirect('/site/login');
+        }
+         
         $vars = [];
         $sql = "select po_active, po_balance from seller_info where  seller_id = {$this->seller_id}";
         $res = \Yii::$app->db->createCommand($sql)->queryOne();
@@ -427,6 +435,13 @@ class StatisticController extends Controller
 
     public function actionCostAnalysis()
     {
+        $seller = \app\models\Seller::find()
+		->where(['id' => $this->seller_id])
+		->one();
+        if(!$seller->getFlag('analyze')){
+            $this->redirect('/site/login');
+        }
+        
         $vars = [];
         $data_cost = \Yii::$app->db->createCommand("
 					select seller_id
