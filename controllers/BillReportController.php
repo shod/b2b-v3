@@ -590,7 +590,7 @@ class BillReportController extends Controller
             AND bt.account_id = vbc.id
             {$sql_m}
             AND NOT (date_end IS NULL)
-            and type in ('down_auction','down_catalog','down_adv_spec','down_banner','down_click','down_spec','down_popup')
+            and type in ('down_auction','down_catalog','down_adv_spec','down_banner','down_click','down_spec','down_popup','down_order','down_proxy')
             GROUP BY
              vbc.main,bt.type
             order by vbc.main desc, bt.type
