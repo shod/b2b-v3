@@ -32,3 +32,5 @@ tests/_support/_generated
 .htaccess
 config/components/*
 /web/adv/
+
+info.php
