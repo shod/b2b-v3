@@ -191,7 +191,7 @@ class StatisticController extends Controller
                     $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Услуга отключена</a>";
                     $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Услуга \"Мои заказы\" отключена</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
                 } else {
-                    $vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Предоплаченные СМС закончились</a>";
+                    //$vars["po_active"]  = "<br><a href='/order/sms' style='color:red'>Предоплаченные СМС закончились</a>";
                     $vars['alert'] = "<div class=\"alert alert-danger ks-solid-light\" role=\"alert\"><a href='/order/sms'>Предоплаченные СМС уведомления закончились</a><p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' >SMS-заказы</a></p></div>";
                 }
 
