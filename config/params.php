@@ -1,33 +1,33 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@migomby.by',
-    'saleManager' => 'sale@migomby.by',
-    'noreplyEmail' => 'noreply@migomby.by',
-    'supportEmail' => 'support@migomby.by',
-    'reportEmail' => 'report@migomby.by',
+    'adminEmail' => 'admin@vendee.by',
+    'saleManager' => 'sale@vendee.by',
+    'noreplyEmail' => 'noreply@vendee.by',
+    'supportEmail' => 'support@vendee.by',
+    'reportEmail' => 'report@vendee.by',
     'saleEmails' => [
-        'sale@migomby.by',
-        'sale2@migomby.by',
-        'nk@migomby.by'
+        'sale@vendee.by',
+        'sale2@vendee.by',
+        'nk@vendee.by'
     ],
     'questionEmails' => [
-        'admin@migomby.by',
-        'sale@migomby.by',
-        'nk@migomby.by'
+        'admin@vendee.by',
+        'sale@vendee.by',
+        'nk@vendee.by'
     ],
     'testEmails' => [
-        'nk@migomby.by',"admin@migomby.by", "shod@migomby.by"
+        'nk@vendee.by',"admin@vendee.by", "shod@vendee.by"
     ],
     'b2bEmails' => [
-        'sale@migomby.by',
-        'admin@migomby.by',
-        "nk@migomby.by"
+        'sale@vendee.by',
+        'admin@vendee.by',
+        "nk@vendee.by"
     ],
-    'fromEmail' => 'support@migomby.by',
-    'migom_url' => 'https://migomby.by',
+    'fromEmail' => 'support@vendee.by',
+    'migom_url' => 'https://vendee.by',
     'migom_domain' => 'migomby.by',
-    'migom_name' => 'MIGOMBY', //'Migom.by'
+    'migom_name' => 'VENDEE.BY', //'Migom.by'
     'redirect_domain' => 'migomby.by',
     'STATIC_URL' => '//static.migomby.by',
     'STATIC_URL_FULL' => 'https://static.migomby.by',
