@@ -143,7 +143,7 @@ class OrderController extends Controller
                 break;
             case "challenge":
                 \Yii::$app->db->createCommand("update po_order set status=3, done_at='".date("Y-m-d H:i:s")."' where id={$order_id}")->execute();                
-                \app\helpers\SysService::sendEmail('shod@migomby.by', \Yii::$app->params['migom_name'].' - Оспорить заказ #'.$order_id, Yii::$app->params['fromEmail'], $text = "Продавец {$this->seller_id} Order_id #".$order_id);
+                \app\helpers\SysService::sendEmail(Yii::$app->params['reportEmail'], \Yii::$app->params['migom_name'].' - Оспорить заказ #'.$order_id, Yii::$app->params['fromEmail'], $text = "Продавец {$this->seller_id} Order_id #".$order_id);
                 echo $this->getHistoryRow($order_id);                
                 break;            
         }
