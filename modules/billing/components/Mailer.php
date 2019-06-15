@@ -117,6 +117,7 @@ class Mailer {
      * */
     public function activate($seller_id) {
         $seller = $this->getSeller($seller_id);
+        $this->mail('activate_admin', array('name' => $seller->name, 'seller_id' => $seller_id), array('subject' => \Yii::$app->params['migom_name']." Аккаунт активирован", 'to' => $this->to));
         return $this->mail('activate', array('name' => $seller->name), array('subject' => \Yii::$app->params['migom_name']." Ваш аккаунт активирован", 'to' => $this->email_test));
     }
 

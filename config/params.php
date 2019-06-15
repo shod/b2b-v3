@@ -10,20 +10,20 @@ return [
     'saleEmails' => [
         'sale@vendee.by',
         'sale2@vendee.by',
-        'nk@vendee.by'
+        'ok@vendee.by'
     ],
     'questionEmails' => [
         'admin@vendee.by',
         'sale@vendee.by',
-        'nk@vendee.by'
+        'ok@vendee.by'
     ],
     'testEmails' => [
-        'nk@vendee.by',"admin@vendee.by", "shod@vendee.by"
+        "admin@vendee.by", "shod@vendee.by"
     ],
     'b2bEmails' => [
         'sale@vendee.by',
         'admin@vendee.by',
-        "nk@vendee.by"
+        "shod@vendee.by"
     ],
     'migom_url' => 'https://vendee.by',
     'migom_domain' => 'migomby.by',
@@ -32,4 +32,5 @@ return [
 
     'STATIC_URL' => '//static.migomby.by',
     'STATIC_URL_FULL' => 'https://static.migomby.by',
+    'seller_old_tariff' => [4150,2366,1976,1782,1269],
 ];
