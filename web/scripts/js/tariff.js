@@ -225,3 +225,60 @@ function save_tariff() {
 
 
 }
+
+/*
+Для тарифов f_tarif = 2 
+*/
+$v_card_active = 0;
+$('.pack-radio').change(function () {
+    console.log('pack-radio');
+    id = $(this).attr('id').split("_");
+    type = id[0];
+    id = id[1];
+    old_id = id;
+
+    if ($(this).is(':checked')) {
+        console.log('checked');
+        console.log('card_'+$v_card_active);
+        name = $('card').find('strong.section-name').html();
+        $("#card_" + $v_card_active).css('background', 'transparent');
+        $v_card_active = id;
+        $(this).parents('.card').css('background', 'rgba(0,0,0,.05)');
+        $(this).parents('tr').css('background', 'rgba(0,0,0,.05)');
+        if(type == 'pack'){
+            if($("#calc_pack_"+id).length > 0){
+                $("#calc_pack_"+id).prop('checked', true);
+            } else {
+                name = $(this).parents('.card').find('span.pack-name').html();
+                cost = $(this).parents('.card').find('span.pack-cost').html();
+                $("#calc_packs").html('<label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success"><input type="checkbox" class="custom-control-input pack-line" checked id="calc_pack_'+id+'"><span class="custom-control-indicator"></span><span class="custom-control-description">'+name+'</span><span class="custom-control-cost" style="float: right">'+cost+' BYN</span></label>');
+                pack();
+            }
+        }
+        sum_recount();
+    } else {
+        console.log('no checked');
+        
+        $(this).parents('.card').css('background', 'background-color: rgba(0,0,0,.05)');
+        $(this).parents('tr').css('background', 'transparent');
+        if(type == 'pack'){
+            console.log('---||');
+            console.log(id);
+            $("#calc_pack_"+id).prop('checked', false);
+        } else {
+            $("#calc_section_"+id).prop('checked', false);
+        }
+        console.log('recount');
+        sum_recount();
+        if(type == 'pack'){
+            console.log('---');
+            console.log(id);
+            $("#calc_pack_"+id).parents('label').remove();
+        } else {
+            console.log('----');
+            console.log(id);
+            $("#calc_section_"+id).parents('label').remove();
+        }
+    }
+
+});
