@@ -16,16 +16,13 @@
             <div class="ks-widget-payment-simple-amount-item" style="padding: 0px;min-height: 0px;">
                 <div class="payment-simple-amount-item-body" style="text-align: center">
                     <div class="payment-simple-amount-item-amount">
-                        <span class="ks-amount" style="color: rgb(37, 98, 143)"><span class="pack-cost"><?= $cost['cost'] ?></span> BYN в месяц *</span>
+                        <span class="ks-amount" style="color: rgb(37, 98, 143)"><span class="pack-cost"><?= $cost['cost'] ?></span> TE в месяц *</span>
                         <span class="ks-amount" style="font-size: 16px;"><?= $cost['c1'] ?> в день</span>
                     </div>
                     <div class="payment-simple-amount-item-amount">
                         <span> <?= $bonus_value['text'] ?> <br/> Количество товаров - <?= $bonus_value['prod_count'] ?>. </span> 
                         <span> Автоматическое обновление прайса с любых площадок. Техподдержка магазина.</span>
-                    </div>
-                    <div>
-                        <mark><span class="ks-progress-type">Бонусы для продвижения магазина - <?= $bonus_value['bonus'] ?> BYN!</span></mark>
-                    </div>                    
+                    </div>                   
                 </div>
             </div>
 

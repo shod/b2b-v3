@@ -149,7 +149,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/tariff.js',
                 <tr>
                     <td class="ks-statistic-item">
                         <span class="ks-amount" style="color: rgb(37, 98, 143)"><span
-                                    id="sum_all"><?= $all_sum ?></span> BYN</span>
+                                    id="sum_all"><?= $all_sum ?></span> TE</span>
                         <span class="ks-text">в месяц</span>
                     </td>
                 </tr>
