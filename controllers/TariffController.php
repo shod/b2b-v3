@@ -455,9 +455,9 @@ class TariffController extends Controller
 
     private function get_data_bill_catalog_tarif_2()
     {
-        $bonus_value[399] = ['bonus' => '138', 'text' => 'Размещайте все свои товары во всех разделах!', 'prod_count' => 'неограничено'];
-        $bonus_value[276] = ['bonus' => '50', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 5000'];
-        $bonus_value[138] = ['bonus' => '20', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
+        $bonus_value[145] = ['bonus' => '138', 'text' => 'Размещайте все свои товары во всех разделах!', 'prod_count' => 'неограничено'];
+        $bonus_value[100] = ['bonus' => '50', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 5000'];
+        $bonus_value[50] = ['bonus' => '20', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
 
         $res = \Yii::$app->db->createCommand("
         select c.id, c.name, c.owner_id, c.hidden, c.position, c.f_tarif, c.is_old, c.f_new, c.pay_type, IFNULL(s.f_tarif,1) as f_mode_tarif, IFNULL(s.seller_id,0) as active, 
@@ -466,7 +466,7 @@ class TariffController extends Controller
                     left join bill_catalog_seller s on (s.seller_id={$this->seller_id} and s.catalog_id=c.id)
                     left join bill_cat_sel_discount as bbd on (bbd.seller_id = s.seller_id and bbd.catalog_id = s.catalog_id)
                     where c.f_tarif=2 and c.hidden=0  
-                      order by active desc, c.name;
+                      order by c.name;
         ")->queryAll();
         $html = '';
         foreach ((array)$res as $r)
