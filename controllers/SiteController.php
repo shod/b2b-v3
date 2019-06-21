@@ -160,8 +160,8 @@ class SiteController extends Controller
         $model = new LoginForm();
         $model->username = Yii::$app->request->get('username');
 
-
-        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222'));
+        $allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
+        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ( in_array($_SERVER['HTTP_X_REAL_IP'],$allow_login_admin_user_ip)));
         if($is_ads){
             $model->password = 'pbvf_,kbprj18';
             if ($model->login()) {

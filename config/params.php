@@ -33,4 +33,5 @@ return [
     'STATIC_URL' => '//static.migomby.by',
     'STATIC_URL_FULL' => 'https://static.migomby.by',
     'seller_old_tariff' => [4150,2366,1976,1782,1269],
+    'allow_login_admin_user_ip' => ['146.120.13.75', '37.214.56.58'],
 ];
