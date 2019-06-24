@@ -34,3 +34,5 @@ config/components/*
 /web/adv/
 
 info.php
+
+git_archive.tgz
