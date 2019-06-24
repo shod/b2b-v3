@@ -14,7 +14,7 @@ $this->registerJs(
         <div class="ks-dashboard-tabbed-sidebar-widgets">            
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь к вашему менеджеру <a href="mailto:sale@migomby.by">sale@migomby.by</a> или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> .</div>
+                    <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь к вашему менеджеру <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> .</div>
                 </div>
             </div>
             <?= $order_setting ?>
