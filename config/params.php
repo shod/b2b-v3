@@ -26,7 +26,8 @@ return [
         "shod@vendee.by"
     ],
     'migom_url' => 'https://vendee.by',
-    'migom_domain' => 'vendee.by',
+    'migom_domain' => 'vendee.by', /**/
+	'up_domain' => 'migom.by', /**/
     'migom_name' => 'VENDEE', //'Migom.by'
     'redirect_domain' => 'vendee.by',
 
