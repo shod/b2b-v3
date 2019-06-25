@@ -472,7 +472,7 @@ class ProductController extends Controller
         return $html;
     }
 
-    private function getImportResultsHtml(){
+    private function getImportResultsHtml(){        
         $res_data = file_get_contents("https://up.".\Yii::$app->params['up_domain']."/?load_block=all_seller_process&mode=b2b&sid=".$this->seller_id, False);
         $res_data = unserialize($res_data);
 
