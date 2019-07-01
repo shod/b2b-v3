@@ -27,12 +27,12 @@ return [
     ],
     'migom_url' => 'https://vendee.by',
     'migom_domain' => 'vendee.by', /**/
-	'up_domain' => 'migomby.by', /**/
+	'up_domain' => '136.244.83.35', /**/
     'migom_name' => 'VENDEE', //'Migom.by'
     'redirect_domain' => 'vendee.by',
 
-    'STATIC_URL' => '//static.migomby.by',
-    'STATIC_URL_FULL' => 'https://static.migomby.by',
+    'STATIC_URL' => '//media.tengrowth.com',
+    'STATIC_URL_FULL' => 'http://media.tengrowth.com',
     'seller_old_tariff' => [4150,2366,1976,1782,1269],
     'allow_login_admin_user_ip' => ['146.120.13.75', '37.214.56.58'],
 ];
