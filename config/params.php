@@ -27,7 +27,7 @@ return [
     ],
     'migom_url' => 'https://vendee.by',
     'migom_domain' => 'vendee.by', /**/
-	'up_domain' => '136.244.83.35', /**/
+	'up_domain' => 'http://136.244.83.35', /**/
     'migom_name' => 'VENDEE', //'Migom.by'
     'redirect_domain' => 'vendee.by',
 
