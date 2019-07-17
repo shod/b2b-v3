@@ -191,9 +191,9 @@ class ProductController extends Controller
 		
         if (Yii::$app->request->post("type") == "file") {						
 			
-            $file = $_FILES["file"];
+            $file = $_FILES["file"];					
 			
-            if ($file["tmp_name"] != "none" && $file["name"] != '') {
+			if ($file['error'] == 0 && $file["tmp_name"] != "none" && $file["name"] != '') {
 				
                 $filename = "{$file["name"]}.{$this->seller_id}";
 
@@ -203,10 +203,16 @@ class ProductController extends Controller
                 if (file_exists($filename_to))
                     unlink($filename_to);			
                 if (move_uploaded_file($file["tmp_name"], $filename_to)) {
+					echo 'upload';
                     $home = \yii\helpers\Url::base(true);
                     $url = $home . "/price/{$filename}";
                 }
-            }			
+            }else{
+				\Yii::$app->session->setFlash('Ошибка при загрузке файла!');					
+				$fsize = $file['size']/1024;				
+				die('Ошибка при загрузке файла! Возможно слишком большой размер файла.'.$fsize.' KB');
+				$this->redirect('/product/price');		
+			}				
         }
         else
         {
@@ -215,7 +221,7 @@ class ProductController extends Controller
 
         if (isset($url)) {
             $url = rawurlencode($url);
-            $check_delete = Yii::$app->request->post("check_delete");
+            $check_delete = Yii::$app->request->post("check_delete");			
             file_get_contents(\Yii::$app->params['up_domain']."/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
         $this->redirect('/product/price');

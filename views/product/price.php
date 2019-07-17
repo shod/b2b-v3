@@ -70,7 +70,7 @@ $this->registerJs(
                             <form method="post" action="/product/price-import" id="frm_import"
                                   enctype="multipart/form-data">
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
-                                <input type="hidden" name="MAX_FILE_SIZE" value="15000000">
+                                <input type="hidden" name="MAX_FILE_SIZE" value="35000000">
 
                                 <div class="row">
                                     <div class="col-lg-2">
