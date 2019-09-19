@@ -16,6 +16,7 @@ class StatisticController extends Controller
 {
     public $seller_id;
     var $offset = 250;
+	var $stat_interval_month = 5;
 
     /**
      * @inheritdoc
@@ -198,8 +199,8 @@ class StatisticController extends Controller
                 $vars["po_sms_alert"]  = "<p>Чтобы не терять клиентов подключите услугу <a href='/order/sms' style='color:red'>SMS-заказы</a></p>";
             }
         }
-        $stat_interval_month = 6;
-        $sql = "SELECT * from index_seller_stats WHERE  seller_id = {$this->seller_id} and STR_TO_DATE(date,'%Y-%m') > '2019' ORDER BY date desc limit {$stat_interval_month}";
+
+        $sql = "SELECT * from index_seller_stats WHERE  seller_id = {$this->seller_id} and STR_TO_DATE(date,'%Y-%m') > '2019' ORDER BY date desc limit {$this->stat_interval_month}";
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
         $vars['data'] = '';
         foreach((array)$res as $r)

@@ -293,7 +293,7 @@ AppAsset::register($this);
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/balance/add">Пополнить баланс</a>
                         <a class="dropdown-item" href="/balance/promise">Обещаный платеж</a>
-                        <a class="dropdown-item" href="/bill-report">Финансовый отчет</a>
+                        <!-- <a class="dropdown-item" href="/bill-report">Финансовый отчет</a> -->
                         <a class="dropdown-item" href="/bill-report/akt">Акты</a>
                     </div>
                 </li>
@@ -386,12 +386,12 @@ AppAsset::register($this);
                         <span>Обратная связь</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="http://b2bmigomby.reformal.ru/" target="_blank">
                         <span class="ks-icon la la-lightbulb-o"></span>
                         <span>Ваши предложения</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="/site/logout">
                         <span class="la la-sign-out ks-icon"></span>

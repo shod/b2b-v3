@@ -378,9 +378,11 @@ class SettingsController extends Controller
                                 $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/document/'.$this->seller_id.'/'.$new_file_name;
-                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
+								print_r($file_name);
+								die('settingController');
                             }
 
                             $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
