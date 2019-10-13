@@ -100,10 +100,10 @@ class TariffController extends Controller
 
                 $seller = \app\models\Seller::find()->where(['id' => $this->seller_id])->one();
                 $bill_account = \app\models_ex\BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
-                if(($bill_account->balance <= $this->min_balance) && ($this->seller_id != 4129)){
+                /*if(($bill_account->balance <= $this->min_balance) && ($this->seller_id != 4129)){
                     echo "Для смены тарифа ваш баланс должен быть не менее " .  $this->min_balance ."!";
                     exit;
-                }
+                }*/
 
                 $DATA = array();
                 $ids_done = array();
@@ -129,6 +129,7 @@ class TariffController extends Controller
                         $DATA[] = array('section_activate', $id);
                     }
                 }
+
                 \Yii::$app->billing->transaction($this->seller_id, 'section_group', $DATA);
 
                 /* Обновление активности товаров в зависимости от подключенных разделов*/
@@ -458,6 +459,7 @@ class TariffController extends Controller
         $bonus_value[145] = ['bonus' => '138', 'text' => 'Размещайте все свои товары во всех разделах!', 'prod_count' => 'неограничено'];
         $bonus_value[100] = ['bonus' => '50', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 5000'];
         $bonus_value[50] = ['bonus' => '20', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
+        $bonus_value[0] = ['bonus' => '0', 'text' => 'Уникальное предложение для белорусского рынка! Без абонентской платы. Все ваши товары. Без ограничений на разделы. Автоматическое обновление прайса с любых площадок. Дополнительное продвижение в поиске Google и Яндекс. Техподдержка магазина. 3% от стоимости товара за оформленную заявку /0,3 % за просмотр контактов/0,6 % за переход в ваш магазин', 'prod_count' => 'до 999999'];
 
         $res = \Yii::$app->db->createCommand("
         select c.id, c.name, c.owner_id, c.hidden, c.position, c.f_tarif, c.is_old, c.f_new, c.pay_type, IFNULL(s.f_tarif,1) as f_mode_tarif, IFNULL(s.seller_id,0) as active, 
@@ -465,8 +467,8 @@ class TariffController extends Controller
                     from bill_catalog c
                     left join bill_catalog_seller s on (s.seller_id={$this->seller_id} and s.catalog_id=c.id)
                     left join bill_cat_sel_discount as bbd on (bbd.seller_id = s.seller_id and bbd.catalog_id = s.catalog_id)
-                    where c.f_tarif=2 and c.hidden=0  
-                      order by c.name;
+                    where c.f_tarif>1 and c.hidden=0  
+                      order by c.position, c.name;
         ")->queryAll();
         $html = '';
         foreach ((array)$res as $r)

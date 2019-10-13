@@ -178,7 +178,7 @@ function save_tariff() {
     sum = $("#sum_all").html();
     sum_day = $("#sum_all_day").html();
 
-    if (sum > 9){
+    if (sum >= 0){
         $.confirm({
             title: 'Внимание!',
             content: 'Сумма списания за размещение в каталоге составит <b>'+sum+'</b> ТЕ/мес   (<b>'+sum_day+'</b>/день) <br>Вы уверены в выборе?',
