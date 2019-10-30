@@ -388,6 +388,10 @@ class BalanceController extends Controller
             $vars['day_te'] = round($res_sum[0]['click_cost'],2);
             $vars['sum_click'] = intval($vars['day_te'] / 0.4);
             $vars['day_down'] = ($vars['day_te']*(float)$curs/100)*100;
+			
+			if (!$vars['day_down']){
+				$vars['day_down'] = 10;
+			}
             //$vars['page_data'] = $whirl->processor->process_template(null, "content_billing", "tmpl/promice_clicks", $vars);
             return $this->render('promise_clicks',$vars);
         }
