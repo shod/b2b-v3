@@ -224,7 +224,7 @@ class SiteController extends Controller
             $recaptcha = Yii::$app->request->post('g-recaptcha-response');
             if (isset($recaptcha) && !empty($recaptcha)) {
                 //your site secret key
-                $secret = '6LfNZ1gUAAAAAEvGG6FHdCX84B5wIL4aL9E7_2P3';
+                $secret = '6LdRrQ0UAAAAAOazxlJaOlEz9jswYSzrGCGStDij';
                 //get verify response data
                 $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $recaptcha);
                 $responseData = json_decode($verifyResponse);

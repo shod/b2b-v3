@@ -135,7 +135,7 @@
                                 </label>
                             </div-->
                         </div>
-                        <div class="g-recaptcha" data-sitekey="6LfNZ1gUAAAAAJhGQVeavCN6V57rF0GpJYrjm6Up"></div>
+                        <div class="g-recaptcha" data-sitekey="6LdRrQ0UAAAAAAKjsyLUQtfy_eNWVF1-qbYUYGSS"></div>
                         <br>
                         <div class="form-group">
                             <input id="btn-submit" type="submit" class="btn btn-primary btn-block" disabled readonly value="Зарегистрироваться">
