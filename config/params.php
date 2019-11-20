@@ -35,6 +35,6 @@ return array_merge(
 			'STATIC_URL' => '//media.tengrowth.com',
 			'STATIC_URL_FULL' => 'http://media.tengrowth.com',
 			'seller_old_tariff' => [4150,2366,1976,1782,1269],
-			'allow_login_admin_user_ip' => ['146.120.13.75', '37.214.56.58'],
+			'allow_login_admin_user_ip' => ['213.184.249.110', ''],
 		], require(__DIR__ . '/components/params.php')   
 );

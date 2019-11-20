@@ -136,6 +136,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+		$allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $seller_id = Yii::$app->user->identity->getId();
@@ -143,7 +144,7 @@ class SiteController extends Controller
             $sql = "call pc_recovery_product_seller_data({$seller_id});";
             \Yii::$app->db->createCommand($sql)->execute();
             $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
-            $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222')) ? 1 : 0;
+            $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == $allow_login_admin_user_ip)) ? 1 : 0;
             \Yii::$app->db->createCommand("insert into b2b_login_log (seller_id,ip,date_login,is_admin,version) values ({$seller_id}, '{$ip}',NOW(),{$is_ads}, 1)")->execute();
 
             return $this->goBack();
