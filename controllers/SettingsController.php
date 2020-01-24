@@ -236,12 +236,13 @@ class SettingsController extends Controller
                         $filename = "seller/logo\${$this->seller_id}.jpg";
 
                         if($_FILES['logo']['type'] == "image/jpeg") {
-                            if (move_uploaded_file($logo["tmp_name"], $filename)) {
+                            if (move_uploaded_file($logo["tmp_name"], $filename)) {								
                                 SiteService::resize($filename, array(90, 35));
                                 $filename = 'logo$'.$this->seller_id.'.jpg';
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = "{$home}/seller/{$filename}";
-                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+                                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+								die('move_uploaded_file');
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
                                 $seller->setting_bit = $setting_bit;
