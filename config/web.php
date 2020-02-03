@@ -14,6 +14,10 @@ $config = [
             'class' => 'app\modules\product\Module',
         ],
     ],*/
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ],
 
     'params' => $params,
 ];

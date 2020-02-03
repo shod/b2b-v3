@@ -16,7 +16,7 @@ class StatisticController extends Controller
 {
     public $seller_id;
     var $offset = 250;
-	var $stat_interval_month = 5;
+	var $stat_interval_month = 3;
 
     /**
      * @inheritdoc
