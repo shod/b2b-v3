@@ -24,8 +24,9 @@ class SiteController extends Controller
      */
     public function beforeAction($action)
     {
+     
         if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')&& ($action->id != 'rules')) {
-            $this->redirect('/site/login');
+            $this->redirect(Yii::$app->params['b2b_url'] . '/site/login');
         } else {
             return parent::beforeAction($action);
         }

@@ -27,6 +27,7 @@ return array_merge(
 				"shod@vendee.by"
 			],
 			'migom_url' => 'https://vendee.by',
+			'b2b_url' => 'https://b2b.vendee.by',
 			'migom_domain' => 'vendee.by', /**/
 			'up_domain' => 'http://136.244.83.35', /**/
 			'migom_name' => 'VENDEE', //'Migom.by'

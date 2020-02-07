@@ -12,10 +12,6 @@ class SingletonActiveQuery extends \yii\db\ActiveQuery {
     
     public $duration = null;
     
-    public function cache($duration) {
-        $this->duration = $duration;
-        return $this;
-    }
     
     public function one($db = null) {
         $key = md5( print_r($this->createCommand($db), TRUE) );
