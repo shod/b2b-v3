@@ -465,13 +465,14 @@ class ProductController extends Controller
 				) and hidden=0
 				order by name
 				")->queryAll();
+				
             foreach ((array)$res1 as $r1)
             {
                 $cnt1 = isset($data[$r1["id"]]) ? $data[$r1["id"]] : "";
                 //$selected = ($r1["id"] == $this->catalog_id) ? "selected" : "";
                 $selected = "";
-                $html_iterate .= "<option value=\"{$r1["id"]}\"{$selected}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r1["name"]} ({$cnt1})</option>";
-                $cnt += $cnt1;
+                $html_iterate .= "<option value=\"{$r1["id"]}\"{$selected}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r1["name"]} ({$cnt1})</option>";				
+                $cnt += (int)$cnt1;
             }
 
             $html .= "<option /><option value=\"bill_{$r["id"]}\">{$r["name"]} ({$cnt})</option>{$html_iterate}";

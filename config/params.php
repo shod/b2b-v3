@@ -30,6 +30,7 @@ return array_merge(
 			'b2b_url' => 'https://b2b.vendee.by',
 			'migom_domain' => 'vendee.by', /**/
 			'up_domain' => 'http://136.244.83.35', /**/
+			'up_domain' => 'http://95.179.162.93', /**/			
 			'migom_name' => 'VENDEE', //'Migom.by'
 			'redirect_domain' => 'vendee.by',
 
