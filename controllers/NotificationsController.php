@@ -74,7 +74,7 @@ class NotificationsController extends Controller
             case "get_notify":
                 $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'popup', 'status'=>'0'])->one();
 
-                if(count($notification) > 0){
+                if(count((array)$notification) > 0){
                     $data["id"] = $notification->id;
                     $params = $notification->param;
                     $params = json_decode($params, true);

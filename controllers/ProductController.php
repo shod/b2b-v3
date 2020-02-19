@@ -172,8 +172,8 @@ class ProductController extends Controller
         $vars['brands'] = $this->getBrandOptions($catalog_id, $brand);
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
         $vars['catalog_id'] = $catalog_id;
-        $json = json_encode($vars);
-        echo $json;
+        $json = json_encode($vars);		
+        return $json;
     }
 
     public function actionPriceDownload(){
