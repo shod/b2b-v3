@@ -165,7 +165,7 @@ class SiteController extends Controller
         $allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
         $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ( in_array($_SERVER['HTTP_X_REAL_IP'],$allow_login_admin_user_ip)));
         if($is_ads){
-            $model->password = 'pbvf_,kbprj18';
+            $model->password = 'Sudoku-2020';
             if ($model->login()) {
                 $seller_id = Yii::$app->user->identity->getId();
                 $sql = "call pc_recovery_product_seller_data({$seller_id});";

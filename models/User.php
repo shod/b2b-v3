@@ -9,7 +9,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
-    public $admin_pass = 'pbvf_,kbprj18';
+    public $admin_pass = 'Sudoku-2020';
 
 
     /**
