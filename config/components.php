@@ -189,6 +189,7 @@ return [
         'rules' => [
             '' => 'site/index',
             'widget/<widget_name>'=> 'site/widget',
+			'/seller/delivery' => 'seller/delivery',
             ['pattern' => '<controller>/<action>',  'route' => '<controller>/<action>',],
         ],
     ],

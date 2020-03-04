@@ -55,6 +55,9 @@ $this->title = "Пополнение баланса";
                             * Сумма оплаты пакета является единой, не разбивается на несколько платежей.
                         </div>
                     <?php endif; ?>
+						<div class="ks-description" style="color:red;">
+                            После оплаты копию платежа отправляйте на почту sale@vendee.by
+                        </div>
                 </div>
                 <div class="ks-subscriptions" id="subscriptions">
 

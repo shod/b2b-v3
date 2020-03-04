@@ -439,8 +439,9 @@ class StatisticController extends Controller
         $seller = \app\models\Seller::find()
 		->where(['id' => $this->seller_id])
 		->one();
-        if(!$seller->getFlag('analyze')){
-            $this->redirect('/site/login');
+        
+		if(!$seller->getFlag('analyze')){
+            //$this->redirect('/site/login');
         }
         
         $vars = [];

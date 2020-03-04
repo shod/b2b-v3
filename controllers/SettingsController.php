@@ -424,6 +424,10 @@ class SettingsController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
+		$member_data['company_name'] = stripcslashes($member_data['company_name']);
+		//$member_data['company_name'] = str_replace('"','\'',$member_data['company_name']);
+		//$member_data['company_name'] = "ООО 'Амдбай'";
+		//dd($member_data); exit;
         $res = \Yii::$app->db->createCommand("select f_registration from seller_info where seller_id = {$this->seller_id}")->queryOne();
         $none = $res['f_registration'] ? "style='display:none'" : "";
         $img_registration = $this->get_img_registration($none);
@@ -476,7 +480,7 @@ class SettingsController extends Controller
         $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
         $imgs = json_decode($documents_data);
         $data = "";
-        if(count($imgs)){
+        if(count((array)$imgs)){
             foreach($imgs as $file) {
                 $r['file_name'] = $file;
                 $r['src'] = \Yii::$app->params['STATIC_URL_FULL'] . '/img/seller/registration/'.$this->seller_id.'/'.$file;
@@ -493,7 +497,7 @@ class SettingsController extends Controller
         $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}");
         $imgs = json_decode($documents_data);
         $data = "";
-        if(count($imgs)){
+        if(count((array)$imgs)){
             foreach($imgs as $file) {
                 $r['file_name'] = $file;
                 $r['src'] = \Yii::$app->params['STATIC_URL_FULL'] . '/img/seller/document/'.$this->seller_id.'/'.$file;
@@ -794,7 +798,7 @@ class SettingsController extends Controller
         },$data );
         $data = unserialize($data);
         //print_r($data);
-        if(count($data) > 0 && $data !== false) {
+        if(count((array)$data) > 0 && $data !== false) {
             foreach($data as $item) {
                 $data_array .= '<input class="form-control" type="text" name="'.$type_field.'[]" value="'.$item.'" /><br>';
             }

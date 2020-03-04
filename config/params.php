@@ -10,13 +10,11 @@ return array_merge(
 			'fromEmail' => 'support@vendee.by',
 			'saleEmails' => [
 				'sale@vendee.by',
-				'sale2@vendee.by',
-				'ok@vendee.by'
+				'sale2@vendee.by'
 			],
 			'questionEmails' => [
 				'admin@vendee.by',
-				'sale@vendee.by',
-				'ok@vendee.by'
+				'sale@vendee.by'
 			],
 			'testEmails' => [
 				"admin@vendee.by", "shod@vendee.by"

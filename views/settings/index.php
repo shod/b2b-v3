@@ -51,7 +51,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                         <label>Название организации</label>
                         <input name="company_name" type="text"
                                class="form-control" <?= (isset($company_name) && $company_name != "") ? "readonly" : "" ?>
-                               placeholder="" value='<?= (isset($company_name) && $company_name != "") ? $company_name : "" ?>' data-validation="length"
+                               placeholder="" value="<?= (isset($company_name) && $company_name != "") ? $company_name : "" ?>" data-validation="length"
                                data-validation-length="min5" data-validation-error-msg="Введите название организации">
                     </div>
                     <div class="col-lg-3">
