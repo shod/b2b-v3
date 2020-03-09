@@ -192,14 +192,14 @@ class ProductController extends Controller
         if (Yii::$app->request->post("type") == "file") {						
 			
             $file = $_FILES["file"];					
-			
+		
 			if ($file['error'] == 0 && $file["tmp_name"] != "none" && $file["name"] != '') {
 				
                 $filename = "{$file["name"]}.{$this->seller_id}";
 
                 $filename = SiteService::transliterate($filename);
                 $filename_to = "price/{$filename}";
-				
+			
                 if (file_exists($filename_to))
                     unlink($filename_to);			
                 if (move_uploaded_file($file["tmp_name"], $filename_to)) {

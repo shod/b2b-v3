@@ -105,6 +105,7 @@ class BalanceController extends Controller
         $render_type = Yii::$app->request->get("render-type");
         $my_sum = Yii::$app->request->get("my_sum");
 
+		/*НДС $type==1, ИП $type==2*/
         if($type==1){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
             $nds = 0;
@@ -112,7 +113,8 @@ class BalanceController extends Controller
                 "official_name" => "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ШМЫК ОЛЕГ ДМИТРИЕВИЧ",
                 "official_unp" => "УНП 191182046",
                 "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
-                "official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь, БИК: REDJBY22",
+                //"official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь, БИК: REDJBY22",
+				"official_rs" => "BY67 ALFA 3013 2619 0100 1027 0000 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;АЛЬФА-БАНК&quot; БИК: ALFABY2X, 220013, Ул. Сурганова, 43-47, Минск, Республика Беларусь",
                 "official_phone" => "тел.: +375 (29) 112 45 45",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_od.jpg",
                 "official_owner" => "Шмык О. Д.",
@@ -122,7 +124,7 @@ class BalanceController extends Controller
         } else {
             $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
             $nds = 1;
-            $official_data = array(
+            /*$official_data = array(
                 "official_name" => "ООО &quot;Альметра&quot;",
                 "official_unp" => "УНП 192147793 ОКПО 381393215000",
                 "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
@@ -132,7 +134,7 @@ class BalanceController extends Controller
                 "official_owner" => "Кладухина О.Н.",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
-            );
+            );*/
             $official_data = array(
                 "official_name" => "ООО &quot;Марталь&quot;",
                 "official_unp" => "УНП 192583317",

@@ -305,7 +305,7 @@ AppAsset::register($this);
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/auction">Аукционы</a>
                         <a class="dropdown-item" href="/spec">Спецпредложения</a>
-                        <a class="dropdown-item" href="/context-adv">Контекстная реклама</a>
+                        <!--a class="dropdown-item" href="/context-adv">Контекстная реклама</a-->
                         <a class="dropdown-item" href="/order/sms">Мои заказы<span style="color: #e79716;margin: 10px;font-weight: 900;" id="po_notify"></span></a>
                         <a class="dropdown-item" href="/info/?page=my_news_articles">Мои новости и обзоры</a>
                     </div>

@@ -29,8 +29,10 @@ class Promotion extends \yii\base\Widget {
 
         $sql = "select count(1) as cnt from seller_products_quality as spq, seller as ss where prc_status >  {$quality} and ss.id = spq.seller_id and ss.active = 1";
         $res = \Yii::$app->db->createCommand($sql)->queryOne();
+		$vars['cnt_hight'] = 0;
         if (count($res) > 0){
-            $vars['cnt_hight'] = "<h4>Количество продавцов с более эффективным продвижением - <span class='badge'>{$res['cnt']}</span>.</h4>";
+            //$vars['cnt_hight'] = "<h4>Количество продавцов с более эффективным продвижением - <span class='badge'>{$res['cnt']}</span>.</h4>";
+			$vars['cnt_hight'] = $res['cnt'];
         }
         echo $this->render($this->viewFile, ['quality' => $quality, 'vars' => $vars]);
     }
