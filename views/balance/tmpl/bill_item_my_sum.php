@@ -3,9 +3,9 @@
         <span class="ks-name">Своя сумма</span>
         <?php if ($pay_type == 'clicks'): ?>
             <div>Пополнение любой суммы (стоимость клика 0.4 ТЕ)<br>
-                Минимальная сумма 50 ТЕ (<?= 50*$curs ?> руб.)
+                Минимальная сумма 10 ТЕ (<?= 10*$curs ?> руб.)
             </div>
-            <input id="custom_sum" type="text" onblur="change_href('my-sum','my_sum', 115)" class="form-control">
+            <input id="custom_sum" type="text" onblur="change_href('my-sum','my_sum', 20)" class="form-control">
         <?php else: ?>
             <input id="custom_sum" type="text" onkeyup="change_href('my-sum','my_sum', 0)" class="form-control">
         <?php endif; ?>
