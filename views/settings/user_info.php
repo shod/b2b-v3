@@ -1,7 +1,7 @@
 <?php
 $this->title = 'Информация для покупателей';
-$this->registerJsFile('/web/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "
     $(function () {

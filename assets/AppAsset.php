@@ -39,7 +39,7 @@ class AppAsset extends AssetBundle
         '/styles/widgets/payment.min.css',
         '/styles/widgets/panels.min.css',
         '/styles/dashboard/tabbed-sidebar.min.css',
-        '/styles/site.css',
+        '/styles/site.css?v=1',
         '/styles/pricing/subscriptions.min.css',
         '/styles/pickmeup.min.css',
         '/styles/chosen.css',

@@ -31,8 +31,8 @@ return array_merge(
 			'migom_name' => 'VENDEE', //'Migom.by'
 			'redirect_domain' => 'vendee.by',
 
-			'STATIC_URL' => '//media.tengrowth.com',
-			'STATIC_URL_FULL' => 'http://media.tengrowth.com',
+			'STATIC_URL' => '//media.vendee.by',
+			'STATIC_URL_FULL' => 'http://media.vendee.by',
 			'seller_old_tariff' => [4150,2366,1976,1782,1269],
 			'allow_login_admin_user_ip' => ['213.184.249.110', ''],
 		], require(__DIR__ . '/components/params.php')   

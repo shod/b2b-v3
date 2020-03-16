@@ -1,6 +1,6 @@
 <?php
 $this->title = "Условия доставки";
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/delivery.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/delivery.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">

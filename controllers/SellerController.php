@@ -190,7 +190,7 @@ class SellerController extends Controller
                 $res['html'] =  $html;
                 $res['id'] = $data[0]['type_id'];
                 //print_r( $res);
-                echo json_encode($res, true);
+                return json_encode($res, true);
                 break;
             case "set_f_post":
                 $sql = "update seller set f_post = if(f_post=0,1,0) where id = " . $this->seller_id;
