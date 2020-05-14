@@ -163,14 +163,16 @@ class SiteController extends Controller
         $model->username = Yii::$app->request->get('username');
 
         $allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
-        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ( in_array($_SERVER['HTTP_X_REAL_IP'],$allow_login_admin_user_ip)));
+		//HTTP_X_REAL_IP
+        $is_ads = (isset($_SERVER['REMOTE_ADDR']) && ( in_array($_SERVER['REMOTE_ADDR'],$allow_login_admin_user_ip)));
+
         if($is_ads){
             $model->password = 'Sudoku-2020';
             if ($model->login()) {
                 $seller_id = Yii::$app->user->identity->getId();
                 $sql = "call pc_recovery_product_seller_data({$seller_id});";
                 \Yii::$app->db->createCommand($sql)->execute();
-                $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : $_SERVER['REMOTE_ADDR'];
                 \Yii::$app->db->createCommand("insert into b2b_login_log (seller_id,ip,date_login,is_admin,version) values ({$seller_id}, '{$ip}',NOW(),1,1)")->execute();
                 $action = Yii::$app->request->get('action');
 

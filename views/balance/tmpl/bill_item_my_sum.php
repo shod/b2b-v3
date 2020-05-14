@@ -1,9 +1,9 @@
 <div class="ks-subscription" style="margin-right: 15px; margin-left: 15px;">
     <div class="ks-header">
-        <span class="ks-name">Своя сумма</span>
-        <?php if ($pay_type == 'clicks'): ?>
-            <div>Пополнение любой суммы (стоимость клика 0.4 ТЕ)<br>
-                Минимальная сумма 10 ТЕ (<?= 10*$curs ?> руб.)
+        <span class="ks-name">Своя сумма (<?= \Yii::$app->params['currency'] ?>)</span>
+        <?php if (0 /*$pay_type == 'clicks'*/): ?>
+            <div>Пополнение любой суммы (стоимость клика 0.4 <?= \Yii::$app->params['currency'] ?>)<br>
+                Минимальная сумма 10 <?= \Yii::$app->params['currency'] ?>
             </div>
             <input id="custom_sum" type="text" onblur="change_href('my-sum','my_sum', 20)" class="form-control">
         <?php else: ?>

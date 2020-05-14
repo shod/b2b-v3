@@ -130,7 +130,7 @@ $this->registerJs(
                         <div class="card-block">
                             <h4>Шаблон прайса для обновления</h4>
                             <p>Прайс-лист должен удовлетворять шаблону (<a
-                                        href="http://static.<?= Yii::$app->params['migom_domain'] ?>/files/template-price-new.xlsx"
+                                        href="<?= Yii::$app->params['main_url'] ?>files/template-price-new.xlsx"
                                         type='application/excel'>скачать</a>)</p>
 
 

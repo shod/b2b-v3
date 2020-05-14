@@ -9,8 +9,8 @@ $this->title = "Обещаный платеж";
                     <div class="card" style="height: 100%">
                         <div class="card-block">
                             <p>
-                                «Обещанный платеж» — это возможность продлить срок размещения магазина на площадке
-                                <?= \Yii::$app->params['migom_name'] ?> до внесения денежных средств на лицевой счет на максимальный срок — 3 дня.<br>
+                                «Обещанный платеж» — это возможность начать пользоваться платными услугами на площадке
+                                <?= \Yii::$app->params['migom_name'] ?> до внесения денежных средств на лицевой счет.<br>
                                 Сумма «обещанного платежа» не должна превышать среднюю сумму расходов магазина за 4 дня.<br>
                                 После внесения «обещанного платежа», баланс магазина пополняется на указанную сумму.<br>
 
@@ -20,9 +20,9 @@ $this->title = "Обещаный платеж";
                                     <li>отсутствия погашения предыдущей суммы по обещанному платежу;</li>
                                     <li>просрочке платежа.</li>
                                 </ul>
-                                По всем вопросам можете связаться с нами по тел. +375 (29) 112-45-45<br>
+                                По всем вопросам можете связаться с нами по тел. <a href="tel:<?= Yii::$app->params['phones']['info'];?>"><?= Yii::$app->params['phones']['info'];?></a><br>
 
-                                Сумма указывается в BYN!
+                                Сумма указывается в <?= Yii::$app->params['currency'];?>!
                             </p>
                         </div>
                     </div>
@@ -31,7 +31,7 @@ $this->title = "Обещаный платеж";
                     <div class="card" style="height: 100%">
                         <div class="card-block">
                             <?= isset($text) ? $text : ""; ?>
-                            <h4>Максимальная сумма <?= $day_down; ?> руб. </h4>
+                            <h4>Максимальная сумма <?= $day_down; ?> <?= Yii::$app->params['currency'];?> </h4>
                             <form method="post" class="form-inline" action="/balance/get-promise">
                                 <input type="hidden" name="_csrf"
                                        value="<?= Yii::$app->request->getCsrfToken() ?>"/>
@@ -39,7 +39,7 @@ $this->title = "Обещаный платеж";
                                 <input type="hidden" name="max" value="<?= $day_down; ?>">
                                 <div class="input-group" style="width: 100%">
                                     <input name="sum" class="form-control" type="text"
-                                           placeholder="Максимальная сумма <?= $day_down; ?> руб.">
+                                           placeholder="Максимальная сумма <?= $day_down; ?> <?= Yii::$app->params['currency'];?>">
                                     <span class="input-group-btn">
                            <input class="btn btn-primary" type="submit" <?= $disabled; ?>
                                   value="Получить обещанный платеж"/>

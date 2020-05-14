@@ -4,7 +4,7 @@ $this->title = "Пополнение баланса";
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
-            <div class="row">
+            <!--div class="row">
                 <div class="col-lg-6">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
@@ -24,18 +24,17 @@ $this->title = "Пополнение баланса";
                 <div class="col-lg-6">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
-                            <!--h5 class="card-title">Информация о балансе</h5-->
                             <?= $info; ?>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
 
             <div class="ks-pricing-subscriptions-page" style="height: auto">
                 <div class="ks-header">
-                    <h3 class="ks-name">Пополнить баланс</h3>
+                    <h3 class="ks-name">Пополнить баланс </h3>
                     <?php if ($pay_type == 'fixed'): ?>
-                        <div class="ks-description">
+                        <!--div class="ks-description">
                             * Первый платеж магазина должен быть не меньше 1 месяца размещения в
                             эквиваленте. Иначе магазин не подключится!
                         </div>
@@ -49,15 +48,15 @@ $this->title = "Пополнение баланса";
                             *** Если ваш магазин не был активен более 90 дней, то для повторного включения сумма оплаты
                             должна
                             быть не менее суммы месячного размещения согласно вашего тарифа.
-                        </div>
+                        </div-->
                     <?php else: ?>
                         <div class="ks-description">
                             * Сумма оплаты пакета является единой, не разбивается на несколько платежей.
                         </div>
                     <?php endif; ?>
-						<div class="ks-description" style="color:red;">
-                            После оплаты копию платежа отправляйте на почту sale@vendee.by
-                        </div>
+                    <div class="ks-description" style="color:red;">
+                        После оплаты копию платежа отправляйте на почту <?= \Yii::$app->params['saleManager'] ?> 
+                    </div>
                 </div>
                 <div class="ks-subscriptions" id="subscriptions">
 

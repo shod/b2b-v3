@@ -34,6 +34,12 @@ return array_merge(
 			'STATIC_URL' => '//media.vendee.by',
 			'STATIC_URL_FULL' => 'http://media.vendee.by',
 			'seller_old_tariff' => [4150,2366,1976,1782,1269],
-			'allow_login_admin_user_ip' => ['213.184.249.110', ''],
+			'allow_login_admin_user_ip' => ['213.184.249.110', '46.53.250.7'],
+			'currency' => 'Руб.',
+			'phones' => [
+				'info' => '+375 (29) 112-45-45',
+			],
+			
 		], require(__DIR__ . '/components/params.php')   
 );
+

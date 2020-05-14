@@ -174,7 +174,7 @@ class SellerController extends Controller
                 $r['cost'] = $json['cost'];
                 $cost_items = $json['cost_data'];
                 $items = "";
-                if(count($cost_items) > 0){
+                if(count((array)$cost_items) > 0){
 
                     foreach((array) $cost_items as $key => $c){
                         $c['key'] = $key;

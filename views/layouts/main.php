@@ -109,7 +109,7 @@ AppAsset::register($this);
                 </div>
 
                 <div class="nav-item ks-notifications">
-                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Тур по интерфейсу</a>
+                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Гид по B2B.<?= \Yii::$app->params['migom_name'] ?></a>
                 </div>
 
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
@@ -123,8 +123,9 @@ AppAsset::register($this);
                 <?php if ($seller->pay_type == 'fixed'): ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
-                            <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
+                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <?= Yii::$app->params['currency'] ?><br>
+                             <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
+                            <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> <?= Yii::$app->params['currency'] ?></span>
                         </a>
                     </div>
                 <?php else: ?>
@@ -135,7 +136,7 @@ AppAsset::register($this);
                             $res = \Yii::$app->db->createCommand($sql)->queryOne();
                             if ($res['id'] == 1){
                                 $balance_clicks = "";
-                                $balance_text = "Стоимость клика: 0.4 ТЕ";
+                                $balance_text = "Стоимость клика: 0.4 " . Yii::$app->params['currency'];
                             } else {
                                 $balance_clicks = $bill_account->balance_clicks;
                                 $balance_text = "Баланс показов: {$balance_clicks}";
@@ -145,7 +146,9 @@ AppAsset::register($this);
                     ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
+                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <?= Yii::$app->params['currency']?> <br>
+                             ( <?= isset($balance_text) ? $balance_text : ""  ?>)
+                            </span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
@@ -316,7 +319,7 @@ AppAsset::register($this);
                         <span>Настройка магазина</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a>
+                        <!--a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a-->
                         <a class="dropdown-item" href="/settings/user-info">Информация для покупателей</a>
                         <a class="dropdown-item" href="/settings">Реквизиты магазина</a>
                         <a class="dropdown-item" href="/seller/delivery">Условия доставки</a>

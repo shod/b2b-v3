@@ -241,8 +241,8 @@ class SettingsController extends Controller
                                 $filename = 'logo$'.$this->seller_id.'.jpg';
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = "{$home}/seller/{$filename}";
-                                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
-								die('move_uploaded_file');
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+								
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
                                 $seller->setting_bit = $setting_bit;
@@ -449,7 +449,9 @@ class SettingsController extends Controller
 
         $logo_url = \Yii::$app->params['STATIC_URL_FULL'] .  "/img/seller/logo$" . $this->seller_id . ".jpg";
         $fl_logo_exist = $this->checkRemoteFile($logo_url);
-        $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
+        $version_time = time();
+        $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url?v={$version_time}' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
+
 
         $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
         if($fl_logo_exist && ($vars['bit_logoauto'] == "")) {
@@ -541,7 +543,7 @@ class SettingsController extends Controller
         $html = "";
         $phones = unserialize($phone);
 
-        $type_op = array('velcom'=>'Velcom','life'=>'Life:)','mts'=>'МТС','diallog'=>'Diallog','btk'=>'Городской',);
+        $type_op = array('velcom'=>'A1','a1'=>'A1','life'=>'Life:)','mts'=>'МТС','diallog'=>'Diallog','btk'=>'Городской',);
 
         if (($phones === false) || !is_array($phones))
         {
