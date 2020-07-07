@@ -39,6 +39,7 @@ return array_merge(
 			'phones' => [
 				'info' => '+375 (29) 112-45-45',
 			],
+			'tariff_version' => 3,
 			
 		], require(__DIR__ . '/components/params.php')   
 );

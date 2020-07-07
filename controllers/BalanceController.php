@@ -165,8 +165,11 @@ class BalanceController extends Controller
             }
             if($blank->add_promise){
                 $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
-                $sum_promise = (count($pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
-
+				
+				$sum_promise = 0;
+				if($pay){
+					$sum_promise = (count($pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
+				}
                 $balance = round($bill_account->balance*$curs,2);
                 $sum_promise += $balance < 0 ? -$balance : 0;
                 $sum += $sum_promise;

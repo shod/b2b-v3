@@ -1,4 +1,4 @@
-<div class="ks-subscription" style="margin-right: 15px; margin-left: 15px;">
+<div class="ks-subscription" style="margin-right: 15px; margin-left: 15px; margin-top: 40px">
     <div class="ks-header">
         <span class="ks-name">Своя сумма (<?= \Yii::$app->params['currency'] ?>)</span>
         <?php if (0 /*$pay_type == 'clicks'*/): ?>
@@ -15,7 +15,7 @@
            class="btn btn-info-outline btn-block my-sum disabled">Открыть счет</a>
         <a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=xlsx" target="_blank"
            class="btn btn-info-outline btn-block my-sum disabled">Скачать в xlsx</a>
-        <!--a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=pdf" target="_blank"
-           class="btn btn-info-outline btn-block my-sum disabled">Скачать в pdf</a-->
+        <a href="/balance/blankop/?id=<?= $id; ?>&type=<?= $nds > 0 ? 0 : 1 ?>&render-type=pdf" target="_blank"
+           class="btn btn-info-outline btn-block my-sum disabled">Скачать в pdf</a>
     </div>
 </div>
