@@ -103,7 +103,7 @@ class BalanceController extends Controller
         $id = Yii::$app->request->get("id");
         $type = Yii::$app->request->get("type");
         $render_type = Yii::$app->request->get("render-type");
-        $my_sum = Yii::$app->request->get("my_sum");
+        $my_sum = str_replace(',','.',Yii::$app->request->get("my_sum"));
 
 		/*НДС $type==1, ИП $type==2*/
         if($type==1){
@@ -300,7 +300,9 @@ class BalanceController extends Controller
     {
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
 
-        $f_offerta = $seller->f_offerta;
+		// @TODO Установка новой формы
+        //$f_offerta = $seller->f_offerta;
+		$f_offerta = 2;
 
         if(!($f_offerta & 1) && ($f_offerta & 2)){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
