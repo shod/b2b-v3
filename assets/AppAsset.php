@@ -73,7 +73,7 @@ class AppAsset extends AssetBundle
         '/scripts/jquery.pickmeup.min.js',
         '/scripts/chosen.jquery.min.js',
         '/scripts/jquery.mark.js',
-        'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
+        ///'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
         'https://code.highcharts.com/highcharts.js',
         '/scripts/tinymce/tiny_mce/tiny_mce.js',
         '/scripts/tinymce_config.v1.js',

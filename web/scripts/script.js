@@ -413,8 +413,9 @@ function change_href(cl, add_name, min) {
 }
 
 function check_currency() {
-    curr_select = $('#curr_select').val();
-
+    curr_select = $('#curr_select').children("option:selected").val();
+	console.log(curr_select);
+	
     if ((curr_select == 'br') || (curr_select == 'byn')) {
         $(".sh_tr").hide();
     } else {

@@ -7,7 +7,7 @@
                     <div class="col-lg-6">Валюта прайса</div>
                     <div class="col-lg-6">
                         <select id="curr_select" name="currency_base" onchange="check_currency()" class="form-control">
-                            <option value="br" <?= isset($selected_br) ? $selected_br : "" ?> >BYR</option>
+                            <!-- option value="br" <?= isset($selected_br) ? $selected_br : "" ?> >BYR</option -->
                             <option value="usd" <?= isset($selected_usd) ? $selected_usd : "" ?> >USD</option>
                             <option value="byn" <?= isset($selected_byn) ? $selected_byn : "" ?>>BYN</option>
                         </select>
@@ -17,7 +17,7 @@
                     <div class="col-lg-6">Курс USD<br>(<span id='curr_ot'><?= $curr_ot ?></span> - <span id='curr_do'><?= $curr_do ?></span>)</div>
                     <div class="col-lg-6">
                         <input id="curr_seller" class="form-control" type="text" name="currency_rate" value="<?= $currency_rate_byn ?>">
-                        <b>Курс: <span style="color:red">BYR</span> - <?= $currency_rate ?></b>;&nbsp;<b><span style="color:red">BYN</span> - <?= $currency_rate_byn ?> </b><br>
+                        <!b>Курс: <span style="color:red">BYN</span> - <?= $currency_rate_byn ?></b>						
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5px;">
@@ -39,3 +39,9 @@
         </div>
     </div>
 </div>
+<script>
+
+    $(document).ready(function () {
+        check_currency();
+});
+</script>

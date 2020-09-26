@@ -28,7 +28,7 @@ class ProductController extends Controller
     public $offset = 50;
     public $seller_curs;
     public $cnt_all = 0;
-    public $curr_do_percent = 300;
+    public $curr_do_percent = 2.0;
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
