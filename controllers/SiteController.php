@@ -163,9 +163,9 @@ class SiteController extends Controller
         $model->username = Yii::$app->request->get('username');
 
         $allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
-		//HTTP_X_REAL_IP
-        $is_ads = (isset($_SERVER['REMOTE_ADDR']) && ( in_array($_SERVER['REMOTE_ADDR'],$allow_login_admin_user_ip)));
-
+        //$is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ( in_array($_SERVER['HTTP_X_REAL_IP'],$allow_login_admin_user_ip)));
+		$is_ads = (isset($_SERVER['HTTP_REFERER']) && ( strpos($_SERVER['HTTP_REFERER'],'admin.vendee.by')));
+		
         if($is_ads){
             $model->password = 'Sudoku-2020';
             if ($model->login()) {

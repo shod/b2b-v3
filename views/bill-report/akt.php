@@ -38,7 +38,7 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="visibility: hidden;">
                 <div class="col-lg-12">
                     <div class="card" style="height: 100%">
                         <div class="card-block">

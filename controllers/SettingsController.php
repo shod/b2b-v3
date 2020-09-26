@@ -447,9 +447,9 @@ class SettingsController extends Controller
 
         $logo_url = \Yii::$app->params['STATIC_URL_FULL'] .  "/img/seller/logo$" . $this->seller_id . ".jpg";
         $fl_logo_exist = $this->checkRemoteFile($logo_url);
+
         $version_time = time();
         $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url?v={$version_time}' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
-
 
         $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
         if($fl_logo_exist && ($vars['bit_logoauto'] == "")) {
