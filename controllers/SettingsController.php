@@ -425,9 +425,7 @@ class SettingsController extends Controller
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
 		$member_data['company_name'] = stripcslashes($member_data['company_name']);
-		//$member_data['company_name'] = str_replace('"','\'',$member_data['company_name']);
-		//$member_data['company_name'] = "ООО 'Амдбай'";
-		//dd($member_data); exit;
+
         $res = \Yii::$app->db->createCommand("select f_registration from seller_info where seller_id = {$this->seller_id}")->queryOne();
         $none = $res['f_registration'] ? "style='display:none'" : "";
         $img_registration = $this->get_img_registration($none);

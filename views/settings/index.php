@@ -1,7 +1,7 @@
 <?php
 $this->title = "Реквизиты магазина";
 $this->registerJsFile('/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js?v=2', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <form method="post" action="/settings/process">
     <input type="hidden" name="_csrf"
