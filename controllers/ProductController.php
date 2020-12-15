@@ -491,6 +491,7 @@ class ProductController extends Controller
         $status = "";
 
         if(is_array($res)){
+			$res["message"] = iconv('cp1251','UTF-8',$res["message"]);
             if (($res["module"] == "price_import_sliv") && ($res["message"] == '')) {
                 $cnt = $this->get_cnt();
                 $status = "<font color=\"#009900\">Обновлен</font>";
@@ -506,7 +507,7 @@ class ProductController extends Controller
             }
             else
             {
-                $message = htmlspecialchars($res["message"]);
+                $message = htmlspecialchars($res["message"]);				
                 $cdate = $res["cdate"];
                 $status = "<font color=\"#ff0000\" title=\"{$message}\">Произошла ошибка ({$message}).</font> {$cdate} <br/> Проверьте корректность формата прайса и попробуйте импорт еще раз. Если это не поможет, обратитесь в службу технической поддержки.";
             }

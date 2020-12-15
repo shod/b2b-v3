@@ -326,10 +326,12 @@ class SettingsController extends Controller
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
                                 $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
-                                file_get_contents($path, NULL, NULL, 0, 14);
-                            }
+                                $res = file_get_contents($path, NULL, NULL, 0, 14);
+								$text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+                            }else{
 
-                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+								$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';
+							}
                         } else {
                             $src[] = $i;
                             $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";
@@ -338,18 +340,19 @@ class SettingsController extends Controller
                 }
                 $this->data_img_registration($file_name);
 
-                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src));
+                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
                 exit;
                 break;
             case "del_img_registration":
-                $success = true;
+                $success = false;
                 $file_name = Yii::$app->request->get("file_name");
                 if(file_exists('seller/registration/'.$this->seller_id.'/'.$file_name) && unlink('seller/registration/'.$this->seller_id.'/'.$file_name)) {
                     $success = true;
                     $this->data_img_registration();
                 }
-                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";
-                file_get_contents($path, NULL, NULL, 0, 14);
+                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";		
+                $res = file_get_contents($path, NULL, NULL, 0, 14);
+				$success = ($res == 'false') ? false : true;
                 echo json_encode(array('success'=>$success));
                 exit;
                 break;
@@ -382,7 +385,7 @@ class SettingsController extends Controller
                                 echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
-								print_r($file_name);
+								print_r($file_name);							
 								die('settingController');
                             }
 
@@ -395,7 +398,7 @@ class SettingsController extends Controller
                 }
                 $this->data_img_document($file_name);
 
-                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src));
+                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
                 exit;
                 break;
 
