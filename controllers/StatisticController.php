@@ -24,7 +24,14 @@ class StatisticController extends Controller
      */
 
     public function beforeAction($action) {
-        $this->seller_id = Yii::$app->user->identity->getId();        
+        if (Yii::$app->user->identity) {
+            $this->seller_id = Yii::$app->user->identity->getId();     
+        } else {
+            $this->redirect('/site/login');
+            return false;
+        }
+
+           
         $seller = \app\models\Seller::find()
 		->where(['id' => $this->seller_id])
 		->one();
@@ -64,7 +71,11 @@ class StatisticController extends Controller
      */
     public function actions()
     {
-        $this->seller_id = Yii::$app->user->identity->getId();
+        if (Yii::$app->user->identity) {
+          
+            $this->seller_id = Yii::$app->user->identity->getId();
+        }
+        
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',

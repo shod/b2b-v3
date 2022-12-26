@@ -1,6 +1,6 @@
 <?php
 $this->title = 'Спецпредложения';
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/spec.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
@@ -22,14 +22,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', [
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a>
-                    </div>
-                    <div id="help-block" style="display: none;" class="alert alert-primary ks-solid-light" role="alert">
-                        <h4><?= isset($title) ? $title : "" ?></h4>
-                        <br>
-                        <?= isset($text) ? stripcslashes($text) : ""?>
-                    </div>
+                <div class="col-lg-12">				
+                    <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="getModalByurl('Спецпредложения','simple','button','/spec/get-help/')">ПОМОЩЬ</a>
+                    </div>                    
                 </div>
             </div>
             <div class="row">

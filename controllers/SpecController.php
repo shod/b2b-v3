@@ -310,6 +310,7 @@ class SpecController extends Controller
         $json["header"] = $vars["title"];
         $json["body"] =$vars["text"];
         echo Json::encode($json);
+		die;
     }
 
     public function actionAdd()
