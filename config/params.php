@@ -2,11 +2,11 @@
 
 return array_merge(
 		[
-			'adminEmail' => 'shodyan@maxi.by',
-			'saleManager' => 'support@maxi.by',
+			'adminEmail' => 'shod@maxi.by',
+			'saleManager' => 'sale@maxi.by',
 			'noreplyEmail' => 'noreply@maxi.by',
 			'supportEmail' => 'support@maxi.by',
-			'reportEmail' => 'editor@maxi.by',
+			'reportEmail' => 'support@maxi.by',
 			'fromEmail' => 'noreply@maxi.by',
 			'saleEmails' => [
 				'support@maxi.by',				

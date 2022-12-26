@@ -5,5 +5,5 @@
 
         путем зачисления денежных средств на расчетный счет <?= \Yii::$app->params['migom_name'] ?>.
     </p>
-    <p style="margin-bottom: 10px">Телефоны для справок: +375 (29) <b>112-45-45</b>.</p>
+    <p style="margin-bottom: 10px">Телефоны для справок: <b><?= \Yii::$app->params['phones']['info'] ?></b>.</p>
 </div>

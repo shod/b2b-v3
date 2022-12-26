@@ -245,19 +245,19 @@ function show_annotation() {
         content: "Основное меню",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
-        target: 'div.ks-widget-payment-total-amount:first',
+        target: 'div.ks-widget-payment-total-amount',
         position: 'bottom',
         content: "Ваш баланс",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    }, {
+    }, /*{
         target: 'div.ks-widget-payment-price-ratio:first',
         position: 'bottom',
         content: "Обещанный платеж",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    }, {
+    },*/ {
         target: 'div.ks-widget-tasks-statuses-progress:first',
         position: 'bottom',
-        content: "Использование возможностей продвижения на площадке Мигомбай",
+        content: "Использование возможностей продвижения на площадке Maxi.by",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
         target: 'div.ks-widget-payment-total-amount:eq(1)',

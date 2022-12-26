@@ -59,7 +59,7 @@ class AppAsset extends AssetBundle
         '/libs/noty/noty.min.js',
         '/libs/velocity/velocity.min.js',
         '/scripts/common.min.js',
-        '/scripts/script.js',
+        '/scripts/script.js?v=1',
         '/libs/d3/d3.min.js',
         '/libs/c3js/c3.min.js',
         '/libs/noty/noty.min.js',
