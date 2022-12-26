@@ -119,7 +119,7 @@ class SysService {
      * @param type $tamplate
      * @param type $params
      */
-    public static function sendEmail($email, $subject, $from = 'noreply@migomby.by', $text = false, $tamplate = 'simple', $params = []) {
+    public static function sendEmail($email, $subject, $from = 'noreply@maxi.by', $text = false, $tamplate = 'simple', $params = []) {
         $arr_mail = (array)$params;
         if(is_array($email)){
             $email = implode(',', $email);

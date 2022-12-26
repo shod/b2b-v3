@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/libs/tether/css/tether.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/common.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/pages/auth.min.css">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    
     <script>
         function check_offerta(){
             length = $(".offerta-check:checked").length;
@@ -87,7 +87,7 @@
                         </div>
                         <div class="form-group">
                             <div class="input-icon icon-left icon-lg icon-color-primary">
-                                <input type="text" class="form-control" placeholder="Логин" name="login" data-validation="length" data-validation-length="min3"
+                                <input type="text" class="form-control" placeholder="Логин" name="login" data-validation="server" data-validation-url="/site/sign-up-checklogin" data-validation="length" data-validation-length="min3"
                                        data-validation-error-msg="Введите название логин (минимум 3 символа)">
                                 <span class="icon-addon">
                                 <span class="la la-at"></span>
@@ -135,7 +135,9 @@
                                 </label>
                             </div-->
                         </div>
-                        <div class="g-recaptcha" data-sitekey="6LdRrQ0UAAAAAAKjsyLUQtfy_eNWVF1-qbYUYGSS"></div>
+                        <p>
+							<input  data-validation="recaptcha" data-validation-recaptcha-sitekey="<?= Yii::$app->params['recaptcha_sitekey'] ?>">
+						</p>
                         <br>
                         <div class="form-group">
                             <input id="btn-submit" type="submit" class="btn btn-primary btn-block" disabled readonly value="Зарегистрироваться">
@@ -149,7 +151,7 @@
                         <br>
                         <div class="ks-text-center">
                             По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
-                            или звоните по телефону <a href="tel:+375291124545">+375 (29) 112-45-45</a> velcom
+                            или звоните по телефону <a href="tel:<?= \Yii::$app->params['phones']['ahref'] ?>"><?= \Yii::$app->params['phones']['info'] ?></a> velcom
                         </div>
                     </form>
                     <br>
@@ -184,7 +186,11 @@
     <script src="/libs/jquery/jquery.min.js"></script>
     <script src="/libs/jquery-form-validator/jquery.form-validator.min.js"></script>
     <script>
-        $.validate();
+        $.validate({
+			modules : 'security',
+			reCaptchaSiteKey: '<?= Yii::$app->params['recaptcha_sitekey'] ?>',
+			reCaptchaTheme: 'light',
+		});
     </script>
 
 </body>

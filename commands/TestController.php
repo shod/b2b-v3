@@ -129,4 +129,12 @@ class TestController extends Controller {
         return $BillAccount->balance + $bonus->balance + $BillAccount->balance_clicks;
     }
 
+	public function actionMail() {
+        $value = ['email' => 'shod@maxi.by'];
+		$value = json_encode($value, JSON_UNESCAPED_UNICODE);
+		$res =  \Yii::$app->db_event->createCommand("call ps_sys_events_add('mail_send','{$value}');")->execute();
+		dd($res);
+		echo 'Create Event';
+        die;
+    }
 }

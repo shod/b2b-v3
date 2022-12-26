@@ -143,7 +143,7 @@ return [
         'messageConfig' => [
             'charset' => 'UTF-8',
             //'from' => ['noreply@migom.by' => 'Migom.by'],
-            'from' => 'noreply@migomby.by',
+            'from' => 'noreply@maxi.by',
         ],
         'useFileTransport' => true,
     ],

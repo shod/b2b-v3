@@ -24,8 +24,11 @@ class SiteController extends Controller
      */
     public function beforeAction($action)
     {
+		if (Yii::$app->request->post() && ($action->id == 'sign-up-checklogin')){			
+			return true;
+		}
      
-        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')&& ($action->id != 'rules')) {
+        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up') && ($action->id != 'rules')) {
             $this->redirect(Yii::$app->params['b2b_url'] . '/site/login');
         } else {
             return parent::beforeAction($action);
@@ -220,6 +223,25 @@ class SiteController extends Controller
         ]);
     }
 
+	/** Проверка логина на доступность	
+	*/
+	public function actionSignUpChecklogin(){
+		$res = [
+				"valid" => false,
+				"message" => "Пользователь с таким логином был зарегистрирован ранее. Введите другой!"
+			];
+		$login = stripslashes(Yii::$app->request->post("login"));	
+		$member = Member::find()->where(['login' => $login])->one();
+		
+		if(!empty($login) && $member == null){
+			$res = [
+				"valid" => true,
+				"message" => ""
+			];
+		}
+		return json_encode($res);
+	}
+	
     public function actionSignUp()
     {
         $this->layout = false;
@@ -228,7 +250,7 @@ class SiteController extends Controller
             $recaptcha = Yii::$app->request->post('g-recaptcha-response');
             if (isset($recaptcha) && !empty($recaptcha)) {
                 //your site secret key
-                $secret = '6LdRrQ0UAAAAAOazxlJaOlEz9jswYSzrGCGStDij';
+                $secret = Yii::$app->params['recaptcha_secret'];//'6LdRrQ0UAAAAAOazxlJaOlEz9jswYSzrGCGStDij';
                 //get verify response data
                 $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $recaptcha);
                 $responseData = json_decode($verifyResponse);
@@ -253,8 +275,7 @@ class SiteController extends Controller
                     $member->type_reg = 7;
                     $member->email = $seller_email;
                     $member->f_reg_confirm = 0;
-                    $member->save();
-
+                    $save_res = $member->save();
 
                     $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
                     $currency_rate = $curs * 10000;

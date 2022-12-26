@@ -451,6 +451,7 @@ AppAsset::register($this);
     </div>
 </div>
 <?php $this->endBody() ?>
+<?= $this->render('_bitrix') ?>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br>
                 <p>
                     По вопросам работы <?= \Yii::$app->params['migom_name'] ?> пишите на почту <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
-                    или звоните по телефону <a href="tel:+375291124545">+375 (29) 112-45-45</a> velcom
+                    или звоните по телефону <a href="tel:<?= \Yii::$app->params['phones']['ahref'] ?>"><?= \Yii::$app->params['phones']['info'] ?></a> velcom
                 </p>
             </div>
         </div>
