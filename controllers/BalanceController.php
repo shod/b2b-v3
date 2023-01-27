@@ -106,43 +106,32 @@ class BalanceController extends Controller
         $my_sum = str_replace(',','.',Yii::$app->request->get("my_sum"));
 
 		/*НДС $type==1, ИП $type==2*/
-        if($type==1){
+        if($type==2){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
             $nds = 0;
             $official_data = array(
-                "official_name" => "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ШМЫК ОЛЕГ ДМИТРИЕВИЧ",
+                "official_name" => "",
                 "official_unp" => "УНП 191182046",
                 "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
                 //"official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь, БИК: REDJBY22",
 				"official_rs" => "BY67 ALFA 3013 2619 0100 1027 0000 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;АЛЬФА-БАНК&quot; БИК: ALFABY2X, 220013, Ул. Сурганова, 43-47, Минск, Республика Беларусь",
                 "official_phone" => "тел.: +375 (29) 112 45 45",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_od.jpg",
-                "official_owner" => "Шмык О. Д.",
+                "official_owner" => "",
                 "official_percent" => "",
                 "official_nds" => "",
             );
         } else {
             $curs = SysStatus::find()->where(['name' => 'curs_te'])->one()->value;
             $nds = 1;
-            /*$official_data = array(
-                "official_name" => "ООО &quot;Альметра&quot;",
-                "official_unp" => "УНП 192147793 ОКПО 381393215000",
-                "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 10-1",
-                "official_rs" => "р/с BY43ALFA30122078930080270000, в банке ЗАО &quot;Альфа-Банк&quot;. Головной офис, код 270, ул. Сурганова, 43, 220013 Минск, БИК ALFABY2X",
-                "official_phone" => "тел.: +375 (29) 112 45 45",
-                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
-                "official_owner" => "Кладухина О.Н.",
-                "official_percent" => "20",
-                "official_nds" => "Сумма НДС:",
-            );*/
             $official_data = array(
-                "official_name" => "ООО &quot;Марталь&quot;",
-                "official_unp" => "УНП 192583317",
-                "official_address" => "г.Минск, ул.Могилевская, д.2, корп.2, пом.18",
-                "official_rs" => "р/с BY54ALFA30122122470010270000, в банке ЗАО &quot;Альфа-Банк&quot;.  Центральный офис ул.Советская, 12, 220030, г.Минск, БИК ALFABY2X",
-                "official_phone" => "тел.: +375 (29) 112 45 45",
+                "official_name" => "ООО &quot;Макси Бай Медиа&quot;",
+                "official_unp" => "УНП 191983656",
+                "official_address" => "220013, г. Минск, ул. Сурганова 43-47",
+                "official_rs" => "р/с BY48ALFA30122544640010270000, в банке ЗАО &quot;Альфа-Банк&quot;.  Центральный офис ул.Советская, 12, 220030, г.Минск, БИК ALFABY2X",
+                "official_phone" => "тел.: 8(017)388-24-23, 8(029)101-23-23",
                 "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_martal.jpg",
-                "official_owner" => "Кладухина О.Н.",
+                "official_owner" => "Директор(на основании Устава) Самусевич Григорий Михайлович",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );

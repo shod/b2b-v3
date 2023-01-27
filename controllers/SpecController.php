@@ -309,6 +309,7 @@ class SpecController extends Controller
         $vars["text"] = str_replace(array('$vars[min_stavka]','$vars[min_step]','$vars[min_balance]'),array($this->min_stavka,$this->min_step,$this->min_balance),$res["text"]);
         $json["header"] = $vars["title"];
         $json["body"] =$vars["text"];
+      
         echo Json::encode($json);
 		die;
     }

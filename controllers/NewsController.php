@@ -82,7 +82,8 @@ class NewsController extends Controller
         }
 
         $news = B2bNews::find()->where(['hidden' => 1])->orderBy(['id' => SORT_DESC])->limit(6)->offset($this->offset)->all();
-        $count_news = B2bNews::find()->count();
+        $count_news = B2bNews::find()->where(['hidden' => 1])->count();
+       
         $pages = SiteService::get_pages($this->pg,1,ceil($count_news/6),'/news/?');
         $items = "";
         foreach ($news as $n){

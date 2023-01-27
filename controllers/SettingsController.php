@@ -23,6 +23,13 @@ class SettingsController extends Controller
      */
     public $seller_id;
     public function beforeAction($action) {
+        if (Yii::$app->user->identity) {
+            $this->seller_id = Yii::$app->user->identity->getId();     
+        } else {
+            $this->redirect('/site/login');
+            return false;
+        }
+
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('/site/login');
         } else {
@@ -31,7 +38,11 @@ class SettingsController extends Controller
     }
     public function behaviors()
     {
-        $this->seller_id = Yii::$app->user->identity->getId();
+        if (Yii::$app->user->identity) {
+          
+            $this->seller_id = Yii::$app->user->identity->getId();
+        }
+         
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -480,7 +491,13 @@ class SettingsController extends Controller
     }
 
     private function get_img_registration($none = 0) {
-        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
+        $arrContextOptions = array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        ); 
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}", false, stream_context_create($arrContextOptions));
         $imgs = json_decode($documents_data);
         $data = "";
         if(count((array)$imgs)){
@@ -496,8 +513,13 @@ class SettingsController extends Controller
     }
 
     function get_img_documents() {
-
-        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}");
+        $arrContextOptions = array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        ); 
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}", false, stream_context_create($arrContextOptions));
         $imgs = json_decode($documents_data);
         $data = "";
         if(count((array)$imgs)){

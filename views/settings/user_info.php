@@ -410,7 +410,7 @@ $this->registerJs(
                 </div>
                 <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
                     <div class="col-lg-4">
-                        <label style="font-weight: 600;">"SMART карта" от Банк Москва-Минск</label>
+                        <label style="font-weight: 600;">"Смарт карта" Банка Дабрабыт</label>
 
                     </div>
                     <div class="col-lg-8" style="">

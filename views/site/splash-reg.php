@@ -9,6 +9,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,12 +20,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="/web/libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/web/fonts/line-awesome/css/line-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/web/fonts/open-sans/styles.css">
-    <link rel="stylesheet" type="text/css" href="/web/libs/tether/css/tether.min.css">
-    <link rel="stylesheet" type="text/css" href="/web/styles/common.min.css">
-    <link rel="stylesheet" type="text/css" href="/web/styles/pages/auth.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/open-sans/styles.css">
+    <link rel="stylesheet" type="text/css" href="/libs/tether/css/tether.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/common.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/pages/auth.min.css">
 </head>
 <body>
 

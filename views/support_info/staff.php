@@ -48,7 +48,7 @@
                                             <div class="ks-user-name"><h4>Екатерина</h4></div>
                                             <div class="ks-text">
                                                 <b>Тел:</b><span style="color:#AA0000; font-size: 13px;">временно не назначен</span><br>                                                
-                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['adminEmail'] ?>"><?= Yii::$app->params['adminEmail'] ?></a> <br>
+                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['supportEmail'] ?>"><?= Yii::$app->params['supportEmail'] ?></a> <br>
                                                 <b>Время работы:</b> с 9:00 до 18:00
                                             </div>
                                         </div>
