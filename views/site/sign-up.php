@@ -124,7 +124,9 @@
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input offerta-check" onchange="check_offerta()" name="f_offerta[]" value="1">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description"><a href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf" target="_blank" >Договора оферты</a></span>
+                                    <span class="custom-control-description">
+									<!-- a href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf" target="_blank" >Договора оферты</a> -->
+									<a href="https://www.maxi.by/page/public-contract/" target="blank">Публичный&nbsp;договор</a></span>
                                 </label>
                             </div>
                             <!--div class="col-lg-6 col-md-6 col-sm-6">

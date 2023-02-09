@@ -114,6 +114,42 @@ $this->registerJs(
                 </div>
             </div>
 
+
+            <div class="row"> 
+                <div class="col-lg-12">
+                    <div class="card" style="height: 100%">
+                        <div class="card-block">
+                            <h4>Частота обновления прайса</h4>
+                            <div class="alert alert-primary ks-solid-light" role="alert">
+                                <span class="la la-warning la-2x"></span>
+                                Здесь вы можете оставить комментарий к прайсу, а также указать график обновления. Дальнейшие изменения вносятся путем обращения на почту: 
+                                <?= Yii::$app->params['supportEmail'] ?>
+
+                            </div>
+                            <form method="get" action="/product/price-comment" id="frm_comment" enctype="multipart/form-data">
+                              
+                                <div class="row">
+                                    
+                                    <div class="col-lg-10">
+                                        <input class="form-control" type="text" name="url" placeholder="самостоятельно"/>
+                                    </div>
+                                    <div class="col-lg-2">
+                                    <input class="btn btn-primary" type="button" value="Отправить"
+                                           onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
+
+
+                                    </div>
+                                </div> 
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" style="height: 100%">

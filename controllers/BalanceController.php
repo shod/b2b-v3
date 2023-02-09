@@ -127,10 +127,10 @@ class BalanceController extends Controller
             $official_data = array(
                 "official_name" => "ООО &quot;Макси Бай Медиа&quot;",
                 "official_unp" => "УНП 191983656",
-                "official_address" => "220013, г. Минск, ул. Сурганова 43-47",
-                "official_rs" => "р/с BY48ALFA30122544640010270000, в банке ЗАО &quot;Альфа-Банк&quot;.  Центральный офис ул.Советская, 12, 220030, г.Минск, БИК ALFABY2X",
+                "official_address" => "220070, г. Минск, ул. Чеботарева, дом № 7а, помещение 06, комната 6-6, этаж 4",
+                "official_rs" => 'Р/сч: BY85ALFA30122544640050270000 в ЗАО "Альфа-Банк" код ALFABY2X',
                 "official_phone" => "тел.: 8(017)388-24-23, 8(029)101-23-23",
-                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_martal.jpg",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/maxi/faximille.png",
                 "official_owner" => "Директор(на основании Устава) Самусевич Григорий Михайлович",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
@@ -194,7 +194,8 @@ class BalanceController extends Controller
             "contract_number" => $seller_info->contract_number,
             "contract_date" => date('d.m.Y',$seller_info->contract_date),
             "fax" => isset($member_data['fax']) ? $member_data['fax'] : "",
-            "text" => isset($blank) ? "id {$this->seller_id} " . $blank->blank_text : "id {$this->seller_id} Услуги по размещению рекламных материалов"
+            //"text" => isset($blank) ? "ID {$this->seller_id} " . $blank->blank_text : "ID {$this->seller_id}, Размещение рекламных материалов"
+            "text" => "ID {$this->seller_id}, Размещение рекламных материалов"
         ],$vars);
         if($render_type == 'html'){
             return $this->render('tmpl/blankop/html-type', $vars);
@@ -220,7 +221,7 @@ class BalanceController extends Controller
         if($render_type == 'pdf'){
             try {
                 $html_data = $this->render('tmpl/blankop/pdf-type', $vars);
-                $mpdf = new \mPDF('utf-8', 'A4', '8', 'dejavusans', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
+                $mpdf = new \mPDF('utf-8', 'A4', '10', 'dejavusans', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
                 $mpdf->charset_in = 'utf-8';
                 $mpdf->WriteHTML($html_data);
                 $mpdf->Output("bill-{$this->seller_id}.pdf", 'I');;
@@ -291,7 +292,7 @@ class BalanceController extends Controller
 
 		// @TODO Установка новой формы
         //$f_offerta = $seller->f_offerta;
-		$f_offerta = 2;
+		$f_offerta = 1;
 
         if(!($f_offerta & 1) && ($f_offerta & 2)){
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
@@ -316,7 +317,8 @@ class BalanceController extends Controller
         $vars['seller_id'] = $this->seller_id;
 
 		if(true || isset($_GET['dmg_id'])){
-			$vars['f_offerta'] = $seller->f_offerta;
+			//$vars['f_offerta'] = $seller->f_offerta;
+            $vars['f_offerta'] = $f_offerta;
 			$vars['pay_type'] = $seller->pay_type;
 			
 			return $this->render('add', $vars);
