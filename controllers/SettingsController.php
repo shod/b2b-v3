@@ -326,8 +326,8 @@ class SettingsController extends Controller
                             $new_file = $dir_sel_doc.'/'.$new_file_name;
 
                             if(!is_dir($dir_sel_doc)) {
-                                mkdir($dir_sel_doc, 0777);
-                                chmod($dir_sel_doc, 0777);
+                                mkdir($dir_sel_doc, 0775);
+                                chmod($dir_sel_doc, 0775);
                             }
 
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
@@ -338,18 +338,29 @@ class SettingsController extends Controller
                                 $path_local = $home . '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
                                 $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";								
                                 $res = file_get_contents($path, NULL, NULL, 0, 14);
-								$text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+								
+								$status = ($res == 'false') ? false : true;								
+								if($status){
+									$text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+								}else{
+									$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';																		
+								}
                             }else{
-
-								$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';
-							}
+								$status = 0;
+								$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';								
+								$file_name = "";
+								$path_local = "";
+							}							
                         } else {
+							$status = 0;
                             $src[] = $i;
-                            $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";
+                            $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";											
+							$file_name = "";
+							$path_local = "";
                         }
                     }
                 }
-                $this->data_img_registration($file_name);
+                $this->data_img_registration();
 
                 echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
                 exit;
@@ -393,21 +404,21 @@ class SettingsController extends Controller
                                 $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/document/'.$this->seller_id.'/'.$new_file_name;
-                                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
-								print_r($file_name);							
-								die('settingController');
+								//print_r($path);							
+								//die('settingController');
                             }
-
-                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';								
                         } else {
+							$status = 0;
                             $src[] = $i;
                             $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";
                         }
                     }
                 }
-                $this->data_img_document($file_name);
+                $this->data_img_document();
 
                 echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
                 exit;
@@ -480,7 +491,7 @@ class SettingsController extends Controller
 
     private function data_img_registration() {
         $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
-        $documents_data = json_decode($documents_data);
+        $documents_data = json_decode($documents_data);		
         \Yii::$app->db->createCommand("update seller_info set img_registration = '".json_encode($documents_data)."', f_registration = 0 where seller_id={$this->seller_id}")->execute();
 	}
 

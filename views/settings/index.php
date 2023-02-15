@@ -1,7 +1,7 @@
 <?php
 $this->title = "Реквизиты магазина";
 $this->registerJsFile('/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js?v=2', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js?v=10', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <form method="post" action="/settings/process">
     <input type="hidden" name="_csrf"
@@ -170,10 +170,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js?v=2
                         <button id="upload" class="upload btn btn-sm btn-primary">Загрузить
                             фотографии
                         </button>
+						<div id="status" class="status"></div>
                     </div>
-                    <div class="col-lg-3">
-
-                        <div id="status" class="status"></div>
+                    <div class="col-lg-3">                        
                         <div id="files" class="cont-files">
                             <?= $img_registration ?>
                         </div>

@@ -39,13 +39,15 @@ $(document).ready(function () {
         var count = 0;
         var content = '';
 
-        if(btnUpload.length > 0){
+        if(btnUpload.length > 0){			
             new AjaxUpload(btnUpload, {
                 action: '/settings/process/?action=add_img_registration',
                 name: 'img[]',
                 multiple: true,
                 data: {_csrf : csrfToken},
                 onSubmit: function(file, ext) {
+					$('#status').text('Загрузка файла...');
+					$('#status').show();
                     /*|JPG|PNG|JPEG|GIF*/
                     if (! (ext && /^(jpg|png|jpeg|gif|JPG|PNG|JPEG|GIF)$/.test(ext))){
                         $('#status').text('Только jpg, png, gif файлы');
@@ -69,10 +71,11 @@ $(document).ready(function () {
                         for (var i in data.src) {
                             content += '<div class="item-info-file"><div class="del-img" id="'+data.file_name[i]+'"></div><img src="'+data.src[i]+'" width="50" /></div>';
                         }
-
+						$('#status').hide();
                         $(content).appendTo('#files');
 
                     } else {
+						$('#status').text(data.text);
                         alert(data.text);
                     }
                 }
@@ -84,6 +87,8 @@ $(document).ready(function () {
     $('.del-img-doc').on('click', function(event){
         $this = $(this);
         var $id = $(this).attr('id');
+		$('#status').text('Удаление файла...');
+		$('#status').show();
         $.ajax({
             url: "/settings/process/?action=del_img_document&file_name="+$id,
             success: function(data){
@@ -91,8 +96,10 @@ $(document).ready(function () {
                 if(data.success) {
                     $this.parent().empty();
                     alert('Документ был успешно удален');
+					$('#status').hide();
                 } else {
                     alert('Произошла ошибка при удалении документа. Попробуйте выполнить операцию еще раз.');
+					$('#status').hide();
                 }
             }
         });
