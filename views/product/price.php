@@ -26,8 +26,21 @@ $this->registerJs(
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-10">
+                    <div class="card" style="height: 100%">
+
+                        <?= $results ?>
+
+                    </div>
+                </div>
+                <div class="col-lg-2">
                     <div class="content-end"><a class="btn btn-primary ks-light" href="#" onclick="$('#help-block').toggle(500)">ПОМОЩЬ</a></div><br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    
 
                     <div style="display: none;" id="help-block" class="alert alert-primary ks-solid-light" role="alert">
                         <p>Данная вкладка служит для совершения операций с прайс-листами.</p>
@@ -47,6 +60,7 @@ $this->registerJs(
                     </div>
                 </div>
                 <div class="col-lg-12">
+                    
                     <div class="card" style="height: 100%">
                         <div class="card-block">
                             <h4>Закачать прайс-лист</h4>
@@ -131,14 +145,16 @@ $this->registerJs(
                                 <div class="row">
                                     
                                     <div class="col-lg-10">
-                                        <input class="form-control" type="text" name="url" placeholder="самостоятельно"/>
+                                        <input class="form-control" type="text" name="text" placeholder="Самостоятельно / обновление каждый час / обновление 10-00 и 18-00 
+" value = "<?= $update_type;?>"
+                                        <?=  (strlen($update_type) != 0)? 'disabled="true"' : "" ?>  />
                                     </div>
-                                    <div class="col-lg-2">
-                                    <input class="btn btn-primary" type="button" value="Отправить"
-                                           onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/>
-
-
-                                    </div>
+                                    <?php if (strlen($update_type) == 0){ ?> 
+                                        <div class="col-lg-2"> 
+                                            <input class="btn btn-primary" type="button" value="Отправить"
+                                                onclick="this.disabled=true;this.value='Подождите...';this.form.submit();"/> 
+                                        </div>
+                                    <?php } ?>
                                 </div> 
 
 
@@ -150,15 +166,7 @@ $this->registerJs(
 
 
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" style="height: 100%">
-
-                        <?= $results ?>
-
-                    </div>
-                </div>
-            </div>
+            
 
             <div class="row">
                 <div class="col-lg-12">

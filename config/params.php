@@ -15,7 +15,7 @@ return array_merge(
 			'reportEmail' => 'report@maxi.by',
 			'fromEmail' => 'noreply@maxi.by',
 			'saleEmails' => [
-				'support@maxi.by',				
+				'sale@maxi.by',				
 			],
 			'questionEmails' => [
 				'support@maxi.by',

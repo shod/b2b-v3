@@ -224,6 +224,7 @@ class ProductController extends Controller
             $check_delete = Yii::$app->request->post("check_delete");			
             file_get_contents(\Yii::$app->params['up_domain']."/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
+        \Yii::$app->session->setFlash('Файл отправлен на обработку!');
         $this->redirect('/product/price');
     }
 
@@ -420,9 +421,20 @@ class ProductController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $vars["pay_type"] = $seller->pay_type;
         $vars['md5_seller'] = md5($this->seller_id . "panda");
+        $vars['update_type'] = $seller->update_type;
         return $this->render('price', $vars);
     }
 
+    public function actionPriceComment()
+    {
+        $text = Yii::$app->request->get("text"); 
+        
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $seller->update_type = $text;
+        $seller->save();
+
+        $this->redirect('/product/price');
+    }
 
     public function actionProcess(){
         $action = Yii::$app->request->get("action");

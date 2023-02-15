@@ -65,10 +65,10 @@ AppAsset::register($this);
     //$denied = ((count($res) && $res[0][0]=='deactivate') || $vars["date_start"] == NULL);
     $denied = false;
     $activation = isset($seller) && $seller->active ? "deactivate" : ( (isset($bill_account) && $bill_account->balance > 0) ? ($denied ? 'activate_denied' : 'activate') : "activate_none");
-    $activation_button = isset($seller) && $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+    $activation_button = isset($seller) && $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/selller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
                         <span class=\"ks-action\"> Поставить </span>
                         <span class=\"ks-description\"> на паузу </span>
-                    </a>" : "<a class=\"btn btn-success\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+                    </a>" : "<a class=\"btn btn-success\" data-remote=\"/selller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
                         <span class=\"ks-action\"> Возобновить </span>
                         <span class=\"ks-description\"> аккаунт </span>
                     </a>";
@@ -247,7 +247,7 @@ AppAsset::register($this);
                         <a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a>
                         <a class="dropdown-item" href="/settings/user-info">Информация для покупателей</a>
                         <a class="dropdown-item" href="/settings">Реквизиты магазина</a>
-                        <a class="dropdown-item" href="/seller/delivery">Условия доставки</a>
+                        <a class="dropdown-item" href="/selller/delivery">Условия доставки</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

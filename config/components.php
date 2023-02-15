@@ -189,7 +189,7 @@ return [
         'rules' => [
             '' => 'site/index',
             'widget/<widget_name>'=> 'site/widget',
-			'/seller/delivery' => 'seller/delivery',
+			'/selller/delivery' => 'seller/delivery', //не работала ссылка https://b2b.maxi.by/seller поэтому добавилось lll. так же поменял в layouts/main.php
             ['pattern' => '<controller>/<action>',  'route' => '<controller>/<action>',],
         ],
     ],
