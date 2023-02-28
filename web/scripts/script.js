@@ -467,7 +467,7 @@ function get_notifications() {
                             }
                         },
                         cancel: {
-                            text: 'Закрыть'
+                            text: data.button_name_close
                         }
                     }
                 });

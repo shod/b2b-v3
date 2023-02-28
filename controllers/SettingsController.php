@@ -135,9 +135,10 @@ class SettingsController extends Controller
                 //защита от сторонних скриптов
                 $checked_items = array($description, $delivery);
                 foreach ((array) $checked_items as $item)
-                {
+                {					
                     if((strpos($item, 'iframe') !== false) || (strpos($item, 'script') !== false)){
-                        $_SESSION["errormsg"]="<div id='alert'><div class=' alert alert-block alert-danger fade in center'>Вы пытаетесь сохранить недопустимые данные! Обратитесь в службу технической поддержки.</div></div>";
+						//var_dump(strpos($item, 'script'));					
+                        //$_SESSION["errormsg"]="<div id='alert'><div class=' alert alert-block alert-danger fade in center'>Вы пытаетесь сохранить недопустимые данные! Обратитесь в службу технической поддержки.</div></div>";
                     }
                 }
 

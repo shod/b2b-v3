@@ -80,6 +80,7 @@ class NotificationsController extends Controller
                     $params = json_decode($params, true);
                     $data["href"] = $params['href'];
                     $data["button_name"] = isset($params["button_name"]) ? $params["button_name"] : 'Ok';
+					$data["button_name_close"] = isset($params["button_name_close"]) ? $params["button_name_close"] : 'Закрыть';					
 
                     $tmpl = $this->renderPartial($notification->tmpl, $params);
                     $data["tmpl"] = $tmpl;

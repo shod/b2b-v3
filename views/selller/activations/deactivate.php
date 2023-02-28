@@ -1,6 +1,6 @@
 <div class="wtitle">Пауза</div>
 <div class="wcontent">
-    <form method="get" id="ajaxForm" action="/seller/activate-process">
+    <form method="get" id="ajaxForm" action="/selller/activate-process">
         <input type="hidden" name="action" value="deactivate"/>
         <p style="margin-bottom: 10px">Ценовые предложения и контактная информация вашего магазина будут недоступны для
             посетителей <?= \Yii::$app->params['migom_name'] ?>. </p>

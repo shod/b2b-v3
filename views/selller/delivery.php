@@ -57,7 +57,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/delivery.js', [
                             </form>
 
                             <div id="divAddDelivery" style="display: none; margin-top: 20px;">
-                                <form method="POST" id="frmPlaceAdd" action="/seller/delivery-actions/">
+                                <form method="POST" id="frmPlaceAdd" action="/selller/delivery-actions/">
                                     <input type="hidden" name="_csrf"
                                            value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                     <input NAME="action" TYPE=Hidden VALUE="delivery_add">

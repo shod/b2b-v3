@@ -256,7 +256,14 @@ class BalanceController extends Controller
 				\Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
                 $te = round(($sum / $curs) * 1.0,2);				
                 Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
-                \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);				
+                \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);	
+                
+                foreach (Yii::$app->params['saleEmails'] as $email) {
+                    \app\helpers\SysService::sendEmail($email, \Yii::$app->params['migom_name']." - Обещанный платеж ID [ {$this->seller_id} ]", Yii::$app->params['fromEmail'], 
+                    NULL, 'seller/promise_delivery', 
+                    ['name' => $seller->name, 'sum' => $te, 'seller_id' => $this->seller_id, 'email' => $seller->email]); 
+                
+                } 
             }
         } else {
             $seller_choise = Yii::$app->request->post('seller_choise');
@@ -268,6 +275,13 @@ class BalanceController extends Controller
 
                 \Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
                 \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
+
+                foreach (Yii::$app->params['saleEmails'] as $email) {
+                    \app\helpers\SysService::sendEmail($email, \Yii::$app->params['migom_name']." - Обещанный платеж ID [ {$this->seller_id} ]", Yii::$app->params['fromEmail'], 
+                    NULL, 'seller/promise_delivery', 
+                    ['name' => $seller->name, 'sum' => $te, 'seller_id' => $this->seller_id, 'email' => $seller->email]);
+                    
+                }
 
                 $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
                                     where st.seller_id = {$this->seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";

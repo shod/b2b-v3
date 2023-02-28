@@ -6,11 +6,13 @@
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'test');
+defined('YII_ENV_DEV') or define('YII_ENV', true);
 
 function dd($v){
     echo '<pre>';
     var_dump($v);
     echo '</pre>';
+	exit;
 }
 
 require(__DIR__ . '/../vendor/autoload.php');

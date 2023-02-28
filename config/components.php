@@ -189,8 +189,9 @@ return [
         'rules' => [
             '' => 'site/index',
             'widget/<widget_name>'=> 'site/widget',
-			'/selller/delivery' => 'seller/delivery', //не работала ссылка https://b2b.maxi.by/seller поэтому добавилось lll. так же поменял в layouts/main.php
-            ['pattern' => '<controller>/<action>',  'route' => '<controller>/<action>',],
+			//'/selller/delivery' => 'seller/delivery', //не работала ссылка https://b2b.maxi.by/seller поэтому добавилось lll. так же поменял в layouts/main.php
+            //'/selller/activate' => 'seller/activate', 
+            ['pattern' => '<controller>/<action>',  'route' => '<controller>/<action>',], 
         ],
     ],
     'templates' => [

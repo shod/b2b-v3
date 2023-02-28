@@ -1,4 +1,4 @@
-<form method="POST" id="frmPlaceEdit" action="/seller/delivery-actions">
+<form method="POST" id="frmPlaceEdit" action="/selller/delivery-actions">
     <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
     <input NAME="action" TYPE=Hidden VALUE="delivery_edit">
     <input NAME="delivery_id" TYPE=Hidden VALUE="<?= $delivery_id ?>">

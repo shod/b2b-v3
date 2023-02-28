@@ -1,5 +1,4 @@
 <?php
-
 namespace app\controllers;
 
 use app\models\Delivery;
@@ -15,7 +14,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
-class SellerController extends Controller
+class SelllerController extends Controller
 {
     /**
      * @inheritdoc
@@ -200,7 +199,7 @@ class SellerController extends Controller
         }
     }
 
-    public function actionGetActivate(){
+    public function actionActivate(){
         $type = Yii::$app->request->get("type");
 
         $json["header"] = 'Внимание';
