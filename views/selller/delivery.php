@@ -1,6 +1,6 @@
 <?php
 $this->title = "Условия доставки";
-$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/delivery.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/delivery.js?1=1', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
@@ -227,7 +227,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/delivery.js', [
 
 
                             <div id="divAdd" style="display: none; margin-top: 20px; background-color: #ecf0f1">
-                                <form method="POST" id="frmAdd" action="/seller/place-actions">
+                                <form method="POST" id="frmAdd" action="/selller/place-actions">
                                     <input type="hidden" name="_csrf"
                                            value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                     <input NAME="action" TYPE=Hidden VALUE="places_add">

@@ -315,12 +315,13 @@ class SettingsController extends Controller
                 set_time_limit(0);
                 $type_permissible = array('image/jpeg','image/gif','image/png');
                 $size_permissible = 1024 * 1024 * 10;
+								
                 if ($_FILES["img"]) {
                     for($i=0;$i<count($_FILES['img']['name']);$i++) {
                         $p_mane = explode('.',$_FILES['img']['name'][$i]);
                         $exp = $p_mane[count($p_mane)-1];
 
-                        $new_file_name = substr(md5($_FILES['img']['name'][$i]),0,5).'.'.$exp;
+                        $new_file_name = substr(md5($_FILES['img']['name'][$i]),0,5).'.'.$exp;												
                         if(in_array($_FILES['img']['type'][$i],$type_permissible) && $_FILES['img']['size'][$i] <= $size_permissible) {
 
                             $dir_sel_doc = 'seller/registration/'.$this->seller_id.'/';
@@ -342,10 +343,16 @@ class SettingsController extends Controller
 								
 								$status = ($res == 'false') ? false : true;								
 								if($status){
-									$text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+									$status = (strpos($res,'ERROR') === false) ? true : false;								
+								}
+								
+								if($status){
+									//$this->data_img_registration();
+									$text[] = 'Файл: '.$new_file_name.' загружен.<br>';									
 								}else{
 									$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';																		
 								}
+								
                             }else{
 								$status = 0;
 								$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';								
@@ -361,6 +368,7 @@ class SettingsController extends Controller
                         }
                     }
                 }
+				
                 $this->data_img_registration();
 
                 echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
@@ -373,7 +381,7 @@ class SettingsController extends Controller
                     $success = true;
                     $this->data_img_registration();
                 }
-                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";		
+                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";		
                 $res = file_get_contents($path, NULL, NULL, 0, 14);
 				$success = ($res == 'false') ? false : true;
                 echo json_encode(array('success'=>$success));

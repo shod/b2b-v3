@@ -15,18 +15,22 @@ return array_merge(
 			'reportEmail' => 'report@maxi.by',
 			'fromEmail' => 'noreply@maxi.by',
 			'saleEmails' => [
-				'sale@maxi.by',				
+				'sale@maxi.by',
+				'test-bwlcu6ccx@srv1.mail-tester.com' 			
 			],
 			'questionEmails' => [
 				'support@maxi.by',
-				'shodyan@yandex.ru'
+				'sale@maxi.by',
+				'test-bwlcu6ccx@srv1.mail-tester.com' 
+				
 			],
 			'testEmails' => [
 				"shod@maxi.by"
 			],
 			'b2bEmails' => [
 				'support@maxi.by',
-				'shod@maxi.by',
+				'sale@maxi.by',
+				'test-bwlcu6ccx@srv1.mail-tester.com' 
 			],
 			'migom_url' => 'https://maxi.by',
 			'b2b_url' => 'https://b2b.maxi.by',
@@ -39,7 +43,7 @@ return array_merge(
 			'STATIC_URL_FULL' => 'https://media.maxi.by',
 			'seller_old_tariff' => [4150,2366,1976,1782,1269],
 			'allow_login_admin_user_ip' => ['213.184.249.110', '46.53.250.7'],
-			'currency' => 'Руб.',
+			'currency' => 'ТЕ',
 			'phones' => [
 				'info' => '+375 (29) 101-23-23',
 				'ahref' => '+375291012323',

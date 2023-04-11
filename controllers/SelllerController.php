@@ -110,7 +110,7 @@ class SelllerController extends Controller
                         $delivery_link->save();
                     }
                 }
-                return $this->redirect(['seller/delivery']);
+                return $this->redirect(['selller/delivery']);
                 break;
             case "delivery_edit":
                 $cost_data = Yii::$app->request->post("cost_data");
@@ -147,14 +147,14 @@ class SelllerController extends Controller
                     $delivery->save();
                 }
 
-                return $this->redirect(['seller/delivery']);
+                return $this->redirect(['selller/delivery']);
                 break;
 
             case "delivery_delete":
                 $id = Yii::$app->request->get("id");
                 \Yii::$app->db->createCommand("delete from delivery where id={$id}")->execute();
                 \Yii::$app->db->createCommand("delete from delivery_link where delivery_id={$id}")->execute();
-                return $this->redirect(['seller/delivery']);
+                return $this->redirect(['selller/delivery']);
                 break;
             case "delivery_get_edit_data":
                 $delivery_id = Yii::$app->request->get("delivery_id");
@@ -194,7 +194,7 @@ class SelllerController extends Controller
             case "set_f_post":
                 $sql = "update seller set f_post = if(f_post=0,1,0) where id = " . $this->seller_id;
                 \Yii::$app->db->createCommand($sql)->execute();
-                return $this->redirect(['seller/delivery']);
+                return $this->redirect(['selller/delivery']);
                 break;
         }
     }
@@ -267,7 +267,7 @@ class SelllerController extends Controller
                 //$str = "http://maps.migom.by/api/organisation/createorganisation/?seller_id={$this->seller_id}&name={$name}&id={$seller_place->id}&city={$city}&address={$address}&t={$type}&flat={$seller_place->flat}";
 
                 //file_get_contents($str);
-                return $this->redirect(['seller/delivery']);
+                return $this->redirect(['selller/delivery']);
                 break;
             case "place_delete":
                 $id = Yii::$app->request->get("id");
@@ -283,7 +283,7 @@ class SelllerController extends Controller
                 //$str = "http://maps.migom.by/api/organisation/DelOrganisation/?id=".$id;
 
                 //file_get_contents($str);
-                return $this->redirect(['seller/delivery']);
+                return $this->redirect(['selller/delivery']);
                 break;
         }
     }

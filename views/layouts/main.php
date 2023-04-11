@@ -244,7 +244,7 @@ AppAsset::register($this);
                         <span>Настройка магазина</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a>
+                        <!--a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a-->
                         <a class="dropdown-item" href="/settings/user-info">Информация для покупателей</a>
                         <a class="dropdown-item" href="/settings">Реквизиты магазина</a>
                         <a class="dropdown-item" href="/selller/delivery">Условия доставки</a>
