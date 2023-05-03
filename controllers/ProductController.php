@@ -521,6 +521,7 @@ class ProductController extends Controller
             {
                 $message = htmlspecialchars($res["message"]);				
                 $cdate = $res["cdate"];
+				
                 $status = "<font color=\"#ff0000\" title=\"{$message}\">Произошла ошибка ({$message}).</font> {$cdate} <br/> Проверьте корректность формата прайса и попробуйте импорт еще раз. Если это не поможет, обратитесь в службу технической поддержки.";
             }
 
@@ -540,10 +541,15 @@ class ProductController extends Controller
         if(!empty($status)){
             $status = 'Статус: '.$status;
         }
-
+		
+		$cdate = $res["cdate"];
+		
+		if(!$cdate){
+			$cdate = ProductService::getDateUpdate($this->seller_id);
+		}
 
        $html = $this->renderPartial('tmpl/import-results', array(
-            "date_update" => ProductService::getDateUpdate($this->seller_id),
+            "date_update" => $cdate,
             "url" => $url,
             "status" => $status
         ));
