@@ -16,12 +16,12 @@ return array_merge(
 			'fromEmail' => 'noreply@maxi.by',
 			'saleEmails' => [
 				'sale@maxi.by',
-				'test-bwlcu6ccx@srv1.mail-tester.com' 			
+				'test-rd4hbpmgc@srv1.mail-tester.com' 
 			],
 			'questionEmails' => [
 				'support@maxi.by',
 				'sale@maxi.by',
-				'test-bwlcu6ccx@srv1.mail-tester.com' 
+				'test-rd4hbpmgc@srv1.mail-tester.com' 
 				
 			],
 			'testEmails' => [
@@ -30,7 +30,7 @@ return array_merge(
 			'b2bEmails' => [
 				'support@maxi.by',
 				'sale@maxi.by',
-				'test-bwlcu6ccx@srv1.mail-tester.com' 
+				'test-rd4hbpmgc@srv1.mail-tester.com' 
 			],
 			'migom_url' => 'https://maxi.by',
 			'b2b_url' => 'https://b2b.maxi.by',

@@ -365,11 +365,15 @@ class ProductController extends Controller
 
     public function actionOnSale()
     {
-        $prod_stat = \Yii::$app->db->createCommand("select cnt_all, cnt_bill, round(cnt_bill/cnt_all*100) as active_percent
+		$prod_stat = \Yii::$app->db->createCommand("select row_all as cnt_all, cnt_product_all as cnt_bill, round(cnt_product_all/row_all*100, 1) as active_percent
+													from seller_export_info as ps	where ps.seller_id = {$this->seller_id}")->queryAll();
+		if($prod_stat == null){
+			$prod_stat = \Yii::$app->db->createCommand("select cnt_all, cnt_bill, round(cnt_bill/cnt_all*100) as active_percent
 													from (select count(1) as cnt_all, sum(if(active=1,1,0)) as cnt_bill
 													from product_seller as ps
 													where ps.seller_id = {$this->seller_id} and ps.product_id > 0) as qq")->queryAll();
-
+		}
+		
         if (count($prod_stat) > 0){
             $vars['prod_stat_cnt_all'] = $prod_stat[0]['cnt_all'];
             $vars['prod_stat_cnt_bill'] = $prod_stat[0]['cnt_bill'];
@@ -380,8 +384,13 @@ class ProductController extends Controller
             $vars['prod_active_percent'] = 0;
         }
         $vars['data'] = $this->getDataCatalog();
-        $vars['status'] = ProductService::getDateUpdate($this->seller_id);
-
+        
+		$res_last_date = \Yii::$app->db->createCommand("select UNIX_TIMESTAMP(last_dat_update) as cdate from seller_export_info where seller_id ={$this->seller_id}")->queryAll();
+	
+		$_last_date = $res_last_date[0]['cdate'];
+		$_last_date = ProductService::getDateFormat($_last_date);
+		$vars['status'] = $_last_date;
+	
         return $this->render('on-sale', $vars);
     }
 
@@ -542,12 +551,8 @@ class ProductController extends Controller
             $status = 'Статус: '.$status;
         }
 		
-		$cdate = $res["cdate"];
+		$cdate = ProductService::getDateUpdate($this->seller_id);
 		
-		if(!$cdate){
-			$cdate = ProductService::getDateUpdate($this->seller_id);
-		}
-
        $html = $this->renderPartial('tmpl/import-results', array(
             "date_update" => $cdate,
             "url" => $url,
