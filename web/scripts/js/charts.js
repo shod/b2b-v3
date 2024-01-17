@@ -4,7 +4,7 @@
 
 months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь','Декабрь'];
 weekdays = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-shortMonths = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'];
+shortMonths = ['Дек', 'Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб'];
                             
 function zeroPad(num, places) {
   var zero = places - num.toString().length + 1;
@@ -28,9 +28,10 @@ function get_chart(date, type = 'spline'){
                     for (var i = 0; i < jsonStr.length; i++) {
                         date_arr = jsonStr[i].date_view.split(", ");                        
                         year = parseInt(date_arr[0]);
-                        month = parseInt(date_arr[1])-1;
-                        day = parseInt(date_arr[2]);                        
+                        month = parseInt(date_arr[1]);
+                        day = parseInt(date_arr[2]);                        						
                         date = Date.UTC(year, month, day);                                                
+						console.log(year + '.' + month +'.'+day+'='+date);
                         view = jsonStr[i].view;
                         view_proxy = jsonStr[i].view_proxy;
                         view_context = jsonStr[i].view_context;
@@ -127,7 +128,7 @@ function get_chart_ctr(date){
                     for (var i = 0; i < jsonStr.length; i++) {
                         date_arr = jsonStr[i].date_view.split(", ");
                         year = parseInt(date_arr[0]);
-                        month = parseInt(date_arr[1])-1;
+                        month = parseInt(date_arr[1]);
                         day = parseInt(date_arr[2]);
                         date = Date.UTC(year,  month, day);
                         view = jsonStr[i].view;

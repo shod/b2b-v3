@@ -1,5 +1,5 @@
 <?php
-$this->title = "Выгрузка актов приемки-сдачи выполненных работ";
+$this->title = "Выгрузка актов";
 ?>
 
 <div class="ks-page-content-body">
@@ -38,19 +38,18 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" /*style=" visibility: hidden;"*/>
                 <div class="col-lg-12">
                     <div class="card" style="height: 100%">
                         <div class="card-block">
-                            <h4>Акт приемки-сдачи выполненных работ с НДС</h4>
+                            <h4>Акты</h4>
                             <p>Выберите дату:</p>
                             <form class="form-inline" action="/bill-report/get-akt" id="frm_blankop"
                                   target="_blank" method="post">
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                                 <select class="form-control" name="year" onchange="showMonth(this)" style="margin-right: 10px;">
                                     <option value="0">Год</option>
-                                    <option value="19">2019</option>
-                                    <option value="18">2018</option>                                    
+                                    <option value="23">2023</option>                                   
                                 </select>
                                 <span id="month_select"></span><br><br>
                                 <div id='type_report'></div>
@@ -115,7 +114,7 @@ $this->title = "Выгрузка актов приемки-сдачи выпол
                 function getReport() {
                     $('#btn_report').html("");
                     //html = "<button class='btn btn-primary-outline' onclick=$('#type_report').html(''); style=\"margin-right: 5px;\">Сформировать акт</button>   <button class=\"btn btn-primary-outline\" onclick='get_xlsx()'><span class=\"la la-file-excel-o ks-icon\"></span><span class=\"ks-text\">Скачать в xlsx</span></button>   <button class=\"btn btn-primary-outline\" onclick='get_pdf()'><span class=\"la la-file-pdf-o ks-icon\"></span><span class=\"ks-text\">Скачать в pdf</span></button>";
-					html = "<button class='btn btn-primary-outline' onclick=$('#type_report').html(''); style=\"margin-right: 5px;\">Сформировать акт</button>   <button class=\"btn btn-primary-outline\" onclick='get_xlsx()'><span class=\"la la-file-excel-o ks-icon\"></span><span class=\"ks-text\">Скачать в xlsx</span></button>";
+					html = "<button class='btn btn-primary-outline' onclick=$('#type_report').html(''); style=\"margin-right: 5px;\">Сформировать акт</button>   <button class=\"btn btn-primary-outline\" onclick='get_pdf()'><span class=\"la la-file-excel-o ks-icon\"></span><span class=\"ks-text\">Скачать в PDF</span></button>";
                     $('#btn_report').html(html);
                 }
             </script>

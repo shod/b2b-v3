@@ -26,6 +26,8 @@ class TariffController extends Controller
     public $active_sections = "";
     public $active_sections_sum = 0;
     public $min_balance = -10;
+	public $tariff_version = 0;
+	
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('/site/login');
@@ -50,6 +52,7 @@ class TariffController extends Controller
     public function behaviors()
     {
         $this->seller_id = Yii::$app->user->identity->getId();
+		$this->tariff_version = Yii::$app->params['tariff_version'];
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -197,18 +200,19 @@ class TariffController extends Controller
         $vars = [];
         $vars['curs'] = $curs;
 
-        $regime_tarif = 0;
+        $regime_tarif = $this->tariff_version.'';
 
-        $vars['pack_lines'] = $this->active_pack;
-        $vars['pack_sum'] = $this->active_pack_sum;
-
+        
         if(!in_array($this->seller_id,\Yii::$app->params['seller_old_tariff'])){
-            $regime_tarif = 2;
-            $vars['pack_items'] = $this->get_data_bill_catalog_tarif_2();        
+			$procedure = 'get_data_bill_catalog_tarif_'.$regime_tarif;
+            $vars['pack_items'] = $this->$procedure();        
         }else{
             $vars['pack_items'] = $this->get_data_bill_catalog_new_tarif();
             $vars['section_items'] = $this->get_data_bill_catalog_new_sections();
         }
+
+		$vars['pack_lines'] = $this->active_pack;
+        $vars['pack_sum'] = $this->active_pack_sum;
 
         
 
@@ -456,10 +460,17 @@ class TariffController extends Controller
 
     private function get_data_bill_catalog_tarif_2()
     {
+<<<<<<< HEAD
         $bonus_value[145] = ['bonus' => '138', 'text' => 'Размещайте все свои товары во всех разделах!', 'prod_count' => 'неограничено'];
         $bonus_value[100] = ['bonus' => '50', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 5000'];
         $bonus_value[50] = ['bonus' => '20', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
         $bonus_value[0] = ['bonus' => '0', 'text' => 'Уникальное предложение для белорусского рынка! Без абонентской платы. Все ваши товары. Без ограничений на разделы. Автоматическое обновление прайса с любых площадок. Дополнительное продвижение в поиске Google и Яндекс. Техподдержка магазина. 3% от стоимости товара за оформленную заявку /0,3 % за просмотр контактов/0,6 % за переход в ваш магазин', 'prod_count' => 'до 999999'];
+=======
+        $bonus_value[240] = ['bonus' => '0', 'text' => 'Размещайте все свои товары во всех разделах!', 'prod_count' => 'неограничено'];
+        $bonus_value[120] = ['bonus' => '0', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 5000'];
+		$bonus_value[60] = ['bonus' => '0', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
+        $bonus_value[20] = ['bonus' => '0', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
+>>>>>>> 1a0c92935330917dccc36ae2cf2bb71912a2f3b8
 
         $res = \Yii::$app->db->createCommand("
         select c.id, c.name, c.owner_id, c.hidden, c.position, c.f_tarif, c.is_old, c.f_new, c.pay_type, IFNULL(s.f_tarif,1) as f_mode_tarif, IFNULL(s.seller_id,0) as active, 
@@ -490,6 +501,51 @@ class TariffController extends Controller
                 'evalue' => max($obj->get_economy(), 0),
                 'bonus_value' => $bonus_value[$cost['cost']]
             ));
+            if($obj->is_active()){
+                $this->active_pack .= $this->renderPartial("tmpl/pack_line", ['cost' => $cost, 'name' => $obj->name, 'id' => $obj->id]);
+                $this->active_pack_sum += $cost['cost'];
+            }
+
+        }
+
+        return $html;
+    }
+	
+	private function get_data_bill_catalog_tarif_3()
+    {
+
+        $bonus_value[20] = ['bonus' => '0', 'text' => 'Нет ограничений на разделы!', 'prod_count' => 'до 1000'];
+
+        $res = \Yii::$app->db->createCommand("
+        select c.id, c.name, c.owner_id, c.hidden, c.position, c.f_tarif, c.is_old, c.f_new, c.pay_type, IFNULL(s.f_tarif,1) as f_mode_tarif, IFNULL(s.seller_id,0) as active, 
+                    if(ifnull(bbd.date_expired,DATE_ADD(now(),INTERVAL -1 DAY)) <= DATE_ADD(now(),INTERVAL -1 DAY) > 0, c.cost, 0) as cost
+                    from bill_catalog c
+                    left join bill_catalog_seller s on (s.seller_id={$this->seller_id} and s.catalog_id=c.id)
+                    left join bill_cat_sel_discount as bbd on (bbd.seller_id = s.seller_id and bbd.catalog_id = s.catalog_id)
+                    where c.f_tarif=3 and c.hidden=0  
+                      order by c.name;
+        ")->queryAll();
+        $html = '';
+        foreach ((array)$res as $r)
+        {
+            $ID = $r['id'];
+            $obj = new billPosition($ID, $this->seller_id);
+
+            $cost = $obj->get_cost_str();
+            $html .= $this->renderPartial("tmpl/pack_item3", array(
+                'id' => $ID,
+                'f_tarif' => $r['f_mode_tarif'] ? 1 : 0,
+                'f_tarif_class' => $r['f_mode_tarif'] ? 'mode_tarif' : '',
+                "name" => $obj->name,
+                "cost" => $cost,
+                "checked" => $obj->is_active() ? "checked" : "",
+                "active_style" => $obj->is_active() ? "background-color: rgba(0,0,0,.05)" : "",
+                "act" => $obj->get_act_str(),
+                "sections" => '',//$obj->get_tarif_sections_html(),
+                'evalue' => max($obj->get_economy(), 0),
+                'bonus_value' => $bonus_value[$cost['cost']]
+            ));
+			
             if($obj->is_active()){
                 $this->active_pack .= $this->renderPartial("tmpl/pack_line", ['cost' => $cost, 'name' => $obj->name, 'id' => $obj->id]);
                 $this->active_pack_sum += $cost['cost'];

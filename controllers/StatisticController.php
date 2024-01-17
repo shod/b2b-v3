@@ -16,7 +16,7 @@ class StatisticController extends Controller
 {
     public $seller_id;
     var $offset = 250;
-	var $stat_interval_month = 5;
+	var $stat_interval_month = 3;
 
     /**
      * @inheritdoc
@@ -24,7 +24,14 @@ class StatisticController extends Controller
      */
 
     public function beforeAction($action) {
-        $this->seller_id = Yii::$app->user->identity->getId();        
+        if (Yii::$app->user->identity) {
+            $this->seller_id = Yii::$app->user->identity->getId();     
+        } else {
+            $this->redirect('/site/login');
+            return false;
+        }
+
+           
         $seller = \app\models\Seller::find()
 		->where(['id' => $this->seller_id])
 		->one();
@@ -64,7 +71,11 @@ class StatisticController extends Controller
      */
     public function actions()
     {
-        $this->seller_id = Yii::$app->user->identity->getId();
+        if (Yii::$app->user->identity) {
+          
+            $this->seller_id = Yii::$app->user->identity->getId();
+        }
+        
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -200,7 +211,7 @@ class StatisticController extends Controller
             }
         }
 
-        $sql = "SELECT * from index_seller_stats WHERE  seller_id = {$this->seller_id} and STR_TO_DATE(date,'%Y-%m') > '2019' ORDER BY date desc limit {$this->stat_interval_month}";
+        $sql = "SELECT * from index_seller_stats WHERE  seller_id = {$this->seller_id} and STR_TO_DATE(date,'%Y-%m') > '2020' ORDER BY date desc limit {$this->stat_interval_month}";
         $res = \Yii::$app->db->createCommand($sql)->queryAll();
         $vars['data'] = '';
         foreach((array)$res as $r)
@@ -439,8 +450,9 @@ class StatisticController extends Controller
         $seller = \app\models\Seller::find()
 		->where(['id' => $this->seller_id])
 		->one();
-        if(!$seller->getFlag('analyze')){
-            $this->redirect('/site/login');
+        
+		if(!$seller->getFlag('analyze')){
+            //$this->redirect('/site/login');
         }
         
         $vars = [];

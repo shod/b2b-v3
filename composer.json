@@ -15,7 +15,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "~2.0.5",
+        "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "kbs1/mpdf-5.7-php7": "dev-master"
@@ -30,7 +30,10 @@
         "codeception/specify": "~0.4.3"
     },
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "enabled": false
+        }
     },
     "scripts": {
         "post-install-cmd": [
@@ -43,27 +46,22 @@
     },
     "extra": {
         "yii\\composer\\Installer::postCreateProject": {
-            "setPermission": [
-                {
-                    "runtime": "0777",
-                    "web/assets": "0777",
-                    "yii": "0755"
-                }
-            ]
-        },
-        "yii\\composer\\Installer::postInstall": {
+            "setPermission": [{
+                "runtime": "0777",
+                "web/assets": "0777",
+                "yii": "0755"
+            }],
             "generateCookieValidationKey": [
                 "config/web.php"
             ]
         },
         "asset-installer-paths": {
-            "bower-asset-library": "vendor/bower"
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower-assets"
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    "repositories": [{
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+    }]
 }

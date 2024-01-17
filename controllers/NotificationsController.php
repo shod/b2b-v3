@@ -74,12 +74,13 @@ class NotificationsController extends Controller
             case "get_notify":
                 $notification = NotifierMessageB2b::find()->where(['seller_id' => $this->seller_id, 'type' => 'popup', 'status'=>'0'])->one();
 
-                if(count($notification) > 0){
+                if(count((array)$notification) > 0){
                     $data["id"] = $notification->id;
                     $params = $notification->param;
                     $params = json_decode($params, true);
                     $data["href"] = $params['href'];
-                    $data["button_name"] = $params["button_name"];
+                    $data["button_name"] = isset($params["button_name"]) ? $params["button_name"] : 'Ok';
+					$data["button_name_close"] = isset($params["button_name_close"]) ? $params["button_name_close"] : 'Закрыть';					
 
                     $tmpl = $this->renderPartial($notification->tmpl, $params);
                     $data["tmpl"] = $tmpl;

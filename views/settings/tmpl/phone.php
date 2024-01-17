@@ -15,7 +15,7 @@
         <?= isset($text_op) ? $text_op : "" ?>
         <select name="phone_op[<?= $id ?>]" class=""<?= isset($hidden) ? $hidden : "" ?>">
             <option value="0">оператор</option>
-            <option value="velcom" <?= isset($selected_velcom) ? $selected_velcom : "" ?> >Velcom</option>
+            <option value="a1" <?= isset($selected_a1) ? $selected_a1 : "" ?> >A1</option>
             <option value="mts" <?= isset($selected_mts) ? $selected_mts : "" ?> >МТС</option>
             <option value="life" <?= isset($selected_life) ? $selected_life : "" ?> >Life:)</option>
             <option value="btk" <?= isset($selected_btk) ? $selected_btk : "" ?> >городской</option>

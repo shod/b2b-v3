@@ -32,6 +32,7 @@ AppAsset::register($this);
         }
     </style>
     <?php $this->head() ?>
+	<link href="/favicon.png?v=3" rel="shortcut icon">
 </head>
 <body class="ks-navbar-fixed ks-sidebar-default ks-sidebar-position-fixed ks-page-header-fixed ks-theme-white"> <!-- remove ks-page-header-fixed to unfix header -->
 <!-- remove ks-page-header-fixed to unfix header -->
@@ -64,10 +65,10 @@ AppAsset::register($this);
     //$denied = ((count($res) && $res[0][0]=='deactivate') || $vars["date_start"] == NULL);
     $denied = false;
     $activation = isset($seller) && $seller->active ? "deactivate" : ( (isset($bill_account) && $bill_account->balance > 0) ? ($denied ? 'activate_denied' : 'activate') : "activate_none");
-    $activation_button = isset($seller) && $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+    $activation_button = isset($seller) && $seller->active ? "<a class=\"btn btn-danger\" data-remote=\"/selller/activate/?type={$activation}\" data-toggle=\"ajaxModal\">
                         <span class=\"ks-action\"> Поставить </span>
                         <span class=\"ks-description\"> на паузу </span>
-                    </a>" : "<a class=\"btn btn-success\" data-remote=\"/seller/get-activate/?type={$activation}\" data-toggle=\"ajaxModal\">
+                    </a>" : "<a class=\"btn btn-success\" data-remote=\"/selller/activate/?type={$activation}\" data-toggle=\"ajaxModal\">
                         <span class=\"ks-action\"> Возобновить </span>
                         <span class=\"ks-description\"> аккаунт </span>
                     </a>";
@@ -109,7 +110,7 @@ AppAsset::register($this);
                 </div>
 
                 <div class="nav-item ks-notifications">
-                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Тур по интерфейсу</a>
+                    <a onclick="show_annotation()" class="nav-link " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Гид по B2B.<?= \Yii::$app->params['migom_name'] ?></a>
                 </div>
 
                 <!-- BEGIN NAVBAR NOTIFICATIONS -->
@@ -123,8 +124,9 @@ AppAsset::register($this);
                 <?php if ($seller->pay_type == 'fixed'): ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
-                            <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
+                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <?= Yii::$app->params['currency'] ?><br>
+                             <?= isset($bill_account) ? round($bill_account->getDayDownCatalog()*30, 2) : 0 ?>/месяц (<?= isset($bill_account) ? round($bill_account->getDayDownCatalog(), 2) : 0 ?>/день) </span>
+                            <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> <?= Yii::$app->params['currency'] ?></span>
                         </a>
                     </div>
                 <?php else: ?>
@@ -135,7 +137,7 @@ AppAsset::register($this);
                             $res = \Yii::$app->db->createCommand($sql)->queryOne();
                             if ($res['id'] == 1){
                                 $balance_clicks = "";
-                                $balance_text = "Стоимость клика: 0.4 ТЕ";
+                                $balance_text = "Стоимость клика: 0.4 " . Yii::$app->params['currency'];
                             } else {
                                 $balance_clicks = $bill_account->balance_clicks;
                                 $balance_text = "Баланс показов: {$balance_clicks}";
@@ -145,7 +147,9 @@ AppAsset::register($this);
                     ?>
                     <div class="nav-item nav-link btn-action-block">
                         <a class="btn" href="/balance/add">
-                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <br> ( <?= isset($balance_text) ? $balance_text : ""  ?>)</span>
+                            <span class="ks-action" style="margin-top: -5px;">Баланс <?= isset($bill_account) ? round($bill_account->balance,2) : 0; ?> <?= Yii::$app->params['currency']?> <br>
+                             ( <?= isset($balance_text) ? $balance_text : ""  ?>)
+                            </span>
                             <span class="ks-description">Бонус  <?= isset($bonus_account_id) ? round($bonus_account_id->balance,2) : 0 ?> </span>
                         </a>
                     </div>
@@ -158,84 +162,8 @@ AppAsset::register($this);
 
 
                 <!-- BEGIN NAVBAR MESSAGES -->
-                <div class="nav-item dropdown ks-messages">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="la la-phone la-2x ks-icon" aria-hidden="true">
-                        </span>
-                        <span class="ks-text">Служба поддержки</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview" style="height: 235px;">
-                        <ul class="nav nav-tabs ks-nav-tabs ks-info" role="tablist">
-
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-users" role="tab">Ваш менеджер</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-tech" role="tab">Служба технической поддержки</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="margin: 10px;" data-toggle="tab" data-target="#ks-navbar-reviews" role="tab">Модератор отзывов</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-
-
-                            <div class="tab-pane ks-messages-tab active" id="ks-navbar-users" role="tabpanel" style="height: 150px;">
-                                <div class="ks-wrapper">
-                                    <div class="ks-message" style="height: 61%;">
-                                        <div class="">
-                                            <img src="/img/design/janna_admin.jpg" style="margin-right: 10px;" height="130">
-                                        </div>
-                                        <div class="ks-info">
-                                            <div class="ks-user-name"><h4>Жанна</h4></div>
-                                            <div class="ks-text">
-                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">112-45-45</span> &nbsp; <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.<?= \Yii::$app->params['migom_domain'] ?>/img/design/viber.png" style="height: 20px;"><br>
-                                                <b>Skype:</b> sale.migom <br>
-                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> <br>
-                                                <b>Время работы:</b> с 9:00 до 18:00
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane ks-messages-tab " id="ks-navbar-tech" role="tabpanel" style="height: 150px;">
-                                <div class="ks-wrapper">
-                                    <div class="ks-message" style="height: 61%;">
-                                        <div class="">
-                                            <img src="/img/design/kate_admin6.jpg" style="margin-right: 10px;" height="130">
-                                        </div>
-                                        <div class="ks-info">
-                                            <div class="ks-user-name"><h4>Екатерина</h4></div>
-                                            <div class="ks-text">
-                                                <b>Тел:</b> +375 29 <span style="color:#AA0000; font-size: 13px;">688-45-45</span> <img src="/img/design/telegram.png" style="height: 20px;">&nbsp;&nbsp;<img src="https://b2b.<?= \Yii::$app->params['migom_domain'] ?>/img/design/viber.png" style="height: 20px;"><br>
-                                                <b>Skype:</b> admin.migom <br>
-                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['adminEmail'] ?>"><?= Yii::$app->params['adminEmail'] ?></a> <br>
-                                                <b>Время работы:</b> с 9:00 до 18:00
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane ks-messages-tab" id="ks-navbar-reviews" role="tabpanel" style="height: 150px;">
-                                <div class="ks-wrapper">
-                                    <div class="ks-message" style="height: 61%;">
-                                        <div class="ks-info">
-                                            <div class="ks-user-name"></div>
-                                            <div class="ks-text">
-                                                <b>E-mail:</b> <a href="mailto:<?= Yii::$app->params['reportEmail'] ?>"><?= Yii::$app->params['reportEmail'] ?></a> <br>
-                                                <!--b>Контактное лицо:</b> Ольга<br /-->
-                                                <b>Время работы:</b> с 9:00 до 18:00
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+				<?= $this->render('/support_info/staff.php') ?>
+                
                 <!-- END NAVBAR MESSAGES -->
 
                 <div class="nav-item dropdown ks-user">
@@ -293,7 +221,7 @@ AppAsset::register($this);
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/balance/add">Пополнить баланс</a>
                         <a class="dropdown-item" href="/balance/promise">Обещаный платеж</a>
-                        <!-- <a class="dropdown-item" href="/bill-report">Финансовый отчет</a> -->
+                        <a class="dropdown-item" href="/bill-report">Финансовый отчет</a>
                         <a class="dropdown-item" href="/bill-report/akt">Акты</a>
                     </div>
                 </li>
@@ -305,7 +233,7 @@ AppAsset::register($this);
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/auction">Аукционы</a>
                         <a class="dropdown-item" href="/spec">Спецпредложения</a>
-                        <a class="dropdown-item" href="/context-adv">Контекстная реклама</a>
+                        <!--a class="dropdown-item" href="/context-adv">Контекстная реклама</a-->
                         <a class="dropdown-item" href="/order/sms">Мои заказы<span style="color: #e79716;margin: 10px;font-weight: 900;" id="po_notify"></span></a>
                         <a class="dropdown-item" href="/info/?page=my_news_articles">Мои новости и обзоры</a>
                     </div>
@@ -316,10 +244,10 @@ AppAsset::register($this);
                         <span>Настройка магазина</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a>
+                        <!--a class="dropdown-item" href="/tariff<?= ($seller->pay_type == 'fixed') ? '' : '/click' ?>">Мой тариф</a-->
                         <a class="dropdown-item" href="/settings/user-info">Информация для покупателей</a>
                         <a class="dropdown-item" href="/settings">Реквизиты магазина</a>
-                        <a class="dropdown-item" href="/seller/delivery">Условия доставки</a>
+                        <a class="dropdown-item" href="/selller/delivery">Условия доставки</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -362,10 +290,12 @@ AppAsset::register($this);
                     </a>
                     <div class="dropdown-menu">
                         <?php if ($seller->f_offerta & 1): ?>
-                            <a class="dropdown-item" target="_blank" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a>
+                            <!--<a class="dropdown-item" target="_blank" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty.pdf">Договор публичной<br> оферты (с НДС)</a> -->
+							<a class="dropdown-item" href="https://www.maxi.by/page/public-contract/" target="blank">Публичный&nbsp;договор</a>
                         <?php endif; ?>
                         <?php if ($seller->f_offerta & 2): ?>
-                            <a class="dropdown-item" target="_blank" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>
+                            <!--<a class="dropdown-item" target="_blank" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/Dogovor-oferty-bez-nds.pdf">Договор публичной <br>оферты (без НДС)</a>-->
+							<a class="dropdown-item" href="https://www.maxi.by/page/public-contract/" target="blank">Публичный&nbsp;договор</a>
                         <?php endif; ?>
                         <a class="dropdown-item" href="/info/?page=rules_placement">Правила размещения</a>
                         <a class="dropdown-item" href="<?= \Yii::$app->params['STATIC_URL_FULL'] ?>/files/assignmet_contract.docx">Договор передачи <br>прав магазина</a>
@@ -448,6 +378,9 @@ AppAsset::register($this);
     </div>
 </div>
 <?php $this->endBody() ?>
+<div name="chat">
+<?= $this->render('_bitrix') ?>
+</div>
 </body>
 </html>
 <?php $this->endPage() ?>

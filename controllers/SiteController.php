@@ -24,8 +24,12 @@ class SiteController extends Controller
      */
     public function beforeAction($action)
     {
-        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up')&& ($action->id != 'rules')) {
-            $this->redirect('/site/login');
+		if (Yii::$app->request->post() && ($action->id == 'sign-up-checklogin')){			
+			return true;
+		}
+     
+        if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'login-ads') && ($action->id != 'admin-test') && ($action->id != 'sign-up') && ($action->id != 'rules')) {
+            $this->redirect(Yii::$app->params['b2b_url'] . '/site/login');
         } else {
             return parent::beforeAction($action);
         }
@@ -137,6 +141,7 @@ class SiteController extends Controller
         }
 		$allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
 
+		$allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $seller_id = Yii::$app->user->identity->getId();
@@ -162,14 +167,16 @@ class SiteController extends Controller
         $model->username = Yii::$app->request->get('username');
 echo $_SERVER['HTTP_X_REAL_IP'];
         $allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
-        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ( in_array($_SERVER['HTTP_X_REAL_IP'],$allow_login_admin_user_ip)));
+        //$is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ( in_array($_SERVER['HTTP_X_REAL_IP'],$allow_login_admin_user_ip)));
+		$is_ads = (isset($_SERVER['HTTP_REFERER']) && ( strpos($_SERVER['HTTP_REFERER'],'admin.vendee.by')));
+		
         if($is_ads){
-            $model->password = 'pbvf_,kbprj18';
+            $model->password = 'Sudoku-2020';
             if ($model->login()) {
                 $seller_id = Yii::$app->user->identity->getId();
                 $sql = "call pc_recovery_product_seller_data({$seller_id});";
                 \Yii::$app->db->createCommand($sql)->execute();
-                $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : $_SERVER['REMOTE_ADDR'];
                 \Yii::$app->db->createCommand("insert into b2b_login_log (seller_id,ip,date_login,is_admin,version) values ({$seller_id}, '{$ip}',NOW(),1,1)")->execute();
                 $action = Yii::$app->request->get('action');
 
@@ -217,6 +224,25 @@ echo $_SERVER['HTTP_X_REAL_IP'];
         ]);
     }
 
+	/** Проверка логина на доступность	
+	*/
+	public function actionSignUpChecklogin(){
+		$res = [
+				"valid" => false,
+				"message" => "Пользователь с таким логином был зарегистрирован ранее. Введите другой!"
+			];
+		$login = stripslashes(Yii::$app->request->post("login"));	
+		$member = Member::find()->where(['login' => $login])->one();
+		
+		if(!empty($login) && $member == null){
+			$res = [
+				"valid" => true,
+				"message" => ""
+			];
+		}
+		return json_encode($res);
+	}
+	
     public function actionSignUp()
     {
         $this->layout = false;
@@ -225,7 +251,7 @@ echo $_SERVER['HTTP_X_REAL_IP'];
             $recaptcha = Yii::$app->request->post('g-recaptcha-response');
             if (isset($recaptcha) && !empty($recaptcha)) {
                 //your site secret key
-                $secret = '6LfNZ1gUAAAAAEvGG6FHdCX84B5wIL4aL9E7_2P3';
+                $secret = Yii::$app->params['recaptcha_secret'];//'6LdRrQ0UAAAAAOazxlJaOlEz9jswYSzrGCGStDij';
                 //get verify response data
                 $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $recaptcha);
                 $responseData = json_decode($verifyResponse);
@@ -250,8 +276,7 @@ echo $_SERVER['HTTP_X_REAL_IP'];
                     $member->type_reg = 7;
                     $member->email = $seller_email;
                     $member->f_reg_confirm = 0;
-                    $member->save();
-
+                    $save_res = $member->save();
 
                     $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
                     $currency_rate = $curs * 10000;

@@ -245,19 +245,19 @@ function show_annotation() {
         content: "Основное меню",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
-        target: 'div.ks-widget-payment-total-amount:first',
+        target: 'div.ks-widget-payment-total-amount',
         position: 'bottom',
         content: "Ваш баланс",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    }, {
+    }, /*{
         target: 'div.ks-widget-payment-price-ratio:first',
         position: 'bottom',
         content: "Обещанный платеж",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
-    }, {
+    },*/ {
         target: 'div.ks-widget-tasks-statuses-progress:first',
         position: 'bottom',
-        content: "Использование возможностей продвижения на площадке Мигомбай",
+        content: "Использование возможностей продвижения на площадке Maxi.by",
         buttons: [AnnoButton.NextButton, AnnoButton.DoneButton]
     }, {
         target: 'div.ks-widget-payment-total-amount:eq(1)',
@@ -413,8 +413,9 @@ function change_href(cl, add_name, min) {
 }
 
 function check_currency() {
-    curr_select = $('#curr_select').val();
-
+    curr_select = $('#curr_select').children("option:selected").val();
+	console.log(curr_select);
+	
     if ((curr_select == 'br') || (curr_select == 'byn')) {
         $(".sh_tr").hide();
     } else {
@@ -466,7 +467,7 @@ function get_notifications() {
                             }
                         },
                         cancel: {
-                            text: 'Закрыть'
+                            text: data.button_name_close
                         }
                     }
                 });

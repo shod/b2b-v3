@@ -9,7 +9,7 @@ class Products extends \yii\base\Widget {
 
     public $viewFile = 'products/show';
     public $sid;
-    public function run() {
+    public function run() {		
         $prod_stat = \Yii::$app->db->createCommand("select cnt_all, cnt_bill, round(cnt_bill/cnt_all*100) as active_percent
 													from (select count(1) as cnt_all, sum(if(active=1,1,0)) as cnt_bill
 													from product_seller as ps
@@ -27,6 +27,7 @@ class Products extends \yii\base\Widget {
             }
 
             \Yii::$app->db->createCommand("call migombyha.pc_stat_seller_place({$this->sid},1)")->execute();
+		
             $data_cost = \Yii::$app->db->createCommand("
 					select seller_id
 					, round(sum(prod_cnt_cost_max)/sum(prod_cnt_all)*100) as perc_max
@@ -35,7 +36,8 @@ class Products extends \yii\base\Widget {
 					where seller_id = {$this->sid}
 					GROUP BY seller_id
 			")->queryAll();
-            if(count($data_cost > 0)){
+
+            if(count($data_cost) > 0){
                 $cost_min = $data_cost[0]["perc_min"];
                 $cost_max = $data_cost[0]["perc_max"];
             } else {

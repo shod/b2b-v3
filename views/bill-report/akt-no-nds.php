@@ -12,8 +12,8 @@
                         <input type="hidden" name="no_nds" value="2"/>
                         <select class="form-control" name="year" onchange="showMonthNoNds(this)" style="margin-right: 10px;">
                             <option value="0">Год</option>
-                            <option value="19">2019</option>
-                            <option value="18">2018</option>
+							<option value="20">2020</option>
+                            <option value="19">2019</option>                            
                         </select>
                         <span id="month_select_no_nds"></span><br><br>
                         <div id='type_report_no_nds'></div>
@@ -83,7 +83,7 @@
 
         function getReport_no_nds() {
             $('#btn_report_no_nds').html("");
-            html = "<button class='btn btn-primary-outline' onclick=$('#type_report').html(''); style=\"margin-right: 5px;\">Сформировать акт</button>   <button class=\"btn btn-primary-outline\" onclick='get_xlsx_no_nds()'><span class=\"la la-file-excel-o ks-icon\"></span><span class=\"ks-text\">Скачать в xlsx</span></button>   <button class=\"btn btn-primary-outline\" onclick='get_pdf_no_nds()'><span class=\"la la-file-pdf-o ks-icon\"></span><span class=\"ks-text\">Скачать в pdf</span></button>";
+            html = "<button class='btn btn-primary-outline' onclick=$('#type_report').html(''); style=\"margin-right: 5px;\">Сформировать акт</button>   <button class=\"btn btn-primary-outline\" onclick='get_xlsx_no_nds()'><span class=\"la la-file-excel-o ks-icon\"></span><span class=\"ks-text\">Скачать в xlsx</span></button>   <button style=\"visibility: hidden;\" class=\"btn btn-primary-outline\" onclick='get_pdf_no_nds()'><span class=\"la la-file-pdf-o ks-icon\"></span><span class=\"ks-text\">Скачать в pdf</span></button>";
             $('#btn_report_no_nds').html(html);
         }
     </script>

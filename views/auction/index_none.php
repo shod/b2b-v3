@@ -9,7 +9,7 @@ $this->title = 'Аукционы';
                     <div class="ks-nav-body">
                         <div class="ks-nav-body-wrapper">
                             Для участия в спецпредложениях баланс должен быть не
-                            менее <?= isset($min_balance) ? $min_balance : "" ?> ТЕ.
+                            менее <?= isset($min_balance) ? $min_balance : "" ?> <?= Yii::$app->params['currency'];?>
                         </div>
                     </div>
                 </div>

@@ -24,11 +24,11 @@
             <tr>
                 <td style="padding-bottom: 0px" class="ks-progress-status"><a href="/reviews/complaint">Отсутствие жалоб на недоступность телефонов</a></td>
                 <td style="padding-bottom: 0px" width="1" class="ks-text-light ks-text-right"><?= $vars['phone_fail'] ?>%</td>
-            </tr>
-            <tr>
-                <td style="padding-bottom: 0px" class="ks-progress-status"><a href="/context-adv">Контекстная реклама в Яндекс и Google</a></td>
-                <td style="padding-bottom: 0px" width="1" class="ks-text-light ks-text-right"><?= $vars['context'] ?>%</td>
-            </tr>
+            </tr>	
+			<tr>
+                <td style="padding-bottom: 0px" class="ks-progress-status">Количество продавцов<br/> с более эффективным продвижением</td>
+                <td style="padding-bottom: 0px" width="1" class="ks-text-light ks-text-right"><?= $vars['cnt_hight'] ?></td>
+            </tr>				
             </tbody>
         </table>
 

@@ -22,7 +22,7 @@ class AuctionController extends Controller
     public $seller_id;
     var $flag_disabled = false;
     var $min_balance = 10; /*Min баланс участия в аукционе*/
-    var $min_stavka = 1; /*Min баланс участия в аукционе*/
+    var $min_stavka = 1; /*Min ставка участия в аукционе*/
     var $_min_start = 0.7; /*Минимальный старт в аукционе*/
     var $_min_start_fix = 0.7; /*Минимальный старт в аукционе суточном*/
     var $_step = 0.35; /*Минимальный шаг в аукционе*/
@@ -407,6 +407,7 @@ class AuctionController extends Controller
     }
 
     public function actionGetHelp(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $is_fix = Yii::$app->request->get("fix") ? 1 : 0;
         if($is_fix){
             $res = \Yii::$app->db->createCommand("select * from texts where id=214")->queryAll();
@@ -426,6 +427,7 @@ class AuctionController extends Controller
         }
 
         echo Json::encode($json);
+        die;
     }
 
     public function actionAdd()

@@ -1,7 +1,7 @@
 <?php
 $this->title = 'Информация для покупателей';
-$this->registerJsFile('/web/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "
     $(function () {
@@ -38,7 +38,7 @@ $this->registerJs(
                     <div class="col-lg-12">
                         <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации
                             обратитесь к вашему менеджеру <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a>
-                            или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> .
+                            <!-- или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> . -->
                         </div>
                     </div>
                 </div>
@@ -346,7 +346,7 @@ $this->registerJs(
                     </div>
                 </div>
 
-                <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
+                <!-- <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
                     <div class="col-lg-4">
                         <label style="font-weight: 600;">Почтовый перевод</label>
 
@@ -354,7 +354,7 @@ $this->registerJs(
                     <div class="col-lg-8" style="">
                         <input type="checkbox" name="bit_setting[bit_post]" value="1" <?= $bit_post ?>>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
                     <div class="col-lg-4">
@@ -366,7 +366,7 @@ $this->registerJs(
                     </div>
                 </div>
 
-                <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
+                <!-- <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
                     <div class="col-lg-4">
                         <label style="font-weight: 600;">Банковский перевод</label>
 
@@ -374,7 +374,7 @@ $this->registerJs(
                     <div class="col-lg-8" style="">
                         <input type="checkbox" name="bit_setting[bit_bank]" value="1" <?= $bit_bank ?>>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
                     <div class="col-lg-4">
@@ -384,6 +384,17 @@ $this->registerJs(
                     <div class="col-lg-8" style="">
                         <input class="bank-card" type="checkbox" name="bit_setting[bit_halva]"
                                value="1" <?= $bit_halva ?>>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
+                    <div class="col-lg-4">
+                        <label style="font-weight: 600;">Карта от Приорбанк</label>
+
+                    </div>
+                    <div class="col-lg-8" style="">
+                        <input class="bank-card" type="checkbox" name="bit_setting[bit_prior]"
+                               value="1" <?= $bit_prior ?>>
                     </div>
                 </div>
 
@@ -410,7 +421,7 @@ $this->registerJs(
                 </div>
                 <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
                     <div class="col-lg-4">
-                        <label style="font-weight: 600;">"SMART карта" от Банк Москва-Минск</label>
+                        <label style="font-weight: 600;">"Смарт карта" Банка Дабрабыт</label>
 
                     </div>
                     <div class="col-lg-8" style="">
@@ -447,6 +458,27 @@ $this->registerJs(
                                value="1" <?= $bit_magnet ?> >
                     </div>
                 </div>
+                <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
+                    <div class="col-lg-4">
+                        <label style="font-weight: 600;">"Оплати" </label>
+
+                    </div>
+                    <div class="col-lg-8" style="">
+                        <input class="bank-card" type="checkbox" name="bit_setting[bit_oplati]"
+                               value="1" <?= $bit_oplati ?>>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 0px; padding-bottom: 2px;">
+                    <div class="col-lg-4">
+                        <label style="font-weight: 600;">Банковской карточкой онлайн</label>
+
+                    </div>
+                    <div class="col-lg-8" style="">
+                        <input class="bank-card" type="checkbox" name="bit_setting[bit_bankonline]"
+                               value="1" <?= $bit_bankonline ?>>
+                    </div>
+                </div>
+
                 <div class="row" style="margin-top: 0px; border-bottom: 1px solid #dfdfdf; padding-bottom: 2px;">
                     <div class="col-lg-4">
                         <label style="font-weight: 600;">Время работы (приёма заказов)</label>

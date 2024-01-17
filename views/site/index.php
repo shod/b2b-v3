@@ -1,6 +1,6 @@
 <?php
 $this->title = "Добро пожаловать в b2b.".\Yii::$app->params['migom_domain']."!";
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/charts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs(
     "
     $(document).ready(function () {
@@ -32,13 +32,13 @@ $this->registerJs(
             </div>
 
             <div class="row">
-                <div class="col-xl-10 col-lg-10 col-md-9">
+                <!--div class="col-xl-10 col-lg-10 col-md-9">
                     <div class="card card-block" style="height: 100%">
                         <div id="chart"></div>
                     </div>
-                </div>
+                </div-->
                 <div class="col-xl-2 col-lg-2 col-md-3">
-                    <div data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div><br>
+                    <!--div data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'currency', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div><br-->
                     <div data-remote="<?= yii\helpers\Url::to(['site/widget', 'widget_name' => 'weather', 'sid' => $sid]) ?>" data-toggle="ajaxWidget"></div>
                 </div>
 

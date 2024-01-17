@@ -26,6 +26,8 @@ class Deactivate extends Down {
         $this->object_id = $this->billing->getSellerId();
     }
 
-    public function endNotify() {}
+    public function endNotify() {
+        $this->mail('deactivate', $this->billing->getSellerId());
+    }
 
 }

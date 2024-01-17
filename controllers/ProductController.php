@@ -28,7 +28,7 @@ class ProductController extends Controller
     public $offset = 50;
     public $seller_curs;
     public $cnt_all = 0;
-    public $curr_do_percent = 300;
+    public $curr_do_percent = 2.0;
 
     public function beforeAction($action) {
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
@@ -172,8 +172,8 @@ class ProductController extends Controller
         $vars['brands'] = $this->getBrandOptions($catalog_id, $brand);
         $vars['pages'] = $this->getPages($catalog_id,$brand,$search,$mode,$page);
         $vars['catalog_id'] = $catalog_id;
-        $json = json_encode($vars);
-        echo $json;
+        $json = json_encode($vars);		
+        return $json;
     }
 
     public function actionPriceDownload(){
@@ -192,14 +192,14 @@ class ProductController extends Controller
         if (Yii::$app->request->post("type") == "file") {						
 			
             $file = $_FILES["file"];					
-			
+		
 			if ($file['error'] == 0 && $file["tmp_name"] != "none" && $file["name"] != '') {
 				
                 $filename = "{$file["name"]}.{$this->seller_id}";
 
                 $filename = SiteService::transliterate($filename);
                 $filename_to = "price/{$filename}";
-				
+			
                 if (file_exists($filename_to))
                     unlink($filename_to);			
                 if (move_uploaded_file($file["tmp_name"], $filename_to)) {
@@ -224,6 +224,7 @@ class ProductController extends Controller
             $check_delete = Yii::$app->request->post("check_delete");			
             file_get_contents(\Yii::$app->params['up_domain']."/?block=price_import_now&seller_id={$this->seller_id}&check_delete={$check_delete}&url={$url}");
         }
+        \Yii::$app->session->setFlash('Файл отправлен на обработку!');
         $this->redirect('/product/price');
     }
 
@@ -364,11 +365,15 @@ class ProductController extends Controller
 
     public function actionOnSale()
     {
-        $prod_stat = \Yii::$app->db->createCommand("select cnt_all, cnt_bill, round(cnt_bill/cnt_all*100) as active_percent
+		$prod_stat = \Yii::$app->db->createCommand("select row_all as cnt_all, cnt_product_all as cnt_bill, round(cnt_product_all/row_all*100, 1) as active_percent
+													from seller_export_info as ps	where ps.seller_id = {$this->seller_id}")->queryAll();
+		if($prod_stat == null){
+			$prod_stat = \Yii::$app->db->createCommand("select cnt_all, cnt_bill, round(cnt_bill/cnt_all*100) as active_percent
 													from (select count(1) as cnt_all, sum(if(active=1,1,0)) as cnt_bill
 													from product_seller as ps
 													where ps.seller_id = {$this->seller_id} and ps.product_id > 0) as qq")->queryAll();
-
+		}
+		
         if (count($prod_stat) > 0){
             $vars['prod_stat_cnt_all'] = $prod_stat[0]['cnt_all'];
             $vars['prod_stat_cnt_bill'] = $prod_stat[0]['cnt_bill'];
@@ -379,8 +384,13 @@ class ProductController extends Controller
             $vars['prod_active_percent'] = 0;
         }
         $vars['data'] = $this->getDataCatalog();
-        $vars['status'] = ProductService::getDateUpdate($this->seller_id);
-
+        
+		$res_last_date = \Yii::$app->db->createCommand("select UNIX_TIMESTAMP(last_dat_update) as cdate from seller_export_info where seller_id ={$this->seller_id}")->queryAll();
+	
+		$_last_date = $res_last_date[0]['cdate'];
+		$_last_date = ProductService::getDateFormat($_last_date);
+		$vars['status'] = $_last_date;
+	
         return $this->render('on-sale', $vars);
     }
 
@@ -420,9 +430,20 @@ class ProductController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $vars["pay_type"] = $seller->pay_type;
         $vars['md5_seller'] = md5($this->seller_id . "panda");
+        $vars['update_type'] = $seller->update_type;
         return $this->render('price', $vars);
     }
 
+    public function actionPriceComment()
+    {
+        $text = Yii::$app->request->get("text"); 
+        
+        $seller = Seller::find()->where(['id' => $this->seller_id])->one();
+        $seller->update_type = $text;
+        $seller->save();
+
+        $this->redirect('/product/price');
+    }
 
     public function actionProcess(){
         $action = Yii::$app->request->get("action");
@@ -465,13 +486,14 @@ class ProductController extends Controller
 				) and hidden=0
 				order by name
 				")->queryAll();
+				
             foreach ((array)$res1 as $r1)
             {
                 $cnt1 = isset($data[$r1["id"]]) ? $data[$r1["id"]] : "";
                 //$selected = ($r1["id"] == $this->catalog_id) ? "selected" : "";
                 $selected = "";
-                $html_iterate .= "<option value=\"{$r1["id"]}\"{$selected}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r1["name"]} ({$cnt1})</option>";
-                $cnt += $cnt1;
+                $html_iterate .= "<option value=\"{$r1["id"]}\"{$selected}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r1["name"]} ({$cnt1})</option>";				
+                $cnt += (int)$cnt1;
             }
 
             $html .= "<option /><option value=\"bill_{$r["id"]}\">{$r["name"]} ({$cnt})</option>{$html_iterate}";
@@ -490,6 +512,7 @@ class ProductController extends Controller
         $status = "";
 
         if(is_array($res)){
+			$res["message"] = iconv('cp1251','UTF-8',$res["message"]);
             if (($res["module"] == "price_import_sliv") && ($res["message"] == '')) {
                 $cnt = $this->get_cnt();
                 $status = "<font color=\"#009900\">Обновлен</font>";
@@ -505,8 +528,9 @@ class ProductController extends Controller
             }
             else
             {
-                $message = htmlspecialchars($res["message"]);
+                $message = htmlspecialchars($res["message"]);				
                 $cdate = $res["cdate"];
+				
                 $status = "<font color=\"#ff0000\" title=\"{$message}\">Произошла ошибка ({$message}).</font> {$cdate} <br/> Проверьте корректность формата прайса и попробуйте импорт еще раз. Если это не поможет, обратитесь в службу технической поддержки.";
             }
 
@@ -526,10 +550,11 @@ class ProductController extends Controller
         if(!empty($status)){
             $status = 'Статус: '.$status;
         }
-
-
+		
+		$cdate = ProductService::getDateUpdate($this->seller_id);
+		
        $html = $this->renderPartial('tmpl/import-results', array(
-            "date_update" => ProductService::getDateUpdate($this->seller_id),
+            "date_update" => $cdate,
             "url" => $url,
             "status" => $status
         ));
@@ -726,7 +751,7 @@ class ProductController extends Controller
                 $no_sect = "";
             }
 
-            $str_sql = "select '' as brand, pp2.basic_name as model, ps.*, f_prod_avgcost_check(ps.product_id,ps.cost_us) as cost_filter, f_is_setting_bit_set(ps.setting_bit, 'product_seller', 'no_auto') as no_auto
+            $str_sql = "select '' as brand, ps.title, pp2.basic_name as model, ps.*, f_prod_avgcost_check(ps.product_id,ps.cost_us) as cost_filter, f_is_setting_bit_set(ps.setting_bit, 'product_seller', 'no_auto') as no_auto
 				from product_seller ps				
 				inner JOIN index_product pp2 ON (pp2.product_id = ps.product_id)
 				JOIN products as p on (pp2.product_id = p.id)
@@ -757,6 +782,7 @@ class ProductController extends Controller
             }
 
             $r["name"] = "<b>{$r["brand"]}</b> {$r["model"]}";
+			$r["title"] = $r["title"];
             $r["href_product"] = "http://www." . Yii::$app->params['redirect_domain'] . "/-{$r["product_id"]}/info_seller/";
             $r["selected_{$r["wh_state"]}"] = "selected";
             $r["garant"] = preg_replace("/[^0-9]/","",$r["garant"]);

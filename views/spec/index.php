@@ -1,6 +1,6 @@
 <?php
 $this->title = 'Спецпредложения';
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/spec.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/spec.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">

@@ -29,6 +29,7 @@ class Mailer {
         $this->to = \Yii::$app->params['b2bEmails'];
         $this->from = \Yii::$app->params['fromEmail'];
         $this->email_test = \Yii::$app->params['testEmails'];
+        $this->email_seller = \Yii::$app->params['saleEmails'];
     }
     
     private function mail($tamplate, $params, $opts=[])
@@ -68,6 +69,7 @@ class Mailer {
         $emails = $this->email_test;
         $emails[] = $seller->email;
 
+        $this->mail('balance_30_admin', ['name' => $seller->name, 'min_balance' => BillAccount::MIN_BALANCE, 'seller_id' => $seller_id], ['subject' => \Yii::$app->params['migom_name']." Баланс менее " . BillAccount::MIN_BALANCE . "ТЕ", 'to' => $this->email_seller]);
         return $this->mail('balance_30', ['name' => $seller->name, 'min_balance' => BillAccount::MIN_BALANCE], ['subject' => \Yii::$app->params['migom_name']." Отключены дополнительные услуги", 'to' => $emails]);
     }
 
@@ -119,6 +121,11 @@ class Mailer {
         $seller = $this->getSeller($seller_id);
         $this->mail('activate_admin', array('name' => $seller->name, 'seller_id' => $seller_id), array('subject' => \Yii::$app->params['migom_name']." Аккаунт активирован", 'to' => $this->to));
         return $this->mail('activate', array('name' => $seller->name), array('subject' => \Yii::$app->params['migom_name']." Ваш аккаунт активирован", 'to' => $this->email_test));
+    }
+
+    public function deactivate($seller_id) {
+        $seller = $this->getSeller($seller_id);
+        $this->mail('deactivate_admin', array('name' => $seller->name, 'seller_id' => $seller_id), array('subject' => \Yii::$app->params['migom_name']." Пауза магазина", 'to' => $this->email_seller));
     }
 
 }

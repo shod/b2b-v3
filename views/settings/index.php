@@ -1,7 +1,7 @@
 <?php
 $this->title = "Реквизиты магазина";
-$this->registerJsFile('/web/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('/scripts/ajaxupload.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/settings.js?v=10', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <form method="post" action="/settings/process">
     <input type="hidden" name="_csrf"
@@ -15,7 +15,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                         <div class="alert alert-danger  ks-solid-light" role="alert">Все поля обязательны для заполнения</div>
                     </div>
                     <div class="col-lg-12">
-                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь к вашему менеджеру <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> или по телефону <a href="tel:+375291124545">+375(29)112-45-45</a> .</div>
+                        <div class="alert alert-success  ks-solid-light" role="alert">Для смены обязательной информации обратитесь к вашему менеджеру <a href="mailto:<?= Yii::$app->params['saleManager'] ?>"><?= Yii::$app->params['saleManager'] ?></a> или по телефону <a href="tel:<?= Yii::$app->params['phones']['ahref'] ?>"><?= Yii::$app->params['phones']['info'] ?></a> .</div>
                     </div>
                     <h4 class="col-lg-12">Контактная информация</h4>
 
@@ -51,7 +51,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                         <label>Название организации</label>
                         <input name="company_name" type="text"
                                class="form-control" <?= (isset($company_name) && $company_name != "") ? "readonly" : "" ?>
-                               placeholder="" value='<?= (isset($company_name) && $company_name != "") ? $company_name : "" ?>' data-validation="length"
+                               placeholder="" value="<?= (isset($company_name) && $company_name != "") ? $company_name : "" ?>" data-validation="length"
                                data-validation-length="min5" data-validation-error-msg="Введите название организации">
                     </div>
                     <div class="col-lg-3">
@@ -170,10 +170,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/web/scripts/js/settings.js
                         <button id="upload" class="upload btn btn-sm btn-primary">Загрузить
                             фотографии
                         </button>
+						<div id="status" class="status"></div>
                     </div>
-                    <div class="col-lg-3">
-
-                        <div id="status" class="status"></div>
+                    <div class="col-lg-3">                        
                         <div id="files" class="cont-files">
                             <?= $img_registration ?>
                         </div>

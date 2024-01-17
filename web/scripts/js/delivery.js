@@ -5,7 +5,7 @@ $( document ).ready(function() {
     $('#f_post').change(function () {
         var $this = $(this)
         $this.attr('disabled', true)
-        $.get("/seller/delivery-actions", {
+        $.get("/selller/delivery-actions", {
             action: "set_f_post",
             value: $this.attr("checked") ? 1 : 0
         }, function () {
@@ -154,7 +154,7 @@ $( document ).ready(function() {
 function edit_delivery(id) {
     $.ajax({
         method: "GET",
-        url: "/seller/delivery-actions/?action=delivery_get_edit_data&delivery_id=" + id
+        url: "/selller/delivery-actions/?action=delivery_get_edit_data&delivery_id=" + id
     })
         .done(function (msg) {
             var jsonStr = JSON.parse(msg);

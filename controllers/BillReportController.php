@@ -142,15 +142,26 @@ class BillReportController extends Controller
         } else {
             $pay_source = 1;
             $official_data = array(
-                "official_name" => "ООО &quot;Марталь&quot;",
-                "official_unp" => "192583317",
+                // "official_name" => "ООО &quot;Марталь&quot;",
+                // "official_unp" => "192583317",
                 "official_okpo" => "",
-                "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 18",
-                "official_rs" => "р/с BY39ALFA30122122470020270000 <br> БИК ALFABY2X",
-                "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Головной офис, код 270, ул. Сурганова, 43, 220013, Минск",
-                "official_phone" => "тел.: +375(29)1124545",
-                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
-                "official_owner" => "Кладухина О.Н.",
+                // "official_address" => "220007, г. Минск, ул. Могилевская 2/2, помещение 18",
+                // "official_rs" => "р/с BY39ALFA30122122470020270000 <br> БИК ALFABY2X",
+                // "official_bank" => "ЗАО &quot;Альфа-Банк&quot;. Головной офис, код 270, ул. Сурганова, 43, 220013, Минск",
+                // "official_phone" => "тел.: +375(29)1124545",
+                // "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille.jpg",
+                // "official_owner" => "Кладухина О.Н.",
+                // "official_percent" => "20",
+                // "official_nds" => "Сумма НДС:",
+
+                "official_bank" =>'Р/сч: BY85ALFA30122544640050270000 в ЗАО "Альфа-Банк" код ALFABY2X, 220070, г. Минск, ул. Чеботарева, дом № 7а, помещение 06, комната 6-6, этаж 4',
+                "official_name" => "ООО &quot;Макси Бай Медиа&quot;",
+                "official_unp" => "УНП 191983656",
+                "official_address" => "220070, г. Минск, ул. Чеботарева, дом № 7а, помещение 06, комната 6-6, этаж 4",
+                "official_rs" => 'Р/сч: BY85ALFA30122544640050270000 в ЗАО "Альфа-Банк" код ALFABY2X',
+                "official_phone" => "тел.: 8(017)388-24-23, 8(029)101-23-23",
+                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/maxi/faximille.png",
+                "official_owner" => "Директор(на основании Устава) Самусевич Григорий Михайлович",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
             );
@@ -193,9 +204,10 @@ class BillReportController extends Controller
             $sum += $r['amount'];
         }
 
-        $res = \Yii::$app->db->createCommand("select id from seller where member_id = {$owner_id}")->queryOne();
-        $docnum = $res['id'];
-
+        // $res = \Yii::$app->db->createCommand("select id from seller where member_id = {$owner_id}")->queryOne();ё
+        // за номер акта берется номер месяца начиная с января 2023 (000001) 000013 = янв 2024
+        $docnum = (23 - $year) * 12 + $month;
+      
         $sum_all = $sum;
 
         if($no_nds == 2){
@@ -258,7 +270,7 @@ class BillReportController extends Controller
 
         $vars = array_merge(array(
                 "seller_id" => $this->seller_id,
-                "docnum" => $docnum,
+                "docnum" => str_pad($docnum, 3, "0", STR_PAD_LEFT),
                 "date_p" => $date_p,
                 "contract_number" => $seller_info->contract_number,
                 "contract_date" => $contract_date,
@@ -272,7 +284,7 @@ class BillReportController extends Controller
                 "dat" => $dat,
                 "nds" => $nds,
                 "year" => $year,
-                "month" => $month
+                "month" => str_pad($month, 2, "0", STR_PAD_LEFT)
             )
             , $member_data);
         $vars = array_merge($vars, $official_data);

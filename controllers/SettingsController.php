@@ -23,6 +23,13 @@ class SettingsController extends Controller
      */
     public $seller_id;
     public function beforeAction($action) {
+        if (Yii::$app->user->identity) {
+            $this->seller_id = Yii::$app->user->identity->getId();     
+        } else {
+            $this->redirect('/site/login');
+            return false;
+        }
+
         if ((\Yii::$app->getUser()->isGuest)&&($action->id != 'login')&&($action->id != 'sign-up')) {
             $this->redirect('/site/login');
         } else {
@@ -31,7 +38,11 @@ class SettingsController extends Controller
     }
     public function behaviors()
     {
-        $this->seller_id = Yii::$app->user->identity->getId();
+        if (Yii::$app->user->identity) {
+          
+            $this->seller_id = Yii::$app->user->identity->getId();
+        }
+         
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -124,9 +135,10 @@ class SettingsController extends Controller
                 //защита от сторонних скриптов
                 $checked_items = array($description, $delivery);
                 foreach ((array) $checked_items as $item)
-                {
+                {					
                     if((strpos($item, 'iframe') !== false) || (strpos($item, 'script') !== false)){
-                        $_SESSION["errormsg"]="<div id='alert'><div class=' alert alert-block alert-danger fade in center'>Вы пытаетесь сохранить недопустимые данные! Обратитесь в службу технической поддержки.</div></div>";
+						//var_dump(strpos($item, 'script'));					
+                        //$_SESSION["errormsg"]="<div id='alert'><div class=' alert alert-block alert-danger fade in center'>Вы пытаетесь сохранить недопустимые данные! Обратитесь в службу технической поддержки.</div></div>";
                     }
                 }
 
@@ -134,11 +146,13 @@ class SettingsController extends Controller
                     echo $_SESSION["errormsg"];
                     break;
                 }
-                $res = $this->get_payment_list();
+                $res = $this->get_payment_list(); 
                 foreach($res as $item){
+                     
+                    var_dump(isset($bit_setting['bit_'.$item['code']]) ? $bit_setting['bit_'.$item['code']] : 0);
                     $setting_bit =  SiteService::set_bitvalue($setting_bit,$item['bit'],isset($bit_setting['bit_'.$item['code']]) ? $bit_setting['bit_'.$item['code']] : 0);
                 }
-
+                
                 foreach ((array) $importers_data as $key=>$value)
                 {
                     $value = str_replace('"', "'", $value);
@@ -236,12 +250,13 @@ class SettingsController extends Controller
                         $filename = "seller/logo\${$this->seller_id}.jpg";
 
                         if($_FILES['logo']['type'] == "image/jpeg") {
-                            if (move_uploaded_file($logo["tmp_name"], $filename)) {
+                            if (move_uploaded_file($logo["tmp_name"], $filename)) {								
                                 SiteService::resize($filename, array(90, 35));
                                 $filename = 'logo$'.$this->seller_id.'.jpg';
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = "{$home}/seller/{$filename}";
                                 $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_logo_seller&fname={$filename}&url=".$path_local;
+								
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $setting_bit = SiteService::set_bitvalue($setting_bit,131072,0);
                                 $seller->setting_bit = $setting_bit;
@@ -302,20 +317,21 @@ class SettingsController extends Controller
                 set_time_limit(0);
                 $type_permissible = array('image/jpeg','image/gif','image/png');
                 $size_permissible = 1024 * 1024 * 10;
+								
                 if ($_FILES["img"]) {
                     for($i=0;$i<count($_FILES['img']['name']);$i++) {
                         $p_mane = explode('.',$_FILES['img']['name'][$i]);
                         $exp = $p_mane[count($p_mane)-1];
 
-                        $new_file_name = substr(md5($_FILES['img']['name'][$i]),0,5).'.'.$exp;
+                        $new_file_name = substr(md5($_FILES['img']['name'][$i]),0,5).'.'.$exp;												
                         if(in_array($_FILES['img']['type'][$i],$type_permissible) && $_FILES['img']['size'][$i] <= $size_permissible) {
 
                             $dir_sel_doc = 'seller/registration/'.$this->seller_id.'/';
                             $new_file = $dir_sel_doc.'/'.$new_file_name;
 
                             if(!is_dir($dir_sel_doc)) {
-                                mkdir($dir_sel_doc, 0777);
-                                chmod($dir_sel_doc, 0777);
+                                mkdir($dir_sel_doc, 0775);
+                                chmod($dir_sel_doc, 0775);
                             }
 
                             if(move_uploaded_file($_FILES["img"]["tmp_name"][$i], $new_file)) {
@@ -324,31 +340,52 @@ class SettingsController extends Controller
 
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/registration/'.$this->seller_id.'/'.$new_file_name;
-                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
-                                file_get_contents($path, NULL, NULL, 0, 14);
-                            }
-
-                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_registration_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";								
+                                $res = file_get_contents($path, NULL, NULL, 0, 14);
+								
+								$status = ($res == 'false') ? false : true;								
+								if($status){
+									$status = (strpos($res,'ERROR') === false) ? true : false;								
+								}
+								
+								if($status){
+									//$this->data_img_registration();
+									$text[] = 'Файл: '.$new_file_name.' загружен.<br>';									
+								}else{
+									$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';																		
+								}
+								
+                            }else{
+								$status = 0;
+								$text[] = 'Файл: '.$new_file_name.' не загружен на сервер.<br>';								
+								$file_name = "";
+								$path_local = "";
+							}							
                         } else {
+							$status = 0;
                             $src[] = $i;
-                            $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";
+                            $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";											
+							$file_name = "";
+							$path_local = "";
                         }
                     }
                 }
-                $this->data_img_registration($file_name);
+				
+                $this->data_img_registration();
 
-                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src));
+                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
                 exit;
                 break;
             case "del_img_registration":
-                $success = true;
+                $success = false;
                 $file_name = Yii::$app->request->get("file_name");
                 if(file_exists('seller/registration/'.$this->seller_id.'/'.$file_name) && unlink('seller/registration/'.$this->seller_id.'/'.$file_name)) {
                     $success = true;
                     $this->data_img_registration();
                 }
-                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";
-                file_get_contents($path, NULL, NULL, 0, 14);
+                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_delete.php?seller_registration=1&fname={$file_name}&sid={$this->seller_id}";		
+                $res = file_get_contents($path, NULL, NULL, 0, 14);
+				$success = ($res == 'false') ? false : true;
                 echo json_encode(array('success'=>$success));
                 exit;
                 break;
@@ -378,23 +415,23 @@ class SettingsController extends Controller
                                 $src[] = '/seller/document/'.$this->seller_id.'/'.$new_file_name;
                                 $home = \yii\helpers\Url::base(true);
                                 $path_local = $home . '/seller/document/'.$this->seller_id.'/'.$new_file_name;
-                                echo $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
+                                $path = \Yii::$app->params['STATIC_URL_FULL'] . "/img_upload.php?act=add_document_seller&fname={$new_file_name}&url={$path_local}&sid={$this->seller_id}";
                                 file_get_contents($path, NULL, NULL, 0, 14);
                                 $file_name[] = $new_file_name;
-								print_r($file_name);
-								die('settingController');
+								//print_r($path);							
+								//die('settingController');
                             }
-
-                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';
+                            $text[] = 'Файл: '.$new_file_name.' загружен.<br>';								
                         } else {
+							$status = 0;
                             $src[] = $i;
                             $text[] = "ОШИБКА в при загрузке файла  ".$new_file_name." !!! Не верный формат загружаемого файла или слишком большой общий размер файлов.<br>";
                         }
                     }
                 }
-                $this->data_img_document($file_name);
+                $this->data_img_document();
 
-                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src));
+                echo json_encode(array('status'=>$status,'text'=>$text,'file_name'=>$file_name,'src'=>$src, 'path_local' => $path_local));
                 exit;
                 break;
 
@@ -423,6 +460,8 @@ class SettingsController extends Controller
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
+		$member_data['company_name'] = stripcslashes($member_data['company_name']);
+
         $res = \Yii::$app->db->createCommand("select f_registration from seller_info where seller_id = {$this->seller_id}")->queryOne();
         $none = $res['f_registration'] ? "style='display:none'" : "";
         $img_registration = $this->get_img_registration($none);
@@ -444,7 +483,9 @@ class SettingsController extends Controller
 
         $logo_url = \Yii::$app->params['STATIC_URL_FULL'] .  "/img/seller/logo$" . $this->seller_id . ".jpg";
         $fl_logo_exist = $this->checkRemoteFile($logo_url);
-        $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
+
+        $version_time = time();
+        $vars["logo"] = $fl_logo_exist ? "<img src='$logo_url?v={$version_time}' border=0 title='{$seller->name}' alt='{$seller->name}'><br>" : "";
 
         $vars['bit_logoauto'] = ($seller->setting_bit & 131072) ? "checked" : "";
         if($fl_logo_exist && ($vars['bit_logoauto'] == "")) {
@@ -461,7 +502,7 @@ class SettingsController extends Controller
 
     private function data_img_registration() {
         $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
-        $documents_data = json_decode($documents_data);
+        $documents_data = json_decode($documents_data);		
         \Yii::$app->db->createCommand("update seller_info set img_registration = '".json_encode($documents_data)."', f_registration = 0 where seller_id={$this->seller_id}")->execute();
 	}
 
@@ -472,10 +513,16 @@ class SettingsController extends Controller
     }
 
     private function get_img_registration($none = 0) {
-        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}");
+        $arrContextOptions = array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        ); 
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_registration&seller_id={$this->seller_id}", false, stream_context_create($arrContextOptions));
         $imgs = json_decode($documents_data);
         $data = "";
-        if(count($imgs)){
+        if(count((array)$imgs)){
             foreach($imgs as $file) {
                 $r['file_name'] = $file;
                 $r['src'] = \Yii::$app->params['STATIC_URL_FULL'] . '/img/seller/registration/'.$this->seller_id.'/'.$file;
@@ -488,11 +535,16 @@ class SettingsController extends Controller
     }
 
     function get_img_documents() {
-
-        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}");
+        $arrContextOptions = array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        ); 
+        $documents_data = file_get_contents(\Yii::$app->params['STATIC_URL_FULL'] . "/img_info.php?act=seller_document&seller_id={$this->seller_id}", false, stream_context_create($arrContextOptions));
         $imgs = json_decode($documents_data);
         $data = "";
-        if(count($imgs)){
+        if(count((array)$imgs)){
             foreach($imgs as $file) {
                 $r['file_name'] = $file;
                 $r['src'] = \Yii::$app->params['STATIC_URL_FULL'] . '/img/seller/document/'.$this->seller_id.'/'.$file;
@@ -536,7 +588,7 @@ class SettingsController extends Controller
         $html = "";
         $phones = unserialize($phone);
 
-        $type_op = array('velcom'=>'Velcom','life'=>'Life:)','mts'=>'МТС','diallog'=>'Diallog','btk'=>'Городской',);
+        $type_op = array('velcom'=>'A1','a1'=>'A1','life'=>'Life:)','mts'=>'МТС','diallog'=>'Diallog','btk'=>'Городской',);
 
         if (($phones === false) || !is_array($phones))
         {
@@ -793,7 +845,7 @@ class SettingsController extends Controller
         },$data );
         $data = unserialize($data);
         //print_r($data);
-        if(count($data) > 0 && $data !== false) {
+        if(count((array)$data) > 0 && $data !== false) {
             foreach($data as $item) {
                 $data_array .= '<input class="form-control" type="text" name="'.$type_field.'[]" value="'.$item.'" /><br>';
             }

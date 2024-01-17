@@ -2,14 +2,14 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
     public $password;
     public $authKey;
     public $accessToken;
-    public $admin_pass = 'pbvf_,kbprj18';
+    public $admin_pass = 'Sudoku-2020';
 
 
     /**
