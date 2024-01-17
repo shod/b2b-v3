@@ -5,8 +5,8 @@ date_default_timezone_set('Europe/Minsk');
 // defined('YII_ENV') or define('YII_ENV', 'production');
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', 'test');
-defined('YII_ENV_DEV') or define('YII_ENV', true);
+defined('YII_ENV') or define('YII_ENV', 'production');
+defined('YII_ENV_DEV') or define('YII_ENV_DEV', false);
 
 function dd($v){
     echo '<pre>';

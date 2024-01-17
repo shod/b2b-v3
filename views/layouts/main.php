@@ -378,7 +378,9 @@ AppAsset::register($this);
     </div>
 </div>
 <?php $this->endBody() ?>
+<div name="chat">
 <?= $this->render('_bitrix') ?>
+</div>
 </body>
 </html>
 <?php $this->endPage() ?>

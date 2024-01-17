@@ -5,6 +5,8 @@
     <td >
         <span style="font-size: 20px;cursor:pointer" class="la la-plus-square-o icon-good do_clone"></span>
         <a href="<?= isset($href_product) ? $href_product : "" ?>" target="_blank"><?= isset($name) ? $name : "" ?></a>
+		<br/>
+		<small><?= isset($title) ? $title : "" ?></small>
         <input type="hidden" name="del[<?= $product_id ?>][<?= $id ?>]" value="0" class="form-control del_input">
     </td>
     <td  align="center">

@@ -751,7 +751,7 @@ class ProductController extends Controller
                 $no_sect = "";
             }
 
-            $str_sql = "select '' as brand, pp2.basic_name as model, ps.*, f_prod_avgcost_check(ps.product_id,ps.cost_us) as cost_filter, f_is_setting_bit_set(ps.setting_bit, 'product_seller', 'no_auto') as no_auto
+            $str_sql = "select '' as brand, ps.title, pp2.basic_name as model, ps.*, f_prod_avgcost_check(ps.product_id,ps.cost_us) as cost_filter, f_is_setting_bit_set(ps.setting_bit, 'product_seller', 'no_auto') as no_auto
 				from product_seller ps				
 				inner JOIN index_product pp2 ON (pp2.product_id = ps.product_id)
 				JOIN products as p on (pp2.product_id = p.id)
@@ -782,6 +782,7 @@ class ProductController extends Controller
             }
 
             $r["name"] = "<b>{$r["brand"]}</b> {$r["model"]}";
+			$r["title"] = $r["title"];
             $r["href_product"] = "http://www." . Yii::$app->params['redirect_domain'] . "/-{$r["product_id"]}/info_seller/";
             $r["selected_{$r["wh_state"]}"] = "selected";
             $r["garant"] = preg_replace("/[^0-9]/","",$r["garant"]);

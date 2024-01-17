@@ -146,11 +146,13 @@ class SettingsController extends Controller
                     echo $_SESSION["errormsg"];
                     break;
                 }
-                $res = $this->get_payment_list();
+                $res = $this->get_payment_list(); 
                 foreach($res as $item){
+                     
+                    var_dump(isset($bit_setting['bit_'.$item['code']]) ? $bit_setting['bit_'.$item['code']] : 0);
                     $setting_bit =  SiteService::set_bitvalue($setting_bit,$item['bit'],isset($bit_setting['bit_'.$item['code']]) ? $bit_setting['bit_'.$item['code']] : 0);
                 }
-
+                
                 foreach ((array) $importers_data as $key=>$value)
                 {
                     $value = str_replace('"', "'", $value);

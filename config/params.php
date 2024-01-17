@@ -3,7 +3,7 @@
 return array_merge(
 		[
 			'adminEmail' => 'shod@maxi.by',
-			'saleManager' => 'sale@maxi.by',
+			'saleManager' => 'nova@maxi.by',
 			// 'saleManagerPhone' => [
 			// 	'info' => '+375 (29) 101-23-23',
 			// 	'ahref' => '+375291012323',
@@ -15,12 +15,12 @@ return array_merge(
 			'reportEmail' => 'report@maxi.by',
 			'fromEmail' => 'noreply@maxi.by',
 			'saleEmails' => [
-				'sale@maxi.by',
+				'nova@maxi.by',
 				'test-rd4hbpmgc@srv1.mail-tester.com' 
 			],
 			'questionEmails' => [
 				'support@maxi.by',
-				'sale@maxi.by',
+				'nova@maxi.by',
 				'test-rd4hbpmgc@srv1.mail-tester.com' 
 				
 			],
@@ -29,7 +29,7 @@ return array_merge(
 			],
 			'b2bEmails' => [
 				'support@maxi.by',
-				'sale@maxi.by',
+				'nova@maxi.by',
 				'test-rd4hbpmgc@srv1.mail-tester.com' 
 			],
 			'migom_url' => 'https://maxi.by',
