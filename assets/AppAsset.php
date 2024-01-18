@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -48,34 +49,6 @@ class AppAsset extends AssetBundle
         //'/styles/widgets/payment.min.css',
     ];
     public $js = [
-<<<<<<< HEAD
-        'web/libs/jquery/jquery.min.js',
-        'web/libs/responsejs/response.min.js',
-        'web/libs/loading-overlay/loadingoverlay.min.js',
-        'web/libs/tether/js/tether.min.js',
-        'web/libs/bootstrap/js/bootstrap.min.js',
-        'web/libs/jscrollpane/jquery.jscrollpane.min.js',
-        'web/libs/jscrollpane/jquery.mousewheel.js',
-        'web/libs/flexibility/flexibility.js',
-        'web/libs/noty/noty.min.js',
-        'web/libs/velocity/velocity.min.js',
-        'web/scripts/common.min.js',
-        'web/scripts/script.js',
-        'web/libs/d3/d3.min.js',
-        'web/libs/c3js/c3.min.js',
-        'web/libs/noty/noty.min.js',
-        'web/libs/maplace/maplace.min.js',
-        'web/libs/jquery-confirm/jquery-confirm.min.js',
-        'web/libs/jquery/jquery-ui.min.js',
-        'web/libs/count-up/count-up.min.js',
-        'web/libs/jquery-form-validator/jquery.form-validator.min.js',
-        'web/libs/flatpickr/flatpickr.min.js',
-        'web/scripts/kosmo.widget-controls.min.js',
-        'web/scripts/jquery.pickmeup.min.js',
-        'web/scripts/chosen.jquery.min.js',
-        'web/scripts/jquery.mark.js',
-        //'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
-=======
         '/libs/jquery/jquery.min.js',
         '/libs/responsejs/response.min.js',
         '/libs/loading-overlay/loadingoverlay.min.js',
@@ -102,7 +75,6 @@ class AppAsset extends AssetBundle
         '/scripts/chosen.jquery.min.js',
         '/scripts/jquery.mark.js',
         ///'https://maps.google.com/maps/api/js?libraries=geometry&v=3.26&key=AIzaSyBBjLDxcCjc4s9ngpR11uwBWXRhyp3KPYM',
->>>>>>> 1a0c92935330917dccc36ae2cf2bb71912a2f3b8
         'https://code.highcharts.com/highcharts.js',
         '/scripts/tinymce/tiny_mce/tiny_mce.js',
         '/scripts/tinymce_config.v1.js',

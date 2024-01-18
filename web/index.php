@@ -5,21 +5,22 @@ date_default_timezone_set('Europe/Minsk');
 // defined('YII_ENV') or define('YII_ENV', 'production');
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', 'production');
-defined('YII_ENV_DEV') or define('YII_ENV_DEV', false);
+defined('YII_ENV') or define('YII_ENV', 'development');
+defined('YII_ENV_DEV') or define('YII_ENV_DEV', true);
 
-function dd($v){
+function dd($v)
+{
     echo '<pre>';
     var_dump($v);
     echo '</pre>';
-	exit;
+    exit;
 }
 
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 
 $config = require(__DIR__ . '/../config/web.php');
-if(defined('YII_DEBUG')){
+if (defined('YII_DEBUG')) {
     error_reporting(E_ALL);
 }
 

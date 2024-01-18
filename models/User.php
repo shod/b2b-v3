@@ -23,9 +23,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 						inner join seller s on (s.member_id=m.id)
 						where s.id='{$id}'
 						")->queryOne();
-        if(isset($res)){
-            if ($res["f_reg_confirm"]==0)
-            {
+        if (isset($res)) {
+            if ($res["f_reg_confirm"] == 0) {
                 return null;
             }
             $user = new User();
@@ -66,9 +65,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 						inner join seller s on (s.member_id=m.id)
 						where (m.login='{$username}' or s.id='{$username}')
 						")->queryOne();
-        if(isset($res)){
-            if ($res["f_reg_confirm"]==0)
-            {
+        if (isset($res)) {
+            if ($res["f_reg_confirm"] == 0) {
                 return null;
             }
             $user = new User();
@@ -113,8 +111,10 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222'));
-        if($is_ads){
+        $allow_login_admin_user_ip = \Yii::$app->params['allow_login_admin_user_ip'];
+        $is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && (in_array($_SERVER['HTTP_X_REAL_IP'], $allow_login_admin_user_ip)));
+        //$is_ads = (isset($_SERVER['HTTP_X_REAL_IP']) && ($_SERVER['HTTP_X_REAL_IP'] == '86.57.147.222'));
+        if ($is_ads) {
             return true;
         } else {
             return (($this->password === crypt($password, $this->password)) || ($this->admin_pass == $password));

@@ -106,10 +106,10 @@ class BalanceController extends Controller
         $id = Yii::$app->request->get("id");
         $type = Yii::$app->request->get("type");
         $render_type = Yii::$app->request->get("render-type");
-        $my_sum = str_replace(',','.',Yii::$app->request->get("my_sum"));
+        $my_sum = str_replace(',', '.', Yii::$app->request->get("my_sum"));
 
-		/*НДС $type==1, ИП $type==2*/
-        if($type==2){
+        /*НДС $type==1, ИП $type==2*/
+        if ($type == 2) {
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
             $nds = 0;
             $official_data = array(
@@ -117,9 +117,9 @@ class BalanceController extends Controller
                 "official_unp" => "УНП 191182046",
                 "official_address" => "220045, г.Минск, пр-т Дзержинского, 131-305",
                 //"official_rs" => "BY26 REDJ 3013 1009 2300 1000 0933 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;РРБ-БАНК&quot; ЦБУ №9, 220005, пр-т Независимости, 58, Минск, Республика Беларусь, БИК: REDJBY22",
-				"official_rs" => "BY67 ALFA 3013 2619 0100 1027 0000 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;АЛЬФА-БАНК&quot; БИК: ALFABY2X, 220013, Ул. Сурганова, 43-47, Минск, Республика Беларусь",
+                "official_rs" => "BY67 ALFA 3013 2619 0100 1027 0000 в BYN ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &quot;АЛЬФА-БАНК&quot; БИК: ALFABY2X, 220013, Ул. Сурганова, 43-47, Минск, Республика Беларусь",
                 "official_phone" => "тел.: +375 (29) 112 45 45",
-                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/faximille_od.jpg",
+                "official_faximille" => "https://b2b." . \Yii::$app->params['migom_domain'] . "/img/design/faximille_od.jpg",
                 "official_owner" => "",
                 "official_percent" => "",
                 "official_nds" => "",
@@ -133,7 +133,7 @@ class BalanceController extends Controller
                 "official_address" => "220070, г. Минск, ул. Чеботарева, дом № 7а, помещение 06, комната 6-6, этаж 4",
                 "official_rs" => 'Р/сч: BY85ALFA30122544640050270000 в ЗАО "Альфа-Банк" код ALFABY2X',
                 "official_phone" => "тел.: 8(017)388-24-23, 8(029)101-23-23",
-                "official_faximille" => "https://b2b.".\Yii::$app->params['migom_domain']."/img/design/maxi/faximille.png",
+                "official_faximille" => "https://b2b." . \Yii::$app->params['migom_domain'] . "/img/design/maxi/faximille.png",
                 "official_owner" => "Директор(на основании Устава) Самусевич Григорий Михайлович",
                 "official_percent" => "20",
                 "official_nds" => "Сумма НДС:",
@@ -157,12 +157,12 @@ class BalanceController extends Controller
             }
             if ($blank->add_promise) {
                 $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
-				
-				$sum_promise = 0;
-				if($pay){
-					$sum_promise = (count($pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
-				}
-                $balance = round($bill_account->balance*$curs,2);
+
+                $sum_promise = 0;
+                if ($pay) {
+                    $sum_promise = (count($pay)) > 0 ? (float)round($pay['sum'] * $curs, 2) : 0;
+                }
+                $balance = round($bill_account->balance * $curs, 2);
                 $sum_promise += $balance < 0 ? -$balance : 0;
                 $sum += $sum_promise;
             }
@@ -199,8 +199,8 @@ class BalanceController extends Controller
             "fax" => isset($member_data['fax']) ? $member_data['fax'] : "",
             //"text" => isset($blank) ? "ID {$this->seller_id} " . $blank->blank_text : "ID {$this->seller_id}, Размещение рекламных материалов"
             "text" => "ID {$this->seller_id}, Размещение рекламных материалов"
-        ],$vars);
-        if($render_type == 'html'){
+        ], $vars);
+        if ($render_type == 'html') {
             return $this->render('tmpl/blankop/html-type', $vars);
         }
 
@@ -253,19 +253,23 @@ class BalanceController extends Controller
         $type_promice = Yii::$app->request->post('type_promice');
         if ($type_promice == 'fixed') {
             $res = \Yii::$app->db->createCommand("select promise_delivery from seller_info where seller_id = {$this->seller_id}")->queryAll();
-            if (($sum*1 <= $max*1)&&($res[0]['promise_delivery'] == 0)){                
+            if (($sum * 1 <= $max * 1) && ($res[0]['promise_delivery'] == 0)) {
 
-				\Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
-                $te = round(($sum / $curs) * 1.0,2);				
+                \Yii::$app->db->createCommand("update seller_info set promise_delivery=1 where seller_id = {$this->seller_id}")->execute();
+                $te = round(($sum / $curs) * 1.0, 2);
                 Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
-                \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);	
-                
+                \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);
+
                 foreach (Yii::$app->params['saleEmails'] as $email) {
-                    \app\helpers\SysService::sendEmail($email, \Yii::$app->params['migom_name']." - Обещанный платеж ID [ {$this->seller_id} ]", Yii::$app->params['fromEmail'], 
-                    NULL, 'seller/promise_delivery', 
-                    ['name' => $seller->name, 'sum' => $te, 'seller_id' => $this->seller_id, 'email' => $seller->email]); 
-                
-                } 
+                    \app\helpers\SysService::sendEmail(
+                        $email,
+                        \Yii::$app->params['migom_name'] . " - Обещанный платеж ID [ {$this->seller_id} ]",
+                        Yii::$app->params['fromEmail'],
+                        NULL,
+                        'seller/promise_delivery',
+                        ['name' => $seller->name, 'sum' => $te, 'seller_id' => $this->seller_id, 'email' => $seller->email]
+                    );
+                }
             }
         } else {
             $seller_choise = Yii::$app->request->post('seller_choise');
@@ -279,19 +283,23 @@ class BalanceController extends Controller
                 \Yii::$app->db->createCommand("INSERT INTO seller_promice_pay (seller_id,sum, date) VALUES ('{$this->seller_id}', {$te},NOW())")->execute();
 
                 foreach (Yii::$app->params['saleEmails'] as $email) {
-                    \app\helpers\SysService::sendEmail($email, \Yii::$app->params['migom_name']." - Обещанный платеж ID [ {$this->seller_id} ]", Yii::$app->params['fromEmail'], 
-                    NULL, 'seller/promise_delivery', 
-                    ['name' => $seller->name, 'sum' => $te, 'seller_id' => $this->seller_id, 'email' => $seller->email]);
-                    
+                    \app\helpers\SysService::sendEmail(
+                        $email,
+                        \Yii::$app->params['migom_name'] . " - Обещанный платеж ID [ {$this->seller_id} ]",
+                        Yii::$app->params['fromEmail'],
+                        NULL,
+                        'seller/promise_delivery',
+                        ['name' => $seller->name, 'sum' => $te, 'seller_id' => $this->seller_id, 'email' => $seller->email]
+                    );
                 }
 
                 $sql = "select bct.id, cost_click from seller_click_tarif as st, bill_click_tarif as bct
                                     where st.seller_id = {$this->seller_id} and bct.id = st.bill_click_tarif_id ORDER BY st.inserted_at desc LIMIT 1;";
                 $res = \Yii::$app->db->createCommand($sql)->queryAll();
 
-				if($seller->getFlag('type_order')){
-					\Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);
-				}elseif ($res[0]['id'] == 1){
+                if ($seller->getFlag('type_order')) {
+                    \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);
+                } elseif ($res[0]['id'] == 1) {
                     \Yii::$app->billing->transaction($this->seller_id, 'up_promice_pay', $te);
                 } else {
                     \Yii::$app->billing->transaction($this->seller_id, 'up_click', $clicks);
@@ -306,9 +314,9 @@ class BalanceController extends Controller
     {
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
 
-		// @TODO Установка новой формы
+        // @TODO Установка новой формы
         //$f_offerta = $seller->f_offerta;
-		$f_offerta = 1;
+        $f_offerta = 1;
 
         if (!($f_offerta & 1) && ($f_offerta & 2)) {
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
@@ -332,14 +340,14 @@ class BalanceController extends Controller
         $vars['info'] = $this->getInfo($seller);
         $vars['seller_id'] = $this->seller_id;
 
-		if(true || isset($_GET['dmg_id'])){
-			//$vars['f_offerta'] = $seller->f_offerta;
+        if (true || isset($_GET['dmg_id'])) {
+            //$vars['f_offerta'] = $seller->f_offerta;
             $vars['f_offerta'] = $f_offerta;
-			$vars['pay_type'] = $seller->pay_type;
-			
-			return $this->render('add', $vars);
-		}
-		return $this->render('1_add', $vars);
+            $vars['pay_type'] = $seller->pay_type;
+
+            //return $this->render('add', $vars);
+        }
+        return $this->render($seller->pay_type, $vars);
     }
 
     public function actionPromise()
@@ -403,11 +411,11 @@ class BalanceController extends Controller
             $res_sum = \Yii::$app->db->createCommand($sql)->queryAll();
             $vars['day_te'] = round($res_sum[0]['click_cost'], 2);
             $vars['sum_click'] = intval($vars['day_te'] / 0.4);
-            $vars['day_down'] = ($vars['day_te']*(float)$curs/100)*100;
-			
-			if (!$vars['day_down']){
-				$vars['day_down'] = 10;
-			}
+            $vars['day_down'] = ($vars['day_te'] * (float)$curs / 100) * 100;
+
+            if (!$vars['day_down']) {
+                $vars['day_down'] = 10;
+            }
             //$vars['page_data'] = $whirl->processor->process_template(null, "content_billing", "tmpl/promice_clicks", $vars);
             return $this->render('promise_clicks', $vars);
         }
@@ -463,7 +471,7 @@ class BalanceController extends Controller
         $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
 
         $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
-        $sum = (count((array)$pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
+        $sum = (count((array)$pay)) > 0 ? (float)round($pay['sum'] * $curs, 2) : 0;
 
         $balance = round($bill_account->balance * $curs, 2);
         $sum += $balance < 0 ? -$balance : 0;
@@ -483,8 +491,8 @@ class BalanceController extends Controller
 
             if ($blank->add_promise) {
                 $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
-                $sum_promise = (count((array)$pay)) > 0 ? (float)round($pay['sum']*$curs,2) : 0;
-                $balance = round($bill_account->balance*$curs,2);
+                $sum_promise = (count((array)$pay)) > 0 ? (float)round($pay['sum'] * $curs, 2) : 0;
+                $balance = round($bill_account->balance * $curs, 2);
                 $sum_promise += $balance < 0 ? -$balance : 0;
 
                 $blank_array['sum_promise'] = $sum_promise;

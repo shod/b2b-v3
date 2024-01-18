@@ -1,5 +1,5 @@
-<div class="col-xl-4 col-lg-12" style="padding-bottom: 20px;">
-    <div class="card panel panel-default ks-project" style="height: 100%; <?= $active_style ?>"  id="card_<?= $id ?>">
+<div class="col-xl-6 col-lg-12" style="padding-bottom: 20px;">
+    <div class="card panel panel-default ks-project" style="height: 100%; <?= $active_style ?>" id="card_<?= $id ?>">
         <div class="ks-project-header">
             <label class="custom-control custom-checkbox ks-checkbox ks-checkbox-success" style="margin-right: 0px;">
                 <input type="radio" name="r_tarif" class="custom-control-input pack-radio" <?= $checked ?> id="pack_<?= $id ?>">
@@ -20,9 +20,9 @@
                         <span class="ks-amount" style="font-size: 16px;"><?= $cost['c1'] ?> в день</span>
                     </div>
                     <div class="payment-simple-amount-item-amount">
-                        <span> <?= $bonus_value['text'] ?> <br/> Количество товаров - не ограничено. </span> 
+                        <span> <?= $bonus_value['text'] ?> <br /> Количество товаров - не ограничено. </span>
                         <span> Автоматическое обновление прайса с любых площадок. Техподдержка магазина.</span>
-                    </div>                   
+                    </div>
                 </div>
             </div>
 
