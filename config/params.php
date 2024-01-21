@@ -43,7 +43,7 @@ return array_merge(
 		'STATIC_URL_FULL' => 'https://media.maxi.by',
 		'seller_old_tariff' => [4150, 2366, 1976, 1782, 1269],
 		'allow_login_admin_user_ip' => ['213.184.249.110', '46.53.250.7', '127.0.0.1'],
-		'currency' => 'ТЕ',
+		'currency' => 'руб.',
 		'phones' => [
 			'info' => '+375 (29) 101-23-23',
 			'ahref' => '+375291012323',

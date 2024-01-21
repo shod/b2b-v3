@@ -4,32 +4,6 @@ $this->title = "Пополнение баланса";
 <div class="ks-page-content-body">
     <div class="ks-dashboard-tabbed-sidebar">
         <div class="ks-dashboard-tabbed-sidebar-widgets">
-            <!--div class="row">
-                <div class="col-lg-6">
-                    <div class="card" style="height: 100%">
-                        <div class="card-block">
-                            <h3 class="ks-payment-earnings-amount">1ТЕ = <span id="te"><?= $curs; ?></span> руб.
-                                <span class="ks-description small">
-                                    без учета НДС 20%
-                                </span>
-                            </h3>
-                            <h3 class="ks-payment-earnings-amount" style="visibility: hidden;">1ТЕ = <span id="te"><?= $curs * 1.2; ?></span> руб.
-                                <span class="ks-description small">
-                                с учетом НДС 20%
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card" style="height: 100%">
-                        <div class="card-block">
-                            <?= $info; ?>
-                        </div>
-                    </div>
-                </div>
-            </div-->
-
             <div class="ks-pricing-subscriptions-page" style="height: auto">
                 <div class="ks-header">
                     <h3 class="ks-name">Пополнить баланс </h3>
@@ -67,32 +41,47 @@ $this->title = "Пополнение баланса";
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <?php if (isset($f_offerta) && ((int)$f_offerta & 1)) : ?>
-                        <div id="text_nds">
-                            <h4>Оплата по реквизитам с НДС</h4>
+            <div class="row mb-5">
+                <?php if (isset($f_offerta) && ((int)$f_offerta & 1)) : ?>
+                    <div class="col-lg-4">
 
-                            <p>Вы можете произвести оплату:</p>
-
-                            <p>- через кассу банка путем внесения наличных денежных средств на расчетный счет ООО «Макси Бай Медиа»<br>
-                                - через интернет-банкинг перевод по реквизитам путем перечисления денежных средств расчетный счет ООО «Макси Бай Медиа»</p>
-
-                            <p>При оплате необходимо обязательно указать:</p>
-                            <p>- в назначении платежа : « id <?= $seller_id ?> оплата услуг по размещению<br>рекламных материалов»;</p>
-
-                            <p><mark>Оплата должна быть произведена по следующим реквизитам:</mark></p>
-
-                            <p> ООО "Макси Бай Медиа"<br>
-                                Р/сч: BY85ALFA30122544640050270000 <br>
-                                в ЗАО "Альфа-Банк" код ALFABY2X , <br>
-                                УНП:191983656<br>
-                                Адрес: 220070, г. Минск, ул. Чеботарева, дом No 7а, помещение 06, комната 6-6, этаж 4, <br>
-                                тел. 8 (017) 388-24-23, 8 (029) 101-23-23
-                            </p>
+                        <div id="text_nds" class="card card-outline-info mb-3">
+                            <div class="card-header bg-success">Оплата по реквизитам с НДС</div>
+                            <div class="card-block">
+                                <blockquote class="card-blockquote">
+                                    <p>
+                                        <b>Вы можете произвести оплату:</b>
+                                    <p>
+                                    <ul>
+                                        <li>через кассу банка путем внесения наличных денежных средств на расчетный счет ООО «Макси Бай Медиа»</li>
+                                        <li>через интернет-банкинг перевод по реквизитам путем перечисления денежных средств расчетный счет ООО «Макси Бай Медиа»</li>
+                                    </ul>
+                                    </p>
+                                    <p><b>При оплате необходимо обязательно указать:</b></p>
+                                    <p>В назначении платежа : <mark>«id <?= $seller_id ?> оплата услуг по размещению рекламных материалов»</mark></p>
+                                </blockquote>
+                            </div>
                         </div>
-                    <?php endif; ?>
-                    <br><br>
+                    </div>
+                    <div class="col-lg-4">
+                        <div id="text_nds" class="card card-outline-info mb-3">
+                            <div class="card-header bg-success">Оплата должна быть произведена по следующим реквизитам:</div>
+                            <div class="card-block">
+                                <blockquote class="card-blockquote">
+                                    <p> ООО "Макси Бай Медиа"<br>
+                                        Р/сч: BY85ALFA30122544640050270000 <br>
+                                        в ЗАО "Альфа-Банк" код ALFABY2X , <br>
+                                        Адрес банка: 220013, г. Минск, ул. Сурганова, 43-47 <br>
+                                        УНП:191983656<br>
+                                        Адрес: 220070, г. Минск, ул. Чеботарева, дом No 7а, помещение 06, комната 6-6, этаж 4, <br>
+                                        тел. 8 (017) 388-24-23, 8 (029) 101-23-23
+                                    </p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="col-lg-4">
                     <?php if ((isset($f_offerta) && ((int)$f_offerta & 2))) : ?>
                         <div id="text_no_nds">
                             <h4>Оплата по реквизитам без НДС</h4>
@@ -114,4 +103,5 @@ $this->title = "Пополнение баланса";
             </div>
         </div>
     </div>
+</div>
 </div>

@@ -26,6 +26,11 @@ class BalanceController extends Controller
      */
     public $seller_id;
 
+    /**
+     * Дополнительные бланки на оплату
+     */
+    private $add_blank_parent_id = 99;
+
     public function beforeAction($action)
     {
         if ((\Yii::$app->getUser()->isGuest) && ($action->id != 'login') && ($action->id != 'sign-up')) {
@@ -109,7 +114,7 @@ class BalanceController extends Controller
         $my_sum = str_replace(',', '.', Yii::$app->request->get("my_sum"));
 
         /*НДС $type==1, ИП $type==2*/
-        if ($type == 2) {
+        if ($type == 22) {
             $curs = SysStatus::find()->where(['name' => 'curs_te_nonds'])->one()->value;
             $nds = 0;
             $official_data = array(
@@ -131,8 +136,8 @@ class BalanceController extends Controller
                 "official_name" => "ООО &quot;Макси Бай Медиа&quot;",
                 "official_unp" => "УНП 191983656",
                 "official_address" => "220070, г. Минск, ул. Чеботарева, дом № 7а, помещение 06, комната 6-6, этаж 4",
-                "official_rs" => 'Р/сч: BY85ALFA30122544640050270000 в ЗАО "Альфа-Банк" код ALFABY2X',
-                "official_phone" => "тел.: 8(017)388-24-23, 8(029)101-23-23",
+                "official_rs" => 'Р/сч: BY85ALFA30122544640050270000 в ЗАО "Альфа-Банк" код ALFABY2X, Адрес банка: 220013, г. Минск, ул. Сурганова, 43-4',
+                "official_phone" => "тел.: 8(017)388-24-23, 8(029)101-23-233",
                 "official_faximille" => "https://b2b." . \Yii::$app->params['migom_domain'] . "/img/design/maxi/faximille.png",
                 "official_owner" => "Директор(на основании Устава) Самусевич Григорий Михайлович",
                 "official_percent" => "20",
@@ -150,11 +155,17 @@ class BalanceController extends Controller
             $sum = $my_sum;
         } else {
             $blank = BlankTypes::find()->where(['id' => $id])->one();
+
             if ($blank->sum > 0) {
                 $sum = $blank->sum * $curs;
             } else {
                 $sum = $blank->count_day * $bill_account->getDayDownCatalog()  * $curs;
             }
+
+            if ($blank->pay_sum) {
+                $blank->sum = $blank->pay_sum;
+            }
+
             if ($blank->add_promise) {
                 $pay = \Yii::$app->db->createCommand("select * from seller_promice_pay where seller_id = {$this->seller_id} and is_repaid=0")->queryOne();
 
@@ -314,6 +325,7 @@ class BalanceController extends Controller
     {
         $seller = Seller::find()->where(['id' => $this->seller_id])->one();
 
+        //$vars['pack_items'] = $this->get_data_bill_catalog_tarif_price();
         // @TODO Установка новой формы
         //$f_offerta = $seller->f_offerta;
         $f_offerta = 1;
@@ -328,6 +340,7 @@ class BalanceController extends Controller
         $vars['curs'] = $curs;
         $member = Member::find()->where(['id' => $seller->member_id])->one();
         $member_data = $member->getMemberProperties();
+
         if (count($member_data) < 5) {
             $vars['blanks'] = "<h3>Для выставления счета необходимо заполнить <a href='/settings'>информацию о юридическом лице!</a> </h3>";
         } else {
@@ -466,7 +479,7 @@ class BalanceController extends Controller
         return $html;
     }
 
-    private function getBlanks($seller, $curs, $nds)
+    private function getBlanks($seller, $curs, $nds, $parent_id = 0)
     {
         $bill_account = BillAccount::find()->where(['id' => $seller->bill_account_id])->one();
 
@@ -476,15 +489,24 @@ class BalanceController extends Controller
         $balance = round($bill_account->balance * $curs, 2);
         $sum += $balance < 0 ? -$balance : 0;
 
-        $blanks = BlankTypes::find()->where(['seller_type' => $seller->pay_type, 'hidden' => 0])->all();
+        $blanks = BlankTypes::find()->where(['seller_type' => $seller->pay_type, 'hidden' => 0, 'parent_id' => $parent_id])->all();
         $blanks_items = '';
+
+        // Get tarif info
+        $tarif_data = $this->get_data_bill_catalog_tarif_active($seller);
+
         foreach ($blanks as $key => $blank) {
+
             $blank_array = $blank->toArray();
 
             if ($blank->sum > 0) {
                 $blank_array['pay_sum'] = $blank->sum * $curs;
             } else {
                 $blank_array['pay_sum'] = $blank->count_day * $bill_account->getDayDownCatalog()  * $curs;
+            }
+
+            if (!empty($blank->pay_sum) && $blank->pay_sum > 0) {
+                $blank_array['pay_sum'] = $blank->pay_sum;
             }
 
             $blank_array["finish"] = $blank_array['pay_sum'];
@@ -503,15 +525,49 @@ class BalanceController extends Controller
 
             if ($nds) {
                 $blank_array["finish"] = $blank_array['finish'] * 1.2;
-                $blank_array["nds"] = $blank_array['finish'] * 0.2;;
+                $blank_array["nds"] = $blank_array['pay_sum'] * 0.2;
             } else {
                 $blank_array["nds"] = 0;
             }
 
-            $blanks_items .= $this->renderPartial('tmpl/bill-item', $blank_array);
+            //Check for active
+            $blank_array['class_active'] = '';
+            $blank_array['class_button'] = 'btn-info-outline';
+            $blank_array['class_button_disable'] = 'disabled';
+            if ($tarif_data == $blank->name) {
+                $blank_array['class_active'] = 'ks-active';
+                $blank_array['class_button'] = 'btn-info';
+                $blank_array['class_button_disable'] = '';
+            }
+
+            if ($parent_id > 0) {
+                $blank_array['class_button_disable'] = '';
+                $blanks_items .= $this->renderPartial('tmpl/bill-item', $blank_array);
+            } else {
+                $blanks_items = $this->renderPartial('tmpl/bill-item', $blank_array);
+                break;
+            }
         }
-        $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds, 'pay_type' => $seller->pay_type, 'curs' => $curs]);
+
+        if ($parent_id == 0) {
+            $blanks_items .= $this->getBlanks($seller, $curs, $nds, $blank->id);
+            $blanks_items .= $this->renderPartial('tmpl/bill_item_my_sum', ['id' => 0, 'nds' => $nds, 'pay_type' => $seller->pay_type, 'curs' => $curs]);
+            $blanks_items .= $this->getBlanks($seller, $curs, $nds, $this->add_blank_parent_id);
+        }
 
         return $blanks_items;
+    }
+
+    private function get_data_bill_catalog_tarif_active($seller)
+    {
+        $res = \Yii::$app->db->createCommand("
+        select c.name,
+                    c.cost as cost
+                    from bill_catalog c
+                    left join bill_catalog_seller s on (s.seller_id={$seller->id} and s.catalog_id=c.id)                    
+                    where c.f_tarif = 4 and c.hidden=0 and s.seller_id ={$seller->id} limit 1;
+        ")->queryAll();
+
+        return count($res) > 0 ? $res[0]['name'] : '';
     }
 }
