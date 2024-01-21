@@ -40,12 +40,12 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/tariff.js', ['d
                 <div class="row" style="padding-left: 15px;">
                     <h3>Варианты размещения</h3>
                     <br>
-                    <div class="col-lg-3 col-md-3 col-sm-3 content-end">
+                    <!-- div class="col-lg-3 col-md-3 col-sm-3 content-end">
                         <button class="btn btn-primary" data-remote="/product/get-curs/" data-toggle="ajaxModal" data-target=".bd-example-modal-lg">
                             <span class="la la-cog ks-icon"></span>
                             <span class="ks-text">Настройка валюты</span>
                         </button>
-                    </div>
+                    </!-->
                 </div>
                 <div class="row">
                     <?= isset($pack_items) ? $pack_items : "" ?>
@@ -87,13 +87,16 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/tariff.js', ['d
 
 
     <div class="ks-projects-grid-board-tasks" style="background-color: #f2f2f2;">
-        <div class="ks-projects-grid-board-tasks-list">
 
-            <div class="ks-projects-grid-board-tasks-header">
+        <div class="ks-projects-grid-board-tasks-list">
+            <div style="text-align: center; padding: 20px; border-bottom: 1px solid #dee0e1">
+                <button class="btn btn-primary btn-lg" onclick="save_tariff()">Сохранить тариф</button>
+            </div>
+            <!-- div class="ks-projects-grid-board-tasks-header">
                 <span class="ks-text">
                     <h4>Ваш тариф</h4>
                 </span>
-            </div>
+            </!-->
             <div class="ks-projects-grid-board-tasks-body ks-scrollable">
                 <div style="text-align: center; padding-top: 10px;padding-bottom: 0px;"><strong>ПАКЕТЫ</strong>
                 </div>
@@ -116,15 +119,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/tariff.js', ['d
                 </td>
             </tr>
         </table>
-        <table class="ks-projects-grid-board-tasks-statistics" style="height: 80px">
-            <tr>
-                <td class="ks-statistic-item">
-                    <span class="ks-text">При добавлении пакетов и/или разделов происходит списание за суточное размещение следующего дня.</span>
-                </td>
-            </tr>
-        </table>
-        <div style="text-align: center; padding: 20px; border-top: 1px solid #dee0e1">
-            <button class="btn btn-primary btn-lg" onclick="save_tariff()">Сохранить тариф</button>
+        <div style="text-align: center; padding: 20px; margin-bottom:30px; border-top: 1px solid #dee0e1">
+
         </div>
     </div>
 

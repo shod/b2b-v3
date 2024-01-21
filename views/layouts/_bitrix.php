@@ -9,6 +9,6 @@
 </script>
 <style>
         .b24-widget-button-wrapper {
-                margin-right: 15em;
+                margin-right: 0em;
                 margin-bottom: -3em;
         }
