@@ -2,8 +2,8 @@
 
 return array_merge(
 	[
-		'adminEmail' => 'shod@maxi.by',
-		'saleManager' => 'nova@maxi.by',
+		'adminEmail' => 'sale@maxi.by',
+		'saleManager' => 'sale@maxi.by',
 		// 'saleManagerPhone' => [
 		// 	'info' => '+375 (29) 101-23-23',
 		// 	'ahref' => '+375291012323',

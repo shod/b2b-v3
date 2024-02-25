@@ -51,9 +51,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/tariff.js', ['d
                     <?= isset($pack_items) ? $pack_items : "" ?>
                     <div class="col-xl-12 col-lg-12" style="padding-bottom: 20px;">
                         <div class="card panel panel-default ks-project" style="height: 100%;">
-                            <h3>При оплате на 3,6,12 месяцев на основной счет дополнительно начисляется кэшбэк
-                                10%, 20%, 30% от суммы оплаты
-                            </h3>
+                            <h3>Действует система скидок при оплате на 3/6/12 месяцев – 10%, 15%, 25% соответственно</h3>
                         </div>
                     </div>
                 </div>
@@ -63,15 +61,16 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/tariff.js', ['d
                     <div class="col-xl-12 col-lg-12" style="padding-bottom: 20px;">
                         <div class="card panel panel-default ks-project" style="height: 100%;">
                             <h3>
-                                * Бонусы начисляются при первом подключении,а также при оплате за 3/6/12 мес.. Использовать можно на дополнительные сервисы для магазина
+                                * Бонусы можно использовать на дополнительные сервесы для магазина
                                 <br />
-                                ** Стандартное обновление прайса 3 раза в сутки. Для тарифов Максимум и Максимум+ время устанавливается индивидуально.
+                                ** Публикации в разделе Новости от магазина Акции, скидки, trade-in от магазина
                                 <br />
-                                *** БУДЕТ ДОПОЛНЕНО
+                                *** Специальные условия от маркетингового агентства MAXI.BY media
                                 <br />
-
-                                !!! Прайсы, выгружаемые сверх ограничения, будут автоматически сокращены до необходимого кол-ва. (рандомно системой)
-
+                                <br />
+                                <span>
+                                    ! Прайсы, выгружаемые сверх ограничения, будут автоматически сокращены до необходимого кол-ва.
+                                </span>
                             </h3>
                         </div>
                     </div>
@@ -108,14 +107,13 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/scripts/js/tariff.js', ['d
         <table class="ks-projects-grid-board-tasks-statistics" style="height: 150px">
             <tr>
                 <td class="ks-statistic-item">
-                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><span id="sum_all"><?= $all_sum ?></span> Руб</span>
+                    <span class="ks-amount" style="color: rgb(37, 98, 143)"><span id="sum_all"><?= $all_sum ?></span> TE</span>
                     <span class="ks-text">в месяц</span>
                 </td>
             </tr>
             <tr>
                 <td class="ks-statistic-item">
-                    <span class="ks-amount"><span id="sum_all_day"><?= round($all_sum / 30, 2) ?></span></span>
-                    <span class="ks-text">в день</span>
+                    <span class="ks-amount"><span id="sum_all_day"><?= round($all_sum / 30, 2) ?></span> в день</span>
                 </td>
             </tr>
         </table>

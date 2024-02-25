@@ -16,12 +16,13 @@
             <div class="ks-widget-payment-simple-amount-item" style="padding: 0px;min-height: 0px;">
                 <div class="payment-simple-amount-item-body" style="text-align: center">
                     <div class="payment-simple-amount-item-amount">
-                        <span class="ks-amount" style="color: rgb(37, 98, 143)"><span class="pack-cost"><?= $cost['cost'] ?></span> руб в месяц *</span>
-                        <span class="ks-amount" style="font-size: 16px;"><?= $cost['c1'] ?> в день</span>
+                        <span class="ks-amount" style="color: rgb(37, 98, 143)"><span class="pack-cost"><?= $cost['cost'] ?></span> ТЕ / месяц</span> -
+                        <span class="ks-amount" style="font-size: 16px;"><?= $cost['cost'] * 3 ?> руб./ месяц</span>
                     </div>
                     <div class="payment-simple-amount-item-amount">
-                        <span> <?= $bonus_value['text'] ?> <br /> Количество товаров - не ограничено. </span>
-                        <span> Автоматическое обновление прайса с любых площадок. Техподдержка магазина.</span>
+                        <span> <?= $bonus_value['text'] ?></span>
+                        <b><span> Бонус на продвижение (ТЕ) – <?= $bonus_value['bonus'] ?></span></b><br />
+                        <b><span> Доступный прайс – <?= $bonus_value['prod_count'] ?> товаров</span></b>
                     </div>
                 </div>
             </div>

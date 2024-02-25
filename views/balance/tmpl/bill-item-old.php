@@ -4,9 +4,6 @@
         <span class="ks-price">
             <span class="ks-amount"><?= $sum ?></span>ТЕ
         </span>
-        <span class="ks-price">
-            <span class="ks-amount"><?= number_format(round($pay_sum, 2), 2, '.', ' '); ?></span>BYN*
-        </span>
         <footer><cite title="Source Title"><?= $blank_text ?></cite></footer>
     </div>
     <div class="ks-body">
@@ -20,6 +17,11 @@
                 <span class="ks-icon la la-info-circle"></span>
                 <span class="ks-text">Сумма</span>
                 <span class="ks-amount"><?= number_format(round($pay_sum, 2), 2, '.', ' '); ?> <?= Yii::$app->params['currency']; ?></span>
+            </li>
+            <li class="ks-item">
+                <span class="ks-icon la la-info-circle"></span>
+                <span class="ks-text">Сумма НДС</span>
+                <span class="ks-amount"><?= number_format(round($nds, 2), 2, '.', ' ') ?> <?= Yii::$app->params['currency']; ?></span>
             </li>
             <!--li class="ks-item">
                 <span class="ks-icon la la-info-circle"></span>
