@@ -490,6 +490,7 @@ class BalanceController extends Controller
         $sum += $balance < 0 ? -$balance : 0;
 
         $blanks = BlankTypes::find()->where(['seller_type' => $seller->pay_type, 'hidden' => 0, 'parent_id' => $parent_id])->all();
+		
         $blanks_items = '';
 
         // Get tarif info

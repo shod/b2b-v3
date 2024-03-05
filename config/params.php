@@ -33,7 +33,7 @@ return array_merge(
 			'test-rd4hbpmgc@srv1.mail-tester.com'
 		],
 		'migom_url' => 'https://maxi.by',
-		'b2b_url' => 'http://b2b-v3.loc', //'https://b2b.maxi.by',
+		'b2b_url' => 'https://b2b.maxi.by',
 		'migom_domain' => 'maxi.by', /**/
 		'up_domain' => 'http://95.179.162.93', /**/
 		'migom_name' => 'MAXI.BY', //'Migom.by'
